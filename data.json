@@ -23,7 +23,10 @@
       "country": "Belgium",
       "countries": [
         "Belgium",
-        "Netherlands"
+        "Netherlands",
+        "Luxembourg",
+        "Germany",
+        "France"
       ],
       "type": "trains",
       "website": "https://www.belgiantrain.be/en/",
@@ -318,7 +321,7 @@
       "android": "",
       "ios": ""
     },
-    "logo": "",
+    "logo": "cfl.svg",
     "description": "Luxembourg's national railway operator, running domestic trains and cross-border services to Belgium, France and Germany. Public transport inside Luxembourg is generally free in standard class, but first class and cross-border tickets still need to be bought.",
     "operatorLabel": "Luxembourg national train operator"
   },
