@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Track & Tide</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+:root {
+  --bg: #1f2937;
+  --panel: rgba(31,41,55,0.75);
+  --text: #ffffff;
+  --border: rgba(255,255,255,0.08);
+  --hover: #60a5fa;
+  --active: #3b82f6;
+  --ferry: #38bdf8;
+}
+
+:root.light {
+  --bg: #d5d9e2;
+  --panel: rgba(255,255,255,0.85);
+  --text: #111827;
+  --border: rgba(0,0,0,0.06);
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: system-ui;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+}
+
+header img {
+  width: 200px;
+}
+
+/* TOGGLE */
+.toggle {
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+/* LAYOUT */
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  align-items: start;
+}
+
+/* MAP */
+.map-column {
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+}
+
+#map {
+  height: 75vh;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--panel);
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  transition: max-height 0.25s ease;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .map-column {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 50vh;
+    align-self: auto;
+  }
+  #map {
+    height: 50vh;
+    border-radius: 0;
+  }
+  .sidebar {
+    position: relative;
+    max-height: calc(100vh - 50vh - 1.5rem);
+    overflow-y: auto;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+    margin-top: 0;
+    z-index: 1;
+  }
+}
+
+/* cards */
+.card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.card summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.card summary::-webkit-details-marker {
+  display: none;
+}
+
+.card summary::after {
+  content: "▾";
+  margin-left: auto;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.card[open] summary::after {
+  transform: rotate(-180deg);
+}
+
+.card-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.12);
+  flex-shrink: 0;
+}
+
+.card-body {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.card-title {
+  font-weight: 700;
+}
+
+.card-subtitle {
+  font-size: 0.88rem;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.9;
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+
+.country-description {
+  margin: 0.6rem 0 1rem;
+  color: var(--text);
+  opacity: 0.82;
+  line-height: 1.6;
+}
+
+.ferry-route-panel {
+  margin-bottom: 1rem;
+}
+
+.route-help {
+  margin: 0.3rem 0 0.8rem;
+  color: var(--text);
+  opacity: 0.75;
+  font-size: 0.92rem;
+}
+
+.route-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.route-item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.route-item:hover,
+.route-item.active {
+  background: rgba(56,189,248,0.18);
+  border-color: rgba(56,189,248,0.4);
+}
+
+.route-tag {
+  display: inline-block;
+  margin-left: 0.5rem;
+  color: var(--hover);
+  opacity: 0.9;
+  font-size: 0.85rem;
+}
+
+.route-countries {
+  margin-top: 1rem;
+  color: var(--text);
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+
+.operator-routes h4 {
+  margin: 1rem 0 0.5rem;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.card-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 12px 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.card-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.card-button-primary {
+  background: var(--active);
+  border-color: rgba(255,255,255,0.18);
+}
+
+.card-button-primary:hover {
+  background: var(--hover);
+}
+
+.app-badges {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-badge {
+  display: inline-flex;
+  height: 3rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+}
+
+.app-badge img {
+  height: 100%;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
+}
+
+.card-button:hover,
+.app-badge:hover {
+  transform: translateY(-1px);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img id="logo" src="trackandtide logo full.png" />
+  <div class="toggle" id="themeToggle">Light mode</div>
+</header>
+
+<div class="container">
+  <div class="map-column">
+    <div id="map"></div>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-content" id="sidebarContent">
+      <h2>Track & Tide</h2>
+      <p>Select a country</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+/* =========================
+   THEME
+========================= */
+const root = document.documentElement;
+const toggle = document.getElementById("themeToggle");
+const sidebar = document.getElementById("sidebar");
+const sidebarContent = document.getElementById("sidebarContent");
+
+function setTheme(mode) {
+  if (mode === "light") root.classList.add("light");
+  else root.classList.remove("light");
+
+  toggle.textContent = root.classList.contains("light")
+    ? "Dark mode"
+    : "Light mode";
+
+  const logo = document.getElementById("logo");
+  logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
+
+  updateMap(mode);
+}
+
+function detectTheme() {
+  return window.matchMedia('(prefers-color-scheme: light)').matches ? "light" : "dark";
+}
+
+toggle.onclick = () => {
+  setTheme(root.classList.contains("light") ? "dark" : "light");
+};
+
+/* =========================
+   MAP
+========================= */
+const map = L.map('map', {
+  worldCopyJump: true
+}).setView([54, 15], 4);
+
+let baseLayer;
+let railwayLayer;
+let currentTheme = "dark";
+
+function updateMap(mode) {
+  if (baseLayer && map.hasLayer(baseLayer)) {
+    map.removeLayer(baseLayer);
+  }
+  if (railwayLayer && map.hasLayer(railwayLayer)) {
+    map.removeLayer(railwayLayer);
+  }
+
+  currentTheme = mode;
+
+  baseLayer = L.tileLayer(
+    mode === "light"
+      ? "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
+      : "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
+  ).addTo(map);
+
+  railwayLayer = L.tileLayer(
+    "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
+    { opacity: mode === "light" ? 0.5 : 0.35 }
+  ).addTo(map);
+
+  map.invalidateSize();
+}
+
+setTheme(detectTheme());
+
+
+/* =========================
+   STATE
+========================= */
+let selectedLayer = null;
+let countryData = {};
+let ferryLines = [];
+let ferryRouteLines = [];
+let selectedFerryRouteName = null;
+let ferryLineOffset = 0;
+
+function isMobileViewport() {
+  return window.matchMedia("(max-width: 900px)").matches;
+}
+
+function scrollMapToTop() {
+  if (!isMobileViewport()) return;
+
+  const mapColumn = document.querySelector(".map-column");
+  if (!mapColumn) return;
+
+  mapColumn.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+  setTimeout(() => map.invalidateSize(), 300);
+}
+
+function scrollSidebarIntoView() {
+  sidebar.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
+}
+
+function scrollToActiveRoute() {
+  const activeRoute = document.querySelector(".route-item.active");
+  if (activeRoute) {
+    activeRoute.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+}
+
+function clearFerryRouteLines() {
+  ferryRouteLines.forEach(line => {
+    if (map.hasLayer(line)) map.removeLayer(line);
+  });
+  ferryRouteLines = [];
+  selectedFerryRouteName = null;
+}
+
+function degreesToRadians(deg) {
+  return deg * Math.PI / 180;
+}
+
+function radiansToDegrees(rad) {
+  return rad * 180 / Math.PI;
+}
+
+function getCurvedRouteCoords(coords) {
+  if (coords.length < 2) return coords;
+
+  const result = [];
+
+  function tj(ti, pi, pj) {
+    const dx = pj[0] - pi[0];
+    const dy = pj[1] - pi[1];
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    return ti + Math.pow(dist, 0.5);
+  }
+
+  function lerp(p1, p2, t) {
+    return [
+      p1[0] + (p2[0] - p1[0]) * t,
+      p1[1] + (p2[1] - p1[1]) * t
+    ];
+  }
+
+  for (let i = 0; i < coords.length - 1; i++) {
+    const p0 = coords[i - 1] || coords[i];
+    const p1 = coords[i];
+    const p2 = coords[i + 1];
+    const p3 = coords[i + 2] || p2;
+
+    let t0 = 0;
+    let t1 = tj(t0, p0, p1);
+    let t2 = tj(t1, p1, p2);
+    let t3 = tj(t2, p2, p3);
+
+    const steps = 20;
+
+    // 🔥 fallback als segment instabiel is
+    if (t1 === t0 || t2 === t1 || t3 === t2) {
+      for (let j = 0; j <= steps; j++) {
+        result.push(lerp(p1, p2, j / steps));
+      }
+      continue;
+    }
+
+    for (let t = t1; t < t2; t += (t2 - t1) / steps) {
+
+      const A1 = [
+        ((t1 - t) / (t1 - t0)) * p0[0] + ((t - t0) / (t1 - t0)) * p1[0],
+        ((t1 - t) / (t1 - t0)) * p0[1] + ((t - t0) / (t1 - t0)) * p1[1],
+      ];
+
+      const A2 = [
+        ((t2 - t) / (t2 - t1)) * p1[0] + ((t - t1) / (t2 - t1)) * p2[0],
+        ((t2 - t) / (t2 - t1)) * p1[1] + ((t - t1) / (t2 - t1)) * p2[1],
+      ];
+
+      const A3 = [
+        ((t3 - t) / (t3 - t2)) * p2[0] + ((t - t2) / (t3 - t2)) * p3[0],
+        ((t3 - t) / (t3 - t2)) * p2[1] + ((t - t2) / (t3 - t2)) * p3[1],
+      ];
+
+      const B1 = [
+        ((t2 - t) / (t2 - t0)) * A1[0] + ((t - t0) / (t2 - t0)) * A2[0],
+        ((t2 - t) / (t2 - t0)) * A1[1] + ((t - t0) / (t2 - t0)) * A2[1],
+      ];
+
+      const B2 = [
+        ((t3 - t) / (t3 - t1)) * A2[0] + ((t - t1) / (t3 - t1)) * A3[0],
+        ((t3 - t) / (t3 - t1)) * A2[1] + ((t - t1) / (t3 - t1)) * A3[1],
+      ];
+
+      const C = [
+        ((t2 - t) / (t2 - t1)) * B1[0] + ((t - t1) / (t2 - t1)) * B2[0],
+        ((t2 - t) / (t2 - t1)) * B1[1] + ((t - t1) / (t2 - t1)) * B2[1],
+      ];
+
+      if (!isNaN(C[0]) && !isNaN(C[1])) {
+        result.push(C);
+      }
+    }
+  }
+
+  return result;
+}
+
+function focusFerryRoute(route) {
+  if (!route?.coords?.length) return;
+
+  const bounds = L.latLngBounds(getCurvedRouteCoords(route.coords));
+  if (map.stop) map.stop();
+  map.fitBounds(bounds, {
+    padding: [35, 35],
+    maxZoom: 7
+  });
+  scrollMapToTop();
+}
+
+function showFerryRoute(route, shouldFocusRoute = true) {
+  clearFerryRouteLines();
+  if (!route) return;
+
+  const line = L.polyline(getCurvedRouteCoords(route.coords), {
+    color: "#38bdf8",
+    weight: 6,
+    opacity: 0.95,
+    dashArray: "12,10",
+    lineCap: "round",
+    lineJoin: "round"
+  }).addTo(map);
+
+  ferryRouteLines.push(line);
+  selectedFerryRouteName = route.name;
+  line.bringToFront();
+
+  if (shouldFocusRoute) {
+    focusFerryRoute(route);
+  }
+}
+
+/* =========================
+   SAFE NORMALIZE
+========================= */
+function norm(s) {
+  return (s || "")
+    .toLowerCase()
+    .replace("kingdom of", "")
+    .replace("republic of", "")
+    .replace("the", "")
+    .trim();
+}
+
+function escapeHTML(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/* =========================
+   LOAD DATA
+========================= */
+const countryZoomConfig = {
+  "Netherlands": { center: [52.1, 5.3], zoom: 7 },
+  "Germany": { center: [51.2, 10.4], zoom: 5 },
+  "France": { center: [46.6, 2.2], zoom: 5 },
+  "Italy": { center: [42.8, 12.5], zoom: 5 },
+  "Spain": { center: [40.4, -3.7], zoom: 5 },
+  "United Kingdom": { center: [54.5, -2.5], zoom: 5 },
+  "Norway": { center: [64.5, 11.0], zoom: 4 },
+  "Portugal": { center: [39.5, -8.0], zoom: 6 },
+  "Russia": { center: [61.5, 100.0], zoom: 2},
+  "Liechtenstein": { center: [47.14, 9.55], zoom: 10 }
+};
+
+Promise.all([
+  fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson").then(r => r.json()),
+  fetch("./data.json").then(r => r.json()),
+  fetch("./ferries.json").then(r => r.json())
+])
+.then(([geo, data, ferries]) => {
+
+  countryData = data;
+  let selectedRouteOnMapClick = null;
+
+  const geoLayer = L.geoJSON(geo, {
+
+    style: () => ({
+      color: "#64748b",
+      weight: 1,
+      fillOpacity: 0
+    }),
+
+    onEachFeature: (feature, layer) => {
+
+      layer.on("click", () => {
+
+        const geoName =
+          feature.properties.ADMIN ||
+          feature.properties.NAME ||
+          feature.properties.name ||
+          "Unknown";
+
+        const normalized = norm(geoName);
+
+        /* MATCH */
+        const operators = (countryData.operators || []).filter(op => {
+          const opCountries = op.countries || [op.country];
+          return opCountries.some(c => norm(c) === normalized);
+        });
+
+        const trains = operators.filter(o => o.type === "trains");
+        const ferryOperators = operators.filter(o => o.type === "ferries");
+
+        const routeMatches = ferries.routes.filter(route =>
+          route.countries?.some(country => norm(country) === normalized)
+        );
+
+        const operatorRouteMap = {};
+        routeMatches.forEach(route => {
+          const op = route.operator || "Unknown";
+          if (!operatorRouteMap[op]) operatorRouteMap[op] = [];
+          operatorRouteMap[op].push(route);
+        });
+
+        const renderRouteButtons = (routes, operatorName) => routes.length ? `
+            <div class="route-list">
+              ${routes.map(route => `<button type="button" class="route-item" data-route-name="${escapeHTML(route.name)}" data-operator="${escapeHTML(operatorName)}">${escapeHTML(route.name)}${route.countries?.length ? ` <span class="route-tag">${escapeHTML(route.countries.join(" / "))}</span>` : ""}</button>`).join("")}
+            </div>
+          ` : "";
+
+        const renderOperatorCard = (op, routeButtonsHtml = "") => `
+          <details class="card" data-operator="${escapeHTML(op.name)}">
+            <summary class="card-summary">
+              ${op.logo ? `<img src="operator logos/${op.logo}" alt="${escapeHTML(op.name)} logo" class="card-logo" />` : ""}
+              <div class="card-body">
+                <div class="card-title">${escapeHTML(op.name)}</div>
+                <div class="card-subtitle">${escapeHTML(op.operatorLabel || (op.type === 'trains' ? 'Train operator' : 'Ferry operator'))}</div>
+            </summary>
+            <div class="card-extra">
+              ${op.description ? `<div class="card-description">${escapeHTML(op.description)}</div>` : ""}
+              ${op.website ? `<a href="${op.website}" target="_blank" class="card-button card-button-primary">Visit website</a>` : ""}
+              <div class="app-badges">
+                ${op.appLinks?.android ? `<a href="${op.appLinks.android}" target="_blank" class="app-badge"><img src="get_it_on_google_play.png" alt="Get it on Google Play"></a>` : ""}
+                ${op.appLinks?.ios ? `<a href="${op.appLinks.ios}" target="_blank" class="app-badge"><img src="get_it_on_apple.png" alt="Download on the App Store"></a>` : ""}
+              </div>
+              ${routeButtonsHtml}
+            </div>
+          </details>
+        `;
+
+        const countryInfo = countryData.countryInfo?.find(c => c.country === geoName);
+        const countryDescription = countryInfo?.info || "";
+        const routeCountries = [...new Set(routeMatches.flatMap(route => route.countries || []))];
+
+        sidebarContent.innerHTML = `
+          <h2>${geoName}</h2>
+          ${countryDescription ? `<p class="country-description">${escapeHTML(countryDescription)}</p>` : ""}
+
+          ${trains.length ? "<h3>Trains</h3>" : ""}
+          ${trains.map(op => renderOperatorCard(op)).join("")}
+
+          ${ferryOperators.length ? "<h3>Ferries</h3>" : ""}
+          ${ferryOperators.map(op => renderOperatorCard(op, renderRouteButtons(operatorRouteMap[op.name] || [], op.name))).join("")}
+
+        `;
+
+        document.querySelectorAll(".route-item").forEach(button => {
+          button.addEventListener("click", () => {
+            const routeName = button.dataset.routeName;
+            const operatorName = button.dataset.operator;
+            const route = routeMatches.find(r => r.name === routeName);
+            if (route) {
+              showFerryRoute(route);
+              document.querySelectorAll(".route-item").forEach(item => item.classList.toggle("active", item === button));
+
+              const operatorCard = Array.from(document.querySelectorAll('.card[data-operator]'))
+                .find(card => card.dataset.operator === operatorName);
+              if (operatorCard) {
+                operatorCard.open = true;
+              }
+
+              setTimeout(scrollToActiveRoute, 240);
+            }
+          });
+        });
+
+        clearFerryRouteLines();
+
+        /* HIGHLIGHT */
+        if (selectedLayer) geoLayer.resetStyle(selectedLayer);
+        selectedLayer = layer;
+
+        layer.setStyle({
+          color: "#3b82f6",
+          weight: 2,
+          fillOpacity: 0.25
+        });
+
+        /* =========================
+           FIXED ZOOM (NO OVERSEAS BUG)
+        ========================= */
+        try {
+        const geoName =
+          feature.properties.ADMIN ||
+          feature.properties.NAME ||
+          feature.properties.name ||
+          "Unknown";
+
+        if (!selectedRouteOnMapClick) {
+          // check custom config
+          const zoomConfig = countryZoomConfig[geoName];
+
+          if (zoomConfig) {
+            map.flyTo(zoomConfig.center, zoomConfig.zoom, {
+              duration: 0.9
+            });
+          } else {
+            // fallback (safe bounding box)
+            const bounds = layer.getBounds();
+
+            map.fitBounds(bounds, {
+              padding: [30, 30],
+              maxZoom: 6
+            });
+          }
+        }
+
+        } catch (e) {
+          console.log("zoom fallback:", e);
+          map.setView([20, 0], 3);
+        }
+
+        scrollMapToTop();
+
+      });
+
+    }
+
+  }).addTo(map);
+
+  /* =========================
+     FERRY ROUTES
+  ========================= */
+  ferries.routes.forEach(route => {
+    const ferryColor = currentTheme === "light" ? "#0066cc" : "#38bdf8";
+    const ferryOpacity = currentTheme === "light" ? 0.4 : 0.18;
+
+    const visibleLine = L.polyline(getCurvedRouteCoords(route.coords), {
+      color: ferryColor,
+      weight: 3,
+      opacity: ferryOpacity,
+      dashArray: "8,12",
+      lineCap: "round",
+      lineJoin: "round",
+      smoothFactor: 1.5,
+      interactive: false
+    }).addTo(map);
+
+    const clickLine = L.polyline(getCurvedRouteCoords(route.coords), {
+      color: ferryColor,
+      weight: 24,
+      opacity: 0,
+      interactive: true
+    }).addTo(map);
+
+    clickLine.on('click', () => {
+      showFerryRoute(route, false);
+      selectedRouteOnMapClick = route;
+      
+      const countryName = route.countries?.[0];
+      if (countryName) {
+        const geoLayers = Object.values(map._layers).filter(layer =>
+          layer.feature && layer.feature.properties
+        );
+        
+        const matchingGeoLayer = geoLayers.find(layer => {
+          const gName = layer.feature.properties.ADMIN ||
+                        layer.feature.properties.NAME ||
+                        layer.feature.properties.name;
+          return gName && norm(gName) === norm(countryName);
+        });
+
+        if (matchingGeoLayer) {
+          matchingGeoLayer.fire('click');
+          
+          setTimeout(() => {
+            const routeBtn = Array.from(document.querySelectorAll(".route-item")).find(btn =>
+              btn.dataset.routeName === route.name
+            );
+            if (routeBtn) {
+              routeBtn.click();
+            }
+            selectedRouteOnMapClick = null;
+          }, 150);
+        }
+      }
+    });
+
+    ferryLines.push(visibleLine, clickLine);
+  });
+
+  setInterval(() => {
+    ferryLineOffset++;
+    ferryRouteLines.forEach(line => {
+      if (line && line.setStyle) line.setStyle({ dashOffset: ferryLineOffset });
+    });
+  }, 60);
+
+});
+
+</script>
+
+</body>
+</html>

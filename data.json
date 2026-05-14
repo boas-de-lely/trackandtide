@@ -1,0 +1,498 @@
+{
+  "operators": [
+    {
+      "id": "ns",
+      "name": "NS",
+      "country": "Netherlands",
+      "countries": [
+        "Netherlands"
+      ],
+      "type": "trains",
+      "website": "https://www.ns.nl/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=nl.ns.android.activity",
+        "ios": "https://apps.apple.com/nl/app/ns/id370362301"
+      },
+      "logo": "ns.png",
+      "description": "National rail operator in the Netherlands, providing train services across the country. the NS app allows you to check train schedules, buy tickets, and get real-time updates on your journey. (the NS app allows checking schedules for all train operators in the Netherlands, not just NS trains - even tram bus and metro schedules are available in the app)",
+      "operatorLabel": "Dutch national train operator"
+    },
+    {
+      "id": "nmbs",
+      "name": "NMBS/SNCB",
+      "country": "Belgium",
+      "countries": [
+        "Belgium",
+        "Netherlands"
+      ],
+      "type": "trains",
+      "website": "https://www.belgiantrain.be/en/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=be.sncbnmbs.b2cmobapp&hl=en",
+        "ios": "https://apps.apple.com/us/app/sncb-nmbs-timetable-tickets/id1504870215"
+      },
+      "logo": "nmbs.png",
+      "description": "National rail operator in the Belgium, providing train services across the country and to neighboring countries.",
+      "operatorLabel": "Belgian national train operator"
+    },
+    {
+      "id": "db",
+      "name": "DB",
+      "country": "Germany",
+      "countries": [
+        "Germany",
+        "Netherlands",
+        "Belgium",
+        "Austria",
+        "Switzerland",
+        "France", 
+        "Italy",
+        "Denmark",
+        "Czech Republic",
+        "Poland"
+      ],
+      "type": "trains",
+      "website": "https://www.bahn.de",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=de.hafas.android.db&hl=nl",
+        "ios": "https://apps.apple.com/nl/app/db-navigator/id343555245"
+      },
+      "logo": "db.png",
+      "description": "",
+      "operatorLabel": "German national train operator"
+    },
+    {
+      "id": "sncf",
+      "name": "SNCF",
+      "country": "France",
+      "countries": [
+        "France"
+      ],
+      "type": "trains",
+      "website": "https://www.sncf.com",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=com.sncf.mobile.activity",
+        "ios": "https://apps.apple.com/fr/app/sncf-connect/id506692840"
+      },
+      "logo": "sncf.png",
+      "description": "",
+      "operatorLabel": "French national train operator"
+    },
+    {
+      "id": "trenitalia",
+      "name": "Trenitalia",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "website": "https://www.trenitalia.com",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=it.trenitalia.app",
+        "ios": "https://apps.apple.com/it/app/trenitalia/id1133797885"
+      },
+      "logo": "trenitalia.png",
+      "description": "",
+      "operatorLabel": "Italian national train operator"
+    },
+    {
+      "id": "italo",
+      "name": "Italo",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "website": "https://www.italotreno.it",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=it.ntv.app",
+        "ios": "https://apps.apple.com/it/app/italo/id924563720"
+      },
+      "logo": "italo.png",
+      "description": "",
+      "operatorLabel": "Italian high speed train operator"
+    },
+    {
+      "id": "renfe",
+      "name": "Renfe",
+      "country": "Spain",
+      "countries": [
+        "Spain"
+      ],
+      "type": "trains",
+      "website": "https://www.renfe.com",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=com.renfe",
+        "ios": "https://apps.apple.com/es/app/renfe/id1084435525"
+      },
+      "logo": "renfe.png",
+      "description": "",
+      "operatorLabel": "Spanish national train operator"
+    },
+    {
+      "id": "eurostar",
+      "name": "Eurostar",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom",
+        "France",
+        "Belgium",
+        "Netherlands",
+        "Germany"
+      ],
+      "type": "trains",
+      "website": "https://www.eurostar.com/uk-en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=com.eurostar.androidapp&hl=en",
+        "ios": "https://apps.apple.com/us/app/eurostar-train-travel-hotel/id453671246"
+      },
+      "logo": "eurostar.png",
+      "description": "",
+      "operatorLabel": "High speed train operator"
+    },
+        {
+      "id": "ouigo",
+      "name": "Ouigo",
+      "country": "France",
+      "countries": [
+        "France",
+        "Belgium",
+        "Spain"
+      ],
+      "type": "trains",
+      "website": "https://www.ouigo.com/en/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=com.sncf.ouigo&hl=en",
+        "ios": "https://apps.apple.com/us/app/ouigo-billet-de-train-gare/id621194412"
+      },
+      "logo": "ouigo.png",
+      "description": "",
+      "operatorLabel": "Budget train operator"
+    },
+  {
+      "id": "fixtrain",
+      "name": "FlixTrain",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "website": "https://www.flixtrain.com/?_sp=0e3b4e00-0126-4f06-8994-d12fe096709c.1778323305061&atb_pdid=1bde6785-1eb9-40a5-9cc2-5f0f938bddfa&noRedirect=true&_spnuid=fe0c996e-810b-4a5b-b6ac-0ee97997fa2d_1778323304971",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=de.flixbus.app",
+        "ios": "https://apps.apple.com/nl/app/flixbus-bustickets-boeken/id778437357"
+      },
+      "logo": "flixtrain.png",
+      "description": "",
+      "operatorLabel": "Budget train operator"
+    },
+  {
+      "id": "european_sleeper",
+      "name": "European sleeper",
+      "country": "Netherlands",
+      "countries": [
+        "Netherlands",
+        "Belgium",
+        "Germany",
+        "Czech Republic",
+        "Italy",
+        "Switzerland",
+        "France"
+      ],
+      "type": "trains",
+      "website": "https://www.europeansleeper.eu/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "european_sleeper.png",
+      "description": "European Sleeper operates night train services connecting the Netherlands with Germany and Czech Republic. You cannot travel with European Sleeper using the NS app, you need to book tickets directly on their website",
+      "operatorLabel": "Night train operator"
+    },
+    {
+      "id": "govolta",
+      "name": "GoVolta",
+      "country": "Netherlands",
+      "countries": [
+        "Netherlands",
+        "Germany"
+      ],
+      "type": "trains",
+      "website": "https://govolta.nl/nl?_fl=en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "govolta.png",
+      "description": "Govolta operates multiple servies connecting Germany and the Netherlands. You cannot travel with GoVolta using the NS app, you need to book tickets directly on their website",
+      "operatorLabel": "Budget train operator"
+    },
+    {
+      "id": "arriva",
+      "name": "Arriva",
+      "country": "Netherlands",
+      "countries": [
+        "Netherlands"
+      ],
+      "type": "trains",
+      "website": "https://www.arriva.nl/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=nl.arriva.planner",
+        "ios": "https://apps.apple.com/nl/app/arriva/id1094696514"
+      },
+      "logo": "arriva.png",
+      "description": "Arriva operates regional train services in the Netherlands, providing connections between smaller towns and cities. Use the NS app to check schedules and buy tickets for Arriva trains, as they are integrated into the national rail system.",
+      "operatorLabel": "Regional train operator"
+    },
+    {
+      "id": "keolis",
+      "name": "Keolis/RRReis",
+      "country": "Netherlands",
+      "countries": [
+        "Netherlands"
+      ],
+      "type": "trains",
+      "website": "",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "keolis.png",
+      "description": "Keolis operates regional train services in the Netherlands, providing connections between smaller towns and cities. (under the RRReis branding) Use the NS app to check schedules and buy tickets for Keolis trains, as they are integrated into the national rail system.",
+      "operatorLabel": "Regional train operator"
+    },
+    {
+      "id": "qbuzz",
+      "name": "Qbuzz",
+      "country": "Netherlands",
+      "countries": [
+        "Netherlands"
+      ],
+      "type": "trains",
+      "website": "https://www.qbuzz.nl/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "qbuzz.png",
+      "description": "Qbuzz operates regional train services in the Netherlands, providing connections between smaller towns and cities. Use the NS app to check schedules and buy tickets for Qbuzz trains, as they are integrated into the national rail system. Qbuzz operates trains under the Rnet branding",
+      "operatorLabel": "Regional train operator"
+    },
+    {
+      "id": "dfds",
+      "name": "DFDS",
+      "type": "ferries",
+      "website": "https://www.dfds.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "dfds.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark",
+        "France",
+        "Germany",
+        "Lithuania",
+        "Netherlands",
+        "Norway",
+        "Sweden",
+        "United Kingdom",
+        "Ireland"
+      ]
+    },
+    {
+      "id": "p_o",
+      "name": "P&O",
+      "type": "ferries",
+      "website": "https://www.poferries.com/en/routes/hull-to-rotterdam#route",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "po.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Netherlands",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "stena",
+      "name": "Stena",
+      "type": "ferries",
+      "website": "https://www.stenaline.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "stena.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Netherlands",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "scandlines",
+      "name": "Scandlines",
+      "type": "ferries",
+      "website": "https://www.scandlines.de",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "scandlines.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark",
+        "Germany"
+      ]
+    },
+    {
+      "id": "brittany_ferries",
+      "name": "Brittany Ferries",
+      "type": "ferries",
+      "website": "https://www.brittanyferries.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "brittany_ferries.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "grimaldi",
+      "name": "Grimaldi Lines",
+      "type": "ferries",
+      "website": "https://www.grimaldi.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "grimaldi.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Greece",
+        "Italy",
+        "Spain",
+        "Tunisia"
+      ]
+    },
+    {
+      "id": "tirrenia",
+      "name": "Tirrenia",
+      "type": "ferries",
+      "website": "https://www.tirrenia.it",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "tirrenia.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Italy"
+      ]
+    },
+    {
+      "id": "balearia",
+      "name": "Balearia",
+      "type": "ferries",
+      "website": "https://www.balearia.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "balearia.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Spain"
+      ]
+    },
+    {
+      "id": "trasmediterranea",
+      "name": "Trasmediterránea",
+      "country": "Spain",
+      "type": "ferries",
+      "website": "https://www.trasmediterranea.es",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "trasmediterranea.png",
+      "description": "",
+      "operatorLabel": "Ferry operator"
+    },
+    {
+      "id": "colorline",
+      "name": "Color Line",
+      "country": "Denmark",
+      "type": "ferries",
+      "website": "https://www.colorline.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "colorline.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark",
+        "Germany",
+        "Norway"
+      ]
+    },
+    {
+      "id": "fjordline",
+      "name": "Fjord Line",
+      "country": "Norway",
+      "type": "ferries",
+      "website": "https://www.fjordline.com/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "fjordline.png",
+      "description": "",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark",
+        "Norway"
+      ]
+    }
+  ],
+  "countryInfo": [
+    {
+      "country": "Germany",
+      "info": "Germany has an extensive rail network with high-speed trains and numerous ferry routes connecting coastal cities and islands."
+    },
+    {
+      "country": "France",
+      "info": "France is known for its high-speed TGV trains and has several ferry routes connecting the mainland with nearby islands and neighboring countries."
+    },
+    {
+      "country": "Italy",
+      "info": "Italy has a well-developed rail network with high-speed trains and numerous ferry routes connecting the mainland with islands and coastal cities."
+    },
+    {
+      "country": "Spain",
+      "info": "Spain has an extensive rail network with high-speed AVE trains and several ferry routes connecting the mainland with islands and neighboring countries."
+    },
+    {
+      "country": "Netherlands",
+      "info": "Almost all national public transport accepts credit/debit cards, just tap your card at the gate or on the bus/tram/metro. No need to buy a ticket in advance, just tap and go! Don't forget to tap out at the end of your journey."
+    }
+  ]
+}
