@@ -140,7 +140,8 @@
       "Switzerland",
       "Hungary",
       "Czechia",
-      "Slovakia"
+      "Slovakia",
+      "Liechtenstein"
     ],
     "type": "trains",
     "website": "https://www.oebb.at/en/",
@@ -300,6 +301,26 @@
     "logo": "cp.png",
     "description": "Portugal's national railway operator with regional, intercity and international services.",
     "operatorLabel": "Portuguese national train operator"
+  },
+  {
+    "id": "cfl",
+    "name": "CFL",
+    "country": "Luxembourg",
+    "countries": [
+      "Luxembourg",
+      "Belgium",
+      "France",
+      "Germany"
+    ],
+    "type": "trains",
+    "website": "https://www.cfl.lu/en-gb",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "",
+    "description": "Luxembourg's national railway operator, running domestic trains and cross-border services to Belgium, France and Germany. Public transport inside Luxembourg is generally free in standard class, but first class and cross-border tickets still need to be bought.",
+    "operatorLabel": "Luxembourg national train operator"
   },
   {
     "id": "vr",
@@ -789,6 +810,118 @@
     "description": "Albania's national railway operator with limited passenger services.",
     "operatorLabel": "National train operator"
   },
+  {
+    "id": "srbija_voz",
+    "name": "Srbija Voz",
+    "country": "Serbia",
+    "countries": [
+      "Serbia",
+      "Montenegro",
+      "Hungary",
+      "Croatia",
+      "Bosnia and Herzegovina"
+    ],
+    "type": "trains",
+    "website": "https://www.srbvoz.rs/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "srbija_voz.png",
+    "description": "Serbia's national passenger rail operator providing domestic and regional international services.",
+    "operatorLabel": "Serbian national train operator"
+  },
+  {
+    "id": "zeleznice_rs",
+    "name": "Željeznice Republike Srpske",
+    "country": "Bosnia and Herzegovina",
+    "countries": [
+      "Bosnia and Herzegovina",
+      "Serbia",
+      "Croatia"
+    ],
+    "type": "trains",
+    "website": "https://www.zrs-rs.com",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "zrs.png",
+    "description": "Rail operator serving Republika Srpska region of Bosnia and Herzegovina.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "fbih_railways",
+    "name": "ŽFBiH",
+    "country": "Bosnia and Herzegovina",
+    "countries": [
+      "Bosnia and Herzegovina",
+      "Croatia"
+    ],
+    "type": "trains",
+    "website": "https://www.zfbh.ba",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "zfbh.png",
+    "description": "Federation of Bosnia and Herzegovina railway operator providing domestic passenger services.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "zeleznicki_prevoz",
+    "name": "ŽPCG",
+    "country": "Montenegro",
+    "countries": [
+      "Montenegro",
+      "Serbia"
+    ],
+    "type": "trains",
+    "website": "https://www.zpcg.me",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "zpcg.png",
+    "description": "Montenegro's national railway operator, known for the Belgrade–Bar railway route.",
+    "operatorLabel": "Montenegrin national train operator"
+  },
+  {
+    "id": "cfr_moldova",
+    "name": "Calea Ferată din Moldova",
+    "country": "Moldova",
+    "countries": [
+      "Moldova",
+      "Romania",
+      "Ukraine"
+    ],
+    "type": "trains",
+    "website": "http://www.railway.md/?l=en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "cfm.png",
+    "description": "Moldova's national railway operator providing limited domestic and cross-border services.",
+    "operatorLabel": "Moldovan national train operator"
+  },
+  {
+  "id": "trainkos",
+  "name": "Trainkos",
+  "country": "Kosovo",
+  "countries": [
+    "Kosovo"
+  ],
+  "type": "trains",
+  "website": "https://www.trainkos.com",
+  "appLinks": {
+    "android": "",
+    "ios": ""
+  },
+  "logo": "trainkos.png",
+  "description": "Kosovo's rail operator with limited domestic passenger services.",
+  "operatorLabel": "Regional train operator"
+},
     {
       "id": "eurostar",
       "name": "Eurostar",
@@ -809,6 +942,244 @@
       "logo": "eurostar.png",
       "description": "",
       "operatorLabel": "High speed train operator"
+    },
+    {
+      "id": "national_rail",
+      "name": "National Rail",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.nationalrail.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "national_rail.png",
+      "description": "National Rail is the main UK rail information and ticketing hub across train operating companies. It is usually the easiest place to check times across England, Scotland and Wales, then buy through National Rail, a retailer, or the operating company.",
+      "operatorLabel": "UK rail planner and ticketing"
+    },
+    {
+      "id": "avanti_west_coast",
+      "name": "Avanti West Coast",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.avantiwestcoast.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "avanti_west_coast.png",
+      "description": "Long-distance operator on the West Coast Main Line, including London, Birmingham, Manchester, Liverpool, Glasgow and Edinburgh. Tickets are available from National Rail retailers or directly from Avanti.",
+      "operatorLabel": "English long-distance train operator"
+    },
+    {
+      "id": "lner",
+      "name": "LNER",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.lner.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "lner.png",
+      "description": "Long-distance operator on the East Coast Main Line, linking London with Yorkshire, North East England and Scotland. Book through National Rail retailers or directly with LNER.",
+      "operatorLabel": "English long-distance train operator"
+    },
+    {
+      "id": "gwr",
+      "name": "Great Western Railway",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.gwr.com/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "gwr.png",
+      "description": "Operator for London Paddington, the Thames Valley, South West England, South Wales and the Cotswolds. Tickets can be bought through National Rail retailers or directly with GWR.",
+      "operatorLabel": "English train operator"
+    },
+    {
+      "id": "crosscountry",
+      "name": "CrossCountry",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.crosscountrytrains.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "crosscountry.png",
+      "description": "Long-distance operator linking many English regions without going through London, with routes also reaching Scotland and Wales. National Rail retailers and CrossCountry both sell tickets.",
+      "operatorLabel": "UK long-distance train operator"
+    },
+    {
+      "id": "northern",
+      "name": "Northern",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.northernrailway.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "northern.png",
+      "description": "Regional operator across northern England, including local and commuter routes around Manchester, Leeds, Liverpool, Sheffield, Newcastle and surrounding areas. Use National Rail or Northern for tickets.",
+      "operatorLabel": "English regional train operator"
+    },
+    {
+      "id": "transpennine_express",
+      "name": "TransPennine Express",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.tpexpress.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "transpennine_express.png",
+      "description": "Intercity and regional operator across northern England and into Scotland, connecting cities such as Manchester, Leeds, York, Newcastle, Liverpool and Edinburgh. Tickets are available through National Rail or TPE.",
+      "operatorLabel": "English intercity train operator"
+    },
+    {
+      "id": "greater_anglia",
+      "name": "Greater Anglia",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.greateranglia.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "greater_anglia.png",
+      "description": "Operator for London Liverpool Street, Essex, Suffolk, Norfolk and parts of Cambridgeshire. Tickets are available through National Rail retailers or directly with Greater Anglia.",
+      "operatorLabel": "English regional train operator"
+    },
+    {
+      "id": "gtr",
+      "name": "GTR",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.thameslinkrailway.com/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "gtr.png",
+      "description": "Govia Thameslink Railway runs Thameslink, Southern, Great Northern and Gatwick Express services around London, the South East and Gatwick Airport. Tickets are sold through National Rail retailers and the brand websites.",
+      "operatorLabel": "English regional train operator"
+    },
+    {
+      "id": "south_western_railway",
+      "name": "South Western Railway",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.southwesternrailway.com/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "south_western_railway.png",
+      "description": "Operator from London Waterloo to south west London, Surrey, Hampshire, Dorset, Wiltshire and the South Coast. Use National Rail retailers or South Western Railway for tickets.",
+      "operatorLabel": "English regional train operator"
+    },
+    {
+      "id": "southeastern",
+      "name": "Southeastern",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.southeasternrailway.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "southeastern.png",
+      "description": "Operator for London, Kent and parts of East Sussex, including High Speed services from St Pancras. Tickets are available through National Rail retailers or directly with Southeastern.",
+      "operatorLabel": "English regional train operator"
+    },
+    {
+      "id": "east_midlands_railway",
+      "name": "East Midlands Railway",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.eastmidlandsrailway.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "east_midlands_railway.png",
+      "description": "Operator linking London St Pancras with the East Midlands, plus regional services around Derby, Nottingham, Leicester, Lincoln and Sheffield. Book through National Rail retailers or directly with EMR.",
+      "operatorLabel": "English train operator"
+    },
+    {
+      "id": "chiltern_railways",
+      "name": "Chiltern Railways",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.chilternrailways.co.uk/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "chiltern_railways.png",
+      "description": "Operator from London Marylebone to Buckinghamshire, Oxfordshire, Warwickshire and Birmingham. Tickets can be bought through National Rail retailers or directly with Chiltern Railways.",
+      "operatorLabel": "English regional train operator"
+    },
+    {
+      "id": "caledonian_sleeper",
+      "name": "Caledonian Sleeper",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "website": "https://www.sleeper.scot/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "caledoniansleeper.png",
+      "description": "Overnight train operator linking London with Scotland, including routes to Edinburgh, Glasgow, Inverness, Aberdeen and Fort William. Book directly with Caledonian Sleeper for rooms, berths and seated sleeper tickets.",
+      "operatorLabel": "UK night train operator"
     },
         {
       "id": "ouigo",
@@ -1133,24 +1504,152 @@
   ],
   "countryInfo": [
     {
+      "country": "Albania",
+      "info": "Albania has a very limited passenger rail network, so always check current services before planning around the train. Tickets are usually simplest to buy locally at the station; there is not one national app that reliably sells all public transport or rail tickets."
+    },
+    {
+      "country": "Austria",
+      "info": "Austria has a strong national rail network with OBB covering most domestic and international journeys, while Westbahn also runs on key routes. The easiest place to compare and buy most train tickets is OBB Scotty or oebb.at; book Westbahn directly when it is cheaper or when you specifically choose their service."
+    },
+    {
+      "country": "Belgium",
+      "info": "Belgium's domestic trains are mainly run by NMBS/SNCB, with international services such as Eurostar also serving the country. Use the NMBS/SNCB app or website for Belgian train tickets and schedules; for Eurostar and other international high-speed trains, booking directly with the operator is usually easiest."
+    },
+    {
+      "country": "Bosnia and Herzegovina",
+      "info": "Bosnia and Herzegovina has a limited but scenic passenger network. Tickets are usually easiest to buy at stations or through the relevant railway website where available; there is no single national app that covers all rail and public transport."
+    },
+    {
+      "country": "Bulgaria",
+      "info": "Bulgaria's passenger trains are operated mainly by BDZ, with a mix of intercity, regional and slower local services. Tickets are easiest through the BDZ website where available or at stations; for cross-border trips, checking the operator site and station ticket offices is still useful."
+    },
+    {
+      "country": "Croatia",
+      "info": "Croatia has domestic rail services run by HZPP, with some international links to neighboring countries. Buy train tickets through HZPP or at stations; for routes involving Slovenia, Hungary or Austria, the neighboring national railway websites can sometimes show better international options."
+    },
+    {
+      "country": "Czechia",
+      "info": "Czechia has several useful rail operators, including Ceske drahy, RegioJet and Leo Express. For the widest overview, use IDOS to compare connections across operators, then buy on the chosen operator's website or app; Ceske drahy is often the simplest for national and international rail tickets."
+    },
+    {
+      "country": "Denmark",
+      "info": "Denmark's rail network is centered on DSB, with international links to Sweden and Germany plus ferries on key sea routes. DSB's app and website are the easiest way to buy most train tickets; for local transport around Copenhagen, DOT tickets cover trains, metro and buses in the same area."
+    },
+    {
       "country": "Germany",
-      "info": "Germany has an extensive rail network with high-speed trains and numerous ferry routes connecting coastal cities and islands."
+      "info": "Germany has a large rail network with DB covering most long-distance and regional journeys, plus operators such as FlixTrain on selected routes. The DB Navigator app is the easiest all-round planner and sells many national and regional train tickets, but FlixTrain tickets should be booked directly with FlixTrain."
+    },
+    {
+      "country": "Estonia",
+      "info": "Estonia's passenger rail services are operated by Elron, with a compact network centered on Tallinn and regional routes. Use Elron's website for train times and tickets; local city and bus tickets are handled separately rather than through one national rail app."
+    },
+    {
+      "country": "Finland",
+      "info": "Finland's passenger trains are operated by VR, covering long-distance, commuter and night train services. The VR app or website is the easiest way to buy tickets and manage reservations; local urban transport, such as Helsinki HSL tickets, is separate."
     },
     {
       "country": "France",
-      "info": "France is known for its high-speed TGV trains and has several ferry routes connecting the mainland with nearby islands and neighboring countries."
+      "info": "France has extensive high-speed and regional rail, mainly sold through SNCF Connect, with Ouigo offering budget high-speed services and Eurostar on international routes. SNCF Connect is the easiest starting point for most French trains; book Ouigo or Eurostar directly when using those specific services."
+    },
+    {
+      "country": "Greece",
+      "info": "Greece's passenger rail network is mainly operated by Hellenic Train, while ferries are often essential for island travel. Buy train tickets through Hellenic Train; ferry tickets are best compared on ferry booking platforms or bought directly from the ferry operator for the route you need."
+    },
+    {
+      "country": "Hungary",
+      "info": "Hungary's rail network is mainly operated by MAV, with international trains to Austria, Slovakia, Romania, Croatia and beyond. The MAV app or website is the easiest place for domestic and many international train tickets; private or cross-border services may still be easier through the specific operator."
+    },
+    {
+      "country": "Ireland",
+      "info": "Ireland's rail services are operated by Irish Rail, covering intercity, commuter and regional routes. Buy tickets through the Irish Rail website or app; public transport in cities uses separate systems, so one rail ticket does not normally cover all buses and trams."
     },
     {
       "country": "Italy",
-      "info": "Italy has a well-developed rail network with high-speed trains and numerous ferry routes connecting the mainland with islands and coastal cities."
+      "info": "Italy has several rail operators: Trenitalia runs national, regional and high-speed trains, Italo competes on high-speed routes, and Trenord and TPER cover regional networks. Use Trenitalia for the broadest coverage, compare Italo for high-speed trips, and book ferries directly or via comparison sites for islands and coastal routes."
     },
     {
-      "country": "Spain",
-      "info": "Spain has an extensive rail network with high-speed AVE trains and several ferry routes connecting the mainland with islands and neighboring countries."
+      "country": "Kosovo",
+      "info": "Kosovo has a small passenger rail network with limited daily services, mainly useful on selected domestic routes. Check Trainkos or local timetable information before travelling; tickets are generally bought at stations and there is not one app that covers all public transport."
+    },
+    {
+      "country": "Latvia",
+      "info": "Latvia's passenger trains are operated by Vivi, with services centered on Riga and regional routes. The Vivi website is the simplest place for rail information and tickets where available; buses and city transport use separate ticketing systems."
+    },
+    {
+      "country": "Lithuania",
+      "info": "Lithuania's passenger trains are operated by LTG Link, including domestic routes and some international links toward Latvia and Poland. Use LTG Link's website for train tickets; for journeys crossing into Poland or Latvia, also check the partner operator for the other part of the trip."
+    },
+    {
+      "country": "Liechtenstein",
+      "info": "Liechtenstein has a very small rail section served by regional trains linked to Austria and Switzerland, so it is usually planned as part of a cross-border trip. Use OBB or SBB to check trains and buy any needed tickets; local buses use separate Liechtenstein or regional ticketing."
+    },
+    {
+      "country": "Luxembourg",
+      "info": "Luxembourg's domestic public transport is generally free in standard class, including trains, trams and buses. Use CFL for train planning and for first-class or cross-border tickets to Belgium, France and Germany; local domestic journeys usually do not need a ticket."
+    },
+    {
+      "country": "Moldova",
+      "info": "Moldova's rail network has limited domestic services and some international connections, with buses often being more frequent for many journeys. Check CFM for current train times and buy tickets through official channels or at stations where available; there is no broad multi-operator rail app for the country."
+    },
+    {
+      "country": "Montenegro",
+      "info": "Montenegro has a small but spectacular rail network, especially the route between Bar, Podgorica and the Serbian border. Tickets are usually easiest to buy at stations or from the railway operator when online sales are available; for ferries and buses, book separately with the route operator."
     },
     {
       "country": "Netherlands",
-      "info": "Almost all national public transport accepts credit/debit cards, just tap your card at the gate or on the bus/tram/metro. No need to buy a ticket in advance, just tap and go! Don't forget to tap out at the end of your journey."
+      "info": "Almost all national public transport accepts credit/debit cards: just tap your card at the gate or on the bus, tram or metro. The NS app is the easiest all-round planner for trains from NS, Arriva, Keolis/RRReis and Qbuzz, but separate international and budget operators such as Eurostar, European Sleeper and GoVolta usually need direct booking."
+    },
+    {
+      "country": "Norway",
+      "info": "Norway has long-distance and regional trains run by operators such as Vy, plus airport and ferry connections in many regions. Vy's website and app are the easiest starting point for most train tickets; Flytoget airport trains and ferry services are best booked directly with those operators."
+    },
+    {
+      "country": "Poland",
+      "info": "Poland has several train operators, with PKP Intercity handling most long-distance services and regional operators covering local routes. Use PKP Intercity for long-distance and international tickets; for a wider search across operators, check Polish journey planners or the regional operator for the area."
+    },
+    {
+      "country": "Portugal",
+      "info": "Portugal's passenger trains are operated mainly by CP, covering urban, regional, intercity and Alfa Pendular services. CP's website or app is the easiest way to buy train tickets; local metro, tram and bus networks usually require separate city or regional tickets."
+    },
+    {
+      "country": "Romania",
+      "info": "Romania's passenger rail is led by CFR Calatori, with domestic and international services plus some private operators outside this list. CFR Calatori is the main place to buy train tickets online or at stations; for international routes, also compare the neighboring railway operator."
+    },
+    {
+      "country": "Republic of Serbia",
+      "info": "Serbia has domestic rail services including modern trains on key routes such as Belgrade to Novi Sad, plus selected international links. Use Srbija Voz for Serbian train information and online tickets where available; for cross-border trips, also check the neighboring operator, and expect some journeys to require station purchase."
+    },
+    {
+      "country": "Slovakia",
+      "info": "Slovakia's national passenger rail operator is ZSSK, with domestic services and links to Czechia, Austria, Hungary and Poland. Use ZSSK for most Slovak train tickets; RegioJet and other cross-border operators should be booked directly when you choose their services."
+    },
+    {
+      "country": "Slovenia",
+      "info": "Slovenia's passenger trains are operated by Slovenian Railways, with domestic routes and international links to Austria, Italy, Croatia and Hungary. Buy tickets through Slovenian Railways or at stations; for cross-border journeys, checking the neighboring operator can reveal more ticket options."
+    },
+    {
+      "country": "Spain",
+      "info": "Spain has a large high-speed and regional rail network led by Renfe, with Ouigo on selected budget high-speed routes and several ferry operators for islands and North Africa. Use Renfe for most train tickets, book Ouigo directly for their trains, and use ferry operator sites or comparison platforms for Balearic, Canary and Mediterranean routes."
+    },
+    {
+      "country": "Sweden",
+      "info": "Sweden has national and regional rail services from SJ, Snalltaget, Oresundstag, Arlanda Express and other local operators. SJ is a good starting point for long-distance tickets, but some services such as Snalltaget and Arlanda Express are easiest to book directly; regional apps may be needed for local tickets."
+    },
+    {
+      "country": "Switzerland",
+      "info": "Switzerland has one of Europe's most integrated public transport systems, with SBB, BLS, RhB, Zentralbahn, THURBO, TILO and other operators sharing national ticketing. The SBB app is the easiest single place to plan and buy most train, bus, tram and boat tickets across operators, including many scenic and regional journeys."
+    },
+    {
+      "country": "Tunisia",
+      "info": "Tunisia appears here through Mediterranean ferry links rather than the European rail network. For these routes, buy tickets directly from the ferry operator or a ferry comparison site, especially for vehicle bookings and seasonal sailings."
+    },
+    {
+      "country": "Ukraine",
+      "info": "Ukraine appears here through international rail links connected with Moldova and neighboring countries. Check the operating railway for the specific route and current travel conditions before planning; tickets are usually best bought through the official railway or at stations where available."
+    },
+    {
+      "country": "United Kingdom",
+      "info": "The United Kingdom has multiple train operating companies and several international ferry routes, while Eurostar connects London with mainland Europe. National Rail is the best all-operator planner for domestic trains, ticket retailers can sell most rail tickets, and Eurostar or ferry trips are usually easiest to book directly with the operator."
     }
   ]
 }

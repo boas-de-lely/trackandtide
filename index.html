@@ -649,8 +649,20 @@ Promise.all([
           return opCountries.some(c => norm(c) === normalized);
         });
 
-        const trains = operators.filter(o => o.type === "trains");
-        const ferryOperators = operators.filter(o => o.type === "ferries");
+        const sortNationalOperatorsFirst = (a, b) => {
+          const aIsNational = norm(a.country) === normalized;
+          const bIsNational = norm(b.country) === normalized;
+
+          if (aIsNational !== bIsNational) return aIsNational ? -1 : 1;
+          return (a.name || "").localeCompare(b.name || "");
+        };
+
+        const trains = operators
+          .filter(o => o.type === "trains")
+          .sort(sortNationalOperatorsFirst);
+        const ferryOperators = operators
+          .filter(o => o.type === "ferries")
+          .sort(sortNationalOperatorsFirst);
 
         const routeMatches = ferries.routes.filter(route =>
           route.countries?.some(country => norm(country) === normalized)
