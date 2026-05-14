@@ -48,7 +48,7 @@
         "France", 
         "Italy",
         "Denmark",
-        "Czech Republic",
+        "Czechia",
         "Poland"
       ],
       "type": "trains",
@@ -129,6 +129,666 @@
       "description": "",
       "operatorLabel": "Spanish national train operator"
     },
+  {
+    "id": "obb",
+    "name": "ÖBB",
+    "country": "Austria",
+    "countries": [
+      "Austria",
+      "Germany",
+      "Italy",
+      "Switzerland",
+      "Hungary",
+      "Czechia",
+      "Slovakia"
+    ],
+    "type": "trains",
+    "website": "https://www.oebb.at/en/",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=at.oebb.ts",
+      "ios": "https://apps.apple.com/at/app/obb/id1036709591"
+    },
+    "logo": "obb.png",
+    "description": "Austria's national railway company operating Railjet, Nightjet, regional and international services across Central Europe.",
+    "operatorLabel": "Austrian national train operator"
+  },
+  {
+    "id": "sbb",
+    "name": "SBB",
+    "country": "Switzerland",
+    "countries": [
+      "Switzerland"
+    ],
+    "type": "trains",
+    "website": "https://www.sbb.ch/en",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=ch.sbb.mobile.android.b2c",
+      "ios": "https://apps.apple.com/ch/app/sbb-mobile/id294855237"
+    },
+    "logo": "sbb.png",
+    "description": "Swiss Federal Railways operates Switzerland's extensive passenger rail network including international and regional connections.",
+    "operatorLabel": "Swiss national train operator"
+  },
+  {
+    "id": "sj",
+    "name": "SJ",
+    "country": "Sweden",
+    "countries": [
+      "Sweden"
+    ],
+    "type": "trains",
+    "website": "https://www.sj.se/en",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=se.sj.android",
+      "ios": "https://apps.apple.com/se/app/sj/id446689276"
+    },
+    "logo": "sj.png",
+    "description": "SJ is Sweden's primary long-distance rail operator, operating high-speed, regional and overnight services.",
+    "operatorLabel": "Swedish national train operator"
+  },
+  {
+    "id": "vy",
+    "name": "Vy",
+    "country": "Norway",
+    "countries": [
+      "Norway",
+      "Sweden"
+    ],
+    "type": "trains",
+    "website": "https://www.vy.no/en",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=no.nsb.mob.app",
+      "ios": "https://apps.apple.com/no/app/vy/id474798767"
+    },
+    "logo": "vy.png",
+    "description": "Vy operates regional and long-distance train services in Norway and parts of Sweden.",
+    "operatorLabel": "Norwegian train operator"
+  },
+  {
+    "id": "dsb",
+    "name": "DSB",
+    "country": "Denmark",
+    "countries": [
+      "Denmark"
+    ],
+    "type": "trains",
+    "website": "https://www.dsb.dk/en/",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=dk.dsb.nda.mobile.pay",
+      "ios": "https://apps.apple.com/dk/app/dsb/id413998264"
+    },
+    "logo": "dsb.png",
+    "description": "DSB is Denmark's national railway operator, providing domestic and international train services.",
+    "operatorLabel": "Danish national train operator"
+  },
+  {
+    "id": "cd",
+    "name": "České dráhy",
+    "country": "Czechia",
+    "countries": [
+      "Czechia",
+      "Germany",
+      "Austria",
+      "Slovakia",
+      "Poland",
+      "Hungary"
+    ],
+    "type": "trains",
+    "website": "https://www.cd.cz/en/",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=cz.cd.mujvlak.an",
+      "ios": "https://apps.apple.com/cz/app/m%C5%AFj-vlak/id839519767"
+    },
+    "logo": "cd.png",
+    "description": "The Czech national railway operator with extensive domestic and international services.",
+    "operatorLabel": "Czech national train operator"
+  },
+  {
+    "id": "regiojet",
+    "name": "RegioJet",
+    "country": "Czechia",
+    "countries": [
+      "Czechia",
+      "Slovakia",
+      "Austria",
+      "Hungary",
+      "Poland"
+    ],
+    "type": "trains",
+    "website": "https://regiojet.com/",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=cz.studentagency.regiojet",
+      "ios": "https://apps.apple.com/cz/app/regiojet/id923484573"
+    },
+    "logo": "regiojet.png",
+    "description": "Private Central European rail operator known for affordable long-distance and international services.",
+    "operatorLabel": "Private train operator"
+  },
+  {
+    "id": "leo_express",
+    "name": "Leo Express",
+    "country": "Czechia",
+    "countries": [
+      "Czechia",
+      "Poland",
+      "Slovakia"
+    ],
+    "type": "trains",
+    "website": "https://www.leoexpress.com/en",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=com.le.cz",
+      "ios": "https://apps.apple.com/cz/app/leo-express/id811490578"
+    },
+    "logo": "leo_express.png",
+    "description": "Private operator providing international and domestic rail services in Central Europe.",
+    "operatorLabel": "Private train operator"
+  },
+  {
+    "id": "cp",
+    "name": "CP",
+    "country": "Portugal",
+    "countries": [
+      "Portugal",
+      "Spain"
+    ],
+    "type": "trains",
+    "website": "https://www.cp.pt/passageiros/en",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=pt.cp.myticket",
+      "ios": "https://apps.apple.com/pt/app/cp-comboios-de-portugal/id1174577898"
+    },
+    "logo": "cp.png",
+    "description": "Portugal's national railway operator with regional, intercity and international services.",
+    "operatorLabel": "Portuguese national train operator"
+  },
+  {
+    "id": "vr",
+    "name": "VR",
+    "country": "Finland",
+    "countries": [
+      "Finland"
+    ],
+    "type": "trains",
+    "website": "https://www.vr.fi/en",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=fi.vr.mobiili",
+      "ios": "https://apps.apple.com/fi/app/vr-matkalla/id905281941"
+    },
+    "logo": "vr.png",
+    "description": "VR is Finland's national railway company operating long-distance, commuter and night train services.",
+    "operatorLabel": "Finnish national train operator"
+  },
+  {
+    "id": "mav",
+    "name": "MÁV",
+    "country": "Hungary",
+    "countries": [
+      "Hungary",
+      "Austria",
+      "Slovakia",
+      "Romania",
+      "Croatia",
+      "Serbia"
+    ],
+    "type": "trains",
+    "website": "https://www.mavcsoport.hu/en",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=hu.mav.start",
+      "ios": "https://apps.apple.com/hu/app/m%C3%A1v/id1457184104"
+    },
+    "logo": "mav.png",
+    "description": "Hungary's national railway operator providing domestic and international train services.",
+    "operatorLabel": "Hungarian national train operator"
+  },
+  {
+    "id": "pkp_intercity",
+    "name": "PKP Intercity",
+    "country": "Poland",
+    "countries": [
+      "Poland",
+      "Germany",
+      "Czechia",
+      "Austria",
+      "Lithuania"
+    ],
+    "type": "trains",
+    "website": "https://www.intercity.pl/en/",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=pl.pkpintercity.mka",
+      "ios": "https://apps.apple.com/pl/app/pkp-intercity/id1458980952"
+    },
+    "logo": "pkp_intercity.png",
+    "description": "PKP Intercity operates Poland's long-distance and international passenger rail services.",
+    "operatorLabel": "Polish national train operator"
+  },
+  {
+    "id": "cfr",
+    "name": "CFR Călători",
+    "country": "Romania",
+    "countries": [
+      "Romania",
+      "Hungary",
+      "Austria",
+      "Bulgaria"
+    ],
+    "type": "trains",
+    "website": "https://www.cfrcalatori.ro/en/",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "cfr.png",
+    "description": "Romania's national rail operator providing domestic and international passenger train services.",
+    "operatorLabel": "Romanian national train operator"
+  },
+  {
+    "id": "hellenic_train",
+    "name": "Hellenic Train",
+    "country": "Greece",
+    "countries": [
+      "Greece"
+    ],
+    "type": "trains",
+    "website": "https://www.hellenictrain.gr/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "hellenic_train.png",
+    "description": "Main passenger rail operator in Greece operating intercity and regional train services.",
+    "operatorLabel": "Greek train operator"
+  },
+  {
+    "id": "irish_rail",
+    "name": "Irish Rail",
+    "country": "Ireland",
+    "countries": [
+      "Ireland"
+    ],
+    "type": "trains",
+    "website": "https://www.irishrail.ie/en-ie/",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=ie.irishrail.realtime",
+      "ios": "https://apps.apple.com/ie/app/irish-rail/id405099920"
+    },
+    "logo": "irish_rail.png",
+    "description": "Ireland's national railway operator providing intercity, commuter and regional train services.",
+    "operatorLabel": "Irish national train operator"
+  },
+  {
+    "id": "westbahn",
+    "name": "Westbahn",
+    "country": "Austria",
+    "countries": [
+      "Austria",
+      "Germany"
+    ],
+    "type": "trains",
+    "website": "https://westbahn.at/en/",
+    "appLinks": {
+      "android": "https://play.google.com/store/apps/details?id=at.westbahn",
+      "ios": "https://apps.apple.com/at/app/westbahn/id963437068"
+    },
+    "logo": "westbahn.png",
+    "description": "Private Austrian high-speed rail operator competing with ÖBB on major routes.",
+    "operatorLabel": "Private high speed train operator"
+  },
+  {
+    "id": "snalltaget",
+    "name": "Snälltåget",
+    "country": "Sweden",
+    "countries": [
+      "Sweden",
+      "Denmark",
+      "Germany"
+    ],
+    "type": "trains",
+    "website": "https://www.snalltaget.se/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "snalltaget.png",
+    "description": "Private Swedish operator running long-distance and night train services between Sweden, Denmark and Germany.",
+    "operatorLabel": "Night train operator"
+  },
+  {
+    "id": "elron",
+    "name": "Elron",
+    "country": "Estonia",
+    "countries": [
+      "Estonia"
+    ],
+    "type": "trains",
+    "website": "https://elron.ee/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "elron.png",
+    "description": "Estonia's national passenger rail operator.",
+    "operatorLabel": "Estonian train operator"
+  },
+  {
+    "id": "ltg_link",
+    "name": "LTG Link",
+    "country": "Lithuania",
+    "countries": [
+      "Lithuania",
+      "Latvia",
+      "Poland"
+    ],
+    "type": "trains",
+    "website": "https://ltglink.lt/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "ltg_link.png",
+    "description": "Lithuania's passenger rail operator providing domestic and international services.",
+    "operatorLabel": "Lithuanian train operator"
+  },
+  {
+    "id": "vivi",
+    "name": "Vivi",
+    "country": "Latvia",
+    "countries": [
+      "Latvia",
+      "Estonia",
+      "Lithuania"
+    ],
+    "type": "trains",
+    "website": "https://www.vivi.lv/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "vivi.png",
+    "description": "Latvian passenger train operator formerly known as Pasažieru vilciens.",
+    "operatorLabel": "Latvian train operator"
+  }
+,
+  {
+    "id": "zssk",
+    "name": "ZSSK",
+    "country": "Slovakia",
+    "countries": [
+      "Slovakia",
+      "Czechia",
+      "Austria",
+      "Hungary",
+      "Poland"
+    ],
+    "type": "trains",
+    "website": "https://www.zssk.sk/en/",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "zssk.png",
+    "description": "Slovakia's national passenger rail operator providing domestic and international train services.",
+    "operatorLabel": "Slovak national train operator"
+  },
+  {
+    "id": "bdz",
+    "name": "BDZ",
+    "country": "Bulgaria",
+    "countries": [
+      "Bulgaria"
+    ],
+    "type": "trains",
+    "website": "https://www.bdz.bg/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "bdz.png",
+    "description": "Bulgarian State Railways operating domestic and limited international passenger services.",
+    "operatorLabel": "Bulgarian national train operator"
+  },
+  {
+    "id": "hzpp",
+    "name": "HŽPP",
+    "country": "Croatia",
+    "countries": [
+      "Croatia",
+      "Slovenia",
+      "Hungary",
+      "Austria"
+    ],
+    "type": "trains",
+    "website": "https://www.hzpp.hr/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "hzpp.png",
+    "description": "Croatia's national passenger rail operator providing domestic and cross-border services.",
+    "operatorLabel": "Croatian national train operator"
+  },
+  {
+    "id": "sz",
+    "name": "Slovenian Railways",
+    "country": "Slovenia",
+    "countries": [
+      "Slovenia",
+      "Austria",
+      "Italy",
+      "Croatia",
+      "Hungary"
+    ],
+    "type": "trains",
+    "website": "https://potniski.sz.si/en/",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "sz.png",
+    "description": "Slovenia's national railway operator offering domestic and international train services.",
+    "operatorLabel": "Slovenian national train operator"
+  },
+  {
+    "id": "inlandsbanan",
+    "name": "Inlandsbanan",
+    "country": "Sweden",
+    "countries": [
+      "Sweden"
+    ],
+    "type": "trains",
+    "website": "https://www.inlandsbanan.se/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "inlandsbanan.png",
+    "description": "Swedish regional and tourist railway operator running scenic routes through inland Sweden.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "oresundstag",
+    "name": "Öresundståg",
+    "country": "Denmark",
+    "countries": [
+      "Denmark",
+      "Sweden"
+    ],
+    "type": "trains",
+    "website": "https://www.oresundstag.se/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "oresundstag.png",
+    "description": "Cross-border regional train operator connecting Denmark and southern Sweden.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "flytoget",
+    "name": "Flytoget",
+    "country": "Norway",
+    "countries": [
+      "Norway"
+    ],
+    "type": "trains",
+    "website": "https://flytoget.no/en/",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "flytoget.png",
+    "description": "Airport express train connecting Oslo Airport with central Oslo.",
+    "operatorLabel": "Airport train operator"
+  },
+  {
+    "id": "trenord",
+    "name": "Trenord",
+    "country": "Italy",
+    "countries": ["Italy"],
+    "type": "trains",
+    "website": "https://www.trenord.it/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "trenord.png",
+    "description": "Regional railway operator in Lombardy (Milan area), operating commuter and regional train services.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "tper",
+    "name": "TPER",
+    "country": "Italy",
+    "countries": ["Italy"],
+    "type": "trains",
+    "website": "https://www.tper.it",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "tper.png",
+    "description": "Regional rail operator in Emilia-Romagna, providing local train services.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "bls",
+    "name": "BLS",
+    "country": "Switzerland",
+    "countries": ["Switzerland"],
+    "type": "trains",
+    "website": "https://www.bls.ch/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "bls.png",
+    "description": "Major Swiss regional railway operator complementing SBB services.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "rhb",
+    "name": "Rähtische Bahn",
+    "country": "Switzerland",
+    "countries": ["Switzerland"],
+    "type": "trains",
+    "website": "https://www.rhb.ch/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "rhb.png",
+    "description": "Rhätische Bahn operates scenic mountain railways including the Glacier Express and Bernina Express routes.",
+    "operatorLabel": "Scenic train operator"
+  },
+  {
+    "id": "zentralbahn",
+    "name": "Zentralbahn",
+    "country": "Switzerland",
+    "countries": ["Switzerland"],
+    "type": "trains",
+    "website": "https://www.zentralbahn.ch/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "zentralbahn.png",
+    "description": "Swiss regional railway operating scenic routes between Lucerne and Interlaken.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "thurbo",
+    "name": "THURBO",
+    "country": "Switzerland",
+    "countries": ["Switzerland"],
+    "type": "trains",
+    "website": "https://www.thurbo.ch",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "thurbo.png",
+    "description": "Regional train operator in northeastern Switzerland.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "tilo",
+    "name": "TILO",
+    "country": "Switzerland",
+    "countries": ["Switzerland", "Italy"],
+    "type": "trains",
+    "website": "https://www.tilo.ch/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "tilo.png",
+    "description": "Cross-border regional rail operator between southern Switzerland and northern Italy.",
+    "operatorLabel": "Regional train operator"
+  },
+  {
+    "id": "matterhorn_gotthard_bahn",
+    "name": "Matterhorn Gotthard Bahn",
+    "country": "Switzerland",
+    "countries": ["Switzerland"],
+    "type": "trains",
+    "website": "https://www.matterhorngotthardbahn.ch/en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "mgb.png",
+    "description": "Mountain railway operator connecting Zermatt, Andermatt and Disentis, part of Glacier Express route.",
+    "operatorLabel": "Scenic train operator"
+  },
+  {
+    "id": "arlanda_express",
+    "name": "Arlanda Express",
+    "country": "Sweden",
+    "countries": ["Sweden"],
+    "type": "trains",
+    "website": "https://www.arlandaexpress.com",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "arlanda_express.png",
+    "description": "High-speed airport train connecting Stockholm and Arlanda Airport.",
+    "operatorLabel": "Airport train operator"
+  },
+  {
+    "id": "hsh",
+    "name": "hsh (Albanian Railways)",
+    "country": "Albania",
+    "countries": ["Albania"],
+    "type": "trains",
+    "website": "https://hekurudha.al/transporti-hekurudhor/?lang=en",
+    "appLinks": {
+      "android": "",
+      "ios": ""
+    },
+    "logo": "hsh.png",
+    "description": "Albania's national railway operator with limited passenger services.",
+    "operatorLabel": "National train operator"
+  },
     {
       "id": "eurostar",
       "name": "Eurostar",
@@ -170,7 +830,7 @@
       "operatorLabel": "Budget train operator"
     },
   {
-      "id": "fixtrain",
+      "id": "flixtrain",
       "name": "FlixTrain",
       "country": "Germany",
       "countries": [
@@ -195,8 +855,6 @@
         "Belgium",
         "Germany",
         "Czechia",
-        "Italy",
-        "Switzerland",
         "France"
       ],
       "type": "trains",
