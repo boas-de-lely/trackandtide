@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stations - Track & Tide</title>
+<link rel="icon" href="icon.png" />
+<style>
+:root {
+  --bg: #1f2937;
+  --panel: rgba(31,41,55,0.75);
+  --text: #ffffff;
+  --border: rgba(255,255,255,0.08);
+  --hover: #60a5fa;
+  --active: #3b82f6;
+}
+
+:root.light {
+  --bg: #d5d9e2;
+  --panel: #f8fafc;
+  --text: #111827;
+  --border: rgba(15,23,42,0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 14px 20px;
+}
+
+header img {
+  width: 200px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.main-nav a,
+.toggle {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  opacity: 0.8;
+  border: 1px solid transparent;
+}
+
+.main-nav a:hover,
+.main-nav a.active,
+.toggle {
+  opacity: 1;
+  background: var(--panel);
+  border-color: var(--border);
+}
+
+.toggle {
+  cursor: pointer;
+}
+
+main {
+  padding: 1rem;
+}
+
+.page-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.filters,
+.results-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+}
+
+.filters {
+  position: sticky;
+  top: 1rem;
+  padding: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.filters h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.82rem;
+  opacity: 0.76;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.75rem;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  font: inherit;
+}
+
+option {
+  color: #111827;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.stat {
+  padding: 0.65rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.2rem;
+}
+
+.stat span {
+  font-size: 0.78rem;
+  opacity: 0.72;
+}
+
+.results-panel {
+  overflow: hidden;
+}
+
+.results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.station-list {
+  display: grid;
+}
+
+.station-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.station-row:last-child {
+  border-bottom: none;
+}
+
+.station-name {
+  font-weight: 750;
+}
+
+.station-meta {
+  margin-top: 0.25rem;
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  color: var(--text);
+  opacity: 0.76;
+  font-size: 0.88rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.5rem;
+  background: rgba(255,255,255,0.08);
+}
+
+.source-wikidata {
+  color: #34d399;
+}
+
+.source-osm {
+  color: #fbbf24;
+}
+
+.source-link {
+  color: var(--hover);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.empty {
+  padding: 2rem;
+  opacity: 0.76;
+}
+
+@media (max-width: 900px) {
+  header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .main-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .page-shell {
+    grid-template-columns: 1fr;
+  }
+  .filters {
+    position: static;
+  }
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .station-row {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <img id="logo" src="trackandtide logo full.png" alt="Track & Tide" />
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="./">Map</a>
+    <a href="stations" class="active">Stations</a>
+    <a href="operators">Operators</a>
+  </nav>
+  <div class="toggle" id="themeToggle">Light mode</div>
+</header>
+
+<main>
+  <div class="page-shell">
+    <aside class="filters">
+      <h1>Stations</h1>
+      <div class="field">
+        <label for="searchInput">Search</label>
+        <input id="searchInput" type="search" placeholder="Station, operator, country" />
+      </div>
+      <div class="field">
+        <label for="countryFilter">Country</label>
+        <select id="countryFilter"></select>
+      </div>
+      <div class="field">
+        <label for="sourceFilter">Source</label>
+        <select id="sourceFilter">
+          <option value="">All sources</option>
+          <option value="wikidata">Wikidata</option>
+          <option value="osm">OpenStreetMap</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="operatorFilter">Operator</label>
+        <select id="operatorFilter"></select>
+      </div>
+      <div class="field">
+        <label for="sortFilter">Sort</label>
+        <select id="sortFilter">
+          <option value="name">Name</option>
+          <option value="country">Country</option>
+          <option value="source">Source</option>
+        </select>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="totalStat">0</strong><span>Total</span></div>
+        <div class="stat"><strong id="wikidataStat">0</strong><span>Wikidata</span></div>
+        <div class="stat"><strong id="osmStat">0</strong><span>OSM</span></div>
+      </div>
+    </aside>
+
+    <section class="results-panel">
+      <div class="results-head">
+        <h2 id="resultTitle">Stations</h2>
+        <span id="generatedAt"></span>
+      </div>
+      <div class="station-list" id="stationList"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+const root = document.documentElement;
+const toggle = document.getElementById("themeToggle");
+const logo = document.getElementById("logo");
+const searchInput = document.getElementById("searchInput");
+const countryFilter = document.getElementById("countryFilter");
+const sourceFilter = document.getElementById("sourceFilter");
+const operatorFilter = document.getElementById("operatorFilter");
+const sortFilter = document.getElementById("sortFilter");
+const stationList = document.getElementById("stationList");
+const resultTitle = document.getElementById("resultTitle");
+const generatedAt = document.getElementById("generatedAt");
+const totalStat = document.getElementById("totalStat");
+const wikidataStat = document.getElementById("wikidataStat");
+const osmStat = document.getElementById("osmStat");
+let stations = [];
+
+function setTheme(mode) {
+  if (mode === "light") root.classList.add("light");
+  else root.classList.remove("light");
+  localStorage.setItem("trackandtide:theme", mode);
+  toggle.textContent = root.classList.contains("light") ? "Dark mode" : "Light mode";
+  logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
+}
+
+function detectTheme() {
+  const savedTheme = localStorage.getItem("trackandtide:theme");
+  if (savedTheme) return savedTheme;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+toggle.onclick = () => setTheme(root.classList.contains("light") ? "dark" : "light");
+setTheme(detectTheme());
+
+function escapeHTML(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function unique(values) {
+  return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+
+function stationSourceLabel(source) {
+  return source === "osm" ? "OpenStreetMap" : "Wikidata";
+}
+
+function buildFilters() {
+  const countries = unique(stations.map(station => station.country));
+  countryFilter.innerHTML = `<option value="">All countries</option>${countries.map(country => `<option>${escapeHTML(country)}</option>`).join("")}`;
+
+  updateOperatorFilter();
+}
+
+function updateOperatorFilter() {
+  const selectedOperator = operatorFilter.value;
+  const country = countryFilter.value;
+  const operators = unique(stations
+    .filter(station => !country || station.country === country)
+    .flatMap(station => station.operators || []));
+
+  operatorFilter.innerHTML = `<option value="">All operators</option>${operators.map(operator => `<option>${escapeHTML(operator)}</option>`).join("")}`;
+  operatorFilter.value = operators.includes(selectedOperator) ? selectedOperator : "";
+}
+
+function getFilteredStations() {
+  const query = searchInput.value.trim().toLowerCase();
+  const country = countryFilter.value;
+  const source = sourceFilter.value;
+  const operator = operatorFilter.value;
+
+  return stations
+    .filter(station => {
+      const haystack = [
+        station.name,
+        station.country,
+        station.source,
+        ...(station.operators || [])
+      ].join(" ").toLowerCase();
+
+      return (!query || haystack.includes(query)) &&
+        (!country || station.country === country) &&
+        (!source || station.source === source) &&
+        (!operator || station.operators?.includes(operator));
+    })
+    .sort((a, b) => {
+      if (sortFilter.value === "country") return a.country.localeCompare(b.country) || a.name.localeCompare(b.name);
+      if (sortFilter.value === "source") return a.source.localeCompare(b.source) || a.name.localeCompare(b.name);
+      return a.name.localeCompare(b.name);
+    });
+}
+
+function render() {
+  const filtered = getFilteredStations();
+  const capped = filtered.slice(0, 500);
+  const wikidataCount = filtered.filter(station => station.source === "wikidata").length;
+  const osmCount = filtered.filter(station => station.source === "osm").length;
+
+  totalStat.textContent = filtered.length.toLocaleString();
+  wikidataStat.textContent = wikidataCount.toLocaleString();
+  osmStat.textContent = osmCount.toLocaleString();
+  resultTitle.textContent = `${filtered.length.toLocaleString()} stations`;
+
+  stationList.innerHTML = capped.length ? capped.map(station => `
+    <article class="station-row">
+      <div>
+        <div class="station-name">${escapeHTML(station.name)}</div>
+        <div class="station-meta">
+          <span class="pill">${escapeHTML(station.country)}</span>
+          <span class="pill ${station.source === "osm" ? "source-osm" : "source-wikidata"}">${stationSourceLabel(station.source)}</span>
+          ${(station.operators || []).slice(0, 3).map(operator => `<span class="pill">${escapeHTML(operator)}</span>`).join("")}
+        </div>
+      </div>
+      <a class="source-link" href="${escapeHTML(station.url)}" target="_blank" rel="noopener">Source</a>
+    </article>
+  `).join("") + (filtered.length > capped.length ? `<div class="empty">Showing first ${capped.length.toLocaleString()} results. Narrow the filters to see more.</div>` : "") : `<div class="empty">No stations match these filters.</div>`;
+}
+
+Promise.all([
+  fetch("./stations.json").then(response => response.json())
+]).then(([data]) => {
+  stations = Object.values(data.countries || {}).flatMap(country =>
+    (country.stations || []).map(station => ({
+      ...station,
+      country: country.country
+    }))
+  );
+
+  generatedAt.textContent = data.generatedAt ? `Updated ${new Date(data.generatedAt).toLocaleDateString()}` : "";
+  buildFilters();
+  render();
+});
+
+[searchInput, countryFilter, sourceFilter, operatorFilter, sortFilter].forEach(control => {
+  control.addEventListener("input", render);
+});
+
+countryFilter.addEventListener("change", () => {
+  updateOperatorFilter();
+  render();
+});
+</script>
+</body>
+</html>

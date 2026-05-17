@@ -21,9 +21,9 @@
 
 :root.light {
   --bg: #d5d9e2;
-  --panel: rgba(255,255,255,0.85);
+  --panel: #f8fafc;
   --text: #111827;
-  --border: rgba(0,0,0,0.06);
+  --border: rgba(15,23,42,0.16);
 }
 
 html,
@@ -40,11 +40,35 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   padding: 14px 20px;
 }
 
 header img {
   width: 200px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.main-nav a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  opacity: 0.78;
+  border: 1px solid transparent;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  opacity: 1;
+  background: var(--panel);
+  border-color: var(--border);
 }
 
 /* TOGGLE */
@@ -87,6 +111,7 @@ header img {
   max-height: calc(100vh - 140px);
   overflow-y: auto;
   transition: max-height 0.25s ease;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.12);
 }
 
 /* MOBILE */
@@ -94,20 +119,32 @@ header img {
   .container {
     grid-template-columns: 1fr;
   }
+  header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .main-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
   .map-column {
     position: sticky;
     top: 0;
     z-index: 2;
-    height: 50vh;
+    height: auto;
     align-self: auto;
   }
   #map {
-    height: 50vh;
+    height: 46vh;
     border-radius: 0;
+  }
+  .station-toggle {
+    margin: 0;
   }
   .sidebar {
     position: relative;
-    max-height: calc(100vh - 50vh - 1.5rem);
+    max-height: calc(100vh - 46vh - 3.5rem);
     overflow-y: auto;
     border-radius: 20px 20px 0 0;
     border-bottom: none;
@@ -123,6 +160,10 @@ header img {
   border-radius: 14px;
   margin-bottom: 10px;
   overflow: hidden;
+}
+
+:root.light .card {
+  background: rgba(15,23,42,0.04);
 }
 
 .card summary {
@@ -183,10 +224,17 @@ header img {
 }
 
 .country-description {
-  margin: 0.6rem 0 1rem;
+  margin: 0.6rem 0 0.55rem;
   color: var(--text);
   opacity: 0.82;
   line-height: 1.6;
+}
+
+.station-count {
+  margin: 0 0 1rem;
+  color: var(--text);
+  opacity: 0.72;
+  font-size: 0.92rem;
 }
 
 .ferry-route-panel {
@@ -236,6 +284,59 @@ header img {
   color: var(--text);
   opacity: 0.85;
   font-size: 0.95rem;
+}
+
+.station-toggle {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin-top: 0.35rem;
+  padding: 0.2rem 0.05rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.station-toggle input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #10b981;
+  cursor: pointer;
+}
+
+.station-toggle input:disabled,
+.station-toggle input:disabled ~ .station-toggle-text {
+  opacity: 0.45;
+}
+
+.station-toggle-title {
+  display: block;
+  font-weight: 700;
+}
+
+.station-detail {
+  margin-bottom: 1rem;
+  padding: 0.85rem;
+  border-radius: 14px;
+  border: 1px solid rgba(16,185,129,0.35);
+  background: rgba(16,185,129,0.12);
+}
+
+.station-detail h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+}
+
+.station-detail p {
+  margin: 0.25rem 0;
+  color: var(--text);
+  opacity: 0.84;
+  font-size: 0.92rem;
+}
+
+.station-detail a {
+  color: var(--hover);
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .operator-routes h4 {
@@ -313,12 +414,23 @@ header img {
 
 <header>
   <img id="logo" src="trackandtide logo full.png" />
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="./" class="active">Map</a>
+    <a href="stations">Stations</a>
+    <a href="operators">Operators</a>
+  </nav>
   <div class="toggle" id="themeToggle">Light mode</div>
 </header>
 
 <div class="container">
   <div class="map-column">
     <div id="map"></div>
+    <label class="station-toggle">
+      <input type="checkbox" id="stationToggle" disabled />
+      <span class="station-toggle-text">
+        <span class="station-toggle-title">Show stations</span>
+      </span>
+    </label>
   </div>
 
   <div class="sidebar" id="sidebar">
@@ -340,10 +452,12 @@ const root = document.documentElement;
 const toggle = document.getElementById("themeToggle");
 const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebarContent");
+const stationToggle = document.getElementById("stationToggle");
 
 function setTheme(mode) {
   if (mode === "light") root.classList.add("light");
   else root.classList.remove("light");
+  localStorage.setItem("trackandtide:theme", mode);
 
   toggle.textContent = root.classList.contains("light")
     ? "Dark mode"
@@ -356,6 +470,8 @@ function setTheme(mode) {
 }
 
 function detectTheme() {
+  const savedTheme = localStorage.getItem("trackandtide:theme");
+  if (savedTheme) return savedTheme;
   return window.matchMedia('(prefers-color-scheme: light)').matches ? "light" : "dark";
 }
 
@@ -410,6 +526,14 @@ let ferryLines = [];
 let ferryRouteLines = [];
 let selectedFerryRouteName = null;
 let ferryLineOffset = 0;
+let visibleFerryRoutes = [];
+let stationLayer = null;
+let activeStationsCountry = null;
+let currentSelectedCountry = null;
+let stationDataset = { countries: {} };
+const stationDataCache = {};
+let stationLoadToken = 0;
+let selectedStationMarker = null;
 
 function isMobileViewport() {
   return window.matchMedia("(max-width: 900px)").matches;
@@ -452,6 +576,264 @@ function clearFerryRouteLines() {
   });
   ferryRouteLines = [];
   selectedFerryRouteName = null;
+}
+
+function clearStations() {
+  if (stationLayer && map.hasLayer(stationLayer)) {
+    map.removeLayer(stationLayer);
+  }
+  stationLayer = null;
+  activeStationsCountry = null;
+  selectedStationMarker = null;
+}
+
+function getStationCount(source) {
+  return source?.counts?.total || source?.stations?.length || 0;
+}
+
+function getStationSource(countryName) {
+  return stationDataset.countries?.[countryName] || null;
+}
+
+function cleanStationName(name) {
+  return String(name || "")
+    .replace(/\s+/g, " ")
+    .replace(/^station\s+/i, "")
+    .replace(/\s+station$/i, "")
+    .replace(/\s+railway station$/i, "")
+    .trim();
+}
+
+function getStationMarkerStyle(source) {
+  if (source === "osm") {
+    return {
+      color: currentTheme === "light" ? "#92400e" : "#fbbf24",
+      fillColor: currentTheme === "light" ? "#f59e0b" : "#f59e0b"
+    };
+  }
+
+  return {
+    color: currentTheme === "light" ? "#065f46" : "#6ee7b7",
+    fillColor: currentTheme === "light" ? "#10b981" : "#34d399"
+  };
+}
+
+function getStationMarkerOptions(station, selected = false) {
+  const markerStyle = getStationMarkerStyle(station.source);
+
+  return {
+    radius: selected ? 7 : 5,
+    color: selected ? "#ffffff" : markerStyle.color,
+    weight: selected ? 3 : 2,
+    fillColor: markerStyle.fillColor,
+    fillOpacity: selected ? 1 : 0.92,
+    opacity: 1
+  };
+}
+
+function getStationHitAreaOptions() {
+  return {
+    radius: 14,
+    color: "#ffffff",
+    weight: 0,
+    opacity: 0,
+    fillOpacity: 0,
+    interactive: true
+  };
+}
+
+function getStationSourceUrl(station) {
+  if (station.source === "wikidata") return station.url || station.id;
+
+  return station.url || "https://www.openstreetmap.org";
+}
+
+function renderStationDetail(station) {
+  const panel = document.getElementById("stationDetailPanel");
+  if (!panel) return;
+
+  const operators = station.operators?.length
+    ? `<p>Operator: ${escapeHTML(station.operators.join(", "))}</p>`
+    : "";
+  const sourceLabel = station.source === "osm" ? "OpenStreetMap" : "Wikidata";
+  const sourceUrl = getStationSourceUrl(station);
+
+  panel.innerHTML = `
+    <div class="station-detail">
+      <h3>${escapeHTML(station.name)}</h3>
+      ${operators}
+      <p><a href="${escapeHTML(sourceUrl)}" target="_blank" rel="noopener">${sourceLabel} source</a></p>
+    </div>
+  `;
+
+  scrollSidebarIntoView();
+}
+
+function selectStationMarker(marker, station) {
+  if (selectedStationMarker && selectedStationMarker.setStyle) {
+    selectedStationMarker.setStyle(getStationMarkerOptions(selectedStationMarker.stationData));
+  }
+
+  selectedStationMarker = marker;
+  selectedStationMarker.stationData = station;
+  marker.setStyle(getStationMarkerOptions(station, true));
+  marker.bringToFront();
+  renderStationDetail(station);
+}
+
+function clearStationDetail() {
+  const panel = document.getElementById("stationDetailPanel");
+  if (panel) panel.innerHTML = "";
+}
+
+function updateStationToggle() {
+  const source = getStationSource(currentSelectedCountry);
+
+  stationToggle.disabled = !source;
+}
+
+async function syncStationLayerForSelectedCountry() {
+  const countryName = currentSelectedCountry;
+  const source = getStationSource(countryName);
+  const token = ++stationLoadToken;
+
+  clearStationDetail();
+
+  if (!countryName || !source || !stationToggle.checked) {
+    clearStations();
+    updateStationToggle();
+    return;
+  }
+
+  stationToggle.disabled = true;
+
+  try {
+    const stations = await loadStations(countryName);
+    if (token !== stationLoadToken || currentSelectedCountry !== countryName || !stationToggle.checked) return;
+
+    renderStations(countryName, stations);
+  } catch (error) {
+    console.error(error);
+    clearStations();
+  } finally {
+    if (token === stationLoadToken) {
+      stationToggle.disabled = !getStationSource(currentSelectedCountry);
+    }
+  }
+}
+
+async function loadStations(countryName) {
+  if (stationDataCache[countryName]) return stationDataCache[countryName];
+
+  const source = getStationSource(countryName);
+  if (!source) return [];
+
+  const stations = (source.stations || [])
+    .map(station => ({
+      ...station,
+      name: cleanStationName(station.name),
+      lat: Number(station.lat),
+      lng: Number(station.lng),
+      operators: Array.isArray(station.operators) ? station.operators : []
+    }))
+    .filter(station =>
+      station.name &&
+      Number.isFinite(station.lat) &&
+      Number.isFinite(station.lng)
+    );
+
+  stationDataCache[countryName] = stations;
+  return stations;
+}
+
+function renderStations(countryName, stations) {
+  clearStations();
+
+  stationLayer = L.layerGroup();
+
+  stations.forEach(station => {
+    const marker = L.circleMarker([station.lat, station.lng], {
+      ...getStationMarkerOptions(station),
+      interactive: false
+    });
+    marker.stationData = station;
+
+    const hitArea = L.circleMarker([station.lat, station.lng], getStationHitAreaOptions());
+
+    marker.addTo(stationLayer);
+    hitArea.bindTooltip(escapeHTML(station.name), { direction: "top", opacity: 0.9 });
+    hitArea.on("click", () => selectStationMarker(marker, station));
+    hitArea.addTo(stationLayer);
+  });
+
+  stationLayer.addTo(map);
+  activeStationsCountry = countryName;
+}
+
+stationToggle.addEventListener("change", () => {
+  syncStationLayerForSelectedCountry();
+});
+
+function getFerryLineStyle() {
+  return {
+    color: currentTheme === "light" ? "#0066cc" : "#38bdf8",
+    opacity: currentTheme === "light" ? 0.4 : 0.18
+  };
+}
+
+function clearFerryLines() {
+  ferryLines.forEach(line => {
+    if (map.hasLayer(line)) map.removeLayer(line);
+  });
+  ferryLines = [];
+}
+
+function setVisibleFerryRoutes(routes) {
+  clearFerryLines();
+  visibleFerryRoutes = routes || [];
+
+  const ferryStyle = getFerryLineStyle();
+
+  visibleFerryRoutes.forEach(route => {
+    const curvedCoords = getCurvedRouteCoords(route.coords);
+
+    const visibleLine = L.polyline(curvedCoords, {
+      color: ferryStyle.color,
+      weight: 3,
+      opacity: ferryStyle.opacity,
+      dashArray: "8,12",
+      lineCap: "round",
+      lineJoin: "round",
+      smoothFactor: 1.5,
+      interactive: false
+    }).addTo(map);
+
+    const clickLine = L.polyline(curvedCoords, {
+      color: ferryStyle.color,
+      weight: 24,
+      opacity: 0,
+      interactive: true
+    }).addTo(map);
+
+    clickLine.on("click", () => {
+      showFerryRoute(route, false);
+
+      document.querySelectorAll(".route-item").forEach(item => {
+        item.classList.toggle("active", item.dataset.routeName === route.name);
+      });
+
+      const routeButton = Array.from(document.querySelectorAll(".route-item"))
+        .find(item => item.dataset.routeName === route.name);
+      const operatorName = routeButton?.dataset.operator || route.operator;
+      const operatorCard = Array.from(document.querySelectorAll(".card[data-operator]"))
+        .find(card => card.dataset.operator === operatorName);
+
+      if (operatorCard) operatorCard.open = true;
+      setTimeout(scrollToActiveRoute, 240);
+    });
+
+    ferryLines.push(visibleLine, clickLine);
+  });
 }
 
 function degreesToRadians(deg) {
@@ -617,12 +999,15 @@ const countryZoomConfig = {
 Promise.all([
   fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson").then(r => r.json()),
   fetch("./data.json").then(r => r.json()),
-  fetch("./ferries.json").then(r => r.json())
+  fetch("./ferries.json").then(r => r.json()),
+  fetch("./stations.json")
+    .then(r => r.ok ? r.json() : { countries: {} })
+    .catch(() => ({ countries: {} }))
 ])
-.then(([geo, data, ferries]) => {
+.then(([geo, data, ferries, stations]) => {
 
   countryData = data;
-  let selectedRouteOnMapClick = null;
+  stationDataset = stations || { countries: {} };
 
   const geoLayer = L.geoJSON(geo, {
 
@@ -643,6 +1028,12 @@ Promise.all([
           "Unknown";
 
         const normalized = norm(geoName);
+        const stationSource = getStationSource(geoName);
+        currentSelectedCountry = geoName;
+
+        if (activeStationsCountry && activeStationsCountry !== geoName) {
+          clearStations();
+        }
 
         /* MATCH */
         const operators = (countryData.operators || []).filter(op => {
@@ -668,6 +1059,8 @@ Promise.all([
         const routeMatches = ferries.routes.filter(route =>
           route.countries?.some(country => norm(country) === normalized)
         );
+
+        setVisibleFerryRoutes(routeMatches);
 
         const operatorRouteMap = {};
         routeMatches.forEach(route => {
@@ -704,11 +1097,16 @@ Promise.all([
 
         const countryInfo = countryData.countryInfo?.find(c => c.country === geoName);
         const countryDescription = countryInfo?.info || "";
-        const routeCountries = [...new Set(routeMatches.flatMap(route => route.countries || []))];
+        const stationCount = getStationCount(stationSource);
+        const stationBreakdown = stationSource?.counts
+          ? `${stationSource.counts.wikidata.toLocaleString()} Wikidata, ${stationSource.counts.osm.toLocaleString()} OSM`
+          : "";
 
         sidebarContent.innerHTML = `
+          <div id="stationDetailPanel"></div>
           <h2>${geoName}</h2>
           ${countryDescription ? `<p class="country-description">${escapeHTML(countryDescription)}</p>` : ""}
+          ${stationSource ? `<p class="station-count">${stationCount.toLocaleString()} active stations in dataset${stationBreakdown ? ` (${escapeHTML(stationBreakdown)})` : ""}</p>` : ""}
 
           ${trains.length ? "<h3>Trains</h3>" : ""}
           ${trains.map(op => renderOperatorCard(op)).join("")}
@@ -738,6 +1136,9 @@ Promise.all([
           });
         });
 
+        updateStationToggle();
+        syncStationLayerForSelectedCountry();
+
         clearFerryRouteLines();
 
         /* HIGHLIGHT */
@@ -760,23 +1161,21 @@ Promise.all([
           feature.properties.name ||
           "Unknown";
 
-        if (!selectedRouteOnMapClick) {
-          // check custom config
-          const zoomConfig = countryZoomConfig[geoName];
+        // check custom config
+        const zoomConfig = countryZoomConfig[geoName];
 
-          if (zoomConfig) {
-            map.flyTo(zoomConfig.center, zoomConfig.zoom, {
-              duration: 0.9
-            });
-          } else {
-            // fallback (safe bounding box)
-            const bounds = layer.getBounds();
+        if (zoomConfig) {
+          map.flyTo(zoomConfig.center, zoomConfig.zoom, {
+            duration: 0.9
+          });
+        } else {
+          // fallback (safe bounding box)
+          const bounds = layer.getBounds();
 
-            map.fitBounds(bounds, {
-              padding: [30, 30],
-              maxZoom: 6
-            });
-          }
+          map.fitBounds(bounds, {
+            padding: [30, 30],
+            maxZoom: 6
+          });
         }
 
         } catch (e) {
@@ -795,63 +1194,7 @@ Promise.all([
   /* =========================
      FERRY ROUTES
   ========================= */
-  ferries.routes.forEach(route => {
-    const ferryColor = currentTheme === "light" ? "#0066cc" : "#38bdf8";
-    const ferryOpacity = currentTheme === "light" ? 0.4 : 0.18;
-
-    const visibleLine = L.polyline(getCurvedRouteCoords(route.coords), {
-      color: ferryColor,
-      weight: 3,
-      opacity: ferryOpacity,
-      dashArray: "8,12",
-      lineCap: "round",
-      lineJoin: "round",
-      smoothFactor: 1.5,
-      interactive: false
-    }).addTo(map);
-
-    const clickLine = L.polyline(getCurvedRouteCoords(route.coords), {
-      color: ferryColor,
-      weight: 24,
-      opacity: 0,
-      interactive: true
-    }).addTo(map);
-
-    clickLine.on('click', () => {
-      showFerryRoute(route, false);
-      selectedRouteOnMapClick = route;
-      
-      const countryName = route.countries?.[0];
-      if (countryName) {
-        const geoLayers = Object.values(map._layers).filter(layer =>
-          layer.feature && layer.feature.properties
-        );
-        
-        const matchingGeoLayer = geoLayers.find(layer => {
-          const gName = layer.feature.properties.ADMIN ||
-                        layer.feature.properties.NAME ||
-                        layer.feature.properties.name;
-          return gName && norm(gName) === norm(countryName);
-        });
-
-        if (matchingGeoLayer) {
-          matchingGeoLayer.fire('click');
-          
-          setTimeout(() => {
-            const routeBtn = Array.from(document.querySelectorAll(".route-item")).find(btn =>
-              btn.dataset.routeName === route.name
-            );
-            if (routeBtn) {
-              routeBtn.click();
-            }
-            selectedRouteOnMapClick = null;
-          }, 150);
-        }
-      }
-    });
-
-    ferryLines.push(visibleLine, clickLine);
-  });
+  setVisibleFerryRoutes([]);
 
   setInterval(() => {
     ferryLineOffset++;

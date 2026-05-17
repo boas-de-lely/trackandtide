@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Operators - Track & Tide</title>
+<link rel="icon" href="icon.png" />
+<style>
+:root {
+  --bg: #1f2937;
+  --panel: rgba(31,41,55,0.75);
+  --text: #ffffff;
+  --border: rgba(255,255,255,0.08);
+  --hover: #60a5fa;
+  --active: #3b82f6;
+}
+
+:root.light {
+  --bg: #d5d9e2;
+  --panel: #f8fafc;
+  --text: #111827;
+  --border: rgba(15,23,42,0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 14px 20px;
+}
+
+header img {
+  width: 200px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.main-nav a,
+.toggle {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  opacity: 0.8;
+  border: 1px solid transparent;
+}
+
+.main-nav a:hover,
+.main-nav a.active,
+.toggle {
+  opacity: 1;
+  background: var(--panel);
+  border-color: var(--border);
+}
+
+.toggle {
+  cursor: pointer;
+}
+
+main {
+  padding: 1rem;
+}
+
+.page-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.filters,
+.results-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+}
+
+.filters {
+  position: sticky;
+  top: 1rem;
+  padding: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.filters h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.82rem;
+  opacity: 0.76;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.75rem;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  font: inherit;
+}
+
+option {
+  color: #111827;
+}
+
+.check-row {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.check-row input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--active);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.stat {
+  padding: 0.65rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.2rem;
+}
+
+.stat span {
+  font-size: 0.78rem;
+  opacity: 0.72;
+}
+
+.results-panel {
+  overflow: hidden;
+}
+
+.results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.operator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.8rem;
+  padding: 1rem;
+  align-items: start;
+}
+
+.operator-card {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  align-items: start;
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.07);
+}
+
+:root.light .operator-card {
+  background: rgba(15,23,42,0.04);
+}
+
+.operator-top {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.operator-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.12);
+}
+
+.operator-name {
+  font-weight: 800;
+}
+
+.operator-label {
+  margin-top: 0.15rem;
+  opacity: 0.76;
+  font-size: 0.88rem;
+}
+
+.operator-description {
+  margin: 0;
+  line-height: 1.45;
+  opacity: 0.86;
+  font-size: 0.92rem;
+}
+
+.pills {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-self: start;
+}
+
+.pill {
+  flex: 0 1 auto;
+  width: max-content;
+  max-width: 100%;
+  border-radius: 999px;
+  padding: 0.22rem 0.5rem;
+  background: rgba(255,255,255,0.08);
+  font-size: 0.82rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-self: start;
+}
+
+.action-link {
+  flex: 0 0 auto;
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.action-link.primary {
+  background: var(--active);
+}
+
+.empty {
+  padding: 2rem;
+  opacity: 0.76;
+}
+
+@media (max-width: 900px) {
+  header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .main-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .page-shell {
+    grid-template-columns: 1fr;
+  }
+  .filters {
+    position: static;
+  }
+  .operator-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <img id="logo" src="trackandtide logo full.png" alt="Track & Tide" />
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="./">Map</a>
+    <a href="stations">Stations</a>
+    <a href="operators" class="active">Operators</a>
+  </nav>
+  <div class="toggle" id="themeToggle">Light mode</div>
+</header>
+
+<main>
+  <div class="page-shell">
+    <aside class="filters">
+      <h1>Operators</h1>
+      <div class="field">
+        <label for="searchInput">Search</label>
+        <input id="searchInput" type="search" placeholder="Name, description, country" />
+      </div>
+      <div class="field">
+        <label for="countryFilter">Country served</label>
+        <select id="countryFilter"></select>
+      </div>
+      <div class="field">
+        <label for="typeFilter">Type</label>
+        <select id="typeFilter">
+          <option value="">All types</option>
+          <option value="trains">Trains</option>
+          <option value="ferries">Ferries</option>
+        </select>
+      </div>
+      <label class="check-row"><input id="websiteFilter" type="checkbox" /> Has website</label>
+      <label class="check-row"><input id="appFilter" type="checkbox" /> Has app link</label>
+      <div class="field">
+        <label for="sortFilter">Sort</label>
+        <select id="sortFilter">
+          <option value="name">Name</option>
+          <option value="country">Primary country</option>
+          <option value="type">Type</option>
+        </select>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="totalStat">0</strong><span>Total</span></div>
+        <div class="stat"><strong id="trainStat">0</strong><span>Train</span></div>
+        <div class="stat"><strong id="ferryStat">0</strong><span>Ferry</span></div>
+      </div>
+    </aside>
+
+    <section class="results-panel">
+      <div class="results-head">
+        <h2 id="resultTitle">Operators</h2>
+        <span id="countryCount"></span>
+      </div>
+      <div class="operator-grid" id="operatorGrid"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+const root = document.documentElement;
+const toggle = document.getElementById("themeToggle");
+const logo = document.getElementById("logo");
+const searchInput = document.getElementById("searchInput");
+const countryFilter = document.getElementById("countryFilter");
+const typeFilter = document.getElementById("typeFilter");
+const websiteFilter = document.getElementById("websiteFilter");
+const appFilter = document.getElementById("appFilter");
+const sortFilter = document.getElementById("sortFilter");
+const operatorGrid = document.getElementById("operatorGrid");
+const resultTitle = document.getElementById("resultTitle");
+const countryCount = document.getElementById("countryCount");
+const totalStat = document.getElementById("totalStat");
+const trainStat = document.getElementById("trainStat");
+const ferryStat = document.getElementById("ferryStat");
+let operators = [];
+
+function setTheme(mode) {
+  if (mode === "light") root.classList.add("light");
+  else root.classList.remove("light");
+  localStorage.setItem("trackandtide:theme", mode);
+  toggle.textContent = root.classList.contains("light") ? "Dark mode" : "Light mode";
+  logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
+}
+
+function detectTheme() {
+  const savedTheme = localStorage.getItem("trackandtide:theme");
+  if (savedTheme) return savedTheme;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+toggle.onclick = () => setTheme(root.classList.contains("light") ? "dark" : "light");
+setTheme(detectTheme());
+
+function escapeHTML(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function unique(values) {
+  return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+
+function operatorCountries(operator) {
+  return operator.countries || [operator.country].filter(Boolean);
+}
+
+function hasApp(operator) {
+  return Boolean(operator.appLinks?.android || operator.appLinks?.ios);
+}
+
+function buildFilters() {
+  const countries = unique(operators.flatMap(operatorCountries));
+  countryFilter.innerHTML = `<option value="">All countries</option>${countries.map(country => `<option>${escapeHTML(country)}</option>`).join("")}`;
+}
+
+function getFilteredOperators() {
+  const query = searchInput.value.trim().toLowerCase();
+  const country = countryFilter.value;
+  const type = typeFilter.value;
+
+  return operators
+    .filter(operator => {
+      const countries = operatorCountries(operator);
+      const haystack = [
+        operator.name,
+        operator.operatorLabel,
+        operator.description,
+        operator.type,
+        ...countries
+      ].join(" ").toLowerCase();
+
+      return (!query || haystack.includes(query)) &&
+        (!country || countries.includes(country)) &&
+        (!type || operator.type === type) &&
+        (!websiteFilter.checked || Boolean(operator.website)) &&
+        (!appFilter.checked || hasApp(operator));
+    })
+    .sort((a, b) => {
+      if (sortFilter.value === "country") return (a.country || "").localeCompare(b.country || "") || a.name.localeCompare(b.name);
+      if (sortFilter.value === "type") return (a.type || "").localeCompare(b.type || "") || a.name.localeCompare(b.name);
+      return a.name.localeCompare(b.name);
+    });
+}
+
+function render() {
+  const filtered = getFilteredOperators();
+  const trainCount = filtered.filter(operator => operator.type === "trains").length;
+  const ferryCount = filtered.filter(operator => operator.type === "ferries").length;
+  const servedCountries = unique(filtered.flatMap(operatorCountries));
+
+  totalStat.textContent = filtered.length.toLocaleString();
+  trainStat.textContent = trainCount.toLocaleString();
+  ferryStat.textContent = ferryCount.toLocaleString();
+  resultTitle.textContent = `${filtered.length.toLocaleString()} operators`;
+  countryCount.textContent = `${servedCountries.length.toLocaleString()} countries served`;
+
+  operatorGrid.innerHTML = filtered.length ? filtered.map(operator => {
+    const countries = operatorCountries(operator);
+    const visibleCountries = countries.slice(0, 6);
+    return `
+      <article class="operator-card">
+        <div class="operator-top">
+          ${operator.logo ? `<img class="operator-logo" src="operator logos/${escapeHTML(operator.logo)}" alt="${escapeHTML(operator.name)} logo" />` : `<div class="operator-logo"></div>`}
+          <div>
+            <div class="operator-name">${escapeHTML(operator.name)}</div>
+            <div class="operator-label">${escapeHTML(operator.operatorLabel || (operator.type === "trains" ? "Train operator" : "Ferry operator"))}</div>
+          </div>
+        </div>
+        ${operator.description ? `<p class="operator-description">${escapeHTML(operator.description)}</p>` : ""}
+        <div class="pills">
+          <span class="pill">${operator.type === "trains" ? "Trains" : "Ferries"}</span>
+          ${visibleCountries.map(country => `<span class="pill">${escapeHTML(country)}</span>`).join("")}
+          ${countries.length > visibleCountries.length ? `<span class="pill">+${countries.length - visibleCountries.length}</span>` : ""}
+        </div>
+        <div class="actions">
+          ${operator.website ? `<a class="action-link primary" href="${escapeHTML(operator.website)}" target="_blank" rel="noopener">Website</a>` : ""}
+          ${operator.appLinks?.android ? `<a class="action-link" href="${escapeHTML(operator.appLinks.android)}" target="_blank" rel="noopener">Android</a>` : ""}
+          ${operator.appLinks?.ios ? `<a class="action-link" href="${escapeHTML(operator.appLinks.ios)}" target="_blank" rel="noopener">iOS</a>` : ""}
+        </div>
+      </article>
+    `;
+  }).join("") : `<div class="empty">No operators match these filters.</div>`;
+}
+
+fetch("./data.json")
+  .then(response => response.json())
+  .then(data => {
+    operators = data.operators || [];
+    buildFilters();
+    render();
+  });
+
+[searchInput, countryFilter, typeFilter, websiteFilter, appFilter, sortFilter].forEach(control => {
+  control.addEventListener("input", render);
+  control.addEventListener("change", render);
+});
+</script>
+</body>
+</html>
