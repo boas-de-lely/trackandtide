@@ -45,14 +45,12 @@ const countries = [
   { name: "United Kingdom", qid: "Q145", iso: "GB" }
 ];
 
+// -------------------- helpers --------------------
+
 function parsePoint(value) {
   const match = /^Point\(([-\d.]+) ([-\d.]+)\)$/.exec(value || "");
   if (!match) return null;
-
-  return {
-    lng: Number(match[1]),
-    lat: Number(match[2])
-  };
+  return { lng: Number(match[1]), lat: Number(match[2]) };
 }
 
 function cleanStationName(name) {
@@ -81,49 +79,50 @@ function stableId(text) {
     .replace(/^-|-$/g, "");
 }
 
+function distanceMeters(a, b) {
+  const R = 6371000;
+  const lat1 = a.lat * Math.PI / 180;
+  const lat2 = b.lat * Math.PI / 180;
+  const dLat = (b.lat - a.lat) * Math.PI / 180;
+  const dLng = (b.lng - a.lng) * Math.PI / 180;
+
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+
+  return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+
+function namesCompatible(a, b) {
+  const x = stableId(a);
+  const y = stableId(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+
+  const [s, l] = x.length < y.length ? [x, y] : [y, x];
+  return s.length >= 5 && l.includes(s);
+}
+
+function stationKey(station) {
+  return `${stableId(station.name)}:${Math.round(station.lat * 10000)}:${Math.round(station.lng * 10000)}`;
+}
+
+// -------------------- wikidata --------------------
+
+async function fetchJson(url, options = {}) {
+  const res = await fetch(url, options);
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  return res.json();
+}
+
 function wikidataEntityId(url) {
   return String(url || "").split("/").pop();
 }
 
-function stationKey(station) {
-  return `${stableId(station.name)}:${Math.round(station.lat * 1000)}:${Math.round(station.lng * 1000)}`;
-}
-
-function distanceMeters(a, b) {
-  const earthRadius = 6371000;
-  const lat1 = a.lat * Math.PI / 180;
-  const lat2 = b.lat * Math.PI / 180;
-  const deltaLat = (b.lat - a.lat) * Math.PI / 180;
-  const deltaLng = (b.lng - a.lng) * Math.PI / 180;
-  const h =
-    Math.sin(deltaLat / 2) ** 2 +
-    Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLng / 2) ** 2;
-
-  return 2 * earthRadius * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
-}
-
-function namesCompatible(a, b) {
-  const left = stableId(a);
-  const right = stableId(b);
-  if (!left || !right) return false;
-  if (left === right) return true;
-
-  const [shorter, longer] = left.length < right.length ? [left, right] : [right, left];
-  return shorter.length >= 5 && longer.includes(shorter);
-}
-
-async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`);
-  }
-
-  return response.json();
-}
-
 async function fetchWikidataStations(country) {
   const query = `
-    SELECT ?station ?stationLabel ?coord (GROUP_CONCAT(DISTINCT ?operatorLabel; separator=", ") AS ?operators) WHERE {
+    SELECT ?station ?stationLabel ?coord (GROUP_CONCAT(DISTINCT ?operatorLabel; separator=", ") AS ?operators)
+    WHERE {
       ?station wdt:P31 wd:Q55488;
                wdt:P17 wd:${country.qid};
                wdt:P5817 wd:Q55654238;
@@ -131,57 +130,59 @@ async function fetchWikidataStations(country) {
       OPTIONAL { ?station wdt:P137 ?operator. }
       SERVICE wikibase:label {
         bd:serviceParam wikibase:language "nl,en,[AUTO_LANGUAGE]".
-        ?station rdfs:label ?stationLabel.
-        ?operator rdfs:label ?operatorLabel.
       }
     }
     GROUP BY ?station ?stationLabel ?coord
-    ORDER BY ?stationLabel
   `;
 
   const url = `${wikidataSparqlUrl}?format=json&query=${encodeURIComponent(query)}`;
+
   const data = await fetchJson(url, {
     headers: {
       Accept: "application/sparql-results+json",
-      "User-Agent": "TrackAndTide/1.0 station downloader"
+      "User-Agent": "TrackAndTide/1.0"
     }
   });
 
   return (data.results?.bindings || [])
-    .map(binding => {
-      const point = parsePoint(binding.coord?.value);
+    .map(b => {
+      const p = parsePoint(b.coord?.value);
       return {
-        id: binding.station?.value,
-        wikidataId: wikidataEntityId(binding.station?.value),
-        url: binding.station?.value,
+        id: b.station?.value,
+        wikidataId: wikidataEntityId(b.station?.value),
         source: "wikidata",
-        name: cleanStationName(binding.stationLabel?.value),
-        lat: point?.lat,
-        lng: point?.lng,
-        operators: binding.operators?.value
-          ? binding.operators.value.split(", ").filter(Boolean)
-          : []
+        name: cleanStationName(b.stationLabel?.value),
+        lat: p?.lat,
+        lng: p?.lng,
+        operators: b.operators?.value?.split(", ") || []
       };
     })
-    .filter(station =>
-      station.id &&
-      station.name &&
-      !isKilometerMarkerName(station.name) &&
-      isFiniteCoord(station.lat, station.lng)
+    .filter(s =>
+      s.id &&
+      s.name &&
+      !isKilometerMarkerName(s.name) &&
+      isFiniteCoord(s.lat, s.lng)
     );
 }
+
+// -------------------- OSM --------------------
 
 function isUsableOsmStation(tags = {}) {
   if (!tags.name || tags.railway !== "station") return false;
 
-  const excludedValues = new Set(["abandoned", "construction", "disused", "historic", "razed", "proposed"]);
-  const excludedStationTypes = new Set(["subway", "light_rail", "tram", "monorail"]);
+  const bad = new Set(["abandoned", "construction", "disused", "historic", "razed", "proposed"]);
+  const badTypes = new Set(["subway", "light_rail", "tram", "monorail"]);
 
-  if (excludedValues.has(tags.lifecycle)) return false;
-  if (excludedStationTypes.has(tags.station)) return false;
-  if (tags.disused === "yes" || tags.abandoned === "yes" || tags.construction === "yes" || tags.proposed === "yes") return false;
-  if (tags["disused:railway"] || tags["abandoned:railway"] || tags["construction:railway"] || tags["proposed:railway"]) return false;
-  if (tags["railway:preserved"] === "yes") return false;
+  if (bad.has(tags.lifecycle)) return false;
+  if (badTypes.has(tags.station)) return false;
+
+  if (
+    tags.disused === "yes" ||
+    tags.abandoned === "yes" ||
+    tags.construction === "yes" ||
+    tags.proposed === "yes"
+  ) return false;
+
   if (tags.tourism === "museum") return false;
 
   return true;
@@ -190,114 +191,114 @@ function isUsableOsmStation(tags = {}) {
 async function fetchOsmStations(country) {
   const query = `
     [out:json][timeout:180];
-    area["ISO3166-1"="${country.iso}"][admin_level=2]->.searchArea;
+    area["ISO3166-1"="${country.iso}"][admin_level=2]->.a;
     (
-      node["railway"="station"](area.searchArea);
-      way["railway"="station"](area.searchArea);
-      relation["railway"="station"](area.searchArea);
+      node["railway"="station"](area.a);
+      way["railway"="station"](area.a);
+      relation["railway"="station"](area.a);
     );
     out center tags;
   `;
 
   let data;
-  let lastError;
 
   for (const url of overpassUrls) {
     try {
       data = await fetchJson(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "User-Agent": "TrackAndTide/1.0 station downloader"
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": "TrackAndTide/1.0"
         },
         body: new URLSearchParams({ data: query })
       });
       break;
-    } catch (error) {
-      lastError = error;
-      console.warn(`  OSM endpoint failed (${url}): ${error.message}`);
+    } catch (e) {
+      console.warn(`OSM failed ${url}: ${e.message}`);
     }
   }
 
-  if (!data) throw lastError;
+  if (!data) throw new Error("All OSM endpoints failed");
 
   return (data.elements || [])
-    .filter(element => isUsableOsmStation(element.tags))
-    .map(element => {
-      const tags = element.tags || {};
-      const lat = element.lat ?? element.center?.lat;
-      const lng = element.lon ?? element.center?.lon;
+    .filter(e => isUsableOsmStation(e.tags))
+    .map(e => {
+      const t = e.tags || {};
+      const lat = e.lat ?? e.center?.lat;
+      const lng = e.lon ?? e.center?.lon;
 
       return {
-        id: `osm:${element.type}/${element.id}`,
-        url: `https://www.openstreetmap.org/${element.type}/${element.id}`,
-        wikidataId: tags.wikidata || "",
+        id: `osm:${e.type}/${e.id}`,
         source: "osm",
-        name: cleanStationName(tags.name),
+        wikidataId: t.wikidata || "",
+        name: cleanStationName(t.name),
         lat: Number(lat),
         lng: Number(lng),
-        operators: tags.operator
-          ? tags.operator.split(";").map(value => value.trim()).filter(Boolean)
-          : []
+        operators: t.operator ? t.operator.split(";") : []
       };
     })
-    .filter(station =>
-      station.name &&
-      !isKilometerMarkerName(station.name) &&
-      isFiniteCoord(station.lat, station.lng)
+    .filter(s =>
+      s.name &&
+      !isKilometerMarkerName(s.name) &&
+      isFiniteCoord(s.lat, s.lng)
     );
 }
+
+// -------------------- merge --------------------
 
 function mergeStations(wikidataStations, osmStations) {
   const merged = [];
   const seen = new Set();
-  const wikidataIds = new Set(wikidataStations.map(station => station.wikidataId).filter(Boolean));
 
-  wikidataStations.forEach(station => {
-    seen.add(stationKey(station));
-    merged.push(station);
-  });
+  const wikidataById = new Map(
+    wikidataStations
+      .filter(s => s.wikidataId)
+      .map(s => [s.wikidataId, s])
+  );
 
-  osmStations.forEach(station => {
-    if (station.wikidataId && wikidataIds.has(station.wikidataId)) return;
+  // 1. add Wikidata first
+  for (const w of wikidataStations) {
+    seen.add(stationKey(w));
+    merged.push(w);
+  }
 
-    const key = stationKey(station);
-    if (seen.has(key)) return;
+  // 2. add OSM with rules
+  for (const o of osmStations) {
+    const key = stationKey(o);
+    if (seen.has(key)) continue;
 
-    const matchesWikidataStation = wikidataStations.some(wikidataStation =>
-      distanceMeters(station, wikidataStation) <= 350 &&
-      namesCompatible(station.name, wikidataStation.name)
-    );
-    if (matchesWikidataStation) return;
+    // rule 1: OSM has wikidata → skip if exists
+    if (o.wikidataId && wikidataById.has(o.wikidataId)) {
+      continue;
+    }
+
+    // rule 2: very close station → keep Wikidata only (<50m)
+    const near = merged.some(m => distanceMeters(o, m) <= 50);
+    if (near) continue;
 
     seen.add(key);
-    merged.push(station);
-  });
+    merged.push(o);
+  }
 
   return merged.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+// -------------------- pipeline --------------------
+
 async function downloadCountry(country) {
   console.log(`Downloading ${country.name}...`);
 
-  const [wikidataResult, osmResult] = await Promise.allSettled([
+  const [w, o] = await Promise.allSettled([
     fetchWikidataStations(country),
     fetchOsmStations(country)
   ]);
 
-  const wikidataStations = wikidataResult.status === "fulfilled" ? wikidataResult.value : [];
-  const osmStations = osmResult.status === "fulfilled" ? osmResult.value : [];
-
-  if (wikidataResult.status === "rejected") {
-    console.warn(`  Wikidata failed: ${wikidataResult.reason.message}`);
-  }
-
-  if (osmResult.status === "rejected") {
-    console.warn(`  OSM failed: ${osmResult.reason.message}`);
-  }
+  const wikidataStations = w.status === "fulfilled" ? w.value : [];
+  const osmStations = o.status === "fulfilled" ? o.value : [];
 
   const stations = mergeStations(wikidataStations, osmStations);
-  console.log(`  ${stations.length} stations (${wikidataStations.length} Wikidata, ${osmStations.length} OSM before merge)`);
+
+  console.log(`  ${stations.length} stations`);
 
   return {
     country: country.name,
@@ -305,52 +306,43 @@ async function downloadCountry(country) {
     iso: country.iso,
     counts: {
       total: stations.length,
-      wikidata: stations.filter(station => station.source === "wikidata").length,
-      osm: stations.filter(station => station.source === "osm").length
+      wikidata: stations.filter(s => s.source === "wikidata").length,
+      osm: stations.filter(s => s.source === "osm").length
     },
     stations
   };
 }
 
-const requestedCountries = process.argv
-  .slice(2)
-  .filter(arg => !arg.startsWith("--"));
+// -------------------- CLI --------------------
 
-const selectedCountries = requestedCountries.length
-  ? countries.filter(country => requestedCountries.includes(country.name) || requestedCountries.includes(country.iso))
+const requested = process.argv.slice(2).filter(a => !a.startsWith("--"));
+
+const selected = requested.length
+  ? countries.filter(c =>
+      requested.includes(c.name) || requested.includes(c.iso)
+    )
   : countries;
 
-if (!selectedCountries.length) {
-  console.error("No matching countries. Use a country name or ISO code, for example: node scripts/download-stations.mjs NL BE");
+if (!selected.length) {
+  console.error("No countries matched");
   process.exit(1);
 }
 
 let output = {
   generatedAt: new Date().toISOString(),
-  sources: {
-    wikidata: wikidataSparqlUrl,
-    osm: overpassUrls
-  },
+  sources: { wikidata: wikidataSparqlUrl, osm: overpassUrls },
   countries: {}
 };
 
-if (requestedCountries.length) {
-  try {
+try {
+  if (requested.length) {
     output = JSON.parse(await readFile("stations.json", "utf8"));
-    output.generatedAt = new Date().toISOString();
-    output.sources = {
-      wikidata: wikidataSparqlUrl,
-      osm: overpassUrls
-    };
-    output.countries ||= {};
-  } catch {
-    // No existing stations.json yet; create a fresh selected-country file.
   }
+} catch {}
+
+for (const c of selected) {
+  output.countries[c.name] = await downloadCountry(c);
 }
 
-for (const country of selectedCountries) {
-  output.countries[country.name] = await downloadCountry(country);
-}
-
-await writeFile("stations.json", `${JSON.stringify(output, null, 2)}\n`, "utf8");
-console.log(`Saved stations.json with ${Object.keys(output.countries).length} countries.`);
+await writeFile("stations.json", JSON.stringify(output, null, 2));
+console.log("Saved stations.json");

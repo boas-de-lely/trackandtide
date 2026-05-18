@@ -415,9 +415,9 @@ header img {
 <header>
   <img id="logo" src="trackandtide logo full.png" />
   <nav class="main-nav" aria-label="Main navigation">
-    <a href="./" class="active">Map</a>
-    <a href="stations">Stations</a>
-    <a href="operators">Operators</a>
+    <a href="/" class="active">Map</a>
+    <a href="/stations">Stations</a>
+    <a href="/operators">Operators</a>
   </nav>
   <div class="toggle" id="themeToggle">Light mode</div>
 </header>
@@ -528,12 +528,14 @@ let selectedFerryRouteName = null;
 let ferryLineOffset = 0;
 let visibleFerryRoutes = [];
 let stationLayer = null;
+let stationMarkersById = new Map();
 let activeStationsCountry = null;
 let currentSelectedCountry = null;
 let stationDataset = { countries: {} };
 const stationDataCache = {};
 let stationLoadToken = 0;
 let selectedStationMarker = null;
+let pendingStationId = new URLSearchParams(window.location.search).get("stationId");
 
 function isMobileViewport() {
   return window.matchMedia("(max-width: 900px)").matches;
@@ -583,6 +585,7 @@ function clearStations() {
     map.removeLayer(stationLayer);
   }
   stationLayer = null;
+  stationMarkersById.clear();
   activeStationsCountry = null;
   selectedStationMarker = null;
 }
@@ -593,6 +596,97 @@ function getStationCount(source) {
 
 function getStationSource(countryName) {
   return stationDataset.countries?.[countryName] || null;
+}
+
+function findStationById(stationId) {
+  for (const [countryName, country] of Object.entries(stationDataset.countries || {})) {
+    const station = (country.stations || []).find(s => s.id === stationId);
+    if (station) return { station, countryName };
+  }
+  return null;
+}
+
+function selectCountryOnMap(countryName) {
+  if (!geoLayer || !countryName) return;
+
+  let targetLayer = null;
+  geoLayer.eachLayer(layer => {
+    const geoName =
+      layer.feature?.properties?.ADMIN ||
+      layer.feature?.properties?.NAME ||
+      layer.feature?.properties?.name ||
+      "";
+    if (norm(geoName) === norm(countryName)) {
+      targetLayer = layer;
+    }
+  });
+
+  if (!targetLayer) return;
+
+  if (selectedLayer) geoLayer.resetStyle(selectedLayer);
+  selectedLayer = targetLayer;
+  targetLayer.setStyle({
+    color: "#3b82f6",
+    weight: 2,
+    fillOpacity: 0.25
+  });
+
+  try {
+    const zoomConfig = countryZoomConfig[countryName];
+    if (zoomConfig) {
+      map.flyTo(zoomConfig.center, zoomConfig.zoom, { duration: 0.9 });
+    } else {
+      const bounds = targetLayer.getBounds();
+      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 6 });
+    }
+  } catch (e) {
+    console.log("country zoom fallback:", e);
+    map.setView([20, 0], 3);
+  }
+}
+
+async function selectStationById(stationId) {
+  if (!stationId) return;
+  const match = findStationById(stationId);
+  if (!match) return;
+
+  const { station, countryName } = match;
+  if (currentSelectedCountry !== countryName) {
+    currentSelectedCountry = countryName;
+    stationToggle.checked = true;
+    updateStationToggle();
+    selectCountryOnMap(countryName);
+    await syncStationLayerForSelectedCountry();
+  } else if (!stationLayer) {
+    stationToggle.checked = true;
+    updateStationToggle();
+    selectCountryOnMap(countryName);
+    await syncStationLayerForSelectedCountry();
+  }
+
+  // Try to find and highlight the marker
+  const marker = stationMarkersById.get(stationId);
+  if (marker) {
+    selectStationMarker(marker, station);
+  } else {
+    // Fallback: show detail even if marker wasn't created
+    renderStationDetail(station);
+  }
+
+  // Always fly to the station coordinates
+  if (Number.isFinite(station.lat) && Number.isFinite(station.lng)) {
+    map.flyTo([station.lat, station.lng], 12, { duration: 0.75 });
+  }
+}
+
+function clearStationGraph() {
+  // Placeholder for future station graph cleanup.
+  // Keep this defined so the Netherlands station toggle path does not fail.
+}
+
+function renderStationGraphForNetherlands(countryName) {
+  if (countryName !== "Netherlands") return;
+  // Graph rendering is currently disabled for stability.
 }
 
 function cleanStationName(name) {
@@ -658,11 +752,13 @@ function renderStationDetail(station) {
   const sourceLabel = station.source === "osm" ? "OpenStreetMap" : "Wikidata";
   const sourceUrl = getStationSourceUrl(station);
 
+  const stationsUrl = `/stations?stationId=${encodeURIComponent(station.id)}`;
   panel.innerHTML = `
     <div class="station-detail">
       <h3>${escapeHTML(station.name)}</h3>
       ${operators}
       <p><a href="${escapeHTML(sourceUrl)}" target="_blank" rel="noopener">${sourceLabel} source</a></p>
+      <p><a href="${stationsUrl}" target="_self" rel="noopener">Open in stations</a></p>
     </div>
   `;
 
@@ -712,6 +808,7 @@ async function syncStationLayerForSelectedCountry() {
     if (token !== stationLoadToken || currentSelectedCountry !== countryName || !stationToggle.checked) return;
 
     renderStations(countryName, stations);
+    renderStationGraphForNetherlands(countryName);
   } catch (error) {
     console.error(error);
     clearStations();
@@ -757,6 +854,7 @@ function renderStations(countryName, stations) {
       interactive: false
     });
     marker.stationData = station;
+    stationMarkersById.set(station.id, marker);
 
     const hitArea = L.circleMarker([station.lat, station.lng], getStationHitAreaOptions());
 
@@ -1009,7 +1107,7 @@ Promise.all([
   countryData = data;
   stationDataset = stations || { countries: {} };
 
-  const geoLayer = L.geoJSON(geo, {
+  geoLayer = L.geoJSON(geo, {
 
     style: () => ({
       color: "#64748b",
@@ -1190,6 +1288,50 @@ Promise.all([
     }
 
   }).addTo(map);
+
+  if (pendingStationId) {
+    // Find the station to get its country
+    const match = (() => {
+      for (const [countryName, country] of Object.entries(stationDataset.countries || {})) {
+        const station = (country.stations || []).find(s => s.id === pendingStationId);
+        if (station) return { station, countryName };
+      }
+      return null;
+    })();
+
+    if (match) {
+      const { countryName, station } = match;
+      const stationIdToSelect = pendingStationId;
+      
+      // Fire country click to set up the sidebar UI
+      geoLayer.eachLayer(layer => {
+        const geoName =
+          layer.feature?.properties?.ADMIN ||
+          layer.feature?.properties?.NAME ||
+          layer.feature?.properties?.name ||
+          "";
+        
+        if (norm(geoName) === norm(countryName)) {
+          layer.fire('click');
+        }
+      });
+
+      // Immediate fallback: show detail and fly to coords right away
+      // (selectStationById will refine this when stations finish loading)
+      requestAnimationFrame(() => {
+        renderStationDetail(station);
+        if (Number.isFinite(station.lat) && Number.isFinite(station.lng)) {
+          map.flyTo([station.lat, station.lng], 12, { duration: 0.75 });
+        }
+      });
+
+      // Also trigger full station loading + marker selection
+      setTimeout(() => {
+        selectStationById(stationIdToSelect).catch(console.error);
+      }, 600);
+    }
+    pendingStationId = null;
+  }
 
   /* =========================
      FERRY ROUTES

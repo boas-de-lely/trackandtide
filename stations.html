@@ -172,6 +172,134 @@ option {
   font-size: 1.1rem;
 }
 
+.station-detail-panel {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.station-detail-card {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.station-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.station-detail-operators {
+  color: var(--text);
+  opacity: 0.85;
+  margin: 0.5rem 0 0;
+}
+
+/* Inline fold-out detail */
+.station-detail-inline {
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  border-left: 4px solid var(--hover);
+  background: rgba(96,165,250,0.08);
+}
+
+.station-detail-loading {
+  opacity: 0.7;
+}
+
+.detail-header {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.detail-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.detail-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Wikidata enrichment */
+.detail-wiki {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.detail-wiki-img {
+  width: 100%;
+  max-width: 300px;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.detail-wiki-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.82;
+  line-height: 1.5;
+}
+
+.detail-wiki-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* Action links */
+.detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.detail-link {
+  color: var(--hover);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-family: inherit;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(96,165,250,0.3);
+  background: rgba(96,165,250,0.1);
+  transition: background 0.2s;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.detail-link:hover {
+  background: rgba(96,165,250,0.22);
+}
+
+.detail-link-map {
+  background: rgba(56,189,248,0.18);
+  border-color: rgba(56,189,248,0.4);
+}
+
+:root.light .station-detail-inline {
+  background: rgba(59,130,246,0.05);
+}
+
+:root.light .detail-link {
+  border-color: rgba(59,130,246,0.25);
+  background: rgba(59,130,246,0.08);
+}
+
+:root.light .detail-link-map {
+  background: rgba(56,189,248,0.12);
+  border-color: rgba(56,189,248,0.25);
+}
+
 .station-list {
   display: grid;
 }
@@ -182,6 +310,16 @@ option {
   gap: 0.75rem;
   padding: 0.9rem 1rem;
   border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.station-row:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.station-row.selected {
+  background: rgba(96,165,250,0.12);
+  border-left: 4px solid var(--hover);
 }
 
 .station-row:last-child {
@@ -259,9 +397,9 @@ option {
 <header>
   <img id="logo" src="trackandtide logo full.png" alt="Track & Tide" />
   <nav class="main-nav" aria-label="Main navigation">
-    <a href="./">Map</a>
-    <a href="stations" class="active">Stations</a>
-    <a href="operators">Operators</a>
+    <a href="/">Map</a>
+    <a href="/stations" class="active">Stations</a>
+    <a href="/operators">Operators</a>
   </nav>
   <div class="toggle" id="themeToggle">Light mode</div>
 </header>
@@ -331,6 +469,7 @@ const totalStat = document.getElementById("totalStat");
 const wikidataStat = document.getElementById("wikidataStat");
 const osmStat = document.getElementById("osmStat");
 let stations = [];
+let selectedStationId = new URLSearchParams(window.location.search).get("stationId");
 
 function setTheme(mode) {
   if (mode === "light") root.classList.add("light");
@@ -356,6 +495,200 @@ function escapeHTML(text) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+function getStationById(stationId) {
+  return stations.find(station => station.id === stationId) || null;
+}
+
+// Wikidata cache
+const wikiCache = {};
+
+async function fetchWikidataInfo(wikidataId) {
+  if (!wikidataId) return null;
+  if (wikiCache[wikidataId]) return wikiCache[wikidataId];
+
+  try {
+    const url = `https://www.wikidata.org/wiki/Special:EntityData/${encodeURIComponent(wikidataId)}.json`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('Wikidata fetch failed');
+    const data = await resp.json();
+    const entity = data.entities?.[wikidataId];
+    if (!entity) throw new Error('Entity not found');
+
+    const result = {};
+
+    // Image (P18)
+    const imageFile = entity.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
+    if (imageFile) {
+      const filename = encodeURIComponent(imageFile.replace(/ /g, '_'));
+      result.image = `https://commons.wikimedia.org/wiki/Special:FilePath/${filename}?width=300`;
+    }
+
+    // Description in English or any language
+    const desc = entity.descriptions?.en?.value || Object.values(entity.descriptions || {})[0]?.value;
+    if (desc) result.description = desc;
+
+    // Inception date (P571)
+    const inception = entity.claims?.P571?.[0]?.mainsnak?.datavalue?.value?.time;
+    if (inception) {
+      const d = inception.replace(/^\+/, '').split('T')[0];
+      if (d && d !== '0000-00-00') result.inception = d;
+    }
+
+    // Official website (P856)
+    const website = entity.claims?.P856?.[0]?.mainsnak?.datavalue?.value;
+    if (website) result.website = website;
+
+    wikiCache[wikidataId] = result;
+    return result;
+  } catch (e) {
+    wikiCache[wikidataId] = null;
+    return null;
+  }
+}
+
+function renderStationDetailHTML(station, wikiData) {
+  if (!station) return "";
+
+  const sourceLabel = station.source === "osm" ? "OpenStreetMap" : "Wikidata";
+  const sourceUrl = escapeHTML(station.url || station.id || "https://www.openstreetmap.org");
+
+  let wikiBlock = "";
+  if (wikiData) {
+    wikiBlock = `
+      <div class="detail-wiki">
+        ${wikiData.image ? `<img class="detail-wiki-img" src="${escapeHTML(wikiData.image)}" alt="${escapeHTML(station.name)}" loading="lazy" />` : ""}
+        ${wikiData.description ? `<p class="detail-wiki-desc">${escapeHTML(wikiData.description)}</p>` : ""}
+        <div class="detail-wiki-meta">
+          ${wikiData.inception ? `<span><span class="detail-label">Opened</span> ${escapeHTML(wikiData.inception)}</span>` : ""}
+          ${wikiData.website ? `<a class="detail-link" href="${escapeHTML(wikiData.website)}" target="_blank" rel="noopener">Website</a>` : ""}
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="station-detail-inline" data-station-detail="${escapeHTML(station.id)}">
+      <div class="detail-header">
+        <h3>${escapeHTML(station.name)}</h3>
+        <div class="detail-pills">
+          <span class="pill">${escapeHTML(station.country)}</span>
+          <span class="pill ${station.source === "osm" ? "source-osm" : "source-wikidata"}">${escapeHTML(sourceLabel)}</span>
+          ${(station.operators || []).slice(0, 3).map(op => `<span class="pill">${escapeHTML(op)}</span>`).join("")}
+        </div>
+      </div>
+      ${wikiBlock}
+      <div class="detail-links">
+        <a class="detail-link" href="${sourceUrl}" target="_blank" rel="noopener">${sourceLabel} source</a>
+        ${station.wikidataId ? `<a class="detail-link" href="https://www.wikidata.org/wiki/${escapeHTML(station.wikidataId)}" target="_blank" rel="noopener">Wikidata</a>` : ""}
+        <button class="detail-link detail-link-map" data-open-map="${escapeHTML(station.id)}">🗺 Open on map</button>
+      </div>
+    </div>
+  `;
+}
+
+function removeInlineDetail() {
+  const existing = stationList.querySelector('.station-detail-inline');
+  if (existing) existing.remove();
+}
+
+async function showInlineDetail(stationId) {
+  removeInlineDetail();
+  const station = getStationById(stationId);
+  if (!station) return;
+
+  const row = stationList.querySelector(`.station-row[data-station-id="${CSS.escape(stationId)}"]`);
+  if (!row) return;
+
+  // Show a loading placeholder
+  const loadingHTML = `<div class="station-detail-inline station-detail-loading" data-station-detail="${escapeHTML(stationId)}"><div class="detail-header"><h3>${escapeHTML(station.name)}</h3></div><p style="opacity:0.6;margin:0;">Loading Wikidata info…</p></div>`;
+  row.insertAdjacentHTML('afterend', loadingHTML);
+
+  // Fetch Wikidata data in the background
+  let wikiData = null;
+  if (station.wikidataId || station.source === "wikidata") {
+    const wdId = station.wikidataId || station.id;
+    wikiData = await fetchWikidataInfo(wdId);
+  }
+
+  // Replace loading placeholder with full detail
+  removeInlineDetail();
+  const html = renderStationDetailHTML(station, wikiData);
+  row.insertAdjacentHTML('afterend', html);
+}
+
+function highlightStationRow(stationId) {
+  stationList.querySelectorAll('.station-row').forEach(row => {
+    row.classList.toggle('selected', row.dataset.stationId === stationId);
+  });
+}
+
+function openStationOnMap(stationId) {
+  if (!stationId) return;
+  window.location.href = `/index?stationId=${encodeURIComponent(stationId)}`;
+}
+
+stationList.addEventListener('click', event => {
+  // Handle "Open on map" button — use JS navigation to guarantee query string survives
+  const openMapBtn = event.target.closest('[data-open-map]');
+  if (openMapBtn) {
+    event.preventDefault();
+    const stationId = openMapBtn.dataset.openMap;
+    if (stationId) {
+      window.location.href = `/index?stationId=${encodeURIComponent(stationId)}`;
+    }
+    return;
+  }
+
+  // Allow clicks on other links to work normally
+  if (event.target.closest('a')) return;
+
+  const row = event.target.closest('.station-row');
+  if (!row) return;
+  const stationId = row.dataset.stationId;
+  if (!stationId) return;
+
+  // Toggle: if already selected, deselect
+  if (selectedStationId === stationId) {
+    selectedStationId = null;
+    highlightStationRow(null);
+    removeInlineDetail();
+    const url = new URL(window.location);
+    url.searchParams.delete('stationId');
+    window.history.replaceState({}, '', url);
+    return;
+  }
+
+  // Select new station
+  selectedStationId = stationId;
+  highlightStationRow(stationId);
+  showInlineDetail(stationId);
+
+  // Update URL without navigating
+  const url = new URL(window.location);
+  url.searchParams.set('stationId', stationId);
+  window.history.replaceState({}, '', url);
+});
+
+function restoreSelectedStation() {
+  if (!selectedStationId) return;
+  const station = getStationById(selectedStationId);
+  if (!station) {
+    selectedStationId = null;
+    return;
+  }
+  // Pre-fill search with station name so only this station is visible
+  searchInput.value = station.name;
+  countryFilter.value = "";
+  sourceFilter.value = "";
+  operatorFilter.value = "";
+  updateOperatorFilter();
+  renderAndRestoreDetail();
+  // Scroll to the selected row
+  requestAnimationFrame(() => {
+    const selectedRow = stationList.querySelector('.station-row.selected');
+    if (selectedRow) selectedRow.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
 }
 
 function unique(values) {
@@ -423,7 +756,7 @@ function render() {
   resultTitle.textContent = `${filtered.length.toLocaleString()} stations`;
 
   stationList.innerHTML = capped.length ? capped.map(station => `
-    <article class="station-row">
+    <article class="station-row" data-station-id="${escapeHTML(station.id)}">
       <div>
         <div class="station-name">${escapeHTML(station.name)}</div>
         <div class="station-meta">
@@ -435,6 +768,18 @@ function render() {
       <a class="source-link" href="${escapeHTML(station.url)}" target="_blank" rel="noopener">Source</a>
     </article>
   `).join("") + (filtered.length > capped.length ? `<div class="empty">Showing first ${capped.length.toLocaleString()} results. Narrow the filters to see more.</div>` : "") : `<div class="empty">No stations match these filters.</div>`;
+
+  // Highlight selected row (caller handles detail insertion to avoid double)
+  if (selectedStationId) {
+    highlightStationRow(selectedStationId);
+  }
+}
+
+function renderAndRestoreDetail() {
+  render();
+  if (selectedStationId) {
+    showInlineDetail(selectedStationId);
+  }
 }
 
 Promise.all([
@@ -450,15 +795,16 @@ Promise.all([
   generatedAt.textContent = data.generatedAt ? `Updated ${new Date(data.generatedAt).toLocaleDateString()}` : "";
   buildFilters();
   render();
+  restoreSelectedStation();
 });
 
 [searchInput, countryFilter, sourceFilter, operatorFilter, sortFilter].forEach(control => {
-  control.addEventListener("input", render);
+  control.addEventListener("input", renderAndRestoreDetail);
 });
 
 countryFilter.addEventListener("change", () => {
   updateOperatorFilter();
-  render();
+  renderAndRestoreDetail();
 });
 </script>
 </body>
