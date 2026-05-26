@@ -48,7 +48,7 @@
         "Belgium",
         "Austria",
         "Switzerland",
-        "France", 
+        "France",
         "Italy",
         "Denmark",
         "Czechia",
@@ -132,798 +132,818 @@
       "description": "",
       "operatorLabel": "Spanish national train operator"
     },
-  {
-    "id": "obb",
-    "name": "ÖBB",
-    "country": "Austria",
-    "countries": [
-      "Austria",
-      "Germany",
-      "Italy",
-      "Switzerland",
-      "Hungary",
-      "Czechia",
-      "Slovakia",
-      "Liechtenstein"
-    ],
-    "type": "trains",
-    "website": "https://www.oebb.at/en/",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=at.oebb.ts",
-      "ios": "https://apps.apple.com/at/app/obb/id1036709591"
+    {
+      "id": "obb",
+      "name": "ÖBB",
+      "country": "Austria",
+      "countries": [
+        "Austria",
+        "Germany",
+        "Italy",
+        "Switzerland",
+        "Hungary",
+        "Czechia",
+        "Slovakia",
+        "Liechtenstein"
+      ],
+      "type": "trains",
+      "website": "https://www.oebb.at/en/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=at.oebb.ts",
+        "ios": "https://apps.apple.com/at/app/obb/id1036709591"
+      },
+      "logo": "obb.png",
+      "description": "Austria's national railway company operating Railjet, Nightjet, regional and international services across Central Europe.",
+      "operatorLabel": "Austrian national train operator"
     },
-    "logo": "obb.png",
-    "description": "Austria's national railway company operating Railjet, Nightjet, regional and international services across Central Europe.",
-    "operatorLabel": "Austrian national train operator"
-  },
-  {
-    "id": "sbb",
-    "name": "SBB",
-    "country": "Switzerland",
-    "countries": [
-      "Switzerland"
-    ],
-    "type": "trains",
-    "website": "https://www.sbb.ch/en",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=ch.sbb.mobile.android.b2c",
-      "ios": "https://apps.apple.com/ch/app/sbb-mobile/id294855237"
+    {
+      "id": "sbb",
+      "name": "SBB",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "website": "https://www.sbb.ch/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=ch.sbb.mobile.android.b2c",
+        "ios": "https://apps.apple.com/ch/app/sbb-mobile/id294855237"
+      },
+      "logo": "sbb.png",
+      "description": "Swiss Federal Railways operates Switzerland's extensive passenger rail network including international and regional connections.",
+      "operatorLabel": "Swiss national train operator"
     },
-    "logo": "sbb.png",
-    "description": "Swiss Federal Railways operates Switzerland's extensive passenger rail network including international and regional connections.",
-    "operatorLabel": "Swiss national train operator"
-  },
-  {
-    "id": "sj",
-    "name": "SJ",
-    "country": "Sweden",
-    "countries": [
-      "Sweden"
-    ],
-    "type": "trains",
-    "website": "https://www.sj.se/en",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=se.sj.android",
-      "ios": "https://apps.apple.com/se/app/sj/id446689276"
+    {
+      "id": "sj",
+      "name": "SJ",
+      "country": "Sweden",
+      "countries": [
+        "Sweden"
+      ],
+      "type": "trains",
+      "website": "https://www.sj.se/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=se.sj.android",
+        "ios": "https://apps.apple.com/se/app/sj/id446689276"
+      },
+      "logo": "sj.png",
+      "description": "SJ is Sweden's primary long-distance rail operator, operating high-speed, regional and overnight services.",
+      "operatorLabel": "Swedish national train operator"
     },
-    "logo": "sj.png",
-    "description": "SJ is Sweden's primary long-distance rail operator, operating high-speed, regional and overnight services.",
-    "operatorLabel": "Swedish national train operator"
-  },
-  {
-    "id": "vy",
-    "name": "Vy",
-    "country": "Norway",
-    "countries": [
-      "Norway",
-      "Sweden"
-    ],
-    "type": "trains",
-    "website": "https://www.vy.no/en",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=no.nsb.mob.app",
-      "ios": "https://apps.apple.com/no/app/vy/id474798767"
+    {
+      "id": "vy",
+      "name": "Vy",
+      "country": "Norway",
+      "countries": [
+        "Norway",
+        "Sweden"
+      ],
+      "type": "trains",
+      "website": "https://www.vy.no/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=no.nsb.mob.app",
+        "ios": "https://apps.apple.com/no/app/vy/id474798767"
+      },
+      "logo": "vy.png",
+      "description": "Vy operates regional and long-distance train services in Norway and parts of Sweden.",
+      "operatorLabel": "Norwegian train operator"
     },
-    "logo": "vy.png",
-    "description": "Vy operates regional and long-distance train services in Norway and parts of Sweden.",
-    "operatorLabel": "Norwegian train operator"
-  },
-  {
-    "id": "dsb",
-    "name": "DSB",
-    "country": "Denmark",
-    "countries": [
-      "Denmark"
-    ],
-    "type": "trains",
-    "website": "https://www.dsb.dk/en/",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=dk.dsb.nda.mobile.pay",
-      "ios": "https://apps.apple.com/dk/app/dsb/id413998264"
+    {
+      "id": "dsb",
+      "name": "DSB",
+      "country": "Denmark",
+      "countries": [
+        "Denmark"
+      ],
+      "type": "trains",
+      "website": "https://www.dsb.dk/en/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=dk.dsb.nda.mobile.pay",
+        "ios": "https://apps.apple.com/dk/app/dsb/id413998264"
+      },
+      "logo": "dsb.png",
+      "description": "DSB is Denmark's national railway operator, providing domestic and international train services.",
+      "operatorLabel": "Danish national train operator"
     },
-    "logo": "dsb.png",
-    "description": "DSB is Denmark's national railway operator, providing domestic and international train services.",
-    "operatorLabel": "Danish national train operator"
-  },
-  {
-    "id": "cd",
-    "name": "České dráhy",
-    "country": "Czechia",
-    "countries": [
-      "Czechia",
-      "Germany",
-      "Austria",
-      "Slovakia",
-      "Poland",
-      "Hungary"
-    ],
-    "type": "trains",
-    "website": "https://www.cd.cz/en/",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=cz.cd.mujvlak.an",
-      "ios": "https://apps.apple.com/cz/app/m%C5%AFj-vlak/id839519767"
+    {
+      "id": "cd",
+      "name": "České dráhy",
+      "country": "Czechia",
+      "countries": [
+        "Czechia",
+        "Germany",
+        "Austria",
+        "Slovakia",
+        "Poland",
+        "Hungary"
+      ],
+      "type": "trains",
+      "website": "https://www.cd.cz/en/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=cz.cd.mujvlak.an",
+        "ios": "https://apps.apple.com/cz/app/m%C5%AFj-vlak/id839519767"
+      },
+      "logo": "cd.png",
+      "description": "The Czech national railway operator with extensive domestic and international services.",
+      "operatorLabel": "Czech national train operator"
     },
-    "logo": "cd.png",
-    "description": "The Czech national railway operator with extensive domestic and international services.",
-    "operatorLabel": "Czech national train operator"
-  },
-  {
-    "id": "regiojet",
-    "name": "RegioJet",
-    "country": "Czechia",
-    "countries": [
-      "Czechia",
-      "Slovakia",
-      "Austria",
-      "Hungary",
-      "Poland"
-    ],
-    "type": "trains",
-    "website": "https://regiojet.com/",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=cz.studentagency.regiojet",
-      "ios": "https://apps.apple.com/cz/app/regiojet/id923484573"
+    {
+      "id": "regiojet",
+      "name": "RegioJet",
+      "country": "Czechia",
+      "countries": [
+        "Czechia",
+        "Slovakia",
+        "Austria",
+        "Hungary",
+        "Poland"
+      ],
+      "type": "trains",
+      "website": "https://regiojet.com/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=cz.studentagency.regiojet",
+        "ios": "https://apps.apple.com/cz/app/regiojet/id923484573"
+      },
+      "logo": "regiojet.png",
+      "description": "Private Central European rail operator known for affordable long-distance and international services.",
+      "operatorLabel": "Private train operator"
     },
-    "logo": "regiojet.png",
-    "description": "Private Central European rail operator known for affordable long-distance and international services.",
-    "operatorLabel": "Private train operator"
-  },
-  {
-    "id": "leo_express",
-    "name": "Leo Express",
-    "country": "Czechia",
-    "countries": [
-      "Czechia",
-      "Poland",
-      "Slovakia"
-    ],
-    "type": "trains",
-    "website": "https://www.leoexpress.com/en",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=com.le.cz",
-      "ios": "https://apps.apple.com/cz/app/leo-express/id811490578"
+    {
+      "id": "leo_express",
+      "name": "Leo Express",
+      "country": "Czechia",
+      "countries": [
+        "Czechia",
+        "Poland",
+        "Slovakia"
+      ],
+      "type": "trains",
+      "website": "https://www.leoexpress.com/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=com.le.cz",
+        "ios": "https://apps.apple.com/cz/app/leo-express/id811490578"
+      },
+      "logo": "leo_express.png",
+      "description": "Private operator providing international and domestic rail services in Central Europe.",
+      "operatorLabel": "Private train operator"
     },
-    "logo": "leo_express.png",
-    "description": "Private operator providing international and domestic rail services in Central Europe.",
-    "operatorLabel": "Private train operator"
-  },
-  {
-    "id": "cp",
-    "name": "CP",
-    "country": "Portugal",
-    "countries": [
-      "Portugal",
-      "Spain"
-    ],
-    "type": "trains",
-    "website": "https://www.cp.pt/passageiros/en",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=pt.cp.myticket",
-      "ios": "https://apps.apple.com/pt/app/cp-comboios-de-portugal/id1174577898"
+    {
+      "id": "cp",
+      "name": "CP",
+      "country": "Portugal",
+      "countries": [
+        "Portugal",
+        "Spain"
+      ],
+      "type": "trains",
+      "website": "https://www.cp.pt/passageiros/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=pt.cp.myticket",
+        "ios": "https://apps.apple.com/pt/app/cp-comboios-de-portugal/id1174577898"
+      },
+      "logo": "cp.png",
+      "description": "Portugal's national railway operator with regional, intercity and international services.",
+      "operatorLabel": "Portuguese national train operator"
     },
-    "logo": "cp.png",
-    "description": "Portugal's national railway operator with regional, intercity and international services.",
-    "operatorLabel": "Portuguese national train operator"
-  },
-  {
-    "id": "cfl",
-    "name": "CFL",
-    "country": "Luxembourg",
-    "countries": [
-      "Luxembourg",
-      "Belgium",
-      "France",
-      "Germany"
-    ],
-    "type": "trains",
-    "website": "https://www.cfl.lu/en-gb",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "cfl",
+      "name": "CFL",
+      "country": "Luxembourg",
+      "countries": [
+        "Luxembourg",
+        "Belgium",
+        "France",
+        "Germany"
+      ],
+      "type": "trains",
+      "website": "https://www.cfl.lu/en-gb",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "cfl.svg",
+      "description": "Luxembourg's national railway operator, running domestic trains and cross-border services to Belgium, France and Germany. Public transport inside Luxembourg is generally free in standard class, but first class and cross-border tickets still need to be bought.",
+      "operatorLabel": "Luxembourg national train operator"
     },
-    "logo": "cfl.svg",
-    "description": "Luxembourg's national railway operator, running domestic trains and cross-border services to Belgium, France and Germany. Public transport inside Luxembourg is generally free in standard class, but first class and cross-border tickets still need to be bought.",
-    "operatorLabel": "Luxembourg national train operator"
-  },
-  {
-    "id": "vr",
-    "name": "VR",
-    "country": "Finland",
-    "countries": [
-      "Finland"
-    ],
-    "type": "trains",
-    "website": "https://www.vr.fi/en",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=fi.vr.mobiili",
-      "ios": "https://apps.apple.com/fi/app/vr-matkalla/id905281941"
+    {
+      "id": "vr",
+      "name": "VR",
+      "country": "Finland",
+      "countries": [
+        "Finland"
+      ],
+      "type": "trains",
+      "website": "https://www.vr.fi/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=fi.vr.mobiili",
+        "ios": "https://apps.apple.com/fi/app/vr-matkalla/id905281941"
+      },
+      "logo": "vr.png",
+      "description": "VR is Finland's national railway company operating long-distance, commuter and night train services.",
+      "operatorLabel": "Finnish national train operator"
     },
-    "logo": "vr.png",
-    "description": "VR is Finland's national railway company operating long-distance, commuter and night train services.",
-    "operatorLabel": "Finnish national train operator"
-  },
-  {
-    "id": "mav",
-    "name": "MÁV",
-    "country": "Hungary",
-    "countries": [
-      "Hungary",
-      "Austria",
-      "Slovakia",
-      "Romania",
-      "Croatia",
-      "Serbia"
-    ],
-    "type": "trains",
-    "website": "https://www.mavcsoport.hu/en",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=hu.mav.start",
-      "ios": "https://apps.apple.com/hu/app/m%C3%A1v/id1457184104"
+    {
+      "id": "mav",
+      "name": "MÁV",
+      "country": "Hungary",
+      "countries": [
+        "Hungary",
+        "Austria",
+        "Slovakia",
+        "Romania",
+        "Croatia",
+        "Serbia"
+      ],
+      "type": "trains",
+      "website": "https://www.mavcsoport.hu/en",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=hu.mav.start",
+        "ios": "https://apps.apple.com/hu/app/m%C3%A1v/id1457184104"
+      },
+      "logo": "mav.png",
+      "description": "Hungary's national railway operator providing domestic and international train services.",
+      "operatorLabel": "Hungarian national train operator"
     },
-    "logo": "mav.png",
-    "description": "Hungary's national railway operator providing domestic and international train services.",
-    "operatorLabel": "Hungarian national train operator"
-  },
-  {
-    "id": "pkp_intercity",
-    "name": "PKP Intercity",
-    "country": "Poland",
-    "countries": [
-      "Poland",
-      "Germany",
-      "Czechia",
-      "Austria",
-      "Lithuania"
-    ],
-    "type": "trains",
-    "website": "https://www.intercity.pl/en/",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=pl.pkpintercity.mka",
-      "ios": "https://apps.apple.com/pl/app/pkp-intercity/id1458980952"
+    {
+      "id": "pkp_intercity",
+      "name": "PKP Intercity",
+      "country": "Poland",
+      "countries": [
+        "Poland",
+        "Germany",
+        "Czechia",
+        "Austria",
+        "Lithuania"
+      ],
+      "type": "trains",
+      "website": "https://www.intercity.pl/en/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=pl.pkpintercity.mka",
+        "ios": "https://apps.apple.com/pl/app/pkp-intercity/id1458980952"
+      },
+      "logo": "pkp_intercity.png",
+      "description": "PKP Intercity operates Poland's long-distance and international passenger rail services.",
+      "operatorLabel": "Polish national train operator"
     },
-    "logo": "pkp_intercity.png",
-    "description": "PKP Intercity operates Poland's long-distance and international passenger rail services.",
-    "operatorLabel": "Polish national train operator"
-  },
-  {
-    "id": "cfr",
-    "name": "CFR Călători",
-    "country": "Romania",
-    "countries": [
-      "Romania",
-      "Hungary",
-      "Austria",
-      "Bulgaria"
-    ],
-    "type": "trains",
-    "website": "https://www.cfrcalatori.ro/en/",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "cfr",
+      "name": "CFR Călători",
+      "country": "Romania",
+      "countries": [
+        "Romania",
+        "Hungary",
+        "Austria",
+        "Bulgaria"
+      ],
+      "type": "trains",
+      "website": "https://www.cfrcalatori.ro/en/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "cfr.png",
+      "description": "Romania's national rail operator providing domestic and international passenger train services.",
+      "operatorLabel": "Romanian national train operator"
     },
-    "logo": "cfr.png",
-    "description": "Romania's national rail operator providing domestic and international passenger train services.",
-    "operatorLabel": "Romanian national train operator"
-  },
-  {
-    "id": "hellenic_train",
-    "name": "Hellenic Train",
-    "country": "Greece",
-    "countries": [
-      "Greece"
-    ],
-    "type": "trains",
-    "website": "https://www.hellenictrain.gr/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "hellenic_train",
+      "name": "Hellenic Train",
+      "country": "Greece",
+      "countries": [
+        "Greece"
+      ],
+      "type": "trains",
+      "website": "https://www.hellenictrain.gr/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "hellenic_train.png",
+      "description": "Main passenger rail operator in Greece operating intercity and regional train services.",
+      "operatorLabel": "Greek train operator"
     },
-    "logo": "hellenic_train.png",
-    "description": "Main passenger rail operator in Greece operating intercity and regional train services.",
-    "operatorLabel": "Greek train operator"
-  },
-  {
-    "id": "irish_rail",
-    "name": "Irish Rail",
-    "country": "Ireland",
-    "countries": [
-      "Ireland"
-    ],
-    "type": "trains",
-    "website": "https://www.irishrail.ie/en-ie/",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=ie.irishrail.realtime",
-      "ios": "https://apps.apple.com/ie/app/irish-rail/id405099920"
+    {
+      "id": "irish_rail",
+      "name": "Irish Rail",
+      "country": "Ireland",
+      "countries": [
+        "Ireland"
+      ],
+      "type": "trains",
+      "website": "https://www.irishrail.ie/en-ie/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=ie.irishrail.realtime",
+        "ios": "https://apps.apple.com/ie/app/irish-rail/id405099920"
+      },
+      "logo": "irish_rail.png",
+      "description": "Ireland's national railway operator providing intercity, commuter and regional train services.",
+      "operatorLabel": "Irish national train operator"
     },
-    "logo": "irish_rail.png",
-    "description": "Ireland's national railway operator providing intercity, commuter and regional train services.",
-    "operatorLabel": "Irish national train operator"
-  },
-  {
-    "id": "westbahn",
-    "name": "Westbahn",
-    "country": "Austria",
-    "countries": [
-      "Austria",
-      "Germany"
-    ],
-    "type": "trains",
-    "website": "https://westbahn.at/en/",
-    "appLinks": {
-      "android": "https://play.google.com/store/apps/details?id=at.westbahn",
-      "ios": "https://apps.apple.com/at/app/westbahn/id963437068"
+    {
+      "id": "westbahn",
+      "name": "Westbahn",
+      "country": "Austria",
+      "countries": [
+        "Austria",
+        "Germany"
+      ],
+      "type": "trains",
+      "website": "https://westbahn.at/en/",
+      "appLinks": {
+        "android": "https://play.google.com/store/apps/details?id=at.westbahn",
+        "ios": "https://apps.apple.com/at/app/westbahn/id963437068"
+      },
+      "logo": "westbahn.png",
+      "description": "Private Austrian high-speed rail operator competing with ÖBB on major routes.",
+      "operatorLabel": "Private high speed train operator"
     },
-    "logo": "westbahn.png",
-    "description": "Private Austrian high-speed rail operator competing with ÖBB on major routes.",
-    "operatorLabel": "Private high speed train operator"
-  },
-  {
-    "id": "snalltaget",
-    "name": "Snälltåget",
-    "country": "Sweden",
-    "countries": [
-      "Sweden",
-      "Denmark",
-      "Germany"
-    ],
-    "type": "trains",
-    "website": "https://www.snalltaget.se/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "snalltaget",
+      "name": "Snälltåget",
+      "country": "Sweden",
+      "countries": [
+        "Sweden",
+        "Denmark",
+        "Germany"
+      ],
+      "type": "trains",
+      "website": "https://www.snalltaget.se/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "snalltaget.png",
+      "description": "Private Swedish operator running long-distance and night train services between Sweden, Denmark and Germany.",
+      "operatorLabel": "Night train operator"
     },
-    "logo": "snalltaget.png",
-    "description": "Private Swedish operator running long-distance and night train services between Sweden, Denmark and Germany.",
-    "operatorLabel": "Night train operator"
-  },
-  {
-    "id": "elron",
-    "name": "Elron",
-    "country": "Estonia",
-    "countries": [
-      "Estonia"
-    ],
-    "type": "trains",
-    "website": "https://elron.ee/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "elron",
+      "name": "Elron",
+      "country": "Estonia",
+      "countries": [
+        "Estonia"
+      ],
+      "type": "trains",
+      "website": "https://elron.ee/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "elron.png",
+      "description": "Estonia's national passenger rail operator.",
+      "operatorLabel": "Estonian train operator"
     },
-    "logo": "elron.png",
-    "description": "Estonia's national passenger rail operator.",
-    "operatorLabel": "Estonian train operator"
-  },
-  {
-    "id": "ltg_link",
-    "name": "LTG Link",
-    "country": "Lithuania",
-    "countries": [
-      "Lithuania",
-      "Latvia",
-      "Poland"
-    ],
-    "type": "trains",
-    "website": "https://ltglink.lt/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "ltg_link",
+      "name": "LTG Link",
+      "country": "Lithuania",
+      "countries": [
+        "Lithuania",
+        "Latvia",
+        "Poland"
+      ],
+      "type": "trains",
+      "website": "https://ltglink.lt/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "ltg_link.png",
+      "description": "Lithuania's passenger rail operator providing domestic and international services.",
+      "operatorLabel": "Lithuanian train operator"
     },
-    "logo": "ltg_link.png",
-    "description": "Lithuania's passenger rail operator providing domestic and international services.",
-    "operatorLabel": "Lithuanian train operator"
-  },
-  {
-    "id": "vivi",
-    "name": "Vivi",
-    "country": "Latvia",
-    "countries": [
-      "Latvia",
-      "Lithuania"
-    ],
-    "type": "trains",
-    "website": "https://www.vivi.lv/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "vivi",
+      "name": "Vivi",
+      "country": "Latvia",
+      "countries": [
+        "Latvia",
+        "Lithuania"
+      ],
+      "type": "trains",
+      "website": "https://www.vivi.lv/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "vivi.png",
+      "description": "Latvian passenger train operator formerly known as Pasažieru vilciens.",
+      "operatorLabel": "Latvian train operator"
     },
-    "logo": "vivi.png",
-    "description": "Latvian passenger train operator formerly known as Pasažieru vilciens.",
-    "operatorLabel": "Latvian train operator"
-  }
-,
-  {
-    "id": "zssk",
-    "name": "ZSSK",
-    "country": "Slovakia",
-    "countries": [
-      "Slovakia",
-      "Czechia",
-      "Austria",
-      "Hungary",
-      "Poland"
-    ],
-    "type": "trains",
-    "website": "https://www.zssk.sk/en/",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "zssk",
+      "name": "ZSSK",
+      "country": "Slovakia",
+      "countries": [
+        "Slovakia",
+        "Czechia",
+        "Austria",
+        "Hungary",
+        "Poland"
+      ],
+      "type": "trains",
+      "website": "https://www.zssk.sk/en/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "zssk.png",
+      "description": "Slovakia's national passenger rail operator providing domestic and international train services.",
+      "operatorLabel": "Slovak national train operator"
     },
-    "logo": "zssk.png",
-    "description": "Slovakia's national passenger rail operator providing domestic and international train services.",
-    "operatorLabel": "Slovak national train operator"
-  },
-  {
-    "id": "bdz",
-    "name": "BDZ",
-    "country": "Bulgaria",
-    "countries": [
-      "Bulgaria"
-    ],
-    "type": "trains",
-    "website": "https://www.bdz.bg/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "bdz",
+      "name": "BDZ",
+      "country": "Bulgaria",
+      "countries": [
+        "Bulgaria"
+      ],
+      "type": "trains",
+      "website": "https://www.bdz.bg/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "bdz.png",
+      "description": "Bulgarian State Railways operating domestic and limited international passenger services.",
+      "operatorLabel": "Bulgarian national train operator"
     },
-    "logo": "bdz.png",
-    "description": "Bulgarian State Railways operating domestic and limited international passenger services.",
-    "operatorLabel": "Bulgarian national train operator"
-  },
-  {
-    "id": "hzpp",
-    "name": "HŽPP",
-    "country": "Croatia",
-    "countries": [
-      "Croatia",
-      "Slovenia",
-      "Hungary",
-      "Austria"
-    ],
-    "type": "trains",
-    "website": "https://www.hzpp.hr/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "hzpp",
+      "name": "HŽPP",
+      "country": "Croatia",
+      "countries": [
+        "Croatia",
+        "Slovenia",
+        "Hungary",
+        "Austria"
+      ],
+      "type": "trains",
+      "website": "https://www.hzpp.hr/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "hzpp.png",
+      "description": "Croatia's national passenger rail operator providing domestic and cross-border services.",
+      "operatorLabel": "Croatian national train operator"
     },
-    "logo": "hzpp.png",
-    "description": "Croatia's national passenger rail operator providing domestic and cross-border services.",
-    "operatorLabel": "Croatian national train operator"
-  },
-  {
-    "id": "sz",
-    "name": "Slovenian Railways",
-    "country": "Slovenia",
-    "countries": [
-      "Slovenia",
-      "Austria",
-      "Italy",
-      "Croatia",
-      "Hungary"
-    ],
-    "type": "trains",
-    "website": "https://potniski.sz.si/en/",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "sz",
+      "name": "Slovenian Railways",
+      "country": "Slovenia",
+      "countries": [
+        "Slovenia",
+        "Austria",
+        "Italy",
+        "Croatia",
+        "Hungary"
+      ],
+      "type": "trains",
+      "website": "https://potniski.sz.si/en/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "sz.png",
+      "description": "Slovenia's national railway operator offering domestic and international train services.",
+      "operatorLabel": "Slovenian national train operator"
     },
-    "logo": "sz.png",
-    "description": "Slovenia's national railway operator offering domestic and international train services.",
-    "operatorLabel": "Slovenian national train operator"
-  },
-  {
-    "id": "inlandsbanan",
-    "name": "Inlandsbanan",
-    "country": "Sweden",
-    "countries": [
-      "Sweden"
-    ],
-    "type": "trains",
-    "website": "https://www.inlandsbanan.se/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "inlandsbanan",
+      "name": "Inlandsbanan",
+      "country": "Sweden",
+      "countries": [
+        "Sweden"
+      ],
+      "type": "trains",
+      "website": "https://www.inlandsbanan.se/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "inlandsbanan.png",
+      "description": "Swedish regional and tourist railway operator running scenic routes through inland Sweden.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "inlandsbanan.png",
-    "description": "Swedish regional and tourist railway operator running scenic routes through inland Sweden.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "oresundstag",
-    "name": "Öresundståg",
-    "country": "Denmark",
-    "countries": [
-      "Denmark",
-      "Sweden"
-    ],
-    "type": "trains",
-    "website": "https://www.oresundstag.se/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "oresundstag",
+      "name": "Öresundståg",
+      "country": "Denmark",
+      "countries": [
+        "Denmark",
+        "Sweden"
+      ],
+      "type": "trains",
+      "website": "https://www.oresundstag.se/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "oresundstag.png",
+      "description": "Cross-border regional train operator connecting Denmark and southern Sweden.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "oresundstag.png",
-    "description": "Cross-border regional train operator connecting Denmark and southern Sweden.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "flytoget",
-    "name": "Flytoget",
-    "country": "Norway",
-    "countries": [
-      "Norway"
-    ],
-    "type": "trains",
-    "website": "https://flytoget.no/en/",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "flytoget",
+      "name": "Flytoget",
+      "country": "Norway",
+      "countries": [
+        "Norway"
+      ],
+      "type": "trains",
+      "website": "https://flytoget.no/en/",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "flytoget.png",
+      "description": "Airport express train connecting Oslo Airport with central Oslo.",
+      "operatorLabel": "Airport train operator"
     },
-    "logo": "flytoget.png",
-    "description": "Airport express train connecting Oslo Airport with central Oslo.",
-    "operatorLabel": "Airport train operator"
-  },
-  {
-    "id": "trenord",
-    "name": "Trenord",
-    "country": "Italy",
-    "countries": ["Italy"],
-    "type": "trains",
-    "website": "https://www.trenord.it/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "trenord",
+      "name": "Trenord",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "website": "https://www.trenord.it/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "trenord.png",
+      "description": "Regional railway operator in Lombardy (Milan area), operating commuter and regional train services.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "trenord.png",
-    "description": "Regional railway operator in Lombardy (Milan area), operating commuter and regional train services.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "tper",
-    "name": "TPER",
-    "country": "Italy",
-    "countries": ["Italy"],
-    "type": "trains",
-    "website": "https://www.tper.it",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "tper",
+      "name": "TPER",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "website": "https://www.tper.it",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "tper.png",
+      "description": "Regional rail operator in Emilia-Romagna, providing local train services.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "tper.png",
-    "description": "Regional rail operator in Emilia-Romagna, providing local train services.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "bls",
-    "name": "BLS",
-    "country": "Switzerland",
-    "countries": ["Switzerland"],
-    "type": "trains",
-    "website": "https://www.bls.ch/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "bls",
+      "name": "BLS",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "website": "https://www.bls.ch/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "bls.png",
+      "description": "Major Swiss regional railway operator complementing SBB services.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "bls.png",
-    "description": "Major Swiss regional railway operator complementing SBB services.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "rhb",
-    "name": "Rähtische Bahn",
-    "country": "Switzerland",
-    "countries": ["Switzerland"],
-    "type": "trains",
-    "website": "https://www.rhb.ch/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "rhb",
+      "name": "Rähtische Bahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "website": "https://www.rhb.ch/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "rhb.png",
+      "description": "Rhätische Bahn operates scenic mountain railways including the Glacier Express and Bernina Express routes.",
+      "operatorLabel": "Scenic train operator"
     },
-    "logo": "rhb.png",
-    "description": "Rhätische Bahn operates scenic mountain railways including the Glacier Express and Bernina Express routes.",
-    "operatorLabel": "Scenic train operator"
-  },
-  {
-    "id": "zentralbahn",
-    "name": "Zentralbahn",
-    "country": "Switzerland",
-    "countries": ["Switzerland"],
-    "type": "trains",
-    "website": "https://www.zentralbahn.ch/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "zentralbahn",
+      "name": "Zentralbahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "website": "https://www.zentralbahn.ch/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "zentralbahn.png",
+      "description": "Swiss regional railway operating scenic routes between Lucerne and Interlaken.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "zentralbahn.png",
-    "description": "Swiss regional railway operating scenic routes between Lucerne and Interlaken.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "thurbo",
-    "name": "THURBO",
-    "country": "Switzerland",
-    "countries": ["Switzerland"],
-    "type": "trains",
-    "website": "https://www.thurbo.ch",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "thurbo",
+      "name": "THURBO",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "website": "https://www.thurbo.ch",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "thurbo.png",
+      "description": "Regional train operator in northeastern Switzerland.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "thurbo.png",
-    "description": "Regional train operator in northeastern Switzerland.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "tilo",
-    "name": "TILO",
-    "country": "Switzerland",
-    "countries": ["Switzerland", "Italy"],
-    "type": "trains",
-    "website": "https://www.tilo.ch/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "tilo",
+      "name": "TILO",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland",
+        "Italy"
+      ],
+      "type": "trains",
+      "website": "https://www.tilo.ch/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "tilo.png",
+      "description": "Cross-border regional rail operator between southern Switzerland and northern Italy.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "tilo.png",
-    "description": "Cross-border regional rail operator between southern Switzerland and northern Italy.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "matterhorn_gotthard_bahn",
-    "name": "Matterhorn Gotthard Bahn",
-    "country": "Switzerland",
-    "countries": ["Switzerland"],
-    "type": "trains",
-    "website": "https://www.matterhorngotthardbahn.ch/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "matterhorn_gotthard_bahn",
+      "name": "Matterhorn Gotthard Bahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "website": "https://www.matterhorngotthardbahn.ch/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "mgb.png",
+      "description": "Mountain railway operator connecting Zermatt, Andermatt and Disentis, part of Glacier Express route.",
+      "operatorLabel": "Scenic train operator"
     },
-    "logo": "mgb.png",
-    "description": "Mountain railway operator connecting Zermatt, Andermatt and Disentis, part of Glacier Express route.",
-    "operatorLabel": "Scenic train operator"
-  },
-  {
-    "id": "arlanda_express",
-    "name": "Arlanda Express",
-    "country": "Sweden",
-    "countries": ["Sweden"],
-    "type": "trains",
-    "website": "https://www.arlandaexpress.com",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "arlanda_express",
+      "name": "Arlanda Express",
+      "country": "Sweden",
+      "countries": [
+        "Sweden"
+      ],
+      "type": "trains",
+      "website": "https://www.arlandaexpress.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "arlanda_express.png",
+      "description": "High-speed airport train connecting Stockholm and Arlanda Airport.",
+      "operatorLabel": "Airport train operator"
     },
-    "logo": "arlanda_express.png",
-    "description": "High-speed airport train connecting Stockholm and Arlanda Airport.",
-    "operatorLabel": "Airport train operator"
-  },
-  {
-    "id": "hsh",
-    "name": "hsh (Albanian Railways)",
-    "country": "Albania",
-    "countries": ["Albania"],
-    "type": "trains",
-    "website": "https://hekurudha.al/transporti-hekurudhor/?lang=en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "hsh",
+      "name": "hsh (Albanian Railways)",
+      "country": "Albania",
+      "countries": [
+        "Albania"
+      ],
+      "type": "trains",
+      "website": "https://hekurudha.al/transporti-hekurudhor/?lang=en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "hsh.png",
+      "description": "Albania's national railway operator with limited passenger services.",
+      "operatorLabel": "National train operator"
     },
-    "logo": "hsh.png",
-    "description": "Albania's national railway operator with limited passenger services.",
-    "operatorLabel": "National train operator"
-  },
-  {
-    "id": "srbija_voz",
-    "name": "Srbija Voz",
-    "country": "Serbia",
-    "countries": [
-      "Serbia",
-      "Montenegro",
-      "Hungary",
-      "Croatia",
-      "Bosnia and Herzegovina"
-    ],
-    "type": "trains",
-    "website": "https://www.srbvoz.rs/en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "srbija_voz",
+      "name": "Srbija Voz",
+      "country": "Serbia",
+      "countries": [
+        "Serbia",
+        "Montenegro",
+        "Hungary",
+        "Croatia",
+        "Bosnia and Herzegovina"
+      ],
+      "type": "trains",
+      "website": "https://www.srbvoz.rs/en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "srbija_voz.png",
+      "description": "Serbia's national passenger rail operator providing domestic and regional international services.",
+      "operatorLabel": "Serbian national train operator"
     },
-    "logo": "srbija_voz.png",
-    "description": "Serbia's national passenger rail operator providing domestic and regional international services.",
-    "operatorLabel": "Serbian national train operator"
-  },
-  {
-    "id": "zeleznice_rs",
-    "name": "Željeznice Republike Srpske",
-    "country": "Bosnia and Herzegovina",
-    "countries": [
-      "Bosnia and Herzegovina",
-      "Serbia",
-      "Croatia"
-    ],
-    "type": "trains",
-    "website": "https://www.zrs-rs.com",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "zeleznice_rs",
+      "name": "Željeznice Republike Srpske",
+      "country": "Bosnia and Herzegovina",
+      "countries": [
+        "Bosnia and Herzegovina",
+        "Serbia",
+        "Croatia"
+      ],
+      "type": "trains",
+      "website": "https://www.zrs-rs.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "zrs.png",
+      "description": "Rail operator serving Republika Srpska region of Bosnia and Herzegovina.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "zrs.png",
-    "description": "Rail operator serving Republika Srpska region of Bosnia and Herzegovina.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "fbih_railways",
-    "name": "ŽFBiH",
-    "country": "Bosnia and Herzegovina",
-    "countries": [
-      "Bosnia and Herzegovina",
-      "Croatia"
-    ],
-    "type": "trains",
-    "website": "https://www.zfbh.ba",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "fbih_railways",
+      "name": "ŽFBiH",
+      "country": "Bosnia and Herzegovina",
+      "countries": [
+        "Bosnia and Herzegovina",
+        "Croatia"
+      ],
+      "type": "trains",
+      "website": "https://www.zfbh.ba",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "zfbh.png",
+      "description": "Federation of Bosnia and Herzegovina railway operator providing domestic passenger services.",
+      "operatorLabel": "Regional train operator"
     },
-    "logo": "zfbh.png",
-    "description": "Federation of Bosnia and Herzegovina railway operator providing domestic passenger services.",
-    "operatorLabel": "Regional train operator"
-  },
-  {
-    "id": "zeleznicki_prevoz",
-    "name": "ŽPCG",
-    "country": "Montenegro",
-    "countries": [
-      "Montenegro",
-      "Serbia"
-    ],
-    "type": "trains",
-    "website": "https://www.zpcg.me",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "zeleznicki_prevoz",
+      "name": "ŽPCG",
+      "country": "Montenegro",
+      "countries": [
+        "Montenegro",
+        "Serbia"
+      ],
+      "type": "trains",
+      "website": "https://www.zpcg.me",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "zpcg.png",
+      "description": "Montenegro's national railway operator, known for the Belgrade–Bar railway route.",
+      "operatorLabel": "Montenegrin national train operator"
     },
-    "logo": "zpcg.png",
-    "description": "Montenegro's national railway operator, known for the Belgrade–Bar railway route.",
-    "operatorLabel": "Montenegrin national train operator"
-  },
-  {
-    "id": "cfr_moldova",
-    "name": "Calea Ferată din Moldova",
-    "country": "Moldova",
-    "countries": [
-      "Moldova",
-      "Romania",
-      "Ukraine"
-    ],
-    "type": "trains",
-    "website": "http://www.railway.md/?l=en",
-    "appLinks": {
-      "android": "",
-      "ios": ""
+    {
+      "id": "cfr_moldova",
+      "name": "Calea Ferată din Moldova",
+      "country": "Moldova",
+      "countries": [
+        "Moldova",
+        "Romania",
+        "Ukraine"
+      ],
+      "type": "trains",
+      "website": "http://www.railway.md/?l=en",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "cfm.png",
+      "description": "Moldova's national railway operator providing limited domestic and cross-border services.",
+      "operatorLabel": "Moldovan national train operator"
     },
-    "logo": "cfm.png",
-    "description": "Moldova's national railway operator providing limited domestic and cross-border services.",
-    "operatorLabel": "Moldovan national train operator"
-  },
-  {
-  "id": "trainkos",
-  "name": "Trainkos",
-  "country": "Kosovo",
-  "countries": [
-    "Kosovo"
-  ],
-  "type": "trains",
-  "website": "https://www.trainkos.com",
-  "appLinks": {
-    "android": "",
-    "ios": ""
-  },
-  "logo": "trainkos.png",
-  "description": "Kosovo's rail operator with limited domestic passenger services.",
-  "operatorLabel": "Regional train operator"
-},
+    {
+      "id": "trainkos",
+      "name": "Trainkos",
+      "country": "Kosovo",
+      "countries": [
+        "Kosovo"
+      ],
+      "type": "trains",
+      "website": "https://www.trainkos.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "trainkos.png",
+      "description": "Kosovo's rail operator with limited domestic passenger services.",
+      "operatorLabel": "Regional train operator"
+    },
     {
       "id": "eurostar",
       "name": "Eurostar",
@@ -1183,7 +1203,7 @@
       "description": "Overnight train operator linking London with Scotland, including routes to Edinburgh, Glasgow, Inverness, Aberdeen and Fort William. Book directly with Caledonian Sleeper for rooms, berths and seated sleeper tickets.",
       "operatorLabel": "UK night train operator"
     },
-        {
+    {
       "id": "ouigo",
       "name": "Ouigo",
       "country": "France",
@@ -1202,7 +1222,7 @@
       "description": "",
       "operatorLabel": "Budget train operator"
     },
-  {
+    {
       "id": "flixtrain",
       "name": "FlixTrain",
       "country": "Germany",
@@ -1219,7 +1239,7 @@
       "description": "",
       "operatorLabel": "Budget train operator"
     },
-  {
+    {
       "id": "european_sleeper",
       "name": "European sleeper",
       "country": "Netherlands",
@@ -1501,6 +1521,619 @@
       "countries": [
         "Denmark",
         "Norway"
+      ]
+    },
+    {
+      "id": "stena_line",
+      "name": "Stena Line",
+      "type": "ferries",
+      "website": "https://www.stenaline.co.uk",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "stena_line.png",
+      "description": "Stena Line is one of the largest ferry operators in Europe, operating routes across the North Sea, Irish Sea, Baltic Sea and Skagerrak.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark",
+        "Germany",
+        "Ireland",
+        "Latvia",
+        "Netherlands",
+        "Poland",
+        "Sweden",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "p_o_ferries",
+      "name": "P&O Ferries",
+      "type": "ferries",
+      "website": "https://www.poferries.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "P&O Ferries operates ferry services on the English Channel and Irish Sea, connecting the UK with France, Ireland and the Netherlands.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "Ireland",
+        "Netherlands",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "finnlines",
+      "name": "Finnlines",
+      "type": "ferries",
+      "website": "https://www.finnlines.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "finnlines.png",
+      "description": "Finnlines operates ferry and ro-ro services in the Baltic Sea, connecting Finland, Germany, Poland, Latvia and Sweden.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Finland",
+        "Germany",
+        "Latvia",
+        "Poland",
+        "Sweden"
+      ]
+    },
+    {
+      "id": "tt_line",
+      "name": "TT-Line",
+      "type": "ferries",
+      "website": "https://www.ttline.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "TT-Line operates ferries between Germany and Sweden on routes from Rostock and Travemünde to Trelleborg.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Germany",
+        "Poland",
+        "Sweden"
+      ]
+    },
+    {
+      "id": "tallink_silja",
+      "name": "Tallink Silja",
+      "type": "ferries",
+      "website": "https://www.tallinksilja.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Tallink Silja is a leading ferry operator in the Baltic Sea, connecting Finland, Sweden, Estonia and Latvia.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Estonia",
+        "Finland",
+        "Latvia",
+        "Sweden"
+      ]
+    },
+    {
+      "id": "viking_line",
+      "name": "Viking Line",
+      "type": "ferries",
+      "website": "https://www.vikingline.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "viking_line.png",
+      "description": "Viking Line operates passenger ferries between Finland, Sweden and Estonia in the Baltic Sea.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Estonia",
+        "Finland",
+        "Sweden"
+      ]
+    },
+    {
+      "id": "gnv",
+      "name": "GNV",
+      "type": "ferries",
+      "website": "https://www.gnv.it",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Grandi Navi Veloci operates ferry services in the Mediterranean, connecting Italy with Sicily, Sardinia, Spain, Tunisia and Morocco.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "Italy",
+        "Morocco",
+        "Spain",
+        "Tunisia"
+      ]
+    },
+    {
+      "id": "moby_lines",
+      "name": "Moby Lines",
+      "type": "ferries",
+      "website": "https://www.moby.it",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "moby_lines.png",
+      "description": "Moby Lines operates ferries between mainland Italy and the islands of Sardinia, Corsica and Elba.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "Italy"
+      ]
+    },
+    {
+      "id": "corsica_ferries",
+      "name": "Corsica Ferries",
+      "type": "ferries",
+      "website": "https://www.corsicaferries.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Corsica Ferries operates ferry services between mainland Italy, France and the islands of Corsica and Sardinia.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "Italy"
+      ]
+    },
+    {
+      "id": "condor_ferries",
+      "name": "Condor Ferries",
+      "type": "ferries",
+      "website": "https://www.condorferries.co.uk",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "condor_ferries.png",
+      "description": "Condor Ferries operates ferry services between the UK, the Channel Islands (Jersey, Guernsey) and France (St Malo).",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "irish_ferries",
+      "name": "Irish Ferries",
+      "type": "ferries",
+      "website": "https://www.irishferries.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Irish Ferries operates passenger ferries between Ireland, the UK and France.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "Ireland",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "eurotunnel",
+      "name": "Eurotunnel",
+      "type": "ferries",
+      "website": "https://www.eurotunnel.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "eurotunnel.png",
+      "description": "Eurotunnel Le Shuttle operates car and passenger shuttle trains through the Channel Tunnel between Folkestone and Calais.",
+      "operatorLabel": "Channel Tunnel shuttle operator",
+      "countries": [
+        "France",
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "algerie_ferries",
+      "name": "Algérie Ferries",
+      "type": "ferries",
+      "website": "https://www.algerieferries.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Algérie Ferries operates passenger ferries between Algeria and France and Spain.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Algeria",
+        "France",
+        "Spain"
+      ]
+    },
+    {
+      "id": "tunisie_ferries",
+      "name": "Tunisie Ferries",
+      "type": "ferries",
+      "website": "https://www.tunisieferries.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Tunisie Ferries operates ferry services between Tunisia and France and Italy.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "Italy",
+        "Tunisia"
+      ]
+    },
+    {
+      "id": "ctn",
+      "name": "CTN",
+      "type": "ferries",
+      "website": "https://www.ctn.com.tn",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Compagnie Tunisienne de Navigation operates ferry services between Tunisia and France.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "France",
+        "Tunisia"
+      ]
+    },
+    {
+      "id": "anek_lines",
+      "name": "ANEK Lines",
+      "type": "ferries",
+      "website": "https://www.anek.gr",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "ANEK Lines operates ferry services between Greece and Italy in the Adriatic Sea.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Greece",
+        "Italy"
+      ]
+    },
+    {
+      "id": "superfast_ferries",
+      "name": "Superfast Ferries",
+      "type": "ferries",
+      "website": "https://www.superfast.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Superfast Ferries operates high-speed ferry services between Greece, Italy and the Adriatic.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Germany",
+        "Greece",
+        "Italy"
+      ]
+    },
+    {
+      "id": "jadrolinija",
+      "name": "Jadrolinija",
+      "type": "ferries",
+      "website": "https://www.jadrolinija.hr",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Jadrolinija is Croatia's national ferry operator, connecting the mainland with the Adriatic islands and Italy.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Croatia",
+        "Italy"
+      ]
+    },
+    {
+      "id": "ventouris_ferries",
+      "name": "Ventouris Ferries",
+      "type": "ferries",
+      "website": "https://www.ventouris.gr",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Ventouris Ferries operates ferry services on Adriatic routes between Italy and Greece.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Greece",
+        "Italy"
+      ]
+    },
+    {
+      "id": "molslinjen",
+      "name": "Molslinjen",
+      "type": "ferries",
+      "website": "https://www.molslinjen.dk",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Molslinjen operates domestic ferry routes in Denmark, connecting the peninsula with islands across the country.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark"
+      ]
+    },
+    {
+      "id": "forsea",
+      "name": "ForSea",
+      "type": "ferries",
+      "website": "https://www.forseaferries.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "ForSea operates the ferry crossing between Helsingør (Denmark) and Helsingborg (Sweden).",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark",
+        "Sweden"
+      ]
+    },
+    {
+      "id": "eckero_line",
+      "name": "Eckerö Line",
+      "type": "ferries",
+      "website": "https://www.eckeroline.fi",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Eckerö Line operates ferry services between Finland and Estonia and between Sweden and Finland.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Estonia",
+        "Finland",
+        "Sweden"
+      ]
+    },
+    {
+      "id": "wasaline",
+      "name": "Wasaline",
+      "type": "ferries",
+      "website": "https://www.wasaline.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Wasaline operates the ferry route between Vaasa (Finland) and Umeå (Sweden) in the Gulf of Bothnia.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Finland",
+        "Sweden"
+      ]
+    },
+    {
+      "id": "destination_gotland",
+      "name": "Destination Gotland",
+      "type": "ferries",
+      "website": "https://www.destinationgotland.se",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Destination Gotland operates ferry services between mainland Sweden and the island of Gotland.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Sweden"
+      ]
+    },
+    {
+      "id": "teso",
+      "name": "TESO",
+      "type": "ferries",
+      "website": "https://www.teso.nl",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "teso.png",
+      "description": "TESO operates the ferry between Den Helder and the island of Texel in the Netherlands.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Netherlands"
+      ]
+    },
+    {
+      "id": "rederij_doeksen",
+      "name": "Rederij Doeksen",
+      "type": "ferries",
+      "website": "https://www.rederij-doeksen.nl",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "rederij_doeksen.png",
+      "description": "Rederij Doeksen operates ferry services from Harlingen to the Wadden Islands Terschelling and Vlieland in the Netherlands.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Netherlands"
+      ]
+    },
+    {
+      "id": "wagenborg",
+      "name": "Wagenborg",
+      "type": "ferries",
+      "website": "https://www.wpd.nl",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Wagenborg operates the ferry to the Wadden Island of Schiermonnikoog in the Netherlands.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Netherlands"
+      ]
+    },
+    {
+      "id": "ag_ems",
+      "name": "AG Ems",
+      "type": "ferries",
+      "website": "https://www.ag-ems.de",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "AG Ems operates ferry services from Eemshaven (Netherlands) and Emden (Germany) to the German island of Borkum.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Germany",
+        "Netherlands"
+      ]
+    },
+    {
+      "id": "northlink_ferries",
+      "name": "NorthLink Ferries",
+      "type": "ferries",
+      "website": "https://www.northlinkferries.co.uk",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "NorthLink Ferries operates ferry services between mainland Scotland and the Orkney and Shetland islands.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "caledonian_macbrayne",
+      "name": "Caledonian MacBrayne",
+      "type": "ferries",
+      "website": "https://www.calmac.co.uk",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Caledonian MacBrayne operates ferry services to the Hebrides and other Scottish islands.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "id": "smryil_line",
+      "name": "Smyril Line",
+      "type": "ferries",
+      "website": "https://www.smyril-line.com",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Smyril Line operates the only ferry service from Denmark to the Faroe Islands and Iceland across the North Atlantic.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Denmark",
+        "Faroe Islands",
+        "Iceland"
+      ]
+    },
+    {
+      "id": "european_seaways",
+      "name": "European Seaways",
+      "type": "ferries",
+      "website": "",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "European Seaways operates ferry services between Italy and Albania across the Adriatic Sea.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Albania",
+        "Italy"
+      ]
+    },
+    {
+      "id": "ukrferry",
+      "name": "Ukrferry",
+      "type": "ferries",
+      "website": "",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Ukrferry operates ferry services in the Black Sea connecting Ukraine, Romania, Bulgaria and Georgia.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Bulgaria",
+        "Georgia",
+        "Romania",
+        "Ukraine"
+      ]
+    },
+    {
+      "id": "black_sea_ferry",
+      "name": "Black Sea Ferry",
+      "type": "ferries",
+      "website": "",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Black Sea Ferry operates freight and passenger services in the Black Sea region.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Georgia",
+        "Romania"
+      ]
+    },
+    {
+      "id": "acciona",
+      "name": "Acciona",
+      "type": "ferries",
+      "website": "https://www.acciona-trasmediterranea.es",
+      "appLinks": {
+        "android": "",
+        "ios": ""
+      },
+      "logo": "",
+      "description": "Acciona Trasmediterránea operates ferry services between mainland Spain and the Balearic and Canary Islands.",
+      "operatorLabel": "Ferry operator",
+      "countries": [
+        "Spain"
       ]
     }
   ],

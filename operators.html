@@ -205,6 +205,20 @@ option {
   background: rgba(255,255,255,0.07);
 }
 
+.operator-card.highlighted {
+  border-color: var(--hover);
+  box-shadow: 0 0 0 2px var(--hover);
+  background: rgba(96,165,250,0.15);
+}
+
+.operator-card .clear-highlight {
+  display: none;
+}
+
+.operator-card.highlighted .clear-highlight {
+  display: inline-flex;
+}
+
 .actions {
   margin-top: auto;
 }
@@ -315,6 +329,109 @@ option {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+  opacity: 0.85;
+}
+.footer-link {
+  color: var(--hover);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.footer-link:hover { text-decoration: underline; opacity: 1; }
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal-dialog {
+  background: var(--panel);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0.6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+}
+.modal-close:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+.modal-dialog h2 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+.modal-dialog > p { margin: 0 0 1.2rem; opacity: 0.75; font-size: 0.9rem; line-height: 1.5; }
+.report-form { display: grid; gap: 1rem; }
+.report-form .field { display: grid; gap: 0.35rem; }
+.report-form .field label { font-size: 0.85rem; opacity: 0.8; }
+.report-form input,
+.report-form select,
+.report-form textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.75rem;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  font: inherit;
+  box-sizing: border-box;
+}
+.report-form textarea { resize: vertical; min-height: 100px; }
+.report-form .submit-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--hover);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.report-form .submit-btn:hover { background: var(--active); transform: translateY(-1px); }
+.form-success { display: none; text-align: center; padding: 2rem 1rem; }
+.form-success.show { display: block; }
+.form-success .success-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.form-error { color: #f87171; font-size: 0.85rem; display: none; margin-top: 0.3rem; }
+.report-hint {
+  background: rgba(96,165,250,0.12);
+  border: 1px solid rgba(96,165,250,0.3);
+  border-radius: 10px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+.report-form select option { color: #111827; background: #fff; }
 </style>
 </head>
 <body>
@@ -418,7 +535,19 @@ function escapeHTML(text) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
-
+function normalizeForSearch(text) {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ø/g, 'o').replace(/Ø/g, 'O')
+    .replace(/ł/g, 'l').replace(/Ł/g, 'L')
+    .replace(/ð/g, 'd').replace(/Ð/g, 'D')
+    .replace(/þ/g, 'th').replace(/Þ/g, 'TH')
+    .replace(/æ/g, 'ae').replace(/Æ/g, 'AE')
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'OE')
+    .replace(/ß/g, 'ss')
+    .toLowerCase();
+}
 function unique(values) {
   return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
@@ -481,7 +610,7 @@ function render() {
     const countries = operatorCountries(operator);
     const visibleCountries = countries.slice(0, 6);
     return `
-      <article class="operator-card">
+      <article class="operator-card" data-operator-name="${escapeHTML(operator.name)}">
         <div class="operator-top">
           ${operator.logo ? `<img class="operator-logo" src="operator logos/${escapeHTML(operator.logo)}" alt="${escapeHTML(operator.name)} logo" />` : `<div class="operator-logo"></div>`}
           <div>
@@ -499,6 +628,7 @@ function render() {
           ${operator.website ? `<a class="action-link primary" href="${escapeHTML(operator.website)}" target="_blank" rel="noopener">Website</a>` : ""}
           ${operator.appLinks?.android ? `<a class="action-link" href="${escapeHTML(operator.appLinks.android)}" target="_blank" rel="noopener">Android</a>` : ""}
           ${operator.appLinks?.ios ? `<a class="action-link" href="${escapeHTML(operator.appLinks.ios)}" target="_blank" rel="noopener">iOS</a>` : ""}
+          <a class="action-link clear-highlight" href="/operators">Clear highlight</a>
         </div>
       </article>
     `;
@@ -511,6 +641,28 @@ fetch("./data.json")
     operators = data.operators || [];
     buildFilters();
     render();
+
+    // Check if an operator was specified in the URL
+    const operatorParam = new URLSearchParams(window.location.search).get("operator");
+    if (operatorParam) {
+      const normalizedParam = normalizeForSearch(operatorParam);
+      const match = operators.find(op => normalizeForSearch(op.name) === normalizedParam);
+      if (match) {
+        searchInput.value = match.name;
+        render();
+        // Highlight the matching card
+        requestAnimationFrame(() => {
+          const cards = operatorGrid.querySelectorAll('.operator-card');
+          for (const card of cards) {
+            if (card.dataset.operatorName === match.name) {
+              card.classList.add('highlighted');
+              card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+              break;
+            }
+          }
+        });
+      }
+    }
   });
 
 [searchInput, countryFilter, typeFilter, websiteFilter, appFilter, sortFilter].forEach(control => {
@@ -518,5 +670,112 @@ fetch("./data.json")
   control.addEventListener("change", render);
 });
 </script>
+
+<footer class="site-footer">
+  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+</footer>
+
+<div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeReportModal()" aria-label="Close">&times;</button>
+    <h2>Report something</h2>
+    <p>Spotted a bug, outdated info, or have a feature idea? Let us know!</p>
+    <form class="report-form" id="reportForm">
+      <div class="field">
+        <label for="reportType">Type *</label>
+        <select name="Type" id="reportType" required>
+          <option value="">Select...</option>
+          <option value="Bug / Misinformation">Bug / Misinformation</option>
+          <option value="Feature Idea">Feature Idea</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="report-hint" id="bugHint" style="display:none">Is station data incorrect (tracks, architect, passenger numbers, etc.)? You can fix it directly on Wikidata by clicking the <strong>Source</strong> button on the station's page.</div>
+      <div class="field">
+        <label for="reportName">Your name (optional)</label>
+        <input type="text" name="Name" id="reportName" placeholder="Jane Doe">
+      </div>
+      <div class="field">
+        <label for="reportEmail">Your email (optional, for follow-up)</label>
+        <input type="email" name="Email" id="reportEmail" placeholder="jane@example.com">
+      </div>
+      <div class="field">
+        <label for="reportMessage">Message *</label>
+        <textarea name="Message" id="reportMessage" required placeholder="Describe the issue or idea…"></textarea>
+      </div>
+      <div class="form-error" id="formError"></div>
+      <button type="submit" class="submit-btn">Send report</button>
+    </form>
+    <script>
+      document.getElementById('reportType').addEventListener('change', function() {
+        document.getElementById('bugHint').style.display = this.value === 'Bug / Misinformation' ? '' : 'none';
+      });
+    </script>
+    <div class="form-success" id="formSuccess">
+      <h3>Thank you!</h3>
+      <p>Your report has been sent. We'll look into it.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openReportModal() {
+  document.getElementById('reportModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeReportModal() {
+  document.getElementById('reportModal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('reportForm').style.display = '';
+  document.getElementById('formSuccess').classList.remove('show');
+  document.getElementById('formError').style.display = 'none';
+  document.getElementById('reportForm').reset();
+  var btn = document.querySelector('#reportForm .submit-btn');
+  btn.textContent = 'Send report';
+  btn.disabled = false;
+}
+document.getElementById('reportForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  var btn = form.querySelector('.submit-btn');
+  var type = document.getElementById('reportType').value;
+  var name = document.getElementById('reportName').value.trim();
+  var email = document.getElementById('reportEmail').value.trim();
+  var message = document.getElementById('reportMessage').value.trim();
+  var errorEl = document.getElementById('formError');
+  errorEl.style.display = 'none';
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      access_key: '619ecb95-9c90-415e-94fd-94a6d9ee8adb',
+      subject: 'Track & Tide Report: ' + type,
+      from_name: name || 'Anonymous',
+      Type: type,
+      Name: name,
+      Email: email,
+      Message: message
+    })
+  }).then(function(resp) {
+    return resp.json().then(function(data) { return { ok: resp.ok, data: data }; });
+  }).then(function(result) {
+    if (result.ok && result.data.success) {
+      form.style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+      setTimeout(function() { closeReportModal(); }, 4000);
+    } else {
+      throw new Error(result.data.message || 'Unknown error');
+    }
+  }).catch(function(err) {
+    errorEl.textContent = 'Could not send. Please try again or email us at trackandtide00@gmail.com';
+    errorEl.style.display = 'block';
+    btn.textContent = 'Send report';
+    btn.disabled = false;
+  });
+});
+</script>
+
 </body>
 </html>

@@ -1,5 +1,10 @@
 import { readFile, writeFile } from "node:fs/promises";
 
+// ⚠️  WARNING: This script makes batch SPARQL queries to Wikidata from the SERVER.
+// Running it too frequently can cause the server IP to be rate-limited or blocked by Wikidata.
+// Run this ONLY for periodic data collection (weekly/monthly).
+// Live user-facing Wikidata data is fetched client-side (from the user's browser) in stations.html and index.html.
+
 const wikidataSparqlUrl = "https://query.wikidata.org/sparql";
 const overpassUrls = [
   "https://overpass-api.de/api/interpreter",
@@ -121,18 +126,18 @@ function wikidataEntityId(url) {
 
 async function fetchWikidataStations(country) {
   const query = `
-    SELECT ?station ?stationLabel ?coord (GROUP_CONCAT(DISTINCT ?operatorLabel; separator=", ") AS ?operators)
+    SELECT ?station ?stationLabel ?coord ?usageState (GROUP_CONCAT(DISTINCT ?operatorLabel; separator=", ") AS ?operators)
     WHERE {
       ?station wdt:P31 wd:Q55488;
                wdt:P17 wd:${country.qid};
-               wdt:P5817 wd:Q55654238;
+               wdt:P5817 ?usageState;
                wdt:P625 ?coord.
       OPTIONAL { ?station wdt:P137 ?operator. }
       SERVICE wikibase:label {
         bd:serviceParam wikibase:language "nl,en,[AUTO_LANGUAGE]".
       }
     }
-    GROUP BY ?station ?stationLabel ?coord
+    GROUP BY ?station ?stationLabel ?coord ?usageState
   `;
 
   const url = `${wikidataSparqlUrl}?format=json&query=${encodeURIComponent(query)}`;
@@ -144,9 +149,30 @@ async function fetchWikidataStations(country) {
     }
   });
 
+  // Map Wikidata P5817 states to usage categories, filter out abandoned
+  const usageStateMap = {
+    "http://www.wikidata.org/entity/Q55654238": "in_use",     // in use
+    "http://www.wikidata.org/entity/Q39367638": "limited_use", // partially in use
+    "http://www.wikidata.org/entity/Q55453390": "limited_use", // closed
+    "http://www.wikidata.org/entity/Q116611218": "limited_use", // seasonal
+    "http://www.wikidata.org/entity/Q29963925": "limited_use", // occasional
+    "http://www.wikidata.org/entity/Q28913198": "limited_use", // event venue
+    "http://www.wikidata.org/entity/Q111651402": "limited_use", // temporarily closed
+  };
+
+  const abandonedStates = new Set([
+    "http://www.wikidata.org/entity/Q22676035", // abandoned
+    "http://www.wikidata.org/entity/Q16662049", // demolished
+    "http://www.wikidata.org/entity/Q30261664", // dismantled
+    "http://www.wikidata.org/entity/Q67385990", // ruined
+  ]);
+
   return (data.results?.bindings || [])
     .map(b => {
       const p = parsePoint(b.coord?.value);
+      const stateUrl = b.usageState?.value;
+      if (abandonedStates.has(stateUrl)) return null; // skip abandoned
+      const usageState = usageStateMap[stateUrl] || "limited_use";
       return {
         id: b.station?.value,
         wikidataId: wikidataEntityId(b.station?.value),
@@ -154,10 +180,12 @@ async function fetchWikidataStations(country) {
         name: cleanStationName(b.stationLabel?.value),
         lat: p?.lat,
         lng: p?.lng,
-        operators: b.operators?.value?.split(", ") || []
+        operators: b.operators?.value?.split(", ") || [],
+        usage: usageState
       };
     })
     .filter(s =>
+      s &&
       s.id &&
       s.name &&
       !isKilometerMarkerName(s.name) &&
@@ -183,8 +211,7 @@ function isUsableOsmStation(tags = {}) {
     tags.proposed === "yes"
   ) return false;
 
-  if (tags.tourism === "museum") return false;
-
+  // Allow heritage/museum/preserved stations (they'll be marked limited_use)
   return true;
 }
 
@@ -227,6 +254,18 @@ async function fetchOsmStations(country) {
       const lat = e.lat ?? e.center?.lat;
       const lng = e.lon ?? e.center?.lon;
 
+      // Infer usage from OSM tags
+      let usage = "in_use";
+      const heritageTerms = /museum|heritage|preserved|tourist|draisine|stoomtrein|stoomtram/i;
+      if (
+        heritageTerms.test(t.name || "") ||
+        heritageTerms.test(t.operator || "") ||
+        t.railway === "preserved" ||
+        t.tourism  // any tourism tag (museum, attraction, theme_park, etc.)
+      ) {
+        usage = "limited_use";
+      }
+
       return {
         id: `osm:${e.type}/${e.id}`,
         source: "osm",
@@ -234,7 +273,8 @@ async function fetchOsmStations(country) {
         name: cleanStationName(t.name),
         lat: Number(lat),
         lng: Number(lng),
-        operators: t.operator ? t.operator.split(";") : []
+        operators: t.operator ? t.operator.split(";") : [],
+        usage
       };
     })
     .filter(s =>
