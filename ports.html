@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ferry Ports - Track & Tide</title>
+<link rel="icon" href="icon.png" />
+<style>
+:root {
+  --bg: #1f2937;
+  --panel: rgba(31,41,55,0.75);
+  --text: #ffffff;
+  --border: rgba(255,255,255,0.08);
+  --hover: #60a5fa;
+  --active: #3b82f6;
+  --ferry: #38bdf8;
+}
+
+:root.light {
+  --bg: #d5d9e2;
+  --panel: #f8fafc;
+  --text: #111827;
+  --border: rgba(15,23,42,0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 14px 20px;
+}
+
+header img {
+  width: 200px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.main-nav a,
+.toggle {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  opacity: 0.8;
+  border: 1px solid transparent;
+}
+
+.main-nav a:hover,
+.main-nav a.active,
+.toggle {
+  opacity: 1;
+  background: var(--panel);
+  border-color: var(--border);
+}
+
+.toggle {
+  cursor: pointer;
+}
+
+main {
+  padding: 1rem;
+}
+
+.page-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.filters,
+.results-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+}
+
+.filters {
+  position: sticky;
+  top: 1rem;
+  padding: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.filters h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.82rem;
+  opacity: 0.76;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.75rem;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  font: inherit;
+}
+
+option {
+  color: #111827;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.stat {
+  padding: 0.65rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.2rem;
+}
+
+.stat span {
+  font-size: 0.78rem;
+  opacity: 0.72;
+}
+
+.results-panel {
+  overflow: hidden;
+}
+
+.results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.port-detail-panel {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.port-detail-card {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.port-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.port-detail-routes {
+  color: var(--text);
+  opacity: 0.85;
+  margin: 0.5rem 0 0;
+}
+
+.port-detail-inline {
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  border-left: 4px solid var(--ferry);
+  background: rgba(56,189,248,0.08);
+}
+
+.port-detail-loading {
+  opacity: 0.7;
+}
+
+.detail-header {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.detail-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.detail-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Wikidata enrichment */
+.detail-wiki {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.detail-wiki-img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.15);
+}
+
+.detail-wiki-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.82;
+  line-height: 1.5;
+}
+
+.detail-wiki-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* Stats badges */
+.detail-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.stat-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.5rem 0.9rem;
+  min-width: 80px;
+}
+
+.stat-num {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ferry);
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Meta chips (inception, architect, style) */
+.detail-meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+}
+
+/* Facility chips */
+.detail-facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.1rem;
+}
+
+.facility-chip {
+  font-size: 0.78rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  color: #34d399;
+}
+
+:root.light .facility-chip {
+  color: #059669;
+  background: rgba(5,150,105,0.08);
+  border-color: rgba(5,150,105,0.2);
+}
+
+/* Image gallery */
+.detail-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.5rem;
+}
+
+.detail-images .detail-wiki-img {
+  max-height: 220px;
+}
+
+/* Action links */
+.detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.detail-link {
+  color: var(--hover);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-family: inherit;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(96,165,250,0.3);
+  background: rgba(96,165,250,0.1);
+  transition: background 0.2s, transform 0.15s;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.detail-link:hover {
+  background: rgba(96,165,250,0.22);
+}
+
+.detail-link-map {
+  background: rgba(56,189,248,0.18);
+  border-color: rgba(56,189,248,0.4);
+}
+
+:root.light .port-detail-inline {
+  background: rgba(56,189,248,0.05);
+}
+
+:root.light .detail-link {
+  border-color: rgba(59,130,246,0.25);
+  background: rgba(59,130,246,0.08);
+}
+
+:root.light .detail-link-map {
+  background: rgba(56,189,248,0.12);
+  border-color: rgba(56,189,248,0.25);
+}
+
+.port-list {
+  display: grid;
+}
+
+.port-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.port-row:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.port-row.selected {
+  background: rgba(56,189,248,0.12);
+  border-left: 4px solid var(--ferry);
+}
+
+.port-row:last-child {
+  border-bottom: none;
+}
+
+.port-name {
+  font-weight: 750;
+}
+
+.port-meta {
+  margin-top: 0.25rem;
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  color: var(--text);
+  opacity: 0.76;
+  font-size: 0.88rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.5rem;
+  background: rgba(255,255,255,0.08);
+  color: inherit;
+  text-decoration: none;
+}
+
+a.pill:hover {
+  background: var(--ferry);
+  color: #fff;
+}
+
+.source-link {
+  color: var(--hover);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.empty {
+  padding: 2rem;
+  opacity: 0.76;
+}
+
+@media (max-width: 900px) {
+  header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .main-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .page-shell {
+    grid-template-columns: 1fr;
+  }
+  .filters {
+    position: static;
+  }
+  .stats {
+    grid-template-columns: 1fr;
+  }
+  .port-row {
+    grid-template-columns: 1fr;
+  }
+  .detail-images {
+    grid-template-columns: 1fr;
+  }
+  main {
+    padding: 0.5rem;
+  }
+}
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+  opacity: 0.85;
+}
+.footer-link {
+  color: var(--hover);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.footer-link:hover { text-decoration: underline; opacity: 1; }
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal-dialog {
+  background: var(--panel);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0.6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+}
+.modal-close:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+.modal-dialog h2 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+.modal-dialog > p { margin: 0 0 1.2rem; opacity: 0.75; font-size: 0.9rem; line-height: 1.5; }
+.report-form { display: grid; gap: 1rem; }
+.report-form .field { display: grid; gap: 0.35rem; }
+.report-form .field label { font-size: 0.85rem; opacity: 0.8; }
+.report-form input,
+.report-form select,
+.report-form textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.75rem;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  font: inherit;
+  box-sizing: border-box;
+}
+.report-form textarea { resize: vertical; min-height: 100px; }
+.report-form .submit-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--hover);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.report-form .submit-btn:hover { background: var(--active); transform: translateY(-1px); }
+.form-success { display: none; text-align: center; padding: 2rem 1rem; }
+.form-success.show { display: block; }
+.form-success .success-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.form-error { color: #f87171; font-size: 0.85rem; display: none; margin-top: 0.3rem; }
+.report-hint {
+  background: rgba(96,165,250,0.12);
+  border: 1px solid rgba(96,165,250,0.3);
+  border-radius: 10px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+.report-form select option { color: #111827; background: #fff; }
+</style>
+</head>
+<body>
+<header>
+  <img id="logo" src="trackandtide logo full.png" alt="Track & Tide" />
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="/">Map</a>
+    <a href="/stations">Stations</a>
+    <a href="/ports" class="active">Ports</a>
+    <a href="/operators">Operators</a>
+  </nav>
+  <div class="toggle" id="themeToggle">Light mode</div>
+</header>
+
+<main>
+  <div class="page-shell">
+    <aside class="filters">
+      <h1>Ferry Ports</h1>
+      <div class="field">
+        <label for="searchInput">Search</label>
+        <input id="searchInput" type="search" placeholder="Port name, country, route" />
+      </div>
+      <div class="field">
+        <label for="countryFilter">Country</label>
+        <select id="countryFilter"></select>
+      </div>
+      <div class="field">
+        <label for="sortFilter">Sort</label>
+        <select id="sortFilter">
+          <option value="name">Name</option>
+          <option value="country">Country</option>
+          <option value="routes">Route count</option>
+        </select>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="totalStat">0</strong><span>Total</span></div>
+        <div class="stat"><strong id="routeStat">0</strong><span>Routes</span></div>
+      </div>
+    </aside>
+
+    <section class="results-panel">
+      <div class="results-head">
+        <h2 id="resultTitle">Ferry Ports</h2>
+        <span id="generatedAt"></span>
+      </div>
+      <div class="port-list" id="portList"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+const root = document.documentElement;
+const toggle = document.getElementById("themeToggle");
+const logo = document.getElementById("logo");
+const searchInput = document.getElementById("searchInput");
+const countryFilter = document.getElementById("countryFilter");
+const sortFilter = document.getElementById("sortFilter");
+const portList = document.getElementById("portList");
+const resultTitle = document.getElementById("resultTitle");
+const generatedAt = document.getElementById("generatedAt");
+const totalStat = document.getElementById("totalStat");
+const routeStat = document.getElementById("routeStat");
+let ports = [];
+let routes = [];
+let selectedPortId = new URLSearchParams(window.location.search).get("portId");
+let portsByCountry = {};
+
+function setTheme(mode) {
+  if (mode === "light") root.classList.add("light");
+  else root.classList.remove("light");
+  localStorage.setItem("trackandtide:theme", mode);
+  toggle.textContent = root.classList.contains("light") ? "Dark mode" : "Light mode";
+  logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
+}
+
+function detectTheme() {
+  const savedTheme = localStorage.getItem("trackandtide:theme");
+  if (savedTheme) return savedTheme;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+toggle.onclick = () => setTheme(root.classList.contains("light") ? "dark" : "light");
+setTheme(detectTheme());
+
+function escapeHTML(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function normalizeForSearch(text) {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ø/g, 'o').replace(/Ø/g, 'O')
+    .replace(/ł/g, 'l').replace(/Ł/g, 'L')
+    .replace(/ð/g, 'd').replace(/Ð/g, 'D')
+    .replace(/þ/g, 'th').replace(/Þ/g, 'TH')
+    .replace(/æ/g, 'ae').replace(/Æ/g, 'AE')
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'OE')
+    .replace(/ß/g, 'ss')
+    .toLowerCase();
+}
+
+function getPortById(portId) {
+  return ports.find(p => p.id === portId) || null;
+}
+
+function getRoutesForPort(port) {
+  if (!port || !port.routeIds) return [];
+  return routes.filter(r => port.routeIds.includes(r.id));
+}
+
+function getRouteNamesForPort(port) {
+  return getRoutesForPort(port).map(r => r.name);
+}
+
+function getOperatorsForPort(port) {
+  const ops = getRoutesForPort(port).map(r => r.operator || "Unknown");
+  return [...new Set(ops)].sort();
+}
+
+// Wikidata cache
+const wikiCache = {};
+
+const WIKIDATA_UA = 'TrackAndTide/1.0 (https://trackandtide.eu; contact@trackandtide.eu)';
+
+async function fetchWikidataInfo(wikidataId) {
+  if (!wikidataId) return null;
+  if (wikiCache[wikidataId] !== undefined) return wikiCache[wikidataId];
+
+  try {
+    const url = `https://www.wikidata.org/wiki/Special:EntityData/${encodeURIComponent(wikidataId)}.json`;
+    const resp = await fetch(url, { headers: { 'User-Agent': WIKIDATA_UA } });
+    if (resp.status === 429) {
+      console.warn(`Wikidata rate-limited for ${wikidataId}, retrying in 2s...`);
+      await new Promise(r => setTimeout(r, 2000));
+      return fetchWikidataInfo(wikidataId);
+    }
+    if (!resp.ok) throw new Error(`Wikidata fetch failed: HTTP ${resp.status}`);
+    const data = await resp.json();
+    const entity = data.entities?.[wikidataId];
+    if (!entity) throw new Error('Entity not found in response');
+
+    const result = {};
+
+    // Image (P18)
+    const imageFile = entity.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
+    if (imageFile) {
+      const filename = encodeURIComponent(imageFile.replace(/ /g, '_'));
+      result.image = `https://commons.wikimedia.org/wiki/Special:FilePath/${filename}?width=600`;
+    }
+
+    // Interior image (P5775)
+    const intImageFile = entity.claims?.P5775?.[0]?.mainsnak?.datavalue?.value;
+    if (intImageFile) {
+      const filename = encodeURIComponent(intImageFile.replace(/ /g, '_'));
+      result.interiorImage = `https://commons.wikimedia.org/wiki/Special:FilePath/${filename}?width=600`;
+    }
+
+    // Nighttime view (P3451)
+    const nightFile = entity.claims?.P3451?.[0]?.mainsnak?.datavalue?.value;
+    if (nightFile) {
+      const filename = encodeURIComponent(nightFile.replace(/ /g, '_'));
+      result.nightView = `https://commons.wikimedia.org/wiki/Special:FilePath/${filename}?width=600`;
+    }
+
+    // Description
+    const desc = entity.descriptions?.en?.value || Object.values(entity.descriptions || {})[0]?.value;
+    if (desc) result.description = desc;
+
+    // Inception date (P571)
+    const inception = entity.claims?.P571?.[0]?.mainsnak?.datavalue?.value?.time;
+    if (inception) {
+      const d = inception.replace(/^\+/, '').split('T')[0];
+      if (d && d !== '0000-00-00') result.inception = d;
+    }
+
+    // Official website (P856)
+    const website = entity.claims?.P856?.[0]?.mainsnak?.datavalue?.value;
+    if (website) result.website = website;
+
+    // Located in/on physical feature: sea (P706) or basin country (P205)
+    const seaClaim = entity.claims?.P706?.[0]?.mainsnak?.datavalue?.value;
+    if (seaClaim?.id) {
+      try {
+        const labelResp = await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${seaClaim.id}&props=labels&languages=en|nl&format=json&origin=*`, { headers: { 'User-Agent': WIKIDATA_UA } });
+        if (labelResp.ok) {
+          const labelData = await labelResp.json();
+          result.sea = labelData.entities?.[seaClaim.id]?.labels?.en?.value || labelData.entities?.[seaClaim.id]?.labels?.nl?.value || seaClaim.id;
+        }
+      } catch (e) { /* fall through */ }
+    }
+
+    // Annual passengers (P3872) for ferry ports
+    const tryPatronage = (claims) => {
+      let best = null;
+      for (const claim of claims) {
+        const val = claim.mainsnak?.datavalue?.value;
+        const amount = parseFloat(val?.amount);
+        if (isNaN(amount) || amount <= 0) continue;
+        const yearQ = claim.qualifiers?.P585?.[0]?.datavalue?.value?.time;
+        const y = yearQ ? yearQ.replace(/^\+/, '').split('-')[0] : null;
+        if (!best || (y && (!best.year || y > best.year))) {
+          best = { value: amount, year: y };
+        }
+      }
+      return best;
+    };
+
+    const patron = tryPatronage(entity.claims?.P3872 || []);
+    if (patron) {
+      result.patronage = patron;
+    }
+
+    // Architect (P84) and Architectural style (P149)
+    const architectClaim = entity.claims?.P84?.[0]?.mainsnak?.datavalue?.value;
+    const styleClaim = entity.claims?.P149?.[0]?.mainsnak?.datavalue?.value;
+
+    if (architectClaim?.id || styleClaim?.id) {
+      const ids = [];
+      if (architectClaim?.id) ids.push(architectClaim.id);
+      if (styleClaim?.id) ids.push(styleClaim.id);
+      try {
+        const labelResp = await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${ids.join('|')}&props=labels&languages=en|nl&format=json&origin=*`, { headers: { 'User-Agent': WIKIDATA_UA } });
+        if (!labelResp.ok) throw new Error(`Label fetch failed: HTTP ${labelResp.status}`);
+        const labelData = await labelResp.json();
+        if (architectClaim?.id) {
+          const archEntity = labelData.entities?.[architectClaim.id];
+          result.architect = archEntity?.labels?.en?.value || archEntity?.labels?.nl?.value || architectClaim.id;
+        }
+        if (styleClaim?.id) {
+          const styleEntity = labelData.entities?.[styleClaim.id];
+          result.architecturalStyle = styleEntity?.labels?.en?.value || styleEntity?.labels?.nl?.value || styleClaim.id;
+        }
+      } catch (e) { /* labels stay unresolved */ }
+    }
+
+    if (!result.architect && architectClaim?.id) {
+      const archEntity = data.entities?.[architectClaim.id];
+      if (archEntity) result.architect = archEntity?.labels?.en?.value || archEntity?.labels?.nl?.value || architectClaim.id;
+    }
+    if (!result.architecturalStyle && styleClaim?.id) {
+      const styleEntity = data.entities?.[styleClaim.id];
+      if (styleEntity) result.architecturalStyle = styleEntity?.labels?.en?.value || styleEntity?.labels?.nl?.value || styleClaim.id;
+    }
+
+    // Facilities (P912 = has facility)
+    result.facilities = [];
+    if (entity.claims?.P2795?.[0]?.mainsnak?.datavalue?.value?.id === 'Q28830165') result.facilities.push('Bicycle parking');
+    if (entity.claims?.P2856?.[0]?.mainsnak?.datavalue?.value?.id === 'Q28830165') result.facilities.push('Toilet');
+    if (entity.claims?.P2846?.[0]?.mainsnak?.datavalue?.value?.id === 'Q28830165') result.facilities.push('Waiting room');
+    if (entity.claims?.P2650?.[0]?.mainsnak?.datavalue?.value?.id === 'Q28830165') result.facilities.push('Ticket office');
+    if (entity.claims?.P2829?.[0]?.mainsnak?.datavalue?.value?.id === 'Q28830165') result.facilities.push('WiFi');
+
+    wikiCache[wikidataId] = result;
+    return result;
+  } catch (e) {
+    console.warn(`Wikidata fetch failed for ${wikidataId}:`, e.message);
+    wikiCache[wikidataId] = null;
+    return null;
+  }
+}
+
+function renderPortDetailHTML(port, wikiData) {
+  if (!port) return "";
+
+  const portRoutes = getRoutesForPort(port);
+  const operators = getOperatorsForPort(port);
+  const routeCount = portRoutes.length;
+
+  let wikiBlock = "";
+  if (wikiData) {
+    const stats = [];
+    if (wikiData.patronage) {
+      const patStr = wikiData.patronage.value.toLocaleString();
+      const yrStr = wikiData.patronage.year ? ` (${wikiData.patronage.year})` : '';
+      stats.push(`<div class="stat-badge"><span class="stat-num">${patStr}</span><span class="stat-label">annual passengers${yrStr}</span></div>`);
+    }
+    stats.push(`<div class="stat-badge"><span class="stat-num">${routeCount}</span><span class="stat-label">ferry route${routeCount !== 1 ? 's' : ''}</span></div>`);
+
+    const metaChips = [];
+    if (wikiData.inception) {
+      const year = wikiData.inception.split('-')[0];
+      if (year) metaChips.push(`<span class="meta-chip">Opened ${escapeHTML(year)}</span>`);
+    }
+    if (wikiData.sea) metaChips.push(`<span class="meta-chip">On: ${escapeHTML(wikiData.sea)}</span>`);
+    if (wikiData.architect) metaChips.push(`<span class="meta-chip">Architect: ${escapeHTML(wikiData.architect)}</span>`);
+    if (wikiData.architecturalStyle) metaChips.push(`<span class="meta-chip">Style: ${escapeHTML(wikiData.architecturalStyle)}</span>`);
+
+    const images = [];
+    if (wikiData.image) images.push(`<img class="detail-wiki-img" src="${escapeHTML(wikiData.image)}" alt="${escapeHTML(port.name)}" loading="lazy" />`);
+    if (wikiData.interiorImage) images.push(`<img class="detail-wiki-img" src="${escapeHTML(wikiData.interiorImage)}" alt="Interior of ${escapeHTML(port.name)}" loading="lazy" />`);
+    if (wikiData.nightView) images.push(`<img class="detail-wiki-img" src="${escapeHTML(wikiData.nightView)}" alt="${escapeHTML(port.name)} at night" loading="lazy" />`);
+
+    wikiBlock = `
+      <div class="detail-wiki">
+        ${images.length ? `<div class="detail-images">${images.join("")}</div>` : ""}
+        ${wikiData.description ? `<p class="detail-wiki-desc">${escapeHTML(wikiData.description)}</p>` : ""}
+        ${stats.length ? `<div class="detail-stats">${stats.join("")}</div>` : ""}
+        ${metaChips.length ? `<div class="detail-meta-chips">${metaChips.join("")}</div>` : ""}
+        ${wikiData.facilities?.length ? `<div class="detail-facilities">${wikiData.facilities.map(f => `<span class="facility-chip">${f}</span>`).join("")}</div>` : ""}
+        <div class="detail-links">
+          ${wikiData.website ? `<a class="detail-link" href="${escapeHTML(wikiData.website)}" target="_blank" rel="noopener">Website</a>` : ""}
+          <button class="detail-link detail-link-map" data-open-map="${escapeHTML(port.id)}">Open on map</button>
+        </div>
+      </div>`;
+  } else {
+    wikiBlock = `
+      <div class="detail-wiki">
+        <div class="detail-stats">
+          <div class="stat-badge"><span class="stat-num">${routeCount}</span><span class="stat-label">ferry route${routeCount !== 1 ? 's' : ''}</span></div>
+        </div>
+        <div class="detail-links">
+          <button class="detail-link detail-link-map" data-open-map="${escapeHTML(port.id)}">Open on map</button>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="port-detail-inline" data-port-detail="${escapeHTML(port.id)}">
+      <div class="detail-header">
+        <h3>${escapeHTML(port.name)}</h3>
+        <div class="detail-pills">
+          ${port.countries.map(c => `<span class="pill">${escapeHTML(c)}</span>`).join("")}
+          ${operators.slice(0, 3).map(op => `<a class="pill" href="/operators?operator=${encodeURIComponent(op)}" target="_self" rel="noopener">${escapeHTML(op)}</a>`).join("")}
+        </div>
+        ${portRoutes.length ? `<div class="port-detail-routes">Routes: ${portRoutes.map(r => escapeHTML(r.name)).join(", ")}</div>` : ""}
+      </div>
+      ${wikiBlock}
+    </div>
+  `;
+}
+
+function removeInlineDetail() {
+  const existing = portList.querySelector('.port-detail-inline');
+  if (existing) existing.remove();
+}
+
+async function showInlineDetail(portId) {
+  removeInlineDetail();
+  const port = getPortById(portId);
+  if (!port) return;
+
+  const row = portList.querySelector(`.port-row[data-port-id="${CSS.escape(portId)}"]`);
+  if (!row) return;
+
+  const loadingHTML = `<div class="port-detail-inline port-detail-loading" data-port-detail="${escapeHTML(portId)}"><div class="detail-header"><h3>${escapeHTML(port.name)}</h3></div><p style="opacity:0.6;margin:0;">Loading info…</p></div>`;
+  row.insertAdjacentHTML('afterend', loadingHTML);
+
+  let wikiData = null;
+
+  // Use pre-cached data from the JSON if available
+  if (port.image || port.website || port.nightView || port.wikidataLabel) {
+    wikiData = {};
+    if (port.image) wikiData.image = port.image;
+    if (port.website) wikiData.website = port.website;
+    if (port.nightView) wikiData.nightView = port.nightView;
+    if (port.wikidataLabel) wikiData.wikidataLabel = port.wikidataLabel;
+  }
+
+  // If we have a wikidataId, fetch more details (description, patronage, inception, etc.)
+  if (port.wikidataId) {
+    const extraData = await fetchWikidataInfo(port.wikidataId);
+    if (extraData) {
+      wikiData = { ...wikiData, ...extraData };
+    }
+  }
+
+  // If no wikidataId and no pre-cached data, try searching Wikidata
+  if (!port.wikidataId && !wikiData) {
+    try {
+      const searchUrl = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(port.name + ' port')}&language=en&limit=1&format=json&origin=*`;
+      const searchResp = await fetch(searchUrl, { headers: { 'User-Agent': WIKIDATA_UA } });
+      if (searchResp.ok) {
+        const searchData = await searchResp.json();
+        if (searchData.search?.length) {
+          const wdId = searchData.search[0].id;
+          wikiData = await fetchWikidataInfo(wdId);
+        }
+      }
+    } catch (e) {
+      console.warn(`Wikidata search failed for ${port.name}:`, e.message);
+    }
+  }
+
+  removeInlineDetail();
+  const html = renderPortDetailHTML(port, wikiData);
+  row.insertAdjacentHTML('afterend', html);
+}
+
+function highlightPortRow(portId) {
+  portList.querySelectorAll('.port-row').forEach(row => {
+    row.classList.toggle('selected', row.dataset.portId === portId);
+  });
+}
+
+function openPortOnMap(portId) {
+  if (!portId) return;
+  window.location.href = `/index?portId=${encodeURIComponent(portId)}`;
+}
+
+portList.addEventListener('click', event => {
+  // Handle "Open on map" button
+  const openMapBtn = event.target.closest('[data-open-map]');
+  if (openMapBtn) {
+    event.preventDefault();
+    const portId = openMapBtn.dataset.openMap;
+    if (portId) {
+      window.location.href = `/index?portId=${encodeURIComponent(portId)}`;
+    }
+    return;
+  }
+
+  // Allow clicks on other links to work normally
+  if (event.target.closest('a')) return;
+
+  const row = event.target.closest('.port-row');
+  if (!row) return;
+  const portId = row.dataset.portId;
+  if (!portId) return;
+
+  // Toggle: if already selected, deselect
+  if (selectedPortId === portId) {
+    selectedPortId = null;
+    highlightPortRow(null);
+    removeInlineDetail();
+    const url = new URL(window.location);
+    url.searchParams.delete('portId');
+    window.history.replaceState({}, '', url);
+    return;
+  }
+
+  // Select new port
+  selectedPortId = portId;
+  highlightPortRow(portId);
+  showInlineDetail(portId);
+
+  // Update URL without navigating
+  const url = new URL(window.location);
+  url.searchParams.set('portId', portId);
+  window.history.replaceState({}, '', url);
+});
+
+function restoreSelectedPort() {
+  if (!selectedPortId) return;
+  const port = getPortById(selectedPortId);
+  if (!port) {
+    selectedPortId = null;
+    return;
+  }
+  searchInput.value = port.name;
+  countryFilter.value = "";
+  renderAndRestoreDetail();
+  requestAnimationFrame(() => {
+    const selectedRow = portList.querySelector('.port-row.selected');
+    if (selectedRow) selectedRow.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+}
+
+function unique(values) {
+  return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+
+function buildFilters() {
+  const countries = unique(ports.map(p => p.country));
+  countryFilter.innerHTML = `<option value="">All countries</option>${countries.map(c => `<option>${escapeHTML(c)}</option>`).join("")}`;
+}
+
+function getFilteredPorts() {
+  const query = searchInput.value.trim().toLowerCase();
+  const country = countryFilter.value;
+
+  return ports
+    .filter(port => {
+      const routeNames = getRouteNamesForPort(port).join(" ");
+      const operators = getOperatorsForPort(port).join(" ");
+      const haystack = [port.name, port.country, ...(port.countries || []), routeNames, operators].join(" ");
+
+      return (!query || normalizeForSearch(haystack).includes(normalizeForSearch(query))) &&
+        (!country || (port.countries || []).includes(country) || port.country === country);
+    })
+    .sort((a, b) => {
+      if (sortFilter.value === "country") return (a.country || "").localeCompare(b.country || "") || a.name.localeCompare(b.name);
+      if (sortFilter.value === "routes") return (b.routeIds?.length || 0) - (a.routeIds?.length || 0) || a.name.localeCompare(b.name);
+      return a.name.localeCompare(b.name);
+    });
+}
+
+function render() {
+  const filtered = getFilteredPorts();
+  const capped = filtered.slice(0, 500);
+
+  totalStat.textContent = filtered.length.toLocaleString();
+  const totalRoutes = new Set(filtered.flatMap(p => p.routeIds || [])).size;
+  routeStat.textContent = totalRoutes.toLocaleString();
+  resultTitle.textContent = `${filtered.length.toLocaleString()} ports`;
+
+  portList.innerHTML = capped.length ? capped.map(port => {
+    const routeCount = (port.routeIds || []).length;
+    const operators = getOperatorsForPort(port);
+    return `
+    <article class="port-row" data-port-id="${escapeHTML(port.id)}">
+      <div>
+        <div class="port-name">${escapeHTML(port.name)}</div>
+        <div class="port-meta">
+          ${port.countries.map(c => `<span class="pill">${escapeHTML(c)}</span>`).join("")}
+          <span class="pill">${routeCount} route${routeCount !== 1 ? 's' : ''}</span>
+          ${operators.slice(0, 3).map(op => `<span class="pill">${escapeHTML(op)}</span>`).join("")}
+        </div>
+      </div>
+      <span class="source-link">${routeCount} routes</span>
+    </article>
+  `}).join("") + (filtered.length > capped.length ? `<div class="empty">Showing first ${capped.length.toLocaleString()} results. Narrow the filters to see more.</div>` : "") : `<div class="empty">No ports match these filters.</div>`;
+
+  if (selectedPortId) {
+    highlightPortRow(selectedPortId);
+  }
+}
+
+function renderAndRestoreDetail() {
+  render();
+  if (selectedPortId) {
+    showInlineDetail(selectedPortId);
+  }
+}
+
+// ── Load data ──
+Promise.all([
+  fetch("./ferry_ports.json").then(r => r.json()).catch(() => ({ ports: [], routes: [] })),
+  fetch("./ferries.json").then(r => r.json()).catch(() => ({ routes: [] }))
+]).then(([fpData, ferriesData]) => {
+  ports = (fpData.ports || []).map(p => ({
+    ...p,
+    country: p.country || (p.countries?.[0] || "")
+  }));
+  routes = fpData.routes || ferriesData.routes || [];
+
+  // Build ports by country index
+  portsByCountry = {};
+  ports.forEach(p => {
+    (p.countries || []).forEach(c => {
+      const cKey = c;
+      if (!portsByCountry[cKey]) portsByCountry[cKey] = [];
+      portsByCountry[cKey].push(p.id);
+    });
+  });
+
+  // generatedAt from ferry_ports.json or current date
+  generatedAt.textContent = fpData.generatedAt ? `Generated: ${new Date(fpData.generatedAt).toLocaleDateString()}` : "";
+
+  buildFilters();
+  render();
+  restoreSelectedPort();
+});
+
+[searchInput, countryFilter, sortFilter].forEach(control => {
+  control.addEventListener("input", renderAndRestoreDetail);
+});
+</script>
+
+<footer class="site-footer">
+  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+</footer>
+
+<div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeReportModal()" aria-label="Close">&times;</button>
+    <h2>Report something</h2>
+    <p>Spotted a bug, missing or outdated info, or have a feature idea? Let me know!</p>
+    <form class="report-form" id="reportForm">
+      <div class="field">
+        <label for="reportType">Type *</label>
+        <select name="Type" id="reportType" required>
+          <option value="">Select...</option>
+          <option value="Bug / Misinformation">Bug / Misinformation</option>
+          <option value="Feature Idea">Feature Idea</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="reportName">Your name (optional)</label>
+        <input type="text" name="Name" id="reportName" placeholder="Jane Doe">
+      </div>
+      <div class="field">
+        <label for="reportEmail">Your email (optional, for follow-up)</label>
+        <input type="email" name="Email" id="reportEmail" placeholder="jane@example.com">
+      </div>
+      <div class="field">
+        <label for="reportMessage">Message *</label>
+        <textarea name="Message" id="reportMessage" required placeholder="Describe the issue or idea…"></textarea>
+      </div>
+      <div class="form-error" id="formError"></div>
+      <button type="submit" class="submit-btn">Send report</button>
+    </form>
+    <script>
+      document.getElementById('reportType').addEventListener('change', function() {
+        document.getElementById('bugHint').style.display = this.value === 'Bug / Misinformation' ? '' : 'none';
+      });
+    </script>
+    <div class="form-success" id="formSuccess">
+      <h3>Thank you!</h3>
+      <p>Your report has been sent. We'll look into it.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openReportModal() {
+  document.getElementById('reportModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeReportModal() {
+  document.getElementById('reportModal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('reportForm').style.display = '';
+  document.getElementById('formSuccess').classList.remove('show');
+  document.getElementById('formError').style.display = 'none';
+  document.getElementById('reportForm').reset();
+  var btn = document.querySelector('#reportForm .submit-btn');
+  btn.textContent = 'Send report';
+  btn.disabled = false;
+}
+document.getElementById('reportForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  var btn = form.querySelector('.submit-btn');
+  var type = document.getElementById('reportType').value;
+  var name = document.getElementById('reportName').value.trim();
+  var email = document.getElementById('reportEmail').value.trim();
+  var message = document.getElementById('reportMessage').value.trim();
+  var error = document.getElementById('formError');
+  if (!type || !message) { error.style.display = 'block'; error.textContent = 'Please fill in all required fields.'; return; }
+  error.style.display = 'none';
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  var webhookURL = 'https://discord.com/api/webhooks/1311794889885741077/JljVevIe_SWg3FJvDW2y6F0G0XQVbKOGJ9iqW2orGFhnO6H9zBgFG2xQtC_SHTlHhz40';
+  fetch(webhookURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: 'Track & Tide Reports',
+      embeds: [{
+        title: type,
+        description: message,
+        color: 5793266,
+        fields: [{ name: 'Name', value: name || 'Not provided', inline: true }, { name: 'Email', value: email || 'Not provided', inline: true }],
+        footer: { text: 'Ports page' },
+        timestamp: new Date().toISOString()
+      }]
+    })
+  }).then(r => {
+    if (r.ok) { form.style.display = 'none'; document.getElementById('formSuccess').classList.add('show'); }
+    else throw new Error('Failed to send');
+  }).catch(() => {
+    error.style.display = 'block';
+    error.textContent = 'Failed to send report. Please try again later.';
+    btn.textContent = 'Send report';
+    btn.disabled = false;
+  });
+});
+</script>
+</body>
+</html>

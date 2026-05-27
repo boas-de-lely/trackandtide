@@ -18,7 +18,12 @@
         "fr78",
         "fr80",
         "fr133"
-      ]
+      ],
+      "wikidataId": "Q1349796",
+      "wikidataLabel": "Port of Barcelona",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_de_Barcelona%2C_Vista_a%C3%A9rea_del_Port_de_Barcelona.jpg?width=600",
+      "website": "http://www.portdebarcelona.cat"
     },
     {
       "id": "fp1",
@@ -36,7 +41,11 @@
         "fr15",
         "fr133",
         "fr135"
-      ]
+      ],
+      "wikidataId": "Q260556",
+      "wikidataLabel": "Port of Palma de Mallorca",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mallorca_Palma_from_Bellver_Castle_viewpoint_asv2023-04_img2.jpg?width=600"
     },
     {
       "id": "fp2",
@@ -77,7 +86,11 @@
         "fr2",
         "fr3",
         "fr5"
-      ]
+      ],
+      "wikidataId": "Q23846119",
+      "wikidataLabel": "Port of Algiers",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vue_sur_le_port_d'Alger%2C_prise_pr%C3%A8s_de_la_terrasse_du_Caf%C3%A9_Tlem%C3%A7ani.jpg?width=600"
     },
     {
       "id": "fp5",
@@ -93,7 +106,10 @@
         "fr4",
         "fr41",
         "fr140"
-      ]
+      ],
+      "wikidataId": "Q34963701",
+      "wikidataLabel": "Marseille Port",
+      "source": "wikidata"
     },
     {
       "id": "fp6",
@@ -106,7 +122,10 @@
       ],
       "routeIds": [
         "fr4"
-      ]
+      ],
+      "wikidataId": "Q23846115",
+      "wikidataLabel": "Oran Port",
+      "source": "wikidata"
     },
     {
       "id": "fp7",
@@ -137,7 +156,11 @@
         "fr58",
         "fr77",
         "fr91"
-      ]
+      ],
+      "wikidataId": "Q3909209",
+      "wikidataLabel": "Port of Bari",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bari_terminal_crociere.jpg?width=600"
     },
     {
       "id": "fp9",
@@ -152,7 +175,12 @@
         "fr6",
         "fr7",
         "fr8"
-      ]
+      ],
+      "wikidataId": "Q3909238",
+      "wikidataLabel": "port of Igoumenitsa",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Igoumenitsa3.JPG?width=600",
+      "website": "https://olig.gr/"
     },
     {
       "id": "fp10",
@@ -167,7 +195,11 @@
         "fr7",
         "fr59",
         "fr143"
-      ]
+      ],
+      "wikidataId": "Q3909214",
+      "wikidataLabel": "Port of Brindisi",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Brindisi_-_Porto.JPG?width=600"
     },
     {
       "id": "fp11",
@@ -181,7 +213,11 @@
       "routeIds": [
         "fr8",
         "fr9"
-      ]
+      ],
+      "wikidataId": "Q610148",
+      "wikidataLabel": "Port of Venice",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Venice_cruise_terminal_aerial_07_2017_5003.jpg?width=600"
     },
     {
       "id": "fp12",
@@ -197,7 +233,10 @@
         "fr77",
         "fr122",
         "fr143"
-      ]
+      ],
+      "wikidataId": "Q137712271",
+      "wikidataLabel": "Patras Port Authority S.A.",
+      "source": "wikidata"
     },
     {
       "id": "fp13",
@@ -213,7 +252,12 @@
         "fr44",
         "fr45",
         "fr132"
-      ]
+      ],
+      "wikidataId": "Q2516978",
+      "wikidataLabel": "Port of Algeciras",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vista_A%C3%A9rea_del_Puerto_de_Algeciras.jpg?width=600",
+      "website": "https://www.apba.es/"
     },
     {
       "id": "fp14",
@@ -228,7 +272,12 @@
         "fr10",
         "fr132",
         "fr134"
-      ]
+      ],
+      "wikidataId": "Q5679845",
+      "wikidataLabel": "Port of Melilla",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/(Puerto_de_Melilla)_Aterrizando_en_Melilla_(16668390111)_(cropped).jpg?width=600",
+      "website": "https://www.puertodemelilla.es/"
     },
     {
       "id": "fp15",
@@ -241,7 +290,11 @@
       ],
       "routeIds": [
         "fr11"
-      ]
+      ],
+      "wikidataId": "Q4779578",
+      "wikidataLabel": "Port of Ibiza Town",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ibiza_City_from_Mirador_asv2023-04_img6.jpg?width=600"
     },
     {
       "id": "fp16",
@@ -254,7 +307,12 @@
       ],
       "routeIds": [
         "fr13"
-      ]
+      ],
+      "wikidataId": "Q18005907",
+      "wikidataLabel": "Port of Dénia",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/0.1._Port_de_D%C3%A9nia_(Marina_Alta%2C_Pa%C3%ADs_Valenci%C3%A0).jpg?width=600",
+      "nightView": "https://commons.wikimedia.org/wiki/Special:FilePath/D%C3%A9nia_am_Abend_-_53363836870.jpg?width=600"
     },
     {
       "id": "fp17",
@@ -267,7 +325,12 @@
       ],
       "routeIds": [
         "fr14"
-      ]
+      ],
+      "wikidataId": "Q5391265",
+      "wikidataLabel": "Port of Motril",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Puerto_de_Motril_2.jpg?width=600",
+      "website": "http://apmotril.com"
     },
     {
       "id": "fp18",
@@ -280,7 +343,11 @@
       ],
       "routeIds": [
         "fr14"
-      ]
+      ],
+      "wikidataId": "Q27539154",
+      "wikidataLabel": "Al Hoceima Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_d%E2%80%99Al_Hoceima.jpg?width=600"
     },
     {
       "id": "fp19",
@@ -294,7 +361,12 @@
       "routeIds": [
         "fr16",
         "fr141"
-      ]
+      ],
+      "wikidataId": "Q822981",
+      "wikidataLabel": "Port of Constanța",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Constanta_shipyard.JPG?width=600",
+      "website": "http://www.portofconstantza.com/apmc/index.jsp"
     },
     {
       "id": "fp20",
@@ -307,7 +379,10 @@
       ],
       "routeIds": [
         "fr16"
-      ]
+      ],
+      "wikidataId": "Q67893120",
+      "wikidataLabel": "Batumi port border post",
+      "source": "wikidata"
     },
     {
       "id": "fp21",
@@ -320,7 +395,10 @@
       ],
       "routeIds": [
         "fr17"
-      ]
+      ],
+      "wikidataId": "Q24021270",
+      "wikidataLabel": "Bilbao Port",
+      "source": "wikidata"
     },
     {
       "id": "fp22",
@@ -336,7 +414,11 @@
         "fr21",
         "fr22",
         "fr23"
-      ]
+      ],
+      "wikidataId": "Q17018120",
+      "wikidataLabel": "Portsmouth International Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Stena_Lines_Ferry_at_Portsmouth_-_geograph.org.uk_-_8085688.jpg?width=600"
     },
     {
       "id": "fp23",
@@ -363,7 +445,10 @@
       "routeIds": [
         "fr18",
         "fr19"
-      ]
+      ],
+      "wikidataId": "Q34966195",
+      "wikidataLabel": "Roscoff Port",
+      "source": "wikidata"
     },
     {
       "id": "fp25",
@@ -377,7 +462,11 @@
       "routeIds": [
         "fr19",
         "fr24"
-      ]
+      ],
+      "wikidataId": "Q24677903",
+      "wikidataLabel": "Plymouth Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Plymouth_Ferryport_at_Milbay_Docks_-_geograph.org.uk_-_349326.jpg?width=600"
     },
     {
       "id": "fp26",
@@ -393,7 +482,11 @@
         "fr32",
         "fr33",
         "fr34"
-      ]
+      ],
+      "wikidataId": "Q24677892",
+      "wikidataLabel": "Port of Poole",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/The_waiting_area%2C_Poole_Harbour_-_geograph.org.uk_-_2746089.jpg?width=600"
     },
     {
       "id": "fp27",
@@ -409,7 +502,11 @@
         "fr21",
         "fr85",
         "fr121"
-      ]
+      ],
+      "wikidataId": "Q3398472",
+      "wikidataLabel": "Cherbourg Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/CherbourgCit%C3%A9Mer4.JPG?width=600"
     },
     {
       "id": "fp28",
@@ -422,7 +519,12 @@
       ],
       "routeIds": [
         "fr22"
-      ]
+      ],
+      "wikidataId": "Q1129891",
+      "wikidataLabel": "Port of Le Havre",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Le_Havre_Port_101009_04.jpg?width=600",
+      "website": "http://www.havre-port.fr"
     },
     {
       "id": "fp29",
@@ -437,7 +539,11 @@
         "fr23",
         "fr34",
         "fr35"
-      ]
+      ],
+      "wikidataId": "Q2386775",
+      "wikidataLabel": "St Malo Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/IMG_2935_StMalo.JPG?width=600"
     },
     {
       "id": "fp30",
@@ -450,7 +556,11 @@
       ],
       "routeIds": [
         "fr24"
-      ]
+      ],
+      "wikidataId": "Q9064614",
+      "wikidataLabel": "Port of Santander",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Puerto_de_Santander%2C_panoramica.jpg?width=600"
     },
     {
       "id": "fp31",
@@ -463,7 +573,10 @@
       ],
       "routeIds": [
         "fr25"
-      ]
+      ],
+      "wikidataId": "Q17829069",
+      "wikidataLabel": "Old Power House, Ardrossan Harbour",
+      "source": "wikidata"
     },
     {
       "id": "fp32",
@@ -515,7 +628,11 @@
       ],
       "routeIds": [
         "fr27"
-      ]
+      ],
+      "wikidataId": "Q105845410",
+      "wikidataLabel": "Ullapool harbour",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ullapool_harbour.jpg?width=600"
     },
     {
       "id": "fp36",
@@ -528,7 +645,10 @@
       ],
       "routeIds": [
         "fr27"
-      ]
+      ],
+      "wikidataId": "Q111755653",
+      "wikidataLabel": "Stornoway Harbour",
+      "source": "wikidata"
     },
     {
       "id": "fp37",
@@ -546,7 +666,12 @@
         "fr69",
         "fr70",
         "fr111"
-      ]
+      ],
+      "wikidataId": "Q1620583",
+      "wikidataLabel": "Port of Hirtshals",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hirtshals_Havn_2009_2_ubt.JPG?width=600",
+      "website": "http://www.hirtshalshavn.dk/"
     },
     {
       "id": "fp38",
@@ -559,7 +684,12 @@
       ],
       "routeIds": [
         "fr28"
-      ]
+      ],
+      "wikidataId": "Q19378182",
+      "wikidataLabel": "Kristiansand Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kristiansand_harbour.jpg?width=600",
+      "website": "https://www.portofkristiansand.no"
     },
     {
       "id": "fp39",
@@ -572,7 +702,11 @@
       ],
       "routeIds": [
         "fr29"
-      ]
+      ],
+      "wikidataId": "Q34954502",
+      "wikidataLabel": "Larvik Port",
+      "source": "wikidata",
+      "website": "https://larvik.havn.no"
     },
     {
       "id": "fp40",
@@ -586,7 +720,12 @@
       "routeIds": [
         "fr30",
         "fr52"
-      ]
+      ],
+      "wikidataId": "Q32064908",
+      "wikidataLabel": "Port of Kiel",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Stena_Germanica_in_Kiel.jpg?width=600",
+      "website": "http://www.portofkiel.com"
     },
     {
       "id": "fp41",
@@ -601,7 +740,12 @@
         "fr30",
         "fr46",
         "fr117"
-      ]
+      ],
+      "wikidataId": "Q1542098",
+      "wikidataLabel": "Port of Oslo",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Oslo_Havn_17_June_2008.jpg?width=600",
+      "website": "http://www.oslohavn.no/en"
     },
     {
       "id": "fp42",
@@ -614,11 +758,15 @@
       ],
       "routeIds": [
         "fr31"
-      ]
+      ],
+      "wikidataId": "Q34966253",
+      "wikidataLabel": "Sandefjord Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandefjord_Port_2024.jpg?width=600"
     },
     {
       "id": "fp43",
-      "name": "Str\u00c3\u00b6mstad",
+      "name": "StrÃ¶mstad",
       "lat": 58.94,
       "lng": 11.17,
       "country": "Sweden",
@@ -640,7 +788,11 @@
       ],
       "routeIds": [
         "fr32"
-      ]
+      ],
+      "wikidataId": "Q7402084",
+      "wikidataLabel": "Saint Peter Port Harbour",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Saint_Peter_Port_Harbour_at_low_tide_(2014).jpg?width=600"
     },
     {
       "id": "fp45",
@@ -654,7 +806,11 @@
       "routeIds": [
         "fr33",
         "fr35"
-      ]
+      ],
+      "wikidataId": "Q27118583",
+      "wikidataLabel": "Jersey Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jersey_Port.jpg?width=600"
     },
     {
       "id": "fp46",
@@ -670,7 +826,11 @@
         "fr37",
         "fr82",
         "fr94"
-      ]
+      ],
+      "wikidataId": "Q28854779",
+      "wikidataLabel": "Livorno Porto Vecchio",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Livorno_passenger_terminal_03_%40chesi.JPG?width=600"
     },
     {
       "id": "fp47",
@@ -686,7 +846,12 @@
         "fr38",
         "fr40",
         "fr93"
-      ]
+      ],
+      "wikidataId": "Q34953565",
+      "wikidataLabel": "Bastia Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ferry_sailing_into_the_port_of_Bastia%2C_Corsica%2C_France_(52723825486).jpg?width=600",
+      "website": "http://www.bastia.port.fr"
     },
     {
       "id": "fp48",
@@ -699,7 +864,11 @@
       ],
       "routeIds": [
         "fr37"
-      ]
+      ],
+      "wikidataId": "Q34954147",
+      "wikidataLabel": "Golfo Aranci Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Golfo_Aranci_-_porto.jpg?width=600"
     },
     {
       "id": "fp49",
@@ -713,7 +882,11 @@
       "routeIds": [
         "fr38",
         "fr39"
-      ]
+      ],
+      "wikidataId": "Q3398372",
+      "wikidataLabel": "Nice Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Nice_port.jpg?width=600"
     },
     {
       "id": "fp50",
@@ -726,7 +899,11 @@
       ],
       "routeIds": [
         "fr39"
-      ]
+      ],
+      "wikidataId": "Q34953711",
+      "wikidataLabel": "Calvi Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Calvi%2C_Corsica%2C_France_(52724230560).jpg?width=600"
     },
     {
       "id": "fp51",
@@ -739,7 +916,11 @@
       ],
       "routeIds": [
         "fr40"
-      ]
+      ],
+      "wikidataId": "Q3909286",
+      "wikidataLabel": "Port of Savona",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Porto_turistico_di_Savona.jpg?width=600"
     },
     {
       "id": "fp52",
@@ -758,11 +939,14 @@
         "fr84",
         "fr139",
         "fr140"
-      ]
+      ],
+      "wikidataId": "Q11942401",
+      "wikidataLabel": "Port of Tunis",
+      "source": "wikidata"
     },
     {
       "id": "fp53",
-      "name": "Nyn\u00c3\u00a4shamn",
+      "name": "NynÃ¤shamn",
       "lat": 58.9,
       "lng": 17.95,
       "country": "Sweden",
@@ -785,7 +969,10 @@
       "routeIds": [
         "fr42",
         "fr43"
-      ]
+      ],
+      "wikidataId": "Q42556090",
+      "wikidataLabel": "Visby Porten  11",
+      "source": "wikidata"
     },
     {
       "id": "fp55",
@@ -798,7 +985,12 @@
       ],
       "routeIds": [
         "fr43"
-      ]
+      ],
+      "wikidataId": "Q7231222",
+      "wikidataLabel": "Port of Oskarshamn",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Oskarshamn_Sweden.jpg?width=600",
+      "website": "http://www.port.oskarshamn.se/"
     },
     {
       "id": "fp56",
@@ -811,7 +1003,11 @@
       ],
       "routeIds": [
         "fr44"
-      ]
+      ],
+      "wikidataId": "Q106428113",
+      "wikidataLabel": "Portuguese Ceuta",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Braun_Ceuta_HAAB.jpg?width=600"
     },
     {
       "id": "fp57",
@@ -838,7 +1034,11 @@
       ],
       "routeIds": [
         "fr46"
-      ]
+      ],
+      "wikidataId": "Q1252907",
+      "wikidataLabel": "Port of Copenhagen",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/DEN-Copenhagen-Port_wharf.JPG?width=600"
     },
     {
       "id": "fp59",
@@ -852,7 +1052,12 @@
       "routeIds": [
         "fr47",
         "fr48"
-      ]
+      ],
+      "wikidataId": "Q739207",
+      "wikidataLabel": "Port of Dover",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Dover_-_view_from_the_White_Cliffs-4101-03.jpg?width=600",
+      "website": "https://www.portofdover.com"
     },
     {
       "id": "fp60",
@@ -865,7 +1070,10 @@
       ],
       "routeIds": [
         "fr47"
-      ]
+      ],
+      "wikidataId": "Q100336552",
+      "wikidataLabel": "CALAIS PORT 2015 project",
+      "source": "wikidata"
     },
     {
       "id": "fp61",
@@ -879,7 +1087,12 @@
       "routeIds": [
         "fr48",
         "fr55"
-      ]
+      ],
+      "wikidataId": "Q3330758",
+      "wikidataLabel": "Dunkirk Port Museum",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Dunkerque_-_Musee_portuaire.jpg?width=600",
+      "website": "http://www.museeportuaire.com/"
     },
     {
       "id": "fp62",
@@ -896,7 +1109,7 @@
     },
     {
       "id": "fp63",
-      "name": "G\u00c3\u00b6teborg",
+      "name": "GÃ¶teborg",
       "lat": 57.69,
       "lng": 11.92,
       "country": "Sweden",
@@ -919,7 +1132,11 @@
       ],
       "routeIds": [
         "fr50"
-      ]
+      ],
+      "wikidataId": "Q3398489",
+      "wikidataLabel": "port of IJmuiden",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/IJmuiden-4.59E-52.47N.jpg?width=600"
     },
     {
       "id": "fp65",
@@ -932,7 +1149,12 @@
       ],
       "routeIds": [
         "fr50"
-      ]
+      ],
+      "wikidataId": "Q7231289",
+      "wikidataLabel": "Port of Tyne",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Tyne_as_seen_from_DFDS_King_Seaways_-_Newcastle_upon_Tyne_-_North_East_England_-_25_Aug._2012_-_(1).jpg?width=600",
+      "website": "https://www.portoftyne.co.uk/"
     },
     {
       "id": "fp66",
@@ -959,7 +1181,10 @@
       ],
       "routeIds": [
         "fr51"
-      ]
+      ],
+      "wikidataId": "Q32263613",
+      "wikidataLabel": "Karlshamn Port",
+      "source": "wikidata"
     },
     {
       "id": "fp68",
@@ -972,7 +1197,12 @@
       ],
       "routeIds": [
         "fr53"
-      ]
+      ],
+      "wikidataId": "Q7231216",
+      "wikidataLabel": "Port of Newhaven",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Newhaven_Marina_and_Port_-_geograph.org.uk_-_1216489.jpg?width=600",
+      "website": "http://www.newhavenportauthority.co.uk"
     },
     {
       "id": "fp69",
@@ -985,7 +1215,11 @@
       ],
       "routeIds": [
         "fr53"
-      ]
+      ],
+      "wikidataId": "Q30061313",
+      "wikidataLabel": "Dieppe Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Dieppe.JPG?width=600"
     },
     {
       "id": "fp70",
@@ -998,11 +1232,16 @@
       ],
       "routeIds": [
         "fr54"
-      ]
+      ],
+      "wikidataId": "Q12371883",
+      "wikidataLabel": "Paldiski North Harbour",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Paldiski_P%C3%B5hjasadam.jpg?width=600",
+      "website": "http://www.portofpaldiski.ee"
     },
     {
       "id": "fp71",
-      "name": "Kapellsk\u00c3\u00a4r",
+      "name": "KapellskÃ¤r",
       "lat": 59.72,
       "lng": 19.06,
       "country": "Sweden",
@@ -1027,7 +1266,12 @@
         "fr87",
         "fr115",
         "fr121"
-      ]
+      ],
+      "wikidataId": "Q2281650",
+      "wikidataLabel": "Rosslare Europort",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rosslare_Europort_-_aerial_-_2024-08-31_08.jpg?width=600",
+      "website": "https://rosslare.ie"
     },
     {
       "id": "fp73",
@@ -1044,7 +1288,7 @@
     },
     {
       "id": "fp74",
-      "name": "Ecker\u00c3\u00b6",
+      "name": "EckerÃ¶",
       "lat": 60.22,
       "lng": 19.6,
       "country": "Finland",
@@ -1077,7 +1321,10 @@
         "fr145",
         "fr146",
         "fr147"
-      ]
+      ],
+      "wikidataId": "Q24371482",
+      "wikidataLabel": "Helsinki Port",
+      "source": "wikidata"
     },
     {
       "id": "fp76",
@@ -1094,7 +1341,12 @@
         "fr126",
         "fr127",
         "fr146"
-      ]
+      ],
+      "wikidataId": "Q11133776",
+      "wikidataLabel": "Old City Harbour",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Old_City_Harbour%2C_Tallinn.jpg?width=600",
+      "nightView": "https://commons.wikimedia.org/wiki/Special:FilePath/Tallinn_asv2022-04_img16_Vanasadam_Tallink.jpg?width=600"
     },
     {
       "id": "fp77",
@@ -1107,7 +1359,12 @@
       ],
       "routeIds": [
         "fr58"
-      ]
+      ],
+      "wikidataId": "Q3303198",
+      "wikidataLabel": "Port of Durrës",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Durres_harbor_from_the_sea.jpg?width=600",
+      "website": "http://www.apdurres.com.al/"
     },
     {
       "id": "fp78",
@@ -1133,7 +1390,11 @@
       ],
       "routeIds": [
         "fr60"
-      ]
+      ],
+      "wikidataId": "Q5464523",
+      "wikidataLabel": "Folkestone Harbour railway station",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Folkestone_Harbour_station_geograph-3523041-by-Ben-Brooksbank.jpg?width=600"
     },
     {
       "id": "fp80",
@@ -1160,11 +1421,15 @@
       "routeIds": [
         "fr61",
         "fr120"
-      ]
+      ],
+      "wikidataId": "Q2670042",
+      "wikidataLabel": "Gdynia Port Oksywie railway station",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Stacja_Gdynia_Port_Oksywie1.jpg?width=600"
     },
     {
       "id": "fp82",
-      "name": "Travem\u00c3\u00bcnde",
+      "name": "TravemÃ¼nde",
       "lat": 53.96,
       "lng": 10.87,
       "country": "Germany",
@@ -1182,7 +1447,7 @@
     },
     {
       "id": "fp83",
-      "name": "Malm\u00c3\u00b6",
+      "name": "MalmÃ¶",
       "lat": 55.61,
       "lng": 13,
       "country": "Sweden",
@@ -1208,7 +1473,12 @@
         "fr107",
         "fr110",
         "fr136"
-      ]
+      ],
+      "wikidataId": "Q1090823",
+      "wikidataLabel": "Port of Rostock",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rostock_Massengutkai.jpg?width=600",
+      "website": "http://www.rostock-port.de/"
     },
     {
       "id": "fp85",
@@ -1221,7 +1491,11 @@
       ],
       "routeIds": [
         "fr66"
-      ]
+      ],
+      "wikidataId": "Q1532886",
+      "wikidataLabel": "Port of Liepāja",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Liepaja_lighthouse_and_port.JPG?width=600"
     },
     {
       "id": "fp86",
@@ -1235,7 +1509,12 @@
       "routeIds": [
         "fr68",
         "fr70"
-      ]
+      ],
+      "wikidataId": "Q373191",
+      "wikidataLabel": "Bergen Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vista_de_Bergen_desde_la_monta%C3%B1a_Fl%C3%B8yen%2C_Noruega%2C_2019-09-08%2C_DD_48.jpg?width=600",
+      "website": "http://www.bergenhavn.no/"
     },
     {
       "id": "fp87",
@@ -1248,11 +1527,14 @@
       ],
       "routeIds": [
         "fr69"
-      ]
+      ],
+      "wikidataId": "Q34954491",
+      "wikidataLabel": "Langesund Port",
+      "source": "wikidata"
     },
     {
       "id": "fp88",
-      "name": "Helsing\u00c3\u00b8r",
+      "name": "HelsingÃ¸r",
       "lat": 56.03,
       "lng": 12.61,
       "country": "Denmark",
@@ -1276,7 +1558,10 @@
       "routeIds": [
         "fr71",
         "fr108"
-      ]
+      ],
+      "wikidataId": "Q32250689",
+      "wikidataLabel": "Helsingborg Port",
+      "source": "wikidata"
     },
     {
       "id": "fp90",
@@ -1293,7 +1578,11 @@
         "fr79",
         "fr92",
         "fr129"
-      ]
+      ],
+      "wikidataId": "Q60836752",
+      "wikidataLabel": "Civitavecchia Marittima railway station",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/ALn_776_Seatrain_-_Prospettiva.JPG?width=600"
     },
     {
       "id": "fp91",
@@ -1310,7 +1599,11 @@
         "fr82",
         "fr83",
         "fr84"
-      ]
+      ],
+      "wikidataId": "Q83245746",
+      "wikidataLabel": "Palermo harbour",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Carl_Wilhelm_Barth_-_Innseilingen_Til_Palermo_-_IMG_9353.jpg?width=600"
     },
     {
       "id": "fp92",
@@ -1331,11 +1624,16 @@
         "fr130",
         "fr131",
         "fr139"
-      ]
+      ],
+      "wikidataId": "Q1515803",
+      "wikidataLabel": "Port of Genoa",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_-_Harbour_of_Genoa%2C_Italy_-_DSC01156.JPG?width=600",
+      "website": "https://www.portsofgenoa.com/it/"
     },
     {
       "id": "fp93",
-      "name": "S\u00c3\u00a8te",
+      "name": "SÃ¨te",
       "lat": 43.41,
       "lng": 3.7,
       "country": "France",
@@ -1357,7 +1655,12 @@
       ],
       "routeIds": [
         "fr83"
-      ]
+      ],
+      "wikidataId": "Q3398528",
+      "wikidataLabel": "Port of Naples",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Napoli-porto01.jpg?width=600",
+      "website": "http://www.porto.napoli.it"
     },
     {
       "id": "fp95",
@@ -1373,7 +1676,11 @@
         "fr86",
         "fr104",
         "fr119"
-      ]
+      ],
+      "wikidataId": "Q924978",
+      "wikidataLabel": "Dublin Port Tunnel",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/IMGPortTuNorthEnt_4572w.jpg?width=600"
     },
     {
       "id": "fp96",
@@ -1387,7 +1694,12 @@
       "routeIds": [
         "fr86",
         "fr119"
-      ]
+      ],
+      "wikidataId": "Q7231154",
+      "wikidataLabel": "Port of Holyhead",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Holyhead_Port_-_2024-06-15_01.jpg?width=600",
+      "website": "http://holyheadport.co.uk/"
     },
     {
       "id": "fp97",
@@ -1400,7 +1712,10 @@
       ],
       "routeIds": [
         "fr87"
-      ]
+      ],
+      "wikidataId": "Q24677887",
+      "wikidataLabel": "Pembroke Port",
+      "source": "wikidata"
     },
     {
       "id": "fp98",
@@ -1416,7 +1731,11 @@
         "fr89",
         "fr90",
         "fr122"
-      ]
+      ],
+      "wikidataId": "Q583707",
+      "wikidataLabel": "Port of Ancona",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Porto_ancona.jpg?width=600"
     },
     {
       "id": "fp99",
@@ -1429,7 +1748,11 @@
       ],
       "routeIds": [
         "fr88"
-      ]
+      ],
+      "wikidataId": "Q26224642",
+      "wikidataLabel": "Hvar Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hvar_Port.jpg?width=600"
     },
     {
       "id": "fp100",
@@ -1455,7 +1778,11 @@
       ],
       "routeIds": [
         "fr90"
-      ]
+      ],
+      "wikidataId": "Q26224651",
+      "wikidataLabel": "Zadar Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Harbour%2C_Zadar_(P1080834-Pano).jpg?width=600"
     },
     {
       "id": "fp102",
@@ -1468,7 +1795,11 @@
       ],
       "routeIds": [
         "fr91"
-      ]
+      ],
+      "wikidataId": "Q27572626",
+      "wikidataLabel": "Bar Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bar%2C_Montenegro_-_panoramio_(28).jpg?width=600"
     },
     {
       "id": "fp103",
@@ -1483,7 +1814,11 @@
         "fr92",
         "fr94",
         "fr95"
-      ]
+      ],
+      "wikidataId": "Q3909258",
+      "wikidataLabel": "Port of Olbia",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Olbia%2C_porto_(01).jpg?width=600"
     },
     {
       "id": "fp104",
@@ -1496,7 +1831,11 @@
       ],
       "routeIds": [
         "fr95"
-      ]
+      ],
+      "wikidataId": "Q3909265",
+      "wikidataLabel": "Port of Piombino",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Panorama_porto_di_piombino.JPG?width=600"
     },
     {
       "id": "fp105",
@@ -1509,7 +1848,12 @@
       ],
       "routeIds": [
         "fr96"
-      ]
+      ],
+      "wikidataId": "Q301442",
+      "wikidataLabel": "Port of Aarhus",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Aarhus_Havn.jpg?width=600",
+      "website": "http://www.aarhushavn.dk/"
     },
     {
       "id": "fp106",
@@ -1522,7 +1866,11 @@
       ],
       "routeIds": [
         "fr96"
-      ]
+      ],
+      "wikidataId": "Q12321147",
+      "wikidataLabel": "Kalundborg Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kalundborg_Havn_-2.jpg?width=600"
     },
     {
       "id": "fp107",
@@ -1561,7 +1909,12 @@
       ],
       "routeIds": [
         "fr98"
-      ]
+      ],
+      "wikidataId": "Q24677732",
+      "wikidataLabel": "Aberdeen Harbour",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Aberdeen_Harbour_Scotland.jpg?width=600",
+      "website": "http://www.aberdeen-harbour.co.uk"
     },
     {
       "id": "fp110",
@@ -1574,7 +1927,11 @@
       ],
       "routeIds": [
         "fr98"
-      ]
+      ],
+      "wikidataId": "Q106009581",
+      "wikidataLabel": "Lerwick Port Authority",
+      "source": "wikidata",
+      "website": "https://www.lerwick-harbour.co.uk"
     },
     {
       "id": "fp111",
@@ -1587,7 +1944,10 @@
       ],
       "routeIds": [
         "fr99"
-      ]
+      ],
+      "wikidataId": "Q24677727",
+      "wikidataLabel": "Scrabster Port",
+      "source": "wikidata"
     },
     {
       "id": "fp112",
@@ -1600,7 +1960,10 @@
       ],
       "routeIds": [
         "fr99"
-      ]
+      ],
+      "wikidataId": "Q24677720",
+      "wikidataLabel": "Stromness Port",
+      "source": "wikidata"
     },
     {
       "id": "fp113",
@@ -1613,7 +1976,11 @@
       ],
       "routeIds": [
         "fr100"
-      ]
+      ],
+      "wikidataId": "Q2082135",
+      "wikidataLabel": "Port of Hull",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/P_and_O_Terminal_-_geograph.org.uk_-_555110.jpg?width=600"
     },
     {
       "id": "fp114",
@@ -1641,7 +2008,10 @@
         "fr101",
         "fr103",
         "fr114"
-      ]
+      ],
+      "wikidataId": "Q24677731",
+      "wikidataLabel": "Cairnryan Port",
+      "source": "wikidata"
     },
     {
       "id": "fp116",
@@ -1655,7 +2025,10 @@
       "routeIds": [
         "fr101",
         "fr103"
-      ]
+      ],
+      "wikidataId": "Q24677906",
+      "wikidataLabel": "Larne Port",
+      "source": "wikidata"
     },
     {
       "id": "fp117",
@@ -1668,7 +2041,12 @@
       ],
       "routeIds": [
         "fr102"
-      ]
+      ],
+      "wikidataId": "Q739207",
+      "wikidataLabel": "Port of Dover",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Dover_-_view_from_the_White_Cliffs-4101-03.jpg?width=600",
+      "website": "https://www.portofdover.com"
     },
     {
       "id": "fp118",
@@ -1681,7 +2059,10 @@
       ],
       "routeIds": [
         "fr102"
-      ]
+      ],
+      "wikidataId": "Q100336552",
+      "wikidataLabel": "CALAIS PORT 2015 project",
+      "source": "wikidata"
     },
     {
       "id": "fp119",
@@ -1708,7 +2089,11 @@
       "routeIds": [
         "fr105",
         "fr106"
-      ]
+      ],
+      "wikidataId": "Q2516113",
+      "wikidataLabel": "Port of Harlingen",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Harbour_with_boats.jpg?width=600"
     },
     {
       "id": "fp121",
@@ -1721,7 +2106,11 @@
       ],
       "routeIds": [
         "fr105"
-      ]
+      ],
+      "wikidataId": "Q116783656",
+      "wikidataLabel": "port of West-Terschelling",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Terschelling_haven.jpg?width=600"
     },
     {
       "id": "fp122",
@@ -1748,11 +2137,15 @@
       "routeIds": [
         "fr107",
         "fr110"
-      ]
+      ],
+      "wikidataId": "Q23754066",
+      "wikidataLabel": "Gedser Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Gedser_Port_2005-09-03.jpg?width=600"
     },
     {
       "id": "fp124",
-      "name": "R\u00c3\u00b8dby",
+      "name": "RÃ¸dby",
       "lat": 54.65,
       "lng": 11.35,
       "country": "Denmark",
@@ -1774,11 +2167,15 @@
       ],
       "routeIds": [
         "fr109"
-      ]
+      ],
+      "wikidataId": "Q32239654",
+      "wikidataLabel": "Puttgarden Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Puttgarden-2008.jpg?width=600"
     },
     {
       "id": "fp126",
-      "name": "Sey\u00c3\u00b0isfj\u00c3\u00b6r\u00c3\u00b0ur",
+      "name": "SeyÃ°isfjÃ¶rÃ°ur",
       "lat": 65.26,
       "lng": -13.91,
       "country": "Iceland",
@@ -1800,7 +2197,11 @@
       ],
       "routeIds": [
         "fr112"
-      ]
+      ],
+      "wikidataId": "Q5677860",
+      "wikidataLabel": "Harwich International Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Stena_Hollandica_at_Harwich_International_Ferry_Post_-_geograph.org.uk_-_5894479.jpg?width=600"
     },
     {
       "id": "fp128",
@@ -1813,7 +2214,10 @@
       ],
       "routeIds": [
         "fr112"
-      ]
+      ],
+      "wikidataId": "Q34954253",
+      "wikidataLabel": "Hook of Holland Port",
+      "source": "wikidata"
     },
     {
       "id": "fp129",
@@ -1827,7 +2231,12 @@
       "routeIds": [
         "fr113",
         "fr114"
-      ]
+      ],
+      "wikidataId": "Q7231086",
+      "wikidataLabel": "Port of Belfast",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Belfast.Port.2012.JPG?width=600",
+      "website": "https://www.belfast-harbour.co.uk/port"
     },
     {
       "id": "fp130",
@@ -1840,7 +2249,11 @@
       ],
       "routeIds": [
         "fr113"
-      ]
+      ],
+      "wikidataId": "Q3398514",
+      "wikidataLabel": "Port of Liverpool",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Liverpool_Building_Front.jpg?width=600"
     },
     {
       "id": "fp131",
@@ -1853,7 +2266,10 @@
       ],
       "routeIds": [
         "fr115"
-      ]
+      ],
+      "wikidataId": "Q24677905",
+      "wikidataLabel": "Fishguard Port",
+      "source": "wikidata"
     },
     {
       "id": "fp132",
@@ -1867,7 +2283,11 @@
       "routeIds": [
         "fr116",
         "fr117"
-      ]
+      ],
+      "wikidataId": "Q23754069",
+      "wikidataLabel": "Frederikshavn Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Frederikshavn_den_2_maj_2007%2C_bild_33.JPG?width=600"
     },
     {
       "id": "fp133",
@@ -1880,7 +2300,11 @@
       ],
       "routeIds": [
         "fr118"
-      ]
+      ],
+      "wikidataId": "Q23754065",
+      "wikidataLabel": "Grenaa Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Grenaa_harbour_2018_3.jpg?width=600"
     },
     {
       "id": "fp134",
@@ -1893,7 +2317,11 @@
       ],
       "routeIds": [
         "fr118"
-      ]
+      ],
+      "wikidataId": "Q10351957",
+      "wikidataLabel": "Varberg Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Varbergs_hamn_2015_001.jpg?width=600"
     },
     {
       "id": "fp135",
@@ -1906,7 +2334,10 @@
       ],
       "routeIds": [
         "fr120"
-      ]
+      ],
+      "wikidataId": "Q32263669",
+      "wikidataLabel": "Karlskrona Port",
+      "source": "wikidata"
     },
     {
       "id": "fp136",
@@ -1924,7 +2355,10 @@
         "fr145",
         "fr147",
         "fr148"
-      ]
+      ],
+      "wikidataId": "Q34966404",
+      "wikidataLabel": "Port of Stockholm",
+      "source": "wikidata"
     },
     {
       "id": "fp137",
@@ -1937,7 +2371,11 @@
       ],
       "routeIds": [
         "fr125"
-      ]
+      ],
+      "wikidataId": "Q3018073",
+      "wikidataLabel": "Freeport of Riga",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Coronado(Valetta)vessel-inRiga(Latvia).JPG?width=600"
     },
     {
       "id": "fp138",
@@ -1950,7 +2388,10 @@
       ],
       "routeIds": [
         "fr128"
-      ]
+      ],
+      "wikidataId": "Q18286517",
+      "wikidataLabel": "Port of Den Helder Kings in het seizoen 2014-15",
+      "source": "wikidata"
     },
     {
       "id": "fp139",
@@ -1976,7 +2417,12 @@
       ],
       "routeIds": [
         "fr129"
-      ]
+      ],
+      "wikidataId": "Q3909215",
+      "wikidataLabel": "Port of Cagliari",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Largo_Carlo_Felice.jpg?width=600",
+      "website": "http://www.porto.cagliari.it"
     },
     {
       "id": "fp141",
@@ -1989,7 +2435,11 @@
       ],
       "routeIds": [
         "fr130"
-      ]
+      ],
+      "wikidataId": "Q34953543",
+      "wikidataLabel": "Arbatax Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Arbatax_harbour%2C_Arbatax%2C_Ogliastra%2C_Sardinia%2C_Italy_-_panoramio.jpg?width=600"
     },
     {
       "id": "fp142",
@@ -2002,11 +2452,15 @@
       ],
       "routeIds": [
         "fr131"
-      ]
+      ],
+      "wikidataId": "Q3909269",
+      "wikidataLabel": "Porto Torres Port",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Porto_Torres_-_chemical_industry.jpg?width=600"
     },
     {
       "id": "fp143",
-      "name": "M\u00c3\u00a1laga",
+      "name": "MÃ¡laga",
       "lat": 36.72,
       "lng": -4.42,
       "country": "Spain",
@@ -2030,11 +2484,16 @@
         "fr136",
         "fr137",
         "fr138"
-      ]
+      ],
+      "wikidataId": "Q10351953",
+      "wikidataLabel": "Port of Trelleborg",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Trelleborg_ferry_terminal_JvmKEAE01911.jpg?width=600",
+      "website": "https://www.trelleborgshamn.se/"
     },
     {
       "id": "fp145",
-      "name": "\u00c5\u0161winouj\u00c5\u203acie",
+      "name": "ÅšwinoujÅ›cie",
       "lat": 53.91,
       "lng": 14.25,
       "country": "Poland",
@@ -2057,7 +2516,12 @@
       "routeIds": [
         "fr141",
         "fr142"
-      ]
+      ],
+      "wikidataId": "Q29569261",
+      "wikidataLabel": "Bulyard",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Varna_shipyard.jpg?width=600",
+      "website": "http://www.bulyard.com/bg/"
     },
     {
       "id": "fp147",
@@ -2070,7 +2534,11 @@
       ],
       "routeIds": [
         "fr142"
-      ]
+      ],
+      "wikidataId": "Q16709741",
+      "wikidataLabel": "Odesa-Port railway station",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Prymorska_St.%2C_8.jpg?width=600"
     },
     {
       "id": "fp148",
@@ -2083,7 +2551,11 @@
       ],
       "routeIds": [
         "fr144"
-      ]
+      ],
+      "wikidataId": "Q21976438",
+      "wikidataLabel": "Port of Mariehamn",
+      "source": "wikidata",
+      "website": "https://mariehamnshamn.ax"
     },
     {
       "id": "fp149",
@@ -2096,7 +2568,11 @@
       ],
       "routeIds": [
         "fr148"
-      ]
+      ],
+      "wikidataId": "Q9362807",
+      "wikidataLabel": "Turku Harbour railway station",
+      "source": "wikidata",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Turun_sataman_rautatieasema_toukokuussa_2024.jpg?width=600"
     },
     {
       "id": "fp150",
@@ -2135,11 +2611,14 @@
       ],
       "routeIds": [
         "fr150"
-      ]
+      ],
+      "wikidataId": "Q9489244",
+      "wikidataLabel": "Port of Vaasa",
+      "source": "wikidata"
     },
     {
       "id": "fp153",
-      "name": "Ume\u00c3\u00a5",
+      "name": "UmeÃ¥",
       "lat": 63.82,
       "lng": 20.25,
       "country": "Sweden",
@@ -2205,7 +2684,7 @@
         "Spain",
         "Algeria"
       ],
-      "operator": "Alg\u00c3\u00a9rie Ferries",
+      "operator": "AlgÃ©rie Ferries",
       "id": "fr2"
     },
     {
@@ -2224,7 +2703,7 @@
         "France",
         "Algeria"
       ],
-      "operator": "Alg\u00c3\u00a9rie Ferries",
+      "operator": "AlgÃ©rie Ferries",
       "id": "fr3"
     },
     {
@@ -2243,7 +2722,7 @@
         "France",
         "Algeria"
       ],
-      "operator": "Alg\u00c3\u00a9rie Ferries",
+      "operator": "AlgÃ©rie Ferries",
       "id": "fr4"
     },
     {
@@ -2262,7 +2741,7 @@
         "Spain",
         "Algeria"
       ],
-      "operator": "Alg\u00c3\u00a9rie Ferries",
+      "operator": "AlgÃ©rie Ferries",
       "id": "fr5"
     },
     {
@@ -2757,7 +3236,7 @@
       "id": "fr30"
     },
     {
-      "name": "Sandefjord - Str\u00c3\u00b6mstad",
+      "name": "Sandefjord - StrÃ¶mstad",
       "coords": [
         [
           59.13,
@@ -2969,7 +3448,7 @@
       "id": "fr41"
     },
     {
-      "name": "Nyn\u00c3\u00a4shamn - Visby",
+      "name": "NynÃ¤shamn - Visby",
       "coords": [
         [
           58.9,
@@ -3099,7 +3578,7 @@
       "id": "fr48"
     },
     {
-      "name": "Ghent - G\u00c3\u00b6teborg",
+      "name": "Ghent - GÃ¶teborg",
       "coords": [
         [
           51.05,
@@ -3194,7 +3673,7 @@
       "id": "fr53"
     },
     {
-      "name": "Paldiski - Kapellsk\u00c3\u00a4r",
+      "name": "Paldiski - KapellskÃ¤r",
       "coords": [
         [
           59.35,
@@ -3252,7 +3731,7 @@
       "id": "fr55"
     },
     {
-      "name": "Grisslehamn - Ecker\u00c3\u00b6",
+      "name": "Grisslehamn - EckerÃ¶",
       "coords": [
         [
           60.1,
@@ -3267,7 +3746,7 @@
         "Sweden",
         "Finland"
       ],
-      "operator": "Ecker\u00c3\u00b6 Line",
+      "operator": "EckerÃ¶ Line",
       "id": "fr56"
     },
     {
@@ -3286,7 +3765,7 @@
         "Finland",
         "Estonia"
       ],
-      "operator": "Ecker\u00c3\u00b6 Line",
+      "operator": "EckerÃ¶ Line",
       "id": "fr57"
     },
     {
@@ -3366,7 +3845,7 @@
       "id": "fr61"
     },
     {
-      "name": "Helsinki - Travem\u00c3\u00bcnde",
+      "name": "Helsinki - TravemÃ¼nde",
       "coords": [
         [
           60.17,
@@ -3385,7 +3864,7 @@
       "id": "fr62"
     },
     {
-      "name": "Malm\u00c3\u00b6 - Travem\u00c3\u00bcnde",
+      "name": "MalmÃ¶ - TravemÃ¼nde",
       "coords": [
         [
           55.61,
@@ -3423,7 +3902,7 @@
       "id": "fr64"
     },
     {
-      "name": "Travem\u00c3\u00bcnde - Helsinki",
+      "name": "TravemÃ¼nde - Helsinki",
       "coords": [
         [
           53.96,
@@ -3442,7 +3921,7 @@
       "id": "fr65"
     },
     {
-      "name": "Travem\u00c3\u00bcnde - Liepaja",
+      "name": "TravemÃ¼nde - Liepaja",
       "coords": [
         [
           53.96,
@@ -3461,7 +3940,7 @@
       "id": "fr66"
     },
     {
-      "name": "Travem\u00c3\u00bcnde - Malm\u00c3\u00b6",
+      "name": "TravemÃ¼nde - MalmÃ¶",
       "coords": [
         [
           53.96,
@@ -3561,7 +4040,7 @@
       "id": "fr70"
     },
     {
-      "name": "Helsing\u00c3\u00b8r - Helsingborg",
+      "name": "HelsingÃ¸r - Helsingborg",
       "coords": [
         [
           56.03,
@@ -3654,7 +4133,7 @@
       "id": "fr75"
     },
     {
-      "name": "S\u00c3\u00a8te - Tangier Med",
+      "name": "SÃ¨te - Tangier Med",
       "coords": [
         [
           43.41,
@@ -4306,7 +4785,7 @@
       "id": "fr107"
     },
     {
-      "name": "Helsing\u00c3\u00b8r - Helsingborg",
+      "name": "HelsingÃ¸r - Helsingborg",
       "coords": [
         [
           56.03,
@@ -4325,7 +4804,7 @@
       "id": "fr108"
     },
     {
-      "name": "R\u00c3\u00b8dby - Puttgarden",
+      "name": "RÃ¸dby - Puttgarden",
       "coords": [
         [
           54.65,
@@ -4363,7 +4842,7 @@
       "id": "fr110"
     },
     {
-      "name": "Hirtshals - T\u00c3\u00b3rshavn - Sey\u00c3\u00b0isfj\u00c3\u00b6r\u00c3\u00b0ur",
+      "name": "Hirtshals - TÃ³rshavn - SeyÃ°isfjÃ¶rÃ°ur",
       "coords": [
         [
           57.59,
@@ -4462,7 +4941,7 @@
       "id": "fr115"
     },
     {
-      "name": "Frederikshavn - G\u00c3\u00b6teborg",
+      "name": "Frederikshavn - GÃ¶teborg",
       "coords": [
         [
           57.44,
@@ -4784,7 +5263,7 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Trasmediterr\u00c3\u00a1nea",
+      "operator": "TrasmediterrÃ¡nea",
       "id": "fr132"
     },
     {
@@ -4802,11 +5281,11 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Trasmediterr\u00c3\u00a1nea",
+      "operator": "TrasmediterrÃ¡nea",
       "id": "fr133"
     },
     {
-      "name": "M\u00c3\u00a1laga - Melilla",
+      "name": "MÃ¡laga - Melilla",
       "coords": [
         [
           36.72,
@@ -4820,7 +5299,7 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Trasmediterr\u00c3\u00a1nea",
+      "operator": "TrasmediterrÃ¡nea",
       "id": "fr134"
     },
     {
@@ -4838,7 +5317,7 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Trasmediterr\u00c3\u00a1nea",
+      "operator": "TrasmediterrÃ¡nea",
       "id": "fr135"
     },
     {
@@ -4861,7 +5340,7 @@
       "id": "fr136"
     },
     {
-      "name": "Trelleborg - \u00c5\u0161winouj\u00c5\u203acie",
+      "name": "Trelleborg - ÅšwinoujÅ›cie",
       "coords": [
         [
           55.37,
@@ -4880,7 +5359,7 @@
       "id": "fr137"
     },
     {
-      "name": "Trelleborg - Travem\u00c3\u00bcnde",
+      "name": "Trelleborg - TravemÃ¼nde",
       "coords": [
         [
           55.37,
@@ -5150,7 +5629,7 @@
       "id": "fr149"
     },
     {
-      "name": "Vaasa - Ume\u00c3\u00a5",
+      "name": "Vaasa - UmeÃ¥",
       "coords": [
         [
           63.09,
@@ -5168,5 +5647,6 @@
       "operator": "Wasaline",
       "id": "fr150"
     }
-  ]
+  ],
+  "generatedAt": "2026-05-27T15:59:20.088Z"
 }

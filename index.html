@@ -805,6 +805,7 @@ a.pill:hover {
   <nav class="main-nav" aria-label="Main navigation">
     <a href="/" class="active">Map</a>
     <a href="/stations">Stations</a>
+    <a href="/ports">Ports</a>
     <a href="/operators">Operators</a>
   </nav>
   <div class="toggle" id="themeToggle">Light mode</div>
@@ -1005,7 +1006,9 @@ let stationDataset = { countries: {} };
 const stationDataCache = {};
 let stationLoadToken = 0;
 let selectedStationMarker = null;
+let selectedPort = null; // currently selected ferry port (independent of country selection)
 let pendingStationId = new URLSearchParams(window.location.search).get("stationId");
+let pendingPortId = new URLSearchParams(window.location.search).get("portId");
 let ferryPortsLayer = null;
 let ferryPortsData = []; // [{lat, lng, name, routeIds, ...}]
 let allFerryRoutes = []; // all routes from ferry_ports.json with ids
@@ -1586,19 +1589,46 @@ function clearFerryPorts() {
   ferryPortsLayer = null;
 }
 
+function clearSelectedPort() {
+  clearFerryRouteLines();
+  selectedPort = null;
+  
+  // If a country is selected, restore country routes and sidebar
+  if (currentSelectedCountry) {
+    const normalized = norm(currentSelectedCountry);
+    const routeMatches = (allFerryRoutes || []).filter(route =>
+      route.countries?.some(country => norm(country) === normalized)
+    );
+    setVisibleFerryRoutes(routeMatches);
+    if (ferryPortsToggle.checked) renderFerryPortsForCountry(currentSelectedCountry);
+    // Restore country sidebar (re-trigger country click logic conceptually)
+    renderCountrySidebar(currentSelectedCountry);
+  } else {
+    // No country selected, clear everything port-related in sidebar
+    clearFerryLines();
+    visibleFerryRoutes = [];
+    clearFerryPorts();
+    sidebarContent.innerHTML = `
+      <div id="stationDetailPanel"></div>
+      <h2>Track & Tide</h2>
+      <p>Select a country or ferry route.</p>
+    `;
+  }
+}
+
 function showPortRoutes(port) {
   if (!port || !port.routeIds || !port.routeIds.length) return;
   const routes = allFerryRoutes.filter(r => port.routeIds.includes(r.id));
 
-  // Clear previous
+  // Clear previous port selection
   clearFerryRouteLines();
-  clearStations();
-  currentSelectedCountry = null;
-  lastSelectedCountry = null;
-  stationToggle.checked = false;
-  stationToggle.disabled = true;
-  limitedToggleLabel.style.display = "none";
-  if (selectedLayer) { geoLayer.resetStyle(selectedLayer); selectedLayer = null; }
+  
+  // Clear country-level ferry lines (but keep country selected)
+  clearFerryLines();
+  visibleFerryRoutes = [];
+  
+  // Set as selected port
+  selectedPort = port;
 
   // Draw all routes from this port
   const lineColor = currentTheme === "light" ? "#1d4ed8" : "#38bdf8";
@@ -1628,6 +1658,8 @@ function showPortRoutes(port) {
     </button>`;
   }).join("");
 
+  const portsUrl = `/ports?portId=${encodeURIComponent(port.id)}`;
+
   sidebarContent.innerHTML = `
     <div id="stationDetailPanel"></div>
     <h2>${escapeHTML(port.name)}</h2>
@@ -1638,6 +1670,9 @@ function showPortRoutes(port) {
     <div class="ferry-route-panel">
       <p class="route-help">Select a route to highlight it:</p>
       <div class="route-list">${routeList}</div>
+    </div>
+    <div class="detail-links" style="margin-top:0.75rem;">
+      <a class="detail-link" href="${portsUrl}" target="_self" rel="noopener">Full details</a>
     </div>
   `;
 
@@ -1675,6 +1710,97 @@ function toggleFerryPorts(show) {
     clearFerryLines();
     visibleFerryRoutes = [];
   }
+}
+
+// Render country sidebar (reusable, called from country click and clearSelectedPort)
+function renderCountrySidebar(geoName) {
+  const normalized = norm(geoName);
+  const stationSource = getStationSource(geoName);
+  const operators = (countryData?.operators || []).filter(op => {
+    const opCountries = op.countries || [op.country];
+    return opCountries.some(c => norm(c) === normalized);
+  });
+
+  const sortNationalOperatorsFirst = (a, b) => {
+    const aIsNational = norm(a.country) === normalized;
+    const bIsNational = norm(b.country) === normalized;
+    if (aIsNational !== bIsNational) return aIsNational ? -1 : 1;
+    return (a.name || "").localeCompare(b.name || "");
+  };
+
+  const trains = operators.filter(o => o.type === "trains").sort(sortNationalOperatorsFirst);
+  const ferryOperators = operators.filter(o => o.type === "ferries").sort(sortNationalOperatorsFirst);
+
+  const routeMatches = (allFerryRoutes || []).filter(route =>
+    route.countries?.some(country => norm(country) === normalized)
+  );
+
+  const operatorRouteMap = {};
+  routeMatches.forEach(route => {
+    const op = route.operator || "Unknown";
+    if (!operatorRouteMap[op]) operatorRouteMap[op] = [];
+    operatorRouteMap[op].push(route);
+  });
+
+  const renderRouteButtons = (routes, operatorName) => routes.length ? `
+    <div class="route-list">
+      ${routes.map(route => `<button type="button" class="route-item" data-route-name="${escapeHTML(route.name)}" data-operator="${escapeHTML(operatorName)}">${escapeHTML(route.name)}${route.countries?.length ? ` <span class="route-tag">${escapeHTML(route.countries.join(" / "))}</span>` : ""}</button>`).join("")}
+    </div>
+  ` : "";
+
+  const renderOperatorCard = (op, routeButtonsHtml = "") => `
+    <details class="card" data-operator="${escapeHTML(op.name)}">
+      <summary class="card-summary">
+        ${op.logo ? `<img src="operator logos/${op.logo}" alt="${escapeHTML(op.name)} logo" class="card-logo" />` : ""}
+        <div class="card-body">
+          <div class="card-title">${escapeHTML(op.name)}</div>
+          <div class="card-subtitle">${escapeHTML(op.operatorLabel || (op.type === 'trains' ? 'Train operator' : 'Ferry operator'))}</div>
+      </summary>
+      <div class="card-extra">
+        ${op.description ? `<div class="card-description">${escapeHTML(op.description)}</div>` : ""}
+        ${op.website ? `<a href="${op.website}" target="_blank" class="card-button card-button-primary">Visit website</a>` : ""}
+        <div class="app-badges">
+          ${op.appLinks?.android ? `<a href="${op.appLinks.android}" target="_blank" class="app-badge"><img src="get_it_on_google_play.png" alt="Get it on Google Play"></a>` : ""}
+          ${op.appLinks?.ios ? `<a href="${op.appLinks.ios}" target="_blank" class="app-badge"><img src="get_it_on_apple.png" alt="Download on the App Store"></a>` : ""}
+        </div>
+        ${routeButtonsHtml}
+      </div>
+    </details>
+  `;
+
+  const countryInfo = countryData?.countryInfo?.find(c => c.country === geoName);
+  const countryDescription = countryInfo?.info || "";
+  const stationCount = getStationCount(stationSource);
+  const limitedUseCount = (stationSource?.stations || []).filter(s => s.usage === "limited_use").length;
+
+  sidebarContent.innerHTML = `
+    <div id="stationDetailPanel"></div>
+    <h2>${geoName}</h2>
+    ${countryDescription ? `<p class="country-description">${escapeHTML(countryDescription)}</p>` : ""}
+    ${stationSource ? `<p class="station-count">${stationCount.toLocaleString()} stations in dataset${limitedUseCount > 0 ? ` &middot; <span style="color:#fb923c">${limitedUseCount} limited use</span>` : ""}</p>` : ""}
+    ${trains.length ? "<h3>Trains</h3>" : ""}
+    ${trains.map(op => renderOperatorCard(op)).join("")}
+    ${ferryOperators.length ? "<h3>Ferries</h3>" : ""}
+    ${ferryOperators.map(op => renderOperatorCard(op, renderRouteButtons(operatorRouteMap[op.name] || [], op.name))).join("")}
+  `;
+
+  // Wire up route item clicks
+  document.querySelectorAll(".route-item").forEach(button => {
+    button.addEventListener("click", () => {
+      const routeName = button.dataset.routeName;
+      const operatorName = button.dataset.operator;
+      const route = routeMatches.find(r => r.name === routeName);
+      if (route) {
+        if (!ferryPortsToggle.checked) { ferryPortsToggle.checked = true; toggleFerryPorts(true); }
+        showFerryRoute(route);
+        document.querySelectorAll(".route-item").forEach(item => item.classList.toggle("active", item === button));
+        const operatorCard = Array.from(document.querySelectorAll('.card[data-operator]'))
+          .find(card => card.dataset.operator === operatorName);
+        if (operatorCard) { operatorCard.open = true; }
+        setTimeout(scrollToActiveRoute, 240);
+      }
+    });
+  });
 }
 
 ferryPortsToggle.addEventListener("change", () => {
@@ -1944,83 +2070,15 @@ fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
           setVisibleFerryRoutes(routeMatches);
           if (ferryPortsToggle.checked) renderFerryPortsForCountry(geoName);
 
-          const operatorRouteMap = {};
-          routeMatches.forEach(route => {
-            const op = route.operator || "Unknown";
-            if (!operatorRouteMap[op]) operatorRouteMap[op] = [];
-            operatorRouteMap[op].push(route);
-          });
+          // Clear any selected port when clicking a country
+          clearFerryRouteLines();
+          selectedPort = null;
 
-          const renderRouteButtons = (routes, operatorName) => routes.length ? `
-              <div class="route-list">
-                ${routes.map(route => `<button type="button" class="route-item" data-route-name="${escapeHTML(route.name)}" data-operator="${escapeHTML(operatorName)}">${escapeHTML(route.name)}${route.countries?.length ? ` <span class="route-tag">${escapeHTML(route.countries.join(" / "))}</span>` : ""}</button>`).join("")}
-              </div>
-            ` : "";
-
-          const renderOperatorCard = (op, routeButtonsHtml = "") => `
-            <details class="card" data-operator="${escapeHTML(op.name)}">
-              <summary class="card-summary">
-                ${op.logo ? `<img src="operator logos/${op.logo}" alt="${escapeHTML(op.name)} logo" class="card-logo" />` : ""}
-                <div class="card-body">
-                  <div class="card-title">${escapeHTML(op.name)}</div>
-                  <div class="card-subtitle">${escapeHTML(op.operatorLabel || (op.type === 'trains' ? 'Train operator' : 'Ferry operator'))}</div>
-              </summary>
-              <div class="card-extra">
-                ${op.description ? `<div class="card-description">${escapeHTML(op.description)}</div>` : ""}
-                ${op.website ? `<a href="${op.website}" target="_blank" class="card-button card-button-primary">Visit website</a>` : ""}
-                <div class="app-badges">
-                  ${op.appLinks?.android ? `<a href="${op.appLinks.android}" target="_blank" class="app-badge"><img src="get_it_on_google_play.png" alt="Get it on Google Play"></a>` : ""}
-                  ${op.appLinks?.ios ? `<a href="${op.appLinks.ios}" target="_blank" class="app-badge"><img src="get_it_on_apple.png" alt="Download on the App Store"></a>` : ""}
-                </div>
-                ${routeButtonsHtml}
-              </div>
-            </details>
-          `;
-
-          const countryInfo = countryData?.countryInfo?.find(c => c.country === geoName);
-          const countryDescription = countryInfo?.info || "";
-          const stationCount = getStationCount(stationSource);
-          const limitedUseCount = (stationSource?.stations || []).filter(s => s.usage === "limited_use").length;
-
-          sidebarContent.innerHTML = `
-            <div id="stationDetailPanel"></div>
-            <h2>${geoName}</h2>
-            ${countryDescription ? `<p class="country-description">${escapeHTML(countryDescription)}</p>` : ""}
-            ${stationSource ? `<p class="station-count">${stationCount.toLocaleString()} stations in dataset${limitedUseCount > 0 ? ` &middot; <span style="color:#fb923c">${limitedUseCount} limited use</span>` : ""}</p>` : ""}
-
-            ${trains.length ? "<h3>Trains</h3>" : ""}
-            ${trains.map(op => renderOperatorCard(op)).join("")}
-
-${ferryOperators.length ? "<h3>Ferries</h3>" : ""}
-          ${ferryOperators.map(op => renderOperatorCard(op, renderRouteButtons(operatorRouteMap[op.name] || [], op.name))).join("")}
-
-          `;
-
-          document.querySelectorAll(".route-item").forEach(button => {
-            button.addEventListener("click", () => {
-              const routeName = button.dataset.routeName;
-              const operatorName = button.dataset.operator;
-              const route = routeMatches.find(r => r.name === routeName);
-              if (route) {
-                if (!ferryPortsToggle.checked) { ferryPortsToggle.checked = true; toggleFerryPorts(true); }
-                showFerryRoute(route);
-                document.querySelectorAll(".route-item").forEach(item => item.classList.toggle("active", item === button));
-
-                const operatorCard = Array.from(document.querySelectorAll('.card[data-operator]'))
-                  .find(card => card.dataset.operator === operatorName);
-                if (operatorCard) {
-                  operatorCard.open = true;
-                }
-
-                setTimeout(scrollToActiveRoute, 240);
-              }
-            });
-          });
+          // Render country sidebar
+          renderCountrySidebar(geoName);
 
           updateStationToggle();
           syncStationLayerForSelectedCountry();
-
-          clearFerryRouteLines();
 
           /* HIGHLIGHT */
           if (selectedLayer) geoLayer.resetStyle(selectedLayer);
@@ -2074,6 +2132,15 @@ ${ferryOperators.length ? "<h3>Ferries</h3>" : ""}
       }
 
     }).addTo(map);
+
+    // Click on empty map area deselects port (but keeps country selection)
+    map.on("click", (e) => {
+      // Only handle if it wasn't on a marker or feature
+      if (e.originalEvent.defaultPrevented) return;
+      if (selectedPort) {
+        clearSelectedPort();
+      }
+    });
 
     // Now load other data in background
     const loadBackgroundData = (done) => {
@@ -2133,6 +2200,16 @@ ${ferryOperators.length ? "<h3>Ferries</h3>" : ""}
           setTimeout(() => selectStationById(stationIdToSelect).catch(console.error), 600);
         }
         pendingStationId = null;
+      }
+      // Handle portId from URL after data loaded
+      if (pendingPortId) {
+        const port = (ferryPortsData || []).find(p => p.id === pendingPortId);
+        if (port) {
+          // Enable ferry ports display
+          ferryPortsToggle.checked = true;
+          showPortRoutes(port);
+        }
+        pendingPortId = null;
       }
     };
 
