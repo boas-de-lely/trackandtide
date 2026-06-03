@@ -212,6 +212,240 @@ const MANUAL_ALIASES = {
   "ukrainian railways":             "Ukrzaliznytsia",
   "cale ferate romane":             "CFR Călători", // already above, keeping for safety
   "caile ferate romane":            "CFR Călători",
+
+  // ── DB group extended variants ──
+  "db station service":             "DB",
+  "db stationandservice ag":        "DB",
+  "db stationandservice":           "DB",
+  "db station service ag":          "DB",
+  "db infrago ag":                  "DB",
+  "db infrago":                     "DB",
+  "sudostbayernbahn":               "DB",
+  "südostbayernbahn":               "DB",
+  "westfrankenbahn":                "DB",
+  "kurhessenbahn":                  "DB",
+  "erixx":                          "DB",
+
+  // ── PKP variants ──
+  "polskie koleje panstwowe":       "PKP Intercity",
+  "polskie linie kolejowe":         "PKP Intercity",
+  "pkp cargo international":         "PKP Cargo International",
+
+  // ── BDZ variants ──
+  "balgarska darzhavna zheleznitsa": "BDZ",
+  "balgarski darzhavni zheleznitsi": "BDZ",
+  "national railway infrastructure company": "BDZ",
+  "bulgarian state railways":       "BDZ",
+
+  // ── Renfe variants ──
+  "red nacional de los ferrocarriles espanoles": "Renfe",
+  "administrador de infraestructuras ferroviarias": "Renfe",
+  "ferrocarrils de la generalitat de catalunya": "Renfe",
+  "metro van valencia":             "Renfe",
+  "ferrocarrils de la generalitat valenciana": "Renfe",
+
+  // ── MÁV variants ──
+  "mav infrastructure co ltd":      "MÁV",
+
+  // ── Trenitalia variants ──
+  "rete ferroviaria italiana":      "Trenitalia",
+  "rfi":                            "Trenitalia",
+  "fondazione fs italiane":         "Trenitalia",
+  "centostazioni":                  "Trenitalia",
+  "societa unica abruzzese di trasporto": "Trenitalia",
+  "nuovo trasporto viaggiatori":    "Italo",
+
+  // ── Infrastructure managers → parent operators ──
+  "adif":                           "Renfe",
+  "infraestruturas de portugal":    "CP",
+  "sprava zeleznic":                "České dráhy",
+  "cz szdc":                       "České dráhy",
+  "sprava zeleznicni dopravni cesty": "České dráhy",
+  "bane nor":                       "Vy",
+  "swedish transport administration": "SJ",
+  "vaylavirasto":                   "VR",
+  "finnish transport infrastructure agency": "VR",
+  "hz infrastruktura":              "HŽPP",
+
+  // ── Slovenian Railways ──
+  "slovenske zeleznice":            "Slovenian Railways",
+
+  // ── Albanian Railways ──
+  "hekurudha shqiptare":            "hsh (Albanian Railways)",
+
+  // ── Serbia variants ──
+  "serbian railways infrastructure": "Srbija Voz",
+  "serbian railways":               "Srbija Voz",
+  "srbijavoz":                      "Srbija Voz",
+
+  // ── Kosovo → Trainkos ──
+  "kosovo railways":                "Trainkos",
+
+  // ── Baltic states ──
+  "latvian railways":               "Vivi",
+  "lietuvos gelezinkeliai":         "LTG Link",
+  "ltg infra":                      "LTG Link",
+  "elektriraudtee":                 "Elron",
+
+  // ── Ukraine variants ──
+  "cisdnieper railways":            "Ukrzaliznytsia",
+
+  // ── UK operator mappings ──
+  "scotrail":                       "ScotRail",
+  "scotrail abellio":               "ScotRail",
+  "abellio scotrail":               "ScotRail",
+  "glasgow":                        "ScotRail",
+  "arriva trains wales":            "Transport for Wales",
+  "arriva rail north":              "Northern",
+  "northern rail":                  "Northern",
+  "northern trains":                "Northern",
+  "southern railway":               "GTR",
+  "gatwick express":                "GTR",
+  "thameslink":                     "GTR",
+  "great northern":                 "GTR",
+  "new southern railway":           "GTR",
+  "merseyrail":                     "National Rail",
+  "first trans pennine express":    "TransPennine Express",
+  "first great western":            "Great Western Railway",
+  "c2c":                            "National Rail",
+  "london overground":              "National Rail",
+  "tfl rail":                       "National Rail",
+  "elizabeth line":                 "National Rail",
+  "west midlands trains":           "West Midlands Trains",
+  "west midlands railway":          "West Midlands Trains",
+  "london northwestern":            "West Midlands Trains",
+  "london midland":                 "West Midlands Trains",
+  "east midlands trains":           "East Midlands Railway",
+  "ni railways":                    "NI Railways",
+  "northern ireland railways":      "NI Railways",
+  "translink":                      "NI Railways",
+  "transport for wales":            "Transport for Wales",
+  "transport for wales rail":       "Transport for Wales",
+  "keolisamey wales":               "Transport for Wales",
+  "virgin trains":                  "Avanti West Coast",
+  "transport for london":           "National Rail",
+  "island line trains":             "South Western Railway",
+
+  // ── UK historical railways → modern operators ──
+  "dumbarton and helensburgh railway": "ScotRail",
+  "paisley and greenock railway":      "ScotRail",
+  "scottish north eastern railway":    "ScotRail",
+  "dundee and arbroath railway":       "ScotRail",
+  "callander and oban railway":        "ScotRail",
+  "mallaig extension railway":         "ScotRail",
+  "sutherland and caithness railway":  "ScotRail",
+  "dingwall and skye railway":         "ScotRail",
+  "kilmarnock and ayr railway":        "ScotRail",
+  "dumfries and carlisle railway":     "ScotRail",
+  "paisley":                           "ScotRail",
+
+  // ── Switzerland: new operator aliases ──
+  "regionalverkehr bern solothurn":     "Regionalverkehr Bern-Solothurn",
+  "transports publics fribourgeois":    "Transports publics Fribourgeois",
+  "sihltal zurich uetliberg bahn":     "SZU (Sihltal Zürich Uetliberg Bahn)",
+  "travys":                             "TRAVYS",
+  "transports publics neuchatelois":    "transN (Transports Publics Neuchâtelois)",
+  "transports de la region morges biere cossonay": "MBC (Transports Morges-Bière-Cossonay)",
+  "bdwm transport":                     "Aargau Verkehr (AVA/BDWM)",
+  "forchbahn":                          "Forchbahn",
+  "forchbahn ag":                       "Forchbahn",
+  "frauenfeld wil bahn":                "Frauenfeld-Wil-Bahn",
+  "frauenfeld wil bahn ag":             "Frauenfeld-Wil-Bahn",
+  "spoorlijn vevey chamby":             "TPC (Vevey–Chamby)",
+  "ferrovie luganesi":                  "Ferrovie Luganesi (FLP)",
+  "baselland transport":                "Baselland Transport (BLT)",
+  "rigi bahnen":                        "Rigi Bahnen",
+  "rigi bahnen ag":                     "Rigi Bahnen",
+  "jungfraubahn holding":               "Jungfraubahn",
+  "berner oberland bahnen":             "Berner Oberland-Bahnen (BOB)",
+  "berner oberland bahnen ag":          "Berner Oberland-Bahnen (BOB)",
+  "emmentalbahn":                       "Emmentalbahn (ETB)",
+  "regional bus and rail company of canton ticino": "FART (Ferrovie Autolinee Regionali Ticinesi)",
+  "wynental en suhrentalbahn":         "WSB (Wynental- und Suhrentalbahn)",
+  "wynental und suhrentalbahn":        "WSB (Wynental- und Suhrentalbahn)",
+  "spoorlijn lausanne bercher":        "LEB (Lausanne-Échallens-Bercher)",
+  "spoorlijn nyon morez":              "NStCM (Nyon-St-Cergue-Morez)",
+  "transports de martigny et regions": "Transports de Martigny et Régions",
+  "trn":                               "transN (Transports Publics Neuchâtelois)",
+
+  // ── Germany: new operator aliases ──
+  "eisenbahnen und verkehrsbetriebe elbe weser": "EVB (Elbe-Weser)",
+  "metronom eisenbahngesellschaft":     "metronom Eisenbahngesellschaft",
+  "harzer schmalspurbahnen":            "Harzer Schmalspurbahnen (HSB)",
+  "akn eisenbahn":                      "AKN Eisenbahn",
+  "usedomer baderbahn":                 "Usedomer Bäderbahn (UBB)",
+  "bleckeder kleinbahn":                "Bleckeder Kleinbahn",
+  "bleckeder kleinbahn ug":             "Bleckeder Kleinbahn",
+  "kahlgrund verkehrs gesellschaft":    "KVG (Kahlgrund-Verkehrs-Gesellschaft)",
+  "kahlgrund verkehrs gesellschaft mbh": "KVG (Kahlgrund-Verkehrs-Gesellschaft)",
+  "regio infra nord ost":               "Regio Infra Nord-Ost",
+  "saxon steam railway company":        "Saxon Steam Railway (SDG)",
+  "sweg schienenwege":                  "SWEG",
+  "sweg schienenwege gmbh":             "SWEG",
+
+  // ── Italy: new operator aliases ──
+  "ferrovie della calabria":            "Ferrovie della Calabria",
+  "ferrovie appulo lucane":             "Ferrovie Appulo Lucane (FAL)",
+  "ferrovie emilia romagna":            "Ferrovie Emilia Romagna (FER)",
+  "ente autonomo volturno":             "Ente Autonomo Volturno (EAV)",
+  "anm":                                "Ente Autonomo Volturno (EAV)",
+  "ferrovie del gargano":               "Ferrovie del Gargano",
+  "ferrotramviaria":                    "Ferrotramviaria",
+  "ferrovia circumetnea":               "Ferrovia Circumetnea",
+  "ferrovia suzzara ferrara":           "Ferrovia Suzzara-Ferrara (FSF)",
+  "sistemi territoriali":               "Sistemi Territoriali",
+  "trasporto ferroviario toscano":      "Trasporto Ferroviario Toscano (TFT)",
+  "gruppo torinese trasporti":          "Gruppo Torinese Trasporti (GTT)",
+  "sad nahverkehr":                     "SAD Nahverkehr",
+  "arenaways":                          "Arenaways",
+  "amt genova":                         "AMT Genova",
+  "amt":                                "AMT Genova",
+  "societe regionale de transport sarde": "ARST Sardegna",
+  "astral":                             "ASTRAL (Roma Nord)",
+  "eav":                                "Ente Autonomo Volturno (EAV)",
+
+  // ── Austria: new operator aliases ──
+  "novog":                              "NÖVOG",
+  "zillertaler verkehrsbetriebe":       "Zillertalbahn",
+  "stb":                                "Steiermärkische Landesbahnen (StLB)",
+  "stlb":                               "Steiermärkische Landesbahnen (StLB)",
+  "sth":                                "Stern & Hafferl",
+
+  // ── Denmark: new operator aliases ──
+  "midtjyske jernbaner":                "Midtjyske Jernbaner",
+  "gocollective":                       "GoCollective",
+  "gocollective a s":                   "GoCollective",
+
+  // ── Poland: new operator aliases ──
+  "warszawska kolej dojazdowa":         "Warszawska Kolej Dojazdowa (WKD)",
+  "szybka kolej miejska":               "SKM (Szybka Kolej Miejska)",
+
+  // ── Romania: new operator aliases ──
+  "regiotrans":                         "Regiotrans",
+  "transferoviar calatori":             "Transferoviar Călători",
+  "rc cf trans":                        "RC-CF Trans",
+  "rc cf trans":                        "RC-CF Trans",
+  "transferoviar infrastructura neinteroperabila": "Transferoviar Infrastructura",
+
+  // ── UK: heritage railways ──
+  "west somerset railway":              "West Somerset Railway",
+  "west somerset railway plc":          "West Somerset Railway",
+  "ffestiniog railway":                 "Ffestiniog Railway",
+  "severn valley railway":              "Severn Valley Railway",
+  "east lancashire railway":            "East Lancashire Railway",
+  "ravenglass and eskdale railway":     "Ravenglass & Eskdale Railway",
+
+  // ── France: new operator aliases ──
+  "compagnie du mont blanc":            "Compagnie du Mont-Blanc",
+  "chemin de fer des chanteraines":     "Chemin de Fer des Chanteraines",
+
+  // ── Bulgaria historical → modern ──
+  "compagnie des chemins de fer orientaux": "BDZ",
+
+  // ── Cross-border operators ──
+  "treni regionali ticino lombardia":   "TILO",
+  "euskotrenbideak ferrocarriles vascos": "Euskotren",
+  "eusko trenbideak ferrocarriles vascos": "Euskotren",
 };
 
 /**
@@ -226,7 +460,7 @@ function normalizeName(name) {
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/&/g, "and")
-    .replace(/\b(nv|sa|ag|as|spa|srl|ltd|limited|gmbh|bv|plc|inc|llc|ab|ev|z s|azo|a s)\b/g, "")
+    .replace(/\b(nv|sa|ag|as|spa|srl|ltd|limited|gmbh|bv|plc|inc|llc|ab|ev|z s|azo|a s|se|ug|co kg|mbh|s p a|oy)\b/g, "")
     .replace(/[^a-z0-9]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -292,6 +526,14 @@ const infrastructureAliases = {
   "finnish transport infrastructure agency": "Finnish Transport Infrastructure Agency",
   "azerbaijan railway": "Azerbaijan Railway",
   "ukrzaliznytsia": "Ukrzaliznytsia",
+  "db stationandservice": "DB Station&Service",
+  "db infrago": "DB InfraGO",
+  "hz infrastruktura": "HŽ Infrastruktura",
+  "ltg infra": "LTG Infra",
+  "swedish transport administration": "Trafikverket",
+  "bane nor": "Bane NOR",
+  "vaylavirasto": "Väylävirasto",
+  "transferoviar infrastructura neinteroperabila": "Transferoviar Infrastructura",
 };
 for (const [norm, displayName] of Object.entries(infrastructureAliases)) {
   if (!knownOperators.has(norm)) {
