@@ -15,7 +15,18 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Acciona"
+      "operator": "Acciona",
+      "operators": [
+        "Acciona",
+        "Balearia",
+        "Trasmediterránea"
+      ],
+      "id": "fr0",
+      "distanceKm": 205,
+      "duration": "6.9h",
+      "durationHours": 6.9,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Eemshaven - Borkum",
@@ -33,7 +44,13 @@
         "Netherlands",
         "Germany"
       ],
-      "operator": "AG Ems"
+      "operator": "AG Ems",
+      "id": "fr1",
+      "distanceKm": 18,
+      "duration": "1.5h",
+      "durationHours": 1.5,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Barcelona - Algiers",
@@ -51,7 +68,13 @@
         "Spain",
         "Algeria"
       ],
-      "operator": "Algérie Ferries"
+      "operator": "Algérie Ferries",
+      "id": "fr2",
+      "distanceKm": 521,
+      "duration": "15.9h",
+      "durationHours": 15.9,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Marseille - Algiers",
@@ -69,7 +92,13 @@
         "France",
         "Algeria"
       ],
-      "operator": "Algérie Ferries"
+      "operator": "Algérie Ferries",
+      "id": "fr3",
+      "distanceKm": 754,
+      "duration": "22.6h",
+      "durationHours": 22.6,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Marseille - Oran",
@@ -87,7 +116,13 @@
         "France",
         "Algeria"
       ],
-      "operator": "Algérie Ferries"
+      "operator": "Algérie Ferries",
+      "id": "fr4",
+      "distanceKm": 989,
+      "duration": "29.3h",
+      "durationHours": 29.3,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Valencia - Algiers",
@@ -105,7 +140,13 @@
         "Spain",
         "Algeria"
       ],
-      "operator": "Algérie Ferries"
+      "operator": "Algérie Ferries",
+      "id": "fr5",
+      "distanceKm": 422,
+      "duration": "13.1h",
+      "durationHours": 13.1,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Bari - Igoumenitsa",
@@ -123,7 +164,13 @@
         "Italy",
         "Greece"
       ],
-      "operator": "ANEK Lines"
+      "operator": "ANEK Lines",
+      "id": "fr6",
+      "distanceKm": 340,
+      "duration": "10.7h",
+      "durationHours": 10.7,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Brindisi - Igoumenitsa",
@@ -141,7 +188,13 @@
         "Italy",
         "Greece"
       ],
-      "operator": "ANEK Lines"
+      "operator": "ANEK Lines",
+      "id": "fr7",
+      "distanceKm": 235,
+      "duration": "7.7h",
+      "durationHours": 7.7,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Venice - Igoumenitsa",
@@ -159,7 +212,13 @@
         "Italy",
         "Greece"
       ],
-      "operator": "ANEK Lines"
+      "operator": "ANEK Lines",
+      "id": "fr8",
+      "distanceKm": 927,
+      "duration": "27.5h",
+      "durationHours": 27.5,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Venice - Patras",
@@ -185,7 +244,13 @@
         "Italy",
         "Greece"
       ],
-      "operator": "ANEK Lines"
+      "operator": "ANEK Lines",
+      "id": "fr9",
+      "distanceKm": 1131,
+      "duration": "33.3h",
+      "durationHours": 33.3,
+      "frequency": "Several per week",
+      "overnight": true
     },
     {
       "name": "Algeciras - Melilla",
@@ -202,7 +267,17 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Balearia"
+      "operator": "Balearia",
+      "operators": [
+        "Balearia",
+        "Trasmediterránea"
+      ],
+      "id": "fr10",
+      "distanceKm": 246,
+      "duration": "8.0h",
+      "durationHours": 8.0,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Barcelona - Ibiza",
@@ -219,24 +294,13 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Balearia"
-    },
-    {
-      "name": "Barcelona - Palma",
-      "coords": [
-        [
-          41.38,
-          2.17
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Balearia"
+      "operator": "Balearia",
+      "id": "fr11",
+      "distanceKm": 282,
+      "duration": "9.1h",
+      "durationHours": 9.1,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Denia - Ibiza - Palma",
@@ -257,7 +321,13 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Balearia"
+      "operator": "Balearia",
+      "id": "fr12",
+      "distanceKm": 243,
+      "duration": "7.9h",
+      "durationHours": 7.9,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Motril - Al Hoceima",
@@ -275,7 +345,13 @@
         "Spain",
         "Morocco"
       ],
-      "operator": "Balearia"
+      "operator": "Balearia",
+      "id": "fr13",
+      "distanceKm": 168,
+      "duration": "5.8h",
+      "durationHours": 5.8,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Valencia - Palma",
@@ -292,7 +368,17 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Balearia"
+      "operator": "Balearia",
+      "operators": [
+        "Balearia",
+        "Trasmediterránea"
+      ],
+      "id": "fr14",
+      "distanceKm": 255,
+      "duration": "8.3h",
+      "durationHours": 8.3,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Constanta - Batumi",
@@ -310,7 +396,13 @@
         "Romania",
         "Georgia"
       ],
-      "operator": "Black Sea Ferry"
+      "operator": "Black Sea Ferry",
+      "id": "fr15",
+      "distanceKm": 1093,
+      "duration": "32.2h",
+      "durationHours": 32.2,
+      "frequency": "Several per week",
+      "overnight": true
     },
     {
       "name": "Bilbao - Portsmouth",
@@ -328,7 +420,13 @@
         "Spain",
         "United Kingdom"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr16",
+      "distanceKm": 842,
+      "duration": "25.0h",
+      "durationHours": 25.0,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Cork - Roscoff",
@@ -346,7 +444,13 @@
         "Ireland",
         "France"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr17",
+      "distanceKm": 476,
+      "duration": "14.6h",
+      "durationHours": 14.6,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Plymouth - Roscoff",
@@ -364,7 +468,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr18",
+      "distanceKm": 184,
+      "duration": "6.3h",
+      "durationHours": 6.3,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Poole - Cherbourg",
@@ -382,7 +492,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr19",
+      "distanceKm": 122,
+      "duration": "4.5h",
+      "durationHours": 4.5,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Portsmouth - Cherbourg",
@@ -400,7 +516,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr20",
+      "distanceKm": 134,
+      "duration": "4.8h",
+      "durationHours": 4.8,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Portsmouth - Le Havre",
@@ -418,7 +540,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr21",
+      "distanceKm": 169,
+      "duration": "5.8h",
+      "durationHours": 5.8,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Portsmouth - St Malo",
@@ -436,7 +564,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr22",
+      "distanceKm": 248,
+      "duration": "8.1h",
+      "durationHours": 8.1,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Santander - Plymouth",
@@ -454,7 +588,13 @@
         "Spain",
         "United Kingdom"
       ],
-      "operator": "Brittany Ferries"
+      "operator": "Brittany Ferries",
+      "id": "fr23",
+      "distanceKm": 769,
+      "duration": "23.0h",
+      "durationHours": 23.0,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Ardrossan - Brodick (Arran)",
@@ -471,7 +611,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "Caledonian MacBrayne"
+      "operator": "Caledonian MacBrayne",
+      "id": "fr24",
+      "distanceKm": 22,
+      "duration": "1.6h",
+      "durationHours": 1.6,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Oban - Mull - Coll - Tiree",
@@ -496,7 +642,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "Caledonian MacBrayne"
+      "operator": "Caledonian MacBrayne",
+      "id": "fr25",
+      "distanceKm": 95,
+      "duration": "3.7h",
+      "durationHours": 3.7,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Ullapool - Stornoway",
@@ -513,7 +665,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "Caledonian MacBrayne"
+      "operator": "Caledonian MacBrayne",
+      "id": "fr26",
+      "distanceKm": 80,
+      "duration": "3.3h",
+      "durationHours": 3.3,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Hirtshals - Kristiansand",
@@ -531,7 +689,13 @@
         "Denmark",
         "Norway"
       ],
-      "operator": "Color Line"
+      "operator": "Color Line",
+      "id": "fr27",
+      "distanceKm": 132,
+      "duration": "4.8h",
+      "durationHours": 4.8,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Hirtshals - Larvik",
@@ -549,7 +713,13 @@
         "Denmark",
         "Norway"
       ],
-      "operator": "Color Line"
+      "operator": "Color Line",
+      "id": "fr28",
+      "distanceKm": 162,
+      "duration": "5.6h",
+      "durationHours": 5.6,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Kiel - Oslo",
@@ -571,7 +741,13 @@
         "Germany",
         "Norway"
       ],
-      "operator": "Color Line"
+      "operator": "Color Line",
+      "id": "fr29",
+      "distanceKm": 635,
+      "duration": "19.2h",
+      "durationHours": 19.2,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Sandefjord - Strömstad",
@@ -589,7 +765,13 @@
         "Norway",
         "Sweden"
       ],
-      "operator": "Color Line"
+      "operator": "Color Line",
+      "id": "fr30",
+      "distanceKm": 58,
+      "duration": "2.7h",
+      "durationHours": 2.7,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Poole - Guernsey",
@@ -606,7 +788,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "Condor Ferries"
+      "operator": "Condor Ferries",
+      "id": "fr31",
+      "distanceKm": 144,
+      "duration": "5.1h",
+      "durationHours": 5.1,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Poole - Jersey",
@@ -623,7 +811,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "Condor Ferries"
+      "operator": "Condor Ferries",
+      "id": "fr32",
+      "distanceKm": 169,
+      "duration": "5.8h",
+      "durationHours": 5.8,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Poole - St Malo",
@@ -641,7 +835,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "Condor Ferries"
+      "operator": "Condor Ferries",
+      "id": "fr33",
+      "distanceKm": 229,
+      "duration": "7.5h",
+      "durationHours": 7.5,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "St Malo - Jersey",
@@ -659,7 +859,13 @@
         "France",
         "United Kingdom"
       ],
-      "operator": "Condor Ferries"
+      "operator": "Condor Ferries",
+      "id": "fr34",
+      "distanceKm": 60,
+      "duration": "2.7h",
+      "durationHours": 2.7,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Livorno - Bastia",
@@ -677,7 +883,13 @@
         "Italy",
         "France"
       ],
-      "operator": "Corsica Ferries"
+      "operator": "Corsica Ferries",
+      "id": "fr35",
+      "distanceKm": 117,
+      "duration": "4.4h",
+      "durationHours": 4.4,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Livorno - Golfo Aranci",
@@ -694,7 +906,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Corsica Ferries"
+      "operator": "Corsica Ferries",
+      "id": "fr36",
+      "distanceKm": 289,
+      "duration": "9.3h",
+      "durationHours": 9.3,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Nice - Bastia",
@@ -711,7 +929,13 @@
       "countries": [
         "France"
       ],
-      "operator": "Corsica Ferries"
+      "operator": "Corsica Ferries",
+      "id": "fr37",
+      "distanceKm": 209,
+      "duration": "7.0h",
+      "durationHours": 7.0,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Nice - Calvi",
@@ -728,7 +952,13 @@
       "countries": [
         "France"
       ],
-      "operator": "Corsica Ferries"
+      "operator": "Corsica Ferries",
+      "id": "fr38",
+      "distanceKm": 174,
+      "duration": "6.0h",
+      "durationHours": 6.0,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Savona - Bastia",
@@ -746,7 +976,13 @@
         "Italy",
         "France"
       ],
-      "operator": "Corsica Ferries"
+      "operator": "Corsica Ferries",
+      "id": "fr39",
+      "distanceKm": 195,
+      "duration": "6.6h",
+      "durationHours": 6.6,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Marseille - Tunis",
@@ -772,7 +1008,17 @@
         "France",
         "Tunisia"
       ],
-      "operator": "CTN"
+      "operator": "CTN",
+      "id": "fr40",
+      "operators": [
+        "CTN",
+        "Tunisie Ferries"
+      ],
+      "distanceKm": 879,
+      "duration": "26.1h",
+      "durationHours": 26.1,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Nynäshamn - Visby",
@@ -789,7 +1035,13 @@
       "countries": [
         "Sweden"
       ],
-      "operator": "Destination Gotland"
+      "operator": "Destination Gotland",
+      "id": "fr41",
+      "distanceKm": 142,
+      "duration": "5.0h",
+      "durationHours": 5.0,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Oskarshamn - Visby",
@@ -806,7 +1058,13 @@
       "countries": [
         "Sweden"
       ],
-      "operator": "Destination Gotland"
+      "operator": "Destination Gotland",
+      "id": "fr42",
+      "distanceKm": 118,
+      "duration": "4.4h",
+      "durationHours": 4.4,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Algeciras - Ceuta",
@@ -823,7 +1081,13 @@
       "countries": [
         "Spain"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr43",
+      "distanceKm": 30,
+      "duration": "1.9h",
+      "durationHours": 1.9,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Algeciras - Tangier Med",
@@ -841,7 +1105,13 @@
         "Spain",
         "Morocco"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr44",
+      "distanceKm": 28,
+      "duration": "1.8h",
+      "durationHours": 1.8,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Copenhagen - Oslo",
@@ -859,7 +1129,13 @@
         "Denmark",
         "Norway"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr45",
+      "distanceKm": 483,
+      "duration": "14.8h",
+      "durationHours": 14.8,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Dover - Calais",
@@ -874,10 +1150,20 @@
         ]
       ],
       "countries": [
-        "United Kingdom",
-        "France"
+        "France",
+        "United Kingdom"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "operators": [
+        "DFDS",
+        "P&O Ferries"
+      ],
+      "id": "fr46",
+      "distanceKm": 42,
+      "duration": "2.2h",
+      "durationHours": 2.2,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Dover - Dunkirk",
@@ -895,25 +1181,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "DFDS"
-    },
-    {
-      "name": "Ghent - Göteborg",
-      "coords": [
-        [
-          51.05,
-          3.72
-        ],
-        [
-          57.69,
-          11.92
-        ]
-      ],
-      "countries": [
-        "Belgium",
-        "Sweden"
-      ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr47",
+      "distanceKm": 74,
+      "duration": "3.1h",
+      "durationHours": 3.1,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "IJmuiden - Newcastle",
@@ -931,7 +1205,13 @@
         "Netherlands",
         "United Kingdom"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr49",
+      "distanceKm": 489,
+      "duration": "15.0h",
+      "durationHours": 15.0,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Klaipeda - Karlshamn",
@@ -949,7 +1229,13 @@
         "Lithuania",
         "Sweden"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr50",
+      "distanceKm": 394,
+      "duration": "12.2h",
+      "durationHours": 12.2,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Klaipeda - Kiel",
@@ -967,7 +1253,13 @@
         "Lithuania",
         "Germany"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr51",
+      "distanceKm": 717,
+      "duration": "21.5h",
+      "durationHours": 21.5,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Newhaven - Dieppe",
@@ -985,7 +1277,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr52",
+      "distanceKm": 121,
+      "duration": "4.5h",
+      "durationHours": 4.5,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Paldiski - Kapellskär",
@@ -1003,7 +1301,13 @@
         "Estonia",
         "Sweden"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr53",
+      "distanceKm": 284,
+      "duration": "9.1h",
+      "durationHours": 9.1,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Rosslare - Dunkirk",
@@ -1041,7 +1345,13 @@
         "Ireland",
         "France"
       ],
-      "operator": "DFDS"
+      "operator": "DFDS",
+      "id": "fr54",
+      "distanceKm": 885,
+      "duration": "26.3h",
+      "durationHours": 26.3,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Grisslehamn - Eckerö",
@@ -1059,7 +1369,13 @@
         "Sweden",
         "Finland"
       ],
-      "operator": "Eckerö Line"
+      "operator": "Eckerö Line",
+      "id": "fr55",
+      "distanceKm": 45,
+      "duration": "2.3h",
+      "durationHours": 2.3,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Helsinki - Tallinn",
@@ -1074,10 +1390,21 @@
         ]
       ],
       "countries": [
-        "Finland",
-        "Estonia"
+        "Estonia",
+        "Finland"
       ],
-      "operator": "Eckerö Line"
+      "operator": "Eckerö Line",
+      "operators": [
+        "Eckerö Line",
+        "Tallink Silja",
+        "Viking Line"
+      ],
+      "id": "fr56",
+      "distanceKm": 82,
+      "duration": "3.3h",
+      "durationHours": 3.3,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Bari - Durres",
@@ -1095,7 +1422,13 @@
         "Italy",
         "Albania"
       ],
-      "operator": "European Seaways"
+      "operator": "European Seaways",
+      "id": "fr57",
+      "distanceKm": 217,
+      "duration": "7.2h",
+      "durationHours": 7.2,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Brindisi - Vlora",
@@ -1113,7 +1446,13 @@
         "Italy",
         "Albania"
       ],
-      "operator": "European Seaways"
+      "operator": "European Seaways",
+      "id": "fr58",
+      "distanceKm": 132,
+      "duration": "4.8h",
+      "durationHours": 4.8,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Folkestone - Calais (Shuttle)",
@@ -1131,7 +1470,13 @@
         "United Kingdom",
         "France"
       ],
-      "operator": "Eurotunnel"
+      "operator": "Eurotunnel",
+      "id": "fr59",
+      "distanceKm": 50,
+      "duration": "2.4h",
+      "durationHours": 2.4,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Helsinki - Gdynia",
@@ -1149,7 +1494,13 @@
         "Finland",
         "Poland"
       ],
-      "operator": "Finnlines"
+      "operator": "Finnlines",
+      "id": "fr60",
+      "distanceKm": 736,
+      "duration": "22.0h",
+      "durationHours": 22.0,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Helsinki - Travemünde",
@@ -1167,7 +1518,13 @@
         "Finland",
         "Germany"
       ],
-      "operator": "Finnlines"
+      "operator": "Finnlines",
+      "id": "fr61",
+      "distanceKm": 1092,
+      "duration": "32.2h",
+      "durationHours": 32.2,
+      "frequency": "Several per week",
+      "overnight": true
     },
     {
       "name": "Malmö - Travemünde",
@@ -1185,7 +1542,13 @@
         "Sweden",
         "Germany"
       ],
-      "operator": "Finnlines"
+      "operator": "Finnlines",
+      "id": "fr62",
+      "distanceKm": 229,
+      "duration": "7.5h",
+      "durationHours": 7.5,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Rostock - Helsinki",
@@ -1203,25 +1566,13 @@
         "Germany",
         "Finland"
       ],
-      "operator": "Finnlines"
-    },
-    {
-      "name": "Travemünde - Helsinki",
-      "coords": [
-        [
-          53.96,
-          10.87
-        ],
-        [
-          60.17,
-          24.94
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Finland"
-      ],
-      "operator": "Finnlines"
+      "operator": "Finnlines",
+      "id": "fr63",
+      "distanceKm": 1019,
+      "duration": "30.1h",
+      "durationHours": 30.1,
+      "frequency": "Several per week",
+      "overnight": true
     },
     {
       "name": "Travemünde - Liepaja",
@@ -1239,25 +1590,13 @@
         "Germany",
         "Latvia"
       ],
-      "operator": "Finnlines"
-    },
-    {
-      "name": "Travemünde - Malmö",
-      "coords": [
-        [
-          53.96,
-          10.87
-        ],
-        [
-          55.61,
-          13
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Sweden"
-      ],
-      "operator": "Finnlines"
+      "operator": "Finnlines",
+      "id": "fr65",
+      "distanceKm": 702,
+      "duration": "21.1h",
+      "durationHours": 21.1,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Bergen - Stavanger - Hirtshals",
@@ -1279,7 +1618,13 @@
         "Norway",
         "Denmark"
       ],
-      "operator": "Fjord Line"
+      "operator": "Fjord Line",
+      "id": "fr67",
+      "distanceKm": 451,
+      "duration": "13.9h",
+      "durationHours": 13.9,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Hirtshals - Langesund",
@@ -1297,45 +1642,13 @@
         "Denmark",
         "Norway"
       ],
-      "operator": "Fjord Line"
-    },
-    {
-      "name": "Hirtshals - Stavanger - Bergen",
-      "coords": [
-        [
-          57.59,
-          9.96
-        ],
-        [
-          57.83,
-          6.41
-        ],
-        [
-          58.68,
-          5.41
-        ],
-        [
-          58.97,
-          5.73
-        ],
-        [
-          59.34,
-          4.79
-        ],
-        [
-          60.2,
-          5.19
-        ],
-        [
-          60.39,
-          5.32
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Norway"
-      ],
-      "operator": "Fjord Line"
+      "operator": "Fjord Line",
+      "id": "fr68",
+      "distanceKm": 156,
+      "duration": "5.5h",
+      "durationHours": 5.5,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Helsingør - Helsingborg",
@@ -1353,7 +1666,17 @@
         "Denmark",
         "Sweden"
       ],
-      "operator": "ForSea"
+      "operator": "ForSea",
+      "operators": [
+        "ForSea",
+        "Scandlines"
+      ],
+      "id": "fr70",
+      "distanceKm": 5,
+      "duration": "1.2h",
+      "durationHours": 1.2,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Civitavecchia - Palermo",
@@ -1370,7 +1693,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "GNV"
+      "operator": "GNV",
+      "id": "fr71",
+      "distanceKm": 462,
+      "duration": "14.2h",
+      "durationHours": 14.2,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Genoa - Barcelona",
@@ -1388,7 +1717,17 @@
         "Italy",
         "Spain"
       ],
-      "operator": "GNV"
+      "operator": "GNV",
+      "operators": [
+        "GNV",
+        "Grimaldi Lines"
+      ],
+      "id": "fr72",
+      "distanceKm": 645,
+      "duration": "19.4h",
+      "durationHours": 19.4,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Genoa - Palermo",
@@ -1405,7 +1744,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "GNV"
+      "operator": "GNV",
+      "id": "fr73",
+      "distanceKm": 790,
+      "duration": "23.6h",
+      "durationHours": 23.6,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Genoa - Tunis",
@@ -1423,7 +1768,18 @@
         "Italy",
         "Tunisia"
       ],
-      "operator": "GNV"
+      "operator": "GNV",
+      "operators": [
+        "GNV",
+        "Grimaldi Lines",
+        "Tunisie Ferries"
+      ],
+      "id": "fr74",
+      "distanceKm": 852,
+      "duration": "25.3h",
+      "durationHours": 25.3,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Sète - Tangier Med",
@@ -1441,7 +1797,13 @@
         "France",
         "Morocco"
       ],
-      "operator": "GNV"
+      "operator": "GNV",
+      "id": "fr75",
+      "distanceKm": 1149,
+      "duration": "33.8h",
+      "durationHours": 33.8,
+      "frequency": "Several per week",
+      "overnight": true
     },
     {
       "name": "Bari - Patras",
@@ -1467,7 +1829,13 @@
         "Italy",
         "Greece"
       ],
-      "operator": "Grimaldi Lines"
+      "operator": "Grimaldi Lines",
+      "id": "fr76",
+      "distanceKm": 545,
+      "duration": "16.6h",
+      "durationHours": 16.6,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Civitavecchia - Barcelona",
@@ -1497,7 +1865,13 @@
         "Italy",
         "Spain"
       ],
-      "operator": "Grimaldi Lines"
+      "operator": "Grimaldi Lines",
+      "id": "fr77",
+      "distanceKm": 853,
+      "duration": "25.4h",
+      "durationHours": 25.4,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Civitavecchia - Tunis",
@@ -1515,67 +1889,13 @@
         "Italy",
         "Tunisia"
       ],
-      "operator": "Grimaldi Lines"
-    },
-    {
-      "name": "Genoa - Barcelona",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          43.5,
-          8
-        ],
-        [
-          42.5,
-          6
-        ],
-        [
-          41.5,
-          4
-        ],
-        [
-          41.38,
-          2.17
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Spain"
-      ],
-      "operator": "Grimaldi Lines"
-    },
-    {
-      "name": "Genoa - Tunis",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          42,
-          10
-        ],
-        [
-          40,
-          10.5
-        ],
-        [
-          38,
-          10
-        ],
-        [
-          36.8,
-          10.18
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Tunisia"
-      ],
-      "operator": "Grimaldi Lines"
+      "operator": "Grimaldi Lines",
+      "id": "fr78",
+      "distanceKm": 605,
+      "duration": "18.3h",
+      "durationHours": 18.3,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Livorno - Palermo",
@@ -1592,7 +1912,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Grimaldi Lines"
+      "operator": "Grimaldi Lines",
+      "id": "fr79",
+      "distanceKm": 656,
+      "duration": "19.7h",
+      "durationHours": 19.7,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Naples - Palermo",
@@ -1609,7 +1935,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Grimaldi Lines"
+      "operator": "Grimaldi Lines",
+      "id": "fr80",
+      "distanceKm": 313,
+      "duration": "10.0h",
+      "durationHours": 10.0,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Palermo - Tunis",
@@ -1631,7 +1963,13 @@
         "Italy",
         "Tunisia"
       ],
-      "operator": "Grimaldi Lines"
+      "operator": "Grimaldi Lines",
+      "id": "fr81",
+      "distanceKm": 353,
+      "duration": "11.1h",
+      "durationHours": 11.1,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Dublin - Cherbourg",
@@ -1649,7 +1987,13 @@
         "Ireland",
         "France"
       ],
-      "operator": "Irish Ferries"
+      "operator": "Irish Ferries",
+      "id": "fr82",
+      "distanceKm": 523,
+      "duration": "15.9h",
+      "durationHours": 15.9,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Dublin - Holyhead",
@@ -1667,7 +2011,17 @@
         "Ireland",
         "United Kingdom"
       ],
-      "operator": "Irish Ferries"
+      "operator": "Irish Ferries",
+      "id": "fr83",
+      "operators": [
+        "Irish Ferries",
+        "Stena Line"
+      ],
+      "distanceKm": 108,
+      "duration": "4.1h",
+      "durationHours": 4.1,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Rosslare - Pembroke",
@@ -1685,7 +2039,13 @@
         "Ireland",
         "United Kingdom"
       ],
-      "operator": "Irish Ferries"
+      "operator": "Irish Ferries",
+      "id": "fr84",
+      "distanceKm": 116,
+      "duration": "4.3h",
+      "durationHours": 4.3,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Ancona - Hvar",
@@ -1703,7 +2063,13 @@
         "Italy",
         "Croatia"
       ],
-      "operator": "Jadrolinija"
+      "operator": "Jadrolinija",
+      "id": "fr85",
+      "distanceKm": 242,
+      "duration": "7.9h",
+      "durationHours": 7.9,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Ancona - Split",
@@ -1721,7 +2087,13 @@
         "Italy",
         "Croatia"
       ],
-      "operator": "Jadrolinija"
+      "operator": "Jadrolinija",
+      "id": "fr86",
+      "distanceKm": 236,
+      "duration": "7.8h",
+      "durationHours": 7.8,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Ancona - Zadar",
@@ -1739,7 +2111,13 @@
         "Italy",
         "Croatia"
       ],
-      "operator": "Jadrolinija"
+      "operator": "Jadrolinija",
+      "id": "fr87",
+      "distanceKm": 149,
+      "duration": "5.2h",
+      "durationHours": 5.2,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Bari - Dubrovnik - Bar",
@@ -1762,7 +2140,13 @@
         "Croatia",
         "Montenegro"
       ],
-      "operator": "Jadrolinija"
+      "operator": "Jadrolinija",
+      "id": "fr88",
+      "distanceKm": 299,
+      "duration": "9.6h",
+      "durationHours": 9.6,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Civitavecchia - Olbia",
@@ -1779,7 +2163,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Moby Lines"
+      "operator": "Moby Lines",
+      "id": "fr89",
+      "distanceKm": 231,
+      "duration": "7.6h",
+      "durationHours": 7.6,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Genoa - Bastia",
@@ -1797,7 +2187,13 @@
         "Italy",
         "France"
       ],
-      "operator": "Moby Lines"
+      "operator": "Moby Lines",
+      "id": "fr90",
+      "distanceKm": 194,
+      "duration": "6.5h",
+      "durationHours": 6.5,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Livorno - Olbia",
@@ -1814,7 +2210,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Moby Lines"
+      "operator": "Moby Lines",
+      "id": "fr91",
+      "distanceKm": 300,
+      "duration": "9.6h",
+      "durationHours": 9.6,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Piombino - Olbia",
@@ -1831,7 +2233,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Moby Lines"
+      "operator": "Moby Lines",
+      "id": "fr92",
+      "distanceKm": 239,
+      "duration": "7.8h",
+      "durationHours": 7.8,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Aarhus - Kalundborg",
@@ -1848,7 +2256,13 @@
       "countries": [
         "Denmark"
       ],
-      "operator": "Molslinjen"
+      "operator": "Molslinjen",
+      "id": "fr93",
+      "distanceKm": 75,
+      "duration": "3.2h",
+      "durationHours": 3.2,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Odden - Ebeltoft",
@@ -1865,7 +2279,13 @@
       "countries": [
         "Denmark"
       ],
-      "operator": "Molslinjen"
+      "operator": "Molslinjen",
+      "id": "fr94",
+      "distanceKm": 49,
+      "duration": "2.4h",
+      "durationHours": 2.4,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Aberdeen - Kirkwall - Lerwick",
@@ -1886,7 +2306,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "NorthLink Ferries"
+      "operator": "NorthLink Ferries",
+      "id": "fr95",
+      "distanceKm": 377,
+      "duration": "11.8h",
+      "durationHours": 11.8,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Scrabster - Stromness",
@@ -1903,7 +2329,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "NorthLink Ferries"
+      "operator": "NorthLink Ferries",
+      "id": "fr96",
+      "distanceKm": 41,
+      "duration": "2.2h",
+      "durationHours": 2.2,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Hull - Rotterdam",
@@ -1921,7 +2353,13 @@
         "United Kingdom",
         "Netherlands"
       ],
-      "operator": "P&O"
+      "operator": "P&O",
+      "id": "fr97",
+      "distanceKm": 360,
+      "duration": "11.3h",
+      "durationHours": 11.3,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Cairnryan - Larne",
@@ -1938,42 +2376,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "P&O Ferries"
-    },
-    {
-      "name": "Dover - Calais",
-      "coords": [
-        [
-          51.13,
-          1.31
-        ],
-        [
-          50.97,
-          1.86
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "P&O Ferries"
-    },
-    {
-      "name": "Larne - Cairnryan",
-      "coords": [
-        [
-          54.85,
-          -5.81
-        ],
-        [
-          54.97,
-          -5.02
-        ]
-      ],
-      "countries": [
-        "United Kingdom"
-      ],
-      "operator": "P&O Ferries"
+      "operator": "P&O Ferries",
+      "id": "fr98",
+      "distanceKm": 52,
+      "duration": "2.5h",
+      "durationHours": 2.5,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Liverpool - Dublin",
@@ -1991,7 +2400,13 @@
         "United Kingdom",
         "Ireland"
       ],
-      "operator": "P&O Ferries"
+      "operator": "P&O Ferries",
+      "id": "fr100",
+      "distanceKm": 215,
+      "duration": "7.1h",
+      "durationHours": 7.1,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Harlingen - Terschelling",
@@ -2008,7 +2423,13 @@
       "countries": [
         "Netherlands"
       ],
-      "operator": "Rederij Doeksen"
+      "operator": "Rederij Doeksen",
+      "id": "fr101",
+      "distanceKm": 26,
+      "duration": "1.7h",
+      "durationHours": 1.7,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Harlingen - Vlieland",
@@ -2025,7 +2446,13 @@
       "countries": [
         "Netherlands"
       ],
-      "operator": "Rederij Doeksen"
+      "operator": "Rederij Doeksen",
+      "id": "fr102",
+      "distanceKm": 29,
+      "duration": "1.8h",
+      "durationHours": 1.8,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Gedser - Rostock",
@@ -2043,25 +2470,13 @@
         "Denmark",
         "Germany"
       ],
-      "operator": "Scandlines"
-    },
-    {
-      "name": "Helsingør - Helsingborg",
-      "coords": [
-        [
-          56.03,
-          12.61
-        ],
-        [
-          56.05,
-          12.69
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Sweden"
-      ],
-      "operator": "Scandlines"
+      "operator": "Scandlines",
+      "id": "fr103",
+      "distanceKm": 46,
+      "duration": "2.3h",
+      "durationHours": 2.3,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Rødby - Puttgarden",
@@ -2079,25 +2494,13 @@
         "Denmark",
         "Germany"
       ],
-      "operator": "Scandlines"
-    },
-    {
-      "name": "Rostock - Gedser",
-      "coords": [
-        [
-          54.18,
-          12.08
-        ],
-        [
-          54.58,
-          11.93
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Denmark"
-      ],
-      "operator": "Scandlines"
+      "operator": "Scandlines",
+      "id": "fr104",
+      "distanceKm": 19,
+      "duration": "1.6h",
+      "durationHours": 1.6,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Hirtshals - Tórshavn - Seyðisfjörður",
@@ -2120,7 +2523,13 @@
         "Faroe Islands",
         "Iceland"
       ],
-      "operator": "Smyril Line"
+      "operator": "Smyril Line",
+      "id": "fr106",
+      "distanceKm": 1557,
+      "duration": "45.5h",
+      "durationHours": 45.5,
+      "frequency": "Several per week",
+      "overnight": true
     },
     {
       "name": "Harwich - Hook of Holland",
@@ -2138,7 +2547,13 @@
         "United Kingdom",
         "Netherlands"
       ],
-      "operator": "Stena"
+      "operator": "Stena",
+      "id": "fr107",
+      "distanceKm": 195,
+      "duration": "6.6h",
+      "durationHours": 6.6,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Belfast - Liverpool",
@@ -2155,7 +2570,13 @@
       "countries": [
         "United Kingdom"
       ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr108",
+      "distanceKm": 234,
+      "duration": "7.7h",
+      "durationHours": 7.7,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Cairnryan - Belfast",
@@ -2173,7 +2594,13 @@
         "United Kingdom",
         "United Kingdom"
       ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr109",
+      "distanceKm": 70,
+      "duration": "3.0h",
+      "durationHours": 3.0,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Fishguard - Rosslare",
@@ -2191,7 +2618,13 @@
         "United Kingdom",
         "Ireland"
       ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr110",
+      "distanceKm": 97,
+      "duration": "3.8h",
+      "durationHours": 3.8,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Frederikshavn - Göteborg",
@@ -2209,7 +2642,13 @@
         "Denmark",
         "Sweden"
       ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr111",
+      "distanceKm": 87,
+      "duration": "3.5h",
+      "durationHours": 3.5,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Frederikshavn - Oslo",
@@ -2227,7 +2666,13 @@
         "Denmark",
         "Norway"
       ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr112",
+      "distanceKm": 275,
+      "duration": "8.9h",
+      "durationHours": 8.9,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Grenaa - Varberg",
@@ -2245,25 +2690,13 @@
         "Denmark",
         "Sweden"
       ],
-      "operator": "Stena Line"
-    },
-    {
-      "name": "Holyhead - Dublin",
-      "coords": [
-        [
-          53.31,
-          -4.63
-        ],
-        [
-          53.35,
-          -6.26
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "Ireland"
-      ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr113",
+      "distanceKm": 113,
+      "duration": "4.2h",
+      "durationHours": 4.2,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Karlskrona - Gdynia",
@@ -2281,7 +2714,13 @@
         "Sweden",
         "Poland"
       ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr115",
+      "distanceKm": 262,
+      "duration": "8.5h",
+      "durationHours": 8.5,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Rosslare - Cherbourg",
@@ -2299,7 +2738,13 @@
         "Ireland",
         "France"
       ],
-      "operator": "Stena Line"
+      "operator": "Stena Line",
+      "id": "fr116",
+      "distanceKm": 440,
+      "duration": "13.6h",
+      "durationHours": 13.6,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Ancona - Igoumenitsa - Patras",
@@ -2325,7 +2770,13 @@
         "Italy",
         "Greece"
       ],
-      "operator": "Superfast Ferries"
+      "operator": "Superfast Ferries",
+      "id": "fr117",
+      "distanceKm": 913,
+      "duration": "27.1h",
+      "durationHours": 27.1,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Helsinki - Stockholm",
@@ -2343,25 +2794,17 @@
         "Finland",
         "Sweden"
       ],
-      "operator": "Tallink Silja"
-    },
-    {
-      "name": "Helsinki - Tallinn",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.44,
-          24.75
-        ]
+      "operator": "Tallink Silja",
+      "operators": [
+        "Tallink Silja",
+        "Viking Line"
       ],
-      "countries": [
-        "Finland",
-        "Estonia"
-      ],
-      "operator": "Tallink Silja"
+      "id": "fr118",
+      "distanceKm": 396,
+      "duration": "12.3h",
+      "durationHours": 12.3,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Riga - Stockholm",
@@ -2379,25 +2822,13 @@
         "Latvia",
         "Sweden"
       ],
-      "operator": "Tallink Silja"
-    },
-    {
-      "name": "Tallinn - Helsinki",
-      "coords": [
-        [
-          59.44,
-          24.75
-        ],
-        [
-          60.17,
-          24.94
-        ]
-      ],
-      "countries": [
-        "Estonia",
-        "Finland"
-      ],
-      "operator": "Tallink Silja"
+      "operator": "Tallink Silja",
+      "id": "fr119",
+      "distanceKm": 442,
+      "duration": "13.6h",
+      "durationHours": 13.6,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Tallinn - Stockholm",
@@ -2415,7 +2846,13 @@
         "Estonia",
         "Sweden"
       ],
-      "operator": "Tallink Silja"
+      "operator": "Tallink Silja",
+      "id": "fr121",
+      "distanceKm": 378,
+      "duration": "11.8h",
+      "durationHours": 11.8,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Den Helder - Texel",
@@ -2432,7 +2869,13 @@
       "countries": [
         "Netherlands"
       ],
-      "operator": "TESO"
+      "operator": "TESO",
+      "id": "fr122",
+      "distanceKm": 6,
+      "duration": "1.2h",
+      "durationHours": 1.2,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Civitavecchia - Cagliari",
@@ -2449,7 +2892,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Tirrenia"
+      "operator": "Tirrenia",
+      "id": "fr123",
+      "distanceKm": 392,
+      "duration": "12.2h",
+      "durationHours": 12.2,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Genoa - Arbatax",
@@ -2466,7 +2915,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Tirrenia"
+      "operator": "Tirrenia",
+      "id": "fr124",
+      "distanceKm": 501,
+      "duration": "15.3h",
+      "durationHours": 15.3,
+      "frequency": "Daily",
+      "overnight": true
     },
     {
       "name": "Genoa - Porto Torres",
@@ -2483,41 +2938,13 @@
       "countries": [
         "Italy"
       ],
-      "operator": "Tirrenia"
-    },
-    {
-      "name": "Algeciras - Melilla",
-      "coords": [
-        [
-          36.13,
-          -5.46
-        ],
-        [
-          35.29,
-          -2.94
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Trasmediterránea"
-    },
-    {
-      "name": "Barcelona - Palma",
-      "coords": [
-        [
-          41.38,
-          2.17
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Trasmediterránea"
+      "operator": "Tirrenia",
+      "id": "fr125",
+      "distanceKm": 398,
+      "duration": "12.4h",
+      "durationHours": 12.4,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Málaga - Melilla",
@@ -2534,24 +2961,13 @@
       "countries": [
         "Spain"
       ],
-      "operator": "Trasmediterránea"
-    },
-    {
-      "name": "Valencia - Palma",
-      "coords": [
-        [
-          39.46,
-          -0.32
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Trasmediterránea"
+      "operator": "Trasmediterránea",
+      "id": "fr126",
+      "distanceKm": 207,
+      "duration": "6.9h",
+      "durationHours": 6.9,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Rostock - Trelleborg",
@@ -2569,7 +2985,13 @@
         "Germany",
         "Sweden"
       ],
-      "operator": "TT-Line"
+      "operator": "TT-Line",
+      "id": "fr127",
+      "distanceKm": 150,
+      "duration": "5.3h",
+      "durationHours": 5.3,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Trelleborg - Świnoujście",
@@ -2587,7 +3009,13 @@
         "Sweden",
         "Poland"
       ],
-      "operator": "TT-Line"
+      "operator": "TT-Line",
+      "id": "fr128",
+      "distanceKm": 177,
+      "duration": "6.0h",
+      "durationHours": 6.0,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Trelleborg - Travemünde",
@@ -2605,43 +3033,13 @@
         "Sweden",
         "Germany"
       ],
-      "operator": "TT-Line"
-    },
-    {
-      "name": "Tunis - Genoa",
-      "coords": [
-        [
-          36.8,
-          10.18
-        ],
-        [
-          44.4,
-          8.93
-        ]
-      ],
-      "countries": [
-        "Tunisia",
-        "Italy"
-      ],
-      "operator": "Tunisie Ferries"
-    },
-    {
-      "name": "Tunis - Marseille",
-      "coords": [
-        [
-          36.8,
-          10.18
-        ],
-        [
-          43.3,
-          5.37
-        ]
-      ],
-      "countries": [
-        "Tunisia",
-        "France"
-      ],
-      "operator": "Tunisie Ferries"
+      "operator": "TT-Line",
+      "id": "fr129",
+      "distanceKm": 216,
+      "duration": "7.2h",
+      "durationHours": 7.2,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Constanta - Varna",
@@ -2659,7 +3057,13 @@
         "Romania",
         "Bulgaria"
       ],
-      "operator": "Ukrferry"
+      "operator": "Ukrferry",
+      "id": "fr132",
+      "distanceKm": 122,
+      "duration": "4.5h",
+      "durationHours": 4.5,
+      "frequency": "2-4x daily",
+      "overnight": false
     },
     {
       "name": "Varna - Odessa",
@@ -2697,7 +3101,13 @@
         "Bulgaria",
         "Ukraine"
       ],
-      "operator": "Ukrferry"
+      "operator": "Ukrferry",
+      "id": "fr133",
+      "distanceKm": 441,
+      "duration": "13.6h",
+      "durationHours": 13.6,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Brindisi - Corfu - Igoumenitsa - Patras",
@@ -2723,7 +3133,13 @@
         "Italy",
         "Greece"
       ],
-      "operator": "Ventouris Ferries"
+      "operator": "Ventouris Ferries",
+      "id": "fr134",
+      "distanceKm": 424,
+      "duration": "13.1h",
+      "durationHours": 13.1,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Helsinki - Mariehamn",
@@ -2740,43 +3156,13 @@
       "countries": [
         "Finland"
       ],
-      "operator": "Viking Line"
-    },
-    {
-      "name": "Helsinki - Stockholm",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.33,
-          18.07
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Sweden"
-      ],
-      "operator": "Viking Line"
-    },
-    {
-      "name": "Helsinki - Tallinn",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.44,
-          24.75
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Estonia"
-      ],
-      "operator": "Viking Line"
+      "operator": "Viking Line",
+      "id": "fr135",
+      "distanceKm": 278,
+      "duration": "8.9h",
+      "durationHours": 8.9,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Stockholm - Mariehamn - Helsinki",
@@ -2806,7 +3192,13 @@
         "Sweden",
         "Finland"
       ],
-      "operator": "Viking Line"
+      "operator": "Viking Line",
+      "id": "fr136",
+      "distanceKm": 473,
+      "duration": "14.5h",
+      "durationHours": 14.5,
+      "frequency": "1-2x daily",
+      "overnight": true
     },
     {
       "name": "Turku - Mariehamn - Stockholm",
@@ -2828,7 +3220,13 @@
         "Finland",
         "Sweden"
       ],
-      "operator": "Viking Line"
+      "operator": "Viking Line",
+      "id": "fr137",
+      "distanceKm": 267,
+      "duration": "8.6h",
+      "durationHours": 8.6,
+      "frequency": "1-2x daily",
+      "overnight": false
     },
     {
       "name": "Lauwersoog - Schiermonnikoog",
@@ -2845,7 +3243,13 @@
       "countries": [
         "Netherlands"
       ],
-      "operator": "Wagenborg"
+      "operator": "Wagenborg",
+      "id": "fr138",
+      "distanceKm": 8,
+      "duration": "1.2h",
+      "durationHours": 1.2,
+      "frequency": "Multiple daily",
+      "overnight": false
     },
     {
       "name": "Vaasa - Umeå",
@@ -2863,7 +3267,885 @@
         "Finland",
         "Sweden"
       ],
-      "operator": "Wasaline"
+      "operator": "Wasaline",
+      "id": "fr139",
+      "distanceKm": 104,
+      "duration": "4.0h",
+      "durationHours": 4.0,
+      "frequency": "2-4x daily",
+      "overnight": false
+    },
+    {
+      "id": "fr140",
+      "name": "Grenaa - Halmstad",
+      "coords": [
+        [
+          56.41,
+          10.92
+        ],
+        [
+          56.67,
+          12.86
+        ]
+      ],
+      "countries": [
+        "Denmark",
+        "Sweden"
+      ],
+      "operator": "Stena Line",
+      "distanceKm": 122,
+      "duration": "4.5h",
+      "durationHours": 4.5,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr141",
+      "name": "Nynäshamn - Ventspils",
+      "coords": [
+        [
+          58.9,
+          17.95
+        ],
+        [
+          57.39,
+          21.56
+        ]
+      ],
+      "countries": [
+        "Latvia",
+        "Sweden"
+      ],
+      "operator": "Stena Line",
+      "distanceKm": 270,
+      "duration": "8.7h",
+      "durationHours": 8.7,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr142",
+      "name": "Gdynia - Nynäshamn",
+      "coords": [
+        [
+          54.52,
+          18.55
+        ],
+        [
+          58.9,
+          17.95
+        ]
+      ],
+      "countries": [
+        "Poland",
+        "Sweden"
+      ],
+      "operator": "Stena Line",
+      "distanceKm": 488,
+      "duration": "15.0h",
+      "durationHours": 15.0,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr143",
+      "name": "Stockholm - Mariehamn",
+      "coords": [
+        [
+          59.33,
+          18.06
+        ],
+        [
+          60.1,
+          19.93
+        ]
+      ],
+      "countries": [
+        "Finland",
+        "Sweden"
+      ],
+      "operator": "Viking Line",
+      "distanceKm": 135,
+      "duration": "4.9h",
+      "durationHours": 4.9,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr144",
+      "name": "Kapellskär - Mariehamn",
+      "coords": [
+        [
+          59.72,
+          19.07
+        ],
+        [
+          60.1,
+          19.93
+        ]
+      ],
+      "countries": [
+        "Finland",
+        "Sweden"
+      ],
+      "operator": "Viking Line",
+      "distanceKm": 64,
+      "duration": "2.8h",
+      "durationHours": 2.8,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr145",
+      "name": "Visby - Västervik",
+      "coords": [
+        [
+          57.64,
+          18.3
+        ],
+        [
+          57.76,
+          16.64
+        ]
+      ],
+      "countries": [
+        "Sweden"
+      ],
+      "operator": "Destination Gotland",
+      "distanceKm": 100,
+      "duration": "3.8h",
+      "durationHours": 3.8,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr146",
+      "name": "Liverpool - Douglas",
+      "coords": [
+        [
+          53.42,
+          -3.0
+        ],
+        [
+          54.15,
+          -4.48
+        ]
+      ],
+      "countries": [
+        "United Kingdom"
+      ],
+      "operator": "Isle of Man Steam Packet",
+      "distanceKm": 127,
+      "duration": "4.6h",
+      "durationHours": 4.6,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr147",
+      "name": "Heysham - Douglas",
+      "coords": [
+        [
+          54.03,
+          -2.92
+        ],
+        [
+          54.15,
+          -4.48
+        ]
+      ],
+      "countries": [
+        "United Kingdom"
+      ],
+      "operator": "Isle of Man Steam Packet",
+      "distanceKm": 103,
+      "duration": "3.9h",
+      "durationHours": 3.9,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr148",
+      "name": "Dublin - Fishguard",
+      "coords": [
+        [
+          53.35,
+          -6.25
+        ],
+        [
+          52.01,
+          -4.98
+        ]
+      ],
+      "countries": [
+        "Ireland",
+        "United Kingdom"
+      ],
+      "operator": "Stena Line",
+      "distanceKm": 172,
+      "duration": "5.9h",
+      "durationHours": 5.9,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr149",
+      "name": "Portsmouth - Caen",
+      "coords": [
+        [
+          50.81,
+          -1.09
+        ],
+        [
+          49.28,
+          -0.35
+        ]
+      ],
+      "countries": [
+        "France",
+        "United Kingdom"
+      ],
+      "operator": "Brittany Ferries",
+      "distanceKm": 178,
+      "duration": "6.1h",
+      "durationHours": 6.1,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr150",
+      "name": "Portsmouth - Santander",
+      "coords": [
+        [
+          50.81,
+          -1.09
+        ],
+        [
+          43.46,
+          -3.8
+        ]
+      ],
+      "countries": [
+        "Spain",
+        "United Kingdom"
+      ],
+      "operator": "Brittany Ferries",
+      "distanceKm": 842,
+      "duration": "25.1h",
+      "durationHours": 25.1,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr151",
+      "name": "Rosslare - Bilbao",
+      "coords": [
+        [
+          52.26,
+          -6.33
+        ],
+        [
+          43.35,
+          -3.05
+        ]
+      ],
+      "countries": [
+        "Ireland",
+        "Spain"
+      ],
+      "operator": "Brittany Ferries",
+      "distanceKm": 1020,
+      "duration": "30.2h",
+      "durationHours": 30.2,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr152",
+      "name": "Valencia - Ibiza",
+      "coords": [
+        [
+          39.46,
+          -0.32
+        ],
+        [
+          38.91,
+          1.43
+        ]
+      ],
+      "countries": [
+        "Spain"
+      ],
+      "operator": "GNV",
+      "distanceKm": 163,
+      "duration": "5.7h",
+      "durationHours": 5.7,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr153",
+      "name": "Barcelona - Civitavecchia",
+      "coords": [
+        [
+          41.38,
+          2.17
+        ],
+        [
+          42.09,
+          11.8
+        ]
+      ],
+      "countries": [
+        "Italy",
+        "Spain"
+      ],
+      "operator": "Grimaldi Lines",
+      "distanceKm": 803,
+      "duration": "23.9h",
+      "durationHours": 23.9,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr154",
+      "name": "Barcelona - Porto Torres",
+      "coords": [
+        [
+          41.38,
+          2.17
+        ],
+        [
+          40.84,
+          8.4
+        ]
+      ],
+      "countries": [
+        "Italy",
+        "Spain"
+      ],
+      "operator": "Grimaldi Lines",
+      "distanceKm": 525,
+      "duration": "16.0h",
+      "durationHours": 16.0,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr155",
+      "name": "Livorno - Barcelona",
+      "coords": [
+        [
+          43.55,
+          10.3
+        ],
+        [
+          41.38,
+          2.17
+        ]
+      ],
+      "countries": [
+        "Italy",
+        "Spain"
+      ],
+      "operator": "Grimaldi Lines",
+      "distanceKm": 709,
+      "duration": "21.3h",
+      "durationHours": 21.3,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr156",
+      "name": "Piombino - Portoferraio",
+      "coords": [
+        [
+          42.93,
+          10.55
+        ],
+        [
+          42.81,
+          10.33
+        ]
+      ],
+      "countries": [
+        "Italy"
+      ],
+      "operator": "Moby Lines",
+      "distanceKm": 22,
+      "duration": "1.6h",
+      "durationHours": 1.6,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr157",
+      "name": "Piombino - Bastia",
+      "coords": [
+        [
+          42.93,
+          10.55
+        ],
+        [
+          42.7,
+          9.45
+        ]
+      ],
+      "countries": [
+        "France",
+        "Italy"
+      ],
+      "operator": "Moby Lines",
+      "distanceKm": 93,
+      "duration": "3.7h",
+      "durationHours": 3.7,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr158",
+      "name": "Toulon - Ajaccio",
+      "coords": [
+        [
+          43.12,
+          5.93
+        ],
+        [
+          41.92,
+          8.74
+        ]
+      ],
+      "countries": [
+        "France"
+      ],
+      "operator": "Corsica Ferries",
+      "distanceKm": 266,
+      "duration": "8.6h",
+      "durationHours": 8.6,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr159",
+      "name": "Toulon - Bastia",
+      "coords": [
+        [
+          43.12,
+          5.93
+        ],
+        [
+          42.7,
+          9.45
+        ]
+      ],
+      "countries": [
+        "France"
+      ],
+      "operator": "Corsica Ferries",
+      "distanceKm": 290,
+      "duration": "9.3h",
+      "durationHours": 9.3,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr160",
+      "name": "Nice - Ajaccio",
+      "coords": [
+        [
+          43.7,
+          7.27
+        ],
+        [
+          41.92,
+          8.74
+        ]
+      ],
+      "countries": [
+        "France"
+      ],
+      "operator": "Corsica Ferries",
+      "distanceKm": 231,
+      "duration": "7.6h",
+      "durationHours": 7.6,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr161",
+      "name": "Naples - Cagliari",
+      "coords": [
+        [
+          40.84,
+          14.27
+        ],
+        [
+          39.22,
+          9.12
+        ]
+      ],
+      "countries": [
+        "Italy"
+      ],
+      "operator": "Tirrenia",
+      "distanceKm": 474,
+      "duration": "14.5h",
+      "durationHours": 14.5,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr162",
+      "name": "Barcelona - Mahón",
+      "coords": [
+        [
+          41.38,
+          2.17
+        ],
+        [
+          39.89,
+          4.26
+        ]
+      ],
+      "countries": [
+        "Spain"
+      ],
+      "operator": "Balearia",
+      "distanceKm": 242,
+      "duration": "7.9h",
+      "durationHours": 7.9,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr163",
+      "name": "Barcelona - Alcudia",
+      "coords": [
+        [
+          41.38,
+          2.17
+        ],
+        [
+          39.84,
+          3.13
+        ]
+      ],
+      "countries": [
+        "Spain"
+      ],
+      "operator": "Balearia",
+      "distanceKm": 189,
+      "duration": "6.4h",
+      "durationHours": 6.4,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr164",
+      "name": "Ancona - Corfu - Igoumenitsa",
+      "coords": [
+        [
+          43.62,
+          13.5
+        ],
+        [
+          39.62,
+          19.92
+        ],
+        [
+          39.5,
+          20.27
+        ]
+      ],
+      "countries": [
+        "Greece",
+        "Italy"
+      ],
+      "operator": "ANEK Lines",
+      "distanceKm": 727,
+      "duration": "21.8h",
+      "durationHours": 21.8,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr165",
+      "name": "Bari - Corfu - Igoumenitsa",
+      "coords": [
+        [
+          41.13,
+          16.87
+        ],
+        [
+          39.62,
+          19.92
+        ],
+        [
+          39.5,
+          20.27
+        ]
+      ],
+      "countries": [
+        "Greece",
+        "Italy"
+      ],
+      "operator": "ANEK Lines",
+      "distanceKm": 341,
+      "duration": "10.7h",
+      "durationHours": 10.7,
+      "frequency": "Several per week",
+      "overnight": true,
+      "seasonal": true
+    },
+    {
+      "id": "fr166",
+      "name": "Ancona - Stari Grad",
+      "coords": [
+        [
+          43.62,
+          13.5
+        ],
+        [
+          43.18,
+          16.6
+        ]
+      ],
+      "countries": [
+        "Croatia",
+        "Italy"
+      ],
+      "operator": "Jadrolinija",
+      "distanceKm": 255,
+      "duration": "8.3h",
+      "durationHours": 8.3,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr167",
+      "name": "Bari - Dubrovnik",
+      "coords": [
+        [
+          41.13,
+          16.87
+        ],
+        [
+          42.65,
+          18.06
+        ]
+      ],
+      "countries": [
+        "Croatia",
+        "Italy"
+      ],
+      "operator": "Jadrolinija",
+      "distanceKm": 196,
+      "duration": "6.6h",
+      "durationHours": 6.6,
+      "frequency": "Seasonal",
+      "overnight": false,
+      "seasonal": true
+    },
+    {
+      "id": "fr168",
+      "name": "Almeria - Nador",
+      "coords": [
+        [
+          36.83,
+          -2.47
+        ],
+        [
+          35.17,
+          -2.93
+        ]
+      ],
+      "countries": [
+        "Morocco",
+        "Spain"
+      ],
+      "operator": "Balearia",
+      "distanceKm": 189,
+      "duration": "6.4h",
+      "durationHours": 6.4,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr169",
+      "name": "Almeria - Melilla",
+      "coords": [
+        [
+          36.83,
+          -2.47
+        ],
+        [
+          35.29,
+          -2.94
+        ]
+      ],
+      "countries": [
+        "Spain"
+      ],
+      "operator": "Balearia",
+      "distanceKm": 176,
+      "duration": "6.0h",
+      "durationHours": 6.0,
+      "frequency": "Several per week",
+      "overnight": false
+    },
+    {
+      "id": "fr170",
+      "name": "Genoa - Malta",
+      "coords": [
+        [
+          44.41,
+          8.93
+        ],
+        [
+          35.9,
+          14.52
+        ]
+      ],
+      "countries": [
+        "Italy",
+        "Malta"
+      ],
+      "operator": "Tirrenia",
+      "distanceKm": 1058,
+      "duration": "31.2h",
+      "durationHours": 31.2,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr171",
+      "name": "Rotterdam - Hull",
+      "coords": [
+        [
+          51.91,
+          4.48
+        ],
+        [
+          53.74,
+          -0.33
+        ]
+      ],
+      "countries": [
+        "Netherlands",
+        "United Kingdom"
+      ],
+      "operator": "P&O Ferries",
+      "distanceKm": 382,
+      "duration": "11.9h",
+      "durationHours": 11.9,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr172",
+      "name": "Zeebrugge - Hull",
+      "coords": [
+        [
+          51.33,
+          3.21
+        ],
+        [
+          53.74,
+          -0.33
+        ]
+      ],
+      "countries": [
+        "Belgium",
+        "United Kingdom"
+      ],
+      "operator": "P&O Ferries",
+      "distanceKm": 359,
+      "duration": "11.3h",
+      "durationHours": 11.3,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr173",
+      "name": "Gdańsk - Nynäshamn",
+      "coords": [
+        [
+          54.4,
+          18.66
+        ],
+        [
+          58.9,
+          17.95
+        ]
+      ],
+      "countries": [
+        "Poland",
+        "Sweden"
+      ],
+      "operator": "Stena Line",
+      "distanceKm": 502,
+      "duration": "15.3h",
+      "durationHours": 15.3,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr174",
+      "name": "Klaipeda - Travemünde",
+      "coords": [
+        [
+          55.7,
+          21.13
+        ],
+        [
+          53.96,
+          10.89
+        ]
+      ],
+      "countries": [
+        "Germany",
+        "Lithuania"
+      ],
+      "operator": "TT-Line",
+      "distanceKm": 683,
+      "duration": "20.5h",
+      "durationHours": 20.5,
+      "frequency": "Several per week",
+      "overnight": true
+    },
+    {
+      "id": "fr175",
+      "name": "Portsmouth - Jersey",
+      "coords": [
+        [
+          50.81,
+          -1.09
+        ],
+        [
+          49.19,
+          -2.12
+        ]
+      ],
+      "countries": [
+        "Jersey",
+        "United Kingdom"
+      ],
+      "operator": "Condor Ferries",
+      "distanceKm": 195,
+      "duration": "6.6h",
+      "durationHours": 6.6,
+      "frequency": "Several per week",
+      "overnight": false
     }
   ]
 }

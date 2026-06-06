@@ -3,8 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Stations - Track & Tide</title>
+<title>Train Stations — Track & Tide</title>
+<meta name="description" content="Browse European train stations — find operators, Wikidata details, and community tips for thousands of stations across Europe." />
+<meta property="og:title" content="Train Stations — Track & Tide" />
+<meta property="og:description" content="Browse European train stations — find operators, Wikidata details, and community tips." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://trackandtide.eu/stations" />
+<link rel="canonical" href="https://trackandtide.eu/stations" />
 <link rel="icon" href="icon.png" />
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
 :root {
   --bg: #1f2937;
@@ -205,6 +213,64 @@ option {
 
 .station-detail-loading {
   opacity: 0.7;
+}
+
+/* Community comments */
+.station-detail-comments {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+
+.comments-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.comment-item {
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  margin-bottom: 0.45rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.comment-meta {
+  font-size: 0.75rem;
+  opacity: 0.65;
+  margin-bottom: 0.25rem;
+}
+
+.comment-author {
+  font-weight: 700;
+  color: var(--hover);
+}
+
+.leave-tip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--hover);
+  cursor: pointer;
+  background: rgba(96,165,250,0.1);
+  border: 1px solid rgba(96,165,250,0.3);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  transition: background 0.2s;
+}
+
+.leave-tip-btn:hover {
+  background: rgba(96,165,250,0.2);
+}
+
+:root.light .comment-item {
+  background: rgba(15,23,42,0.02);
 }
 
 .detail-header {
@@ -684,6 +750,16 @@ const totalStat = document.getElementById("totalStat");
 let stations = [];
 let selectedStationId = new URLSearchParams(window.location.search).get("stationId");
 
+// ── Firebase ──
+firebase.initializeApp({
+  apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
+  authDomain: "trackandtide-00.firebaseapp.com",
+  projectId: "trackandtide-00",
+  storageBucket: "trackandtide-00.firebasestorage.app",
+  appId: "1:157938380271:web:8b36389f334e3adefdda1a"
+});
+const db = firebase.firestore();
+
 function setTheme(mode) {
   if (mode === "light") root.classList.add("light");
   else root.classList.remove("light");
@@ -896,7 +972,7 @@ async function fetchWikidataInfo(wikidataId) {
   }
 }
 
-function renderStationDetailHTML(station, wikiData) {
+async function renderStationDetailHTML(station, wikiData) {
   if (!station) return "";
 
   const sourceUrl = escapeHTML(station.url || station.id || "https://www.openstreetmap.org");
@@ -958,8 +1034,81 @@ function renderStationDetailHTML(station, wikiData) {
         </div>
       </div>
       ${wikiBlock}
+      ${await renderStationCommentsHTML(station.id, displayStationName(station.name))}
     </div>
   `;
+}
+
+async function renderStationCommentsHTML(stationId, stationName) {
+  let comments = [];
+  try {
+    const snap = await db.collection('comments')
+      .where('page', '==', 'station')
+      .where('entityId', '==', stationId)
+      .get();
+    comments = snap.docs.map(d => ({...d.data(), _id: d.id}));
+    comments.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0) || (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  } catch(e) { console.error('Firebase comments error:', e); }
+
+  var myIds = JSON.parse(localStorage.getItem('trackandtide:myComments') || '[]');
+  var upvotedIds = JSON.parse(localStorage.getItem('trackandtide:upvoted') || '[]');
+
+  if (!comments.length) {
+    return `<div class="station-detail-comments">
+      <div class="comments-title">Comments</div>
+      <div style="font-size:0.84rem;opacity:0.6">No comments yet. Be the first!</div>
+      <button class="leave-tip-btn" onclick="event.stopPropagation();openStationTipModal('${escapeHTML(stationId)}','${escapeHTML(stationName)}')">Leave a comment</button>
+    </div>`;
+  }
+  return `<div class="station-detail-comments">
+    <div class="comments-title">Comments (${comments.length})</div>
+    ${comments.map(c => {
+      var isMine = myIds.includes(c._id);
+      var hasUpvoted = upvotedIds.includes(c._id);
+      var upvotes = c.upvotes || 0;
+      var delBtn = isMine ? `<button onclick="event.stopPropagation();deleteStationComment('${c._id}')" style="float:right;background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.9rem;color:var(--text)" title="Delete">✕</button>` : '';
+      var upBtn = hasUpvoted
+        ? `<span style="color:var(--hover);font-weight:700;font-size:0.85rem">▲${upvotes}</span>`
+        : `<button onclick="event.stopPropagation();upvoteStationComment('${c._id}','${escapeHTML(stationId)}')" style="background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text);padding:0.15rem 0.4rem;font-size:0.8rem;margin-right:0.35rem" title="Upvote">▲ ${upvotes || ''}</button>`;
+      return `<div class="comment-item">
+        <div class="comment-meta">${upBtn}<span class="comment-author">${escapeHTML(c.author)}</span> · ${escapeHTML(c.date)}${delBtn}</div>
+        <div>${escapeHTML(c.text)}</div>
+      </div>`;
+    }).join("")}
+    <button class="leave-tip-btn" onclick="event.stopPropagation();openStationTipModal('${escapeHTML(stationId)}','${escapeHTML(stationName)}')">Leave a comment</button>
+  </div>`;
+}
+
+async function upvoteStationComment(docId, stationId) {
+  var upvoted = JSON.parse(localStorage.getItem('trackandtide:upvoted') || '[]');
+  if (upvoted.includes(docId)) return;
+  upvoted.push(docId);
+  localStorage.setItem('trackandtide:upvoted', JSON.stringify(upvoted));
+  try {
+    await db.collection('comments').doc(docId).update({
+      upvotes: firebase.firestore.FieldValue.increment(1)
+    });
+    if (selectedStationId) {
+      removeInlineDetail();
+      var station = getStationById(selectedStationId);
+      var row = stationList.querySelector('.station-row.selected');
+      if (station && row) row.insertAdjacentHTML('afterend', await renderStationDetailHTML(station, null));
+    }
+  } catch(e) { console.error('Upvote error:', e); }
+}
+
+async function deleteStationComment(docId) {
+  try {
+    await db.collection('comments').doc(docId).delete();
+    var ids = JSON.parse(localStorage.getItem('trackandtide:myComments') || '[]').filter(id => id !== docId);
+    localStorage.setItem('trackandtide:myComments', JSON.stringify(ids));
+    if (selectedStationId) {
+      removeInlineDetail();
+      var station = getStationById(selectedStationId);
+      var row = stationList.querySelector('.station-row.selected');
+      if (station && row) row.insertAdjacentHTML('afterend', await renderStationDetailHTML(station, null));
+    }
+  } catch(e) { console.error('Delete error:', e); }
 }
 
 function removeInlineDetail() {
@@ -991,7 +1140,7 @@ async function showInlineDetail(stationId) {
 
   // Replace loading placeholder with full detail
   removeInlineDetail();
-  const html = renderStationDetailHTML(station, wikiData);
+  const html = await renderStationDetailHTML(station, wikiData);
   row.insertAdjacentHTML('afterend', html);
 }
 
@@ -1155,7 +1304,7 @@ function renderAndRestoreDetail() {
 }
 
 Promise.all([
-  fetch("./stations.json").then(response => response.json())
+  fetch("./stations.json?v=20260603").then(response => response.json())
 ]).then(([data]) => {
   stations = Object.values(data.countries || {}).flatMap(country =>
     (country.stations || []).map(station => ({
@@ -1183,6 +1332,32 @@ countryFilter.addEventListener("change", () => {
 <footer class="site-footer">
   <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
 </footer>
+
+<!-- Station tip modal -->
+<div class="modal-overlay" id="stationTipModal" onclick="if(event.target===this)closeStationTipModal()">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeStationTipModal()" aria-label="Close">&times;</button>
+    <h2>Leave a comment</h2>
+    <p>Share useful info about <strong id="stationTipName"></strong> — best entrance, platform tips, nearby amenities, etc.</p>
+    <form class="report-form" id="stationTipForm">
+      <input type="hidden" id="stationTipId" />
+      <div class="field">
+        <label for="stationTipAuthor">Your name</label>
+        <input type="text" id="stationTipAuthor" placeholder="First name" required />
+      </div>
+      <div class="field">
+        <label for="stationTipMessage">Your tip *</label>
+        <textarea id="stationTipMessage" required placeholder="E.g. Platform 2 is a 5min walk from the main hall..."></textarea>
+      </div>
+      <div class="form-error" id="stationTipError"></div>
+      <button type="submit" class="submit-btn">Send tip</button>
+    </form>
+    <div class="form-success" id="stationTipSuccess">
+      <h3>Thanks for the tip!</h3>
+      <p>Your tip is now visible to everyone.</p>
+    </div>
+  </div>
+</div>
 
 <div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
   <div class="modal-dialog">
@@ -1281,6 +1456,69 @@ document.getElementById('reportForm').addEventListener('submit', function(e) {
     errorEl.textContent = 'Could not send. Please try again or email us at trackandtide00@gmail.com';
     errorEl.style.display = 'block';
     btn.textContent = 'Send report';
+    btn.disabled = false;
+  });
+});
+
+// ── Station tip modal ──
+function openStationTipModal(stationId, stationName) {
+  document.getElementById('stationTipId').value = stationId;
+  document.getElementById('stationTipName').textContent = stationName;
+  document.getElementById('stationTipModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeStationTipModal() {
+  document.getElementById('stationTipModal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('stationTipForm').style.display = '';
+  document.getElementById('stationTipSuccess').classList.remove('show');
+  document.getElementById('stationTipError').style.display = 'none';
+  document.getElementById('stationTipForm').reset();
+  document.querySelector('#stationTipForm .submit-btn').textContent = 'Send tip';
+  document.querySelector('#stationTipForm .submit-btn').disabled = false;
+}
+document.getElementById('stationTipForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  var btn = form.querySelector('.submit-btn');
+  var stationId = document.getElementById('stationTipId').value;
+  var author = document.getElementById('stationTipAuthor').value.trim();
+  var message = document.getElementById('stationTipMessage').value.trim();
+  var error = document.getElementById('stationTipError');
+  if (!author || !message) { error.style.display = 'block'; error.textContent = 'Please fill in all fields.'; return; }
+  error.style.display = 'none';
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var today = new Date().toISOString().split('T')[0];
+  db.collection('comments').add({
+    page: 'station',
+    entityId: stationId,
+    author: author,
+    date: today,
+    text: message,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(docRef) {
+    var ids = JSON.parse(localStorage.getItem('trackandtide:myComments') || '[]');
+    ids.push(docRef.id);
+    localStorage.setItem('trackandtide:myComments', JSON.stringify(ids));
+    form.style.display = 'none';
+    document.getElementById('stationTipSuccess').classList.add('show');
+    if (selectedStationId) {
+      setTimeout(async function() {
+        var station = getStationById(selectedStationId);
+        if (station) {
+          removeInlineDetail();
+          var row = stationList.querySelector('.station-row.selected');
+          if (row) row.insertAdjacentHTML('afterend', await renderStationDetailHTML(station, null));
+        }
+      }, 300);
+    }
+    setTimeout(closeStationTipModal, 4000);
+  }).catch(function() {
+    error.style.display = 'block';
+    error.textContent = 'Failed to send. Please try again.';
+    btn.textContent = 'Send tip';
     btn.disabled = false;
   });
 });

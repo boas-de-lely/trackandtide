@@ -11,13 +11,15 @@
       ],
       "routeIds": [
         "fr0",
-        "fr2",
         "fr11",
-        "fr12",
-        "fr73",
-        "fr78",
-        "fr80",
-        "fr133"
+        "fr153",
+        "fr154",
+        "fr155",
+        "fr162",
+        "fr163",
+        "fr2",
+        "fr72",
+        "fr77"
       ],
       "wikidataId": "Q1349796",
       "wikidataLabel": "Port of Barcelona",
@@ -37,10 +39,7 @@
       "routeIds": [
         "fr0",
         "fr12",
-        "fr13",
-        "fr15",
-        "fr133",
-        "fr135"
+        "fr14"
       ],
       "wikidataId": "Q260556",
       "wikidataLabel": "Port of Palma de Mallorca",
@@ -104,8 +103,7 @@
       "routeIds": [
         "fr3",
         "fr4",
-        "fr41",
-        "fr140"
+        "fr40"
       ],
       "wikidataId": "Q34963701",
       "wikidataLabel": "Marseille Port",
@@ -137,9 +135,9 @@
         "Spain"
       ],
       "routeIds": [
-        "fr5",
-        "fr15",
-        "fr135"
+        "fr14",
+        "fr152",
+        "fr5"
       ]
     },
     {
@@ -152,10 +150,12 @@
         "Italy"
       ],
       "routeIds": [
+        "fr165",
+        "fr167",
+        "fr57",
         "fr6",
-        "fr58",
-        "fr77",
-        "fr91"
+        "fr76",
+        "fr88"
       ],
       "wikidataId": "Q3909209",
       "wikidataLabel": "Port of Bari",
@@ -172,6 +172,10 @@
         "Greece"
       ],
       "routeIds": [
+        "fr117",
+        "fr134",
+        "fr164",
+        "fr165",
         "fr6",
         "fr7",
         "fr8"
@@ -192,9 +196,9 @@
         "Italy"
       ],
       "routeIds": [
-        "fr7",
-        "fr59",
-        "fr143"
+        "fr134",
+        "fr58",
+        "fr7"
       ],
       "wikidataId": "Q3909214",
       "wikidataLabel": "Port of Brindisi",
@@ -229,10 +233,10 @@
         "Greece"
       ],
       "routeIds": [
-        "fr9",
-        "fr77",
-        "fr122",
-        "fr143"
+        "fr117",
+        "fr134",
+        "fr76",
+        "fr9"
       ],
       "wikidataId": "Q137712271",
       "wikidataLabel": "Patras Port Authority S.A.",
@@ -249,9 +253,8 @@
       ],
       "routeIds": [
         "fr10",
-        "fr44",
-        "fr45",
-        "fr132"
+        "fr43",
+        "fr44"
       ],
       "wikidataId": "Q2516978",
       "wikidataLabel": "Port of Algeciras",
@@ -270,8 +273,8 @@
       ],
       "routeIds": [
         "fr10",
-        "fr132",
-        "fr134"
+        "fr126",
+        "fr169"
       ],
       "wikidataId": "Q5679845",
       "wikidataLabel": "Port of Melilla",
@@ -289,7 +292,9 @@
         "Spain"
       ],
       "routeIds": [
-        "fr11"
+        "fr11",
+        "fr12",
+        "fr152"
       ],
       "wikidataId": "Q4779578",
       "wikidataLabel": "Port of Ibiza Town",
@@ -306,7 +311,7 @@
         "Spain"
       ],
       "routeIds": [
-        "fr13"
+        "fr12"
       ],
       "wikidataId": "Q18005907",
       "wikidataLabel": "Port of Dénia",
@@ -324,7 +329,7 @@
         "Spain"
       ],
       "routeIds": [
-        "fr14"
+        "fr13"
       ],
       "wikidataId": "Q5391265",
       "wikidataLabel": "Port of Motril",
@@ -342,7 +347,7 @@
         "Morocco"
       ],
       "routeIds": [
-        "fr14"
+        "fr13"
       ],
       "wikidataId": "Q27539154",
       "wikidataLabel": "Al Hoceima Port",
@@ -359,8 +364,8 @@
         "Romania"
       ],
       "routeIds": [
-        "fr16",
-        "fr141"
+        "fr132",
+        "fr15"
       ],
       "wikidataId": "Q822981",
       "wikidataLabel": "Port of Constanța",
@@ -378,7 +383,7 @@
         "Georgia"
       ],
       "routeIds": [
-        "fr16"
+        "fr15"
       ],
       "wikidataId": "Q67893120",
       "wikidataLabel": "Batumi port border post",
@@ -394,7 +399,8 @@
         "Spain"
       ],
       "routeIds": [
-        "fr17"
+        "fr151",
+        "fr16"
       ],
       "wikidataId": "Q24021270",
       "wikidataLabel": "Bilbao Port",
@@ -410,10 +416,13 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr17",
+        "fr149",
+        "fr150",
+        "fr16",
+        "fr175",
+        "fr20",
         "fr21",
-        "fr22",
-        "fr23"
+        "fr22"
       ],
       "wikidataId": "Q17018120",
       "wikidataLabel": "Portsmouth International Port",
@@ -430,7 +439,7 @@
         "Ireland"
       ],
       "routeIds": [
-        "fr18"
+        "fr17"
       ]
     },
     {
@@ -443,8 +452,8 @@
         "France"
       ],
       "routeIds": [
-        "fr18",
-        "fr19"
+        "fr17",
+        "fr18"
       ],
       "wikidataId": "Q34966195",
       "wikidataLabel": "Roscoff Port",
@@ -460,8 +469,8 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr19",
-        "fr24"
+        "fr18",
+        "fr23"
       ],
       "wikidataId": "Q24677903",
       "wikidataLabel": "Plymouth Port",
@@ -478,10 +487,10 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr20",
+        "fr19",
+        "fr31",
         "fr32",
-        "fr33",
-        "fr34"
+        "fr33"
       ],
       "wikidataId": "Q24677892",
       "wikidataLabel": "Port of Poole",
@@ -498,10 +507,10 @@
         "France"
       ],
       "routeIds": [
+        "fr116",
+        "fr19",
         "fr20",
-        "fr21",
-        "fr85",
-        "fr121"
+        "fr82"
       ],
       "wikidataId": "Q3398472",
       "wikidataLabel": "Cherbourg Port",
@@ -518,7 +527,7 @@
         "France"
       ],
       "routeIds": [
-        "fr22"
+        "fr21"
       ],
       "wikidataId": "Q1129891",
       "wikidataLabel": "Port of Le Havre",
@@ -536,9 +545,9 @@
         "France"
       ],
       "routeIds": [
-        "fr23",
-        "fr34",
-        "fr35"
+        "fr22",
+        "fr33",
+        "fr34"
       ],
       "wikidataId": "Q2386775",
       "wikidataLabel": "St Malo Port",
@@ -555,7 +564,8 @@
         "Spain"
       ],
       "routeIds": [
-        "fr24"
+        "fr150",
+        "fr23"
       ],
       "wikidataId": "Q9064614",
       "wikidataLabel": "Port of Santander",
@@ -572,7 +582,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr25"
+        "fr24"
       ],
       "wikidataId": "Q17829069",
       "wikidataLabel": "Old Power House, Ardrossan Harbour",
@@ -588,7 +598,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr25"
+        "fr24"
       ]
     },
     {
@@ -601,7 +611,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr26"
+        "fr25"
       ]
     },
     {
@@ -614,7 +624,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr26"
+        "fr25"
       ]
     },
     {
@@ -627,7 +637,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr27"
+        "fr26"
       ],
       "wikidataId": "Q105845410",
       "wikidataLabel": "Ullapool harbour",
@@ -644,7 +654,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr27"
+        "fr26"
       ],
       "wikidataId": "Q111755653",
       "wikidataLabel": "Stornoway Harbour",
@@ -660,12 +670,11 @@
         "Denmark"
       ],
       "routeIds": [
+        "fr106",
+        "fr27",
         "fr28",
-        "fr29",
-        "fr68",
-        "fr69",
-        "fr70",
-        "fr111"
+        "fr67",
+        "fr68"
       ],
       "wikidataId": "Q1620583",
       "wikidataLabel": "Port of Hirtshals",
@@ -683,7 +692,7 @@
         "Norway"
       ],
       "routeIds": [
-        "fr28"
+        "fr27"
       ],
       "wikidataId": "Q19378182",
       "wikidataLabel": "Kristiansand Port",
@@ -701,7 +710,7 @@
         "Norway"
       ],
       "routeIds": [
-        "fr29"
+        "fr28"
       ],
       "wikidataId": "Q34954502",
       "wikidataLabel": "Larvik Port",
@@ -718,8 +727,8 @@
         "Germany"
       ],
       "routeIds": [
-        "fr30",
-        "fr52"
+        "fr29",
+        "fr51"
       ],
       "wikidataId": "Q32064908",
       "wikidataLabel": "Port of Kiel",
@@ -737,9 +746,9 @@
         "Norway"
       ],
       "routeIds": [
-        "fr30",
-        "fr46",
-        "fr117"
+        "fr112",
+        "fr29",
+        "fr45"
       ],
       "wikidataId": "Q1542098",
       "wikidataLabel": "Port of Oslo",
@@ -757,7 +766,7 @@
         "Norway"
       ],
       "routeIds": [
-        "fr31"
+        "fr30"
       ],
       "wikidataId": "Q34966253",
       "wikidataLabel": "Sandefjord Port",
@@ -766,7 +775,7 @@
     },
     {
       "id": "fp43",
-      "name": "StrÃ¶mstad",
+      "name": "Strömstad",
       "lat": 58.94,
       "lng": 11.17,
       "country": "Sweden",
@@ -774,7 +783,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr31"
+        "fr30"
       ]
     },
     {
@@ -787,7 +796,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr32"
+        "fr31"
       ],
       "wikidataId": "Q7402084",
       "wikidataLabel": "Saint Peter Port Harbour",
@@ -804,8 +813,9 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr33",
-        "fr35"
+        "fr175",
+        "fr32",
+        "fr34"
       ],
       "wikidataId": "Q27118583",
       "wikidataLabel": "Jersey Port",
@@ -822,10 +832,11 @@
         "Italy"
       ],
       "routeIds": [
+        "fr155",
+        "fr35",
         "fr36",
-        "fr37",
-        "fr82",
-        "fr94"
+        "fr79",
+        "fr91"
       ],
       "wikidataId": "Q28854779",
       "wikidataLabel": "Livorno Porto Vecchio",
@@ -842,10 +853,12 @@
         "France"
       ],
       "routeIds": [
-        "fr36",
-        "fr38",
-        "fr40",
-        "fr93"
+        "fr157",
+        "fr159",
+        "fr35",
+        "fr37",
+        "fr39",
+        "fr90"
       ],
       "wikidataId": "Q34953565",
       "wikidataLabel": "Bastia Port",
@@ -863,7 +876,7 @@
         "Italy"
       ],
       "routeIds": [
-        "fr37"
+        "fr36"
       ],
       "wikidataId": "Q34954147",
       "wikidataLabel": "Golfo Aranci Port",
@@ -880,8 +893,9 @@
         "France"
       ],
       "routeIds": [
-        "fr38",
-        "fr39"
+        "fr160",
+        "fr37",
+        "fr38"
       ],
       "wikidataId": "Q3398372",
       "wikidataLabel": "Nice Port",
@@ -898,7 +912,7 @@
         "France"
       ],
       "routeIds": [
-        "fr39"
+        "fr38"
       ],
       "wikidataId": "Q34953711",
       "wikidataLabel": "Calvi Port",
@@ -915,7 +929,7 @@
         "Italy"
       ],
       "routeIds": [
-        "fr40"
+        "fr39"
       ],
       "wikidataId": "Q3909286",
       "wikidataLabel": "Port of Savona",
@@ -932,13 +946,10 @@
         "Tunisia"
       ],
       "routeIds": [
-        "fr41",
-        "fr75",
-        "fr79",
-        "fr81",
-        "fr84",
-        "fr139",
-        "fr140"
+        "fr40",
+        "fr74",
+        "fr78",
+        "fr81"
       ],
       "wikidataId": "Q11942401",
       "wikidataLabel": "Port of Tunis",
@@ -946,7 +957,7 @@
     },
     {
       "id": "fp53",
-      "name": "NynÃ¤shamn",
+      "name": "Nynäshamn",
       "lat": 58.9,
       "lng": 17.95,
       "country": "Sweden",
@@ -954,7 +965,10 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr42"
+        "fr141",
+        "fr142",
+        "fr173",
+        "fr41"
       ]
     },
     {
@@ -967,8 +981,9 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr42",
-        "fr43"
+        "fr145",
+        "fr41",
+        "fr42"
       ],
       "wikidataId": "Q42556090",
       "wikidataLabel": "Visby Porten  11",
@@ -984,7 +999,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr43"
+        "fr42"
       ],
       "wikidataId": "Q7231222",
       "wikidataLabel": "Port of Oskarshamn",
@@ -1002,7 +1017,7 @@
         "Spain"
       ],
       "routeIds": [
-        "fr44"
+        "fr43"
       ],
       "wikidataId": "Q106428113",
       "wikidataLabel": "Portuguese Ceuta",
@@ -1019,8 +1034,8 @@
         "Morocco"
       ],
       "routeIds": [
-        "fr45",
-        "fr76"
+        "fr44",
+        "fr75"
       ]
     },
     {
@@ -1033,7 +1048,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr46"
+        "fr45"
       ],
       "wikidataId": "Q1252907",
       "wikidataLabel": "Port of Copenhagen",
@@ -1050,8 +1065,8 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr47",
-        "fr48"
+        "fr46",
+        "fr47"
       ],
       "wikidataId": "Q739207",
       "wikidataLabel": "Port of Dover",
@@ -1069,7 +1084,7 @@
         "France"
       ],
       "routeIds": [
-        "fr47"
+        "fr46"
       ],
       "wikidataId": "Q100336552",
       "wikidataLabel": "CALAIS PORT 2015 project",
@@ -1085,8 +1100,8 @@
         "France"
       ],
       "routeIds": [
-        "fr48",
-        "fr55"
+        "fr47",
+        "fr54"
       ],
       "wikidataId": "Q3330758",
       "wikidataLabel": "Dunkirk Port Museum",
@@ -1095,21 +1110,8 @@
       "website": "http://www.museeportuaire.com/"
     },
     {
-      "id": "fp62",
-      "name": "Ghent",
-      "lat": 51.05,
-      "lng": 3.72,
-      "country": "Belgium",
-      "countries": [
-        "Belgium"
-      ],
-      "routeIds": [
-        "fr49"
-      ]
-    },
-    {
       "id": "fp63",
-      "name": "GÃ¶teborg",
+      "name": "Göteborg",
       "lat": 57.69,
       "lng": 11.92,
       "country": "Sweden",
@@ -1117,8 +1119,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr49",
-        "fr116"
+        "fr111"
       ]
     },
     {
@@ -1131,7 +1132,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr50"
+        "fr49"
       ],
       "wikidataId": "Q3398489",
       "wikidataLabel": "port of IJmuiden",
@@ -1148,7 +1149,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr50"
+        "fr49"
       ],
       "wikidataId": "Q7231289",
       "wikidataLabel": "Port of Tyne",
@@ -1166,8 +1167,9 @@
         "Lithuania"
       ],
       "routeIds": [
-        "fr51",
-        "fr52"
+        "fr174",
+        "fr50",
+        "fr51"
       ]
     },
     {
@@ -1180,7 +1182,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr51"
+        "fr50"
       ],
       "wikidataId": "Q32263613",
       "wikidataLabel": "Karlshamn Port",
@@ -1196,7 +1198,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr53"
+        "fr52"
       ],
       "wikidataId": "Q7231216",
       "wikidataLabel": "Port of Newhaven",
@@ -1214,7 +1216,7 @@
         "France"
       ],
       "routeIds": [
-        "fr53"
+        "fr52"
       ],
       "wikidataId": "Q30061313",
       "wikidataLabel": "Dieppe Port",
@@ -1231,7 +1233,7 @@
         "Estonia"
       ],
       "routeIds": [
-        "fr54"
+        "fr53"
       ],
       "wikidataId": "Q12371883",
       "wikidataLabel": "Paldiski North Harbour",
@@ -1241,7 +1243,7 @@
     },
     {
       "id": "fp71",
-      "name": "KapellskÃ¤r",
+      "name": "Kapellskär",
       "lat": 59.72,
       "lng": 19.06,
       "country": "Sweden",
@@ -1249,7 +1251,8 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr54"
+        "fr144",
+        "fr53"
       ]
     },
     {
@@ -1262,10 +1265,11 @@
         "Ireland"
       ],
       "routeIds": [
-        "fr55",
-        "fr87",
-        "fr115",
-        "fr121"
+        "fr110",
+        "fr116",
+        "fr151",
+        "fr54",
+        "fr84"
       ],
       "wikidataId": "Q2281650",
       "wikidataLabel": "Rosslare Europort",
@@ -1283,12 +1287,12 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr56"
+        "fr55"
       ]
     },
     {
       "id": "fp74",
-      "name": "EckerÃ¶",
+      "name": "Eckerö",
       "lat": 60.22,
       "lng": 19.6,
       "country": "Finland",
@@ -1296,7 +1300,7 @@
         "Finland"
       ],
       "routeIds": [
-        "fr56"
+        "fr55"
       ]
     },
     {
@@ -1309,18 +1313,13 @@
         "Finland"
       ],
       "routeIds": [
-        "fr57",
+        "fr118",
+        "fr135",
+        "fr136",
+        "fr56",
+        "fr60",
         "fr61",
-        "fr62",
-        "fr64",
-        "fr65",
-        "fr123",
-        "fr124",
-        "fr126",
-        "fr144",
-        "fr145",
-        "fr146",
-        "fr147"
+        "fr63"
       ],
       "wikidataId": "Q24371482",
       "wikidataLabel": "Helsinki Port",
@@ -1336,11 +1335,8 @@
         "Estonia"
       ],
       "routeIds": [
-        "fr57",
-        "fr124",
-        "fr126",
-        "fr127",
-        "fr146"
+        "fr121",
+        "fr56"
       ],
       "wikidataId": "Q11133776",
       "wikidataLabel": "Old City Harbour",
@@ -1358,7 +1354,7 @@
         "Albania"
       ],
       "routeIds": [
-        "fr58"
+        "fr57"
       ],
       "wikidataId": "Q3303198",
       "wikidataLabel": "Port of Durrës",
@@ -1376,7 +1372,7 @@
         "Albania"
       ],
       "routeIds": [
-        "fr59"
+        "fr58"
       ]
     },
     {
@@ -1389,7 +1385,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr60"
+        "fr59"
       ],
       "wikidataId": "Q5464523",
       "wikidataLabel": "Folkestone Harbour railway station",
@@ -1406,7 +1402,7 @@
         "France"
       ],
       "routeIds": [
-        "fr60"
+        "fr59"
       ]
     },
     {
@@ -1419,8 +1415,9 @@
         "Poland"
       ],
       "routeIds": [
-        "fr61",
-        "fr120"
+        "fr115",
+        "fr142",
+        "fr60"
       ],
       "wikidataId": "Q2670042",
       "wikidataLabel": "Gdynia Port Oksywie railway station",
@@ -1429,7 +1426,7 @@
     },
     {
       "id": "fp82",
-      "name": "TravemÃ¼nde",
+      "name": "Travemünde",
       "lat": 53.96,
       "lng": 10.87,
       "country": "Germany",
@@ -1437,17 +1434,16 @@
         "Germany"
       ],
       "routeIds": [
+        "fr129",
+        "fr174",
+        "fr61",
         "fr62",
-        "fr63",
-        "fr65",
-        "fr66",
-        "fr67",
-        "fr138"
+        "fr65"
       ]
     },
     {
       "id": "fp83",
-      "name": "MalmÃ¶",
+      "name": "Malmö",
       "lat": 55.61,
       "lng": 13,
       "country": "Sweden",
@@ -1455,8 +1451,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr63",
-        "fr67"
+        "fr62"
       ]
     },
     {
@@ -1469,10 +1464,9 @@
         "Germany"
       ],
       "routeIds": [
-        "fr64",
-        "fr107",
-        "fr110",
-        "fr136"
+        "fr103",
+        "fr127",
+        "fr63"
       ],
       "wikidataId": "Q1090823",
       "wikidataLabel": "Port of Rostock",
@@ -1490,7 +1484,7 @@
         "Latvia"
       ],
       "routeIds": [
-        "fr66"
+        "fr65"
       ],
       "wikidataId": "Q1532886",
       "wikidataLabel": "Port of Liepāja",
@@ -1507,8 +1501,7 @@
         "Norway"
       ],
       "routeIds": [
-        "fr68",
-        "fr70"
+        "fr67"
       ],
       "wikidataId": "Q373191",
       "wikidataLabel": "Bergen Port",
@@ -1526,7 +1519,7 @@
         "Norway"
       ],
       "routeIds": [
-        "fr69"
+        "fr68"
       ],
       "wikidataId": "Q34954491",
       "wikidataLabel": "Langesund Port",
@@ -1534,7 +1527,7 @@
     },
     {
       "id": "fp88",
-      "name": "HelsingÃ¸r",
+      "name": "Helsingør",
       "lat": 56.03,
       "lng": 12.61,
       "country": "Denmark",
@@ -1542,8 +1535,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr71",
-        "fr108"
+        "fr70"
       ]
     },
     {
@@ -1556,8 +1548,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr71",
-        "fr108"
+        "fr70"
       ],
       "wikidataId": "Q32250689",
       "wikidataLabel": "Helsingborg Port",
@@ -1573,11 +1564,12 @@
         "Italy"
       ],
       "routeIds": [
-        "fr72",
+        "fr123",
+        "fr153",
+        "fr71",
+        "fr77",
         "fr78",
-        "fr79",
-        "fr92",
-        "fr129"
+        "fr89"
       ],
       "wikidataId": "Q60836752",
       "wikidataLabel": "Civitavecchia Marittima railway station",
@@ -1594,11 +1586,11 @@
         "Italy"
       ],
       "routeIds": [
-        "fr72",
-        "fr74",
-        "fr82",
-        "fr83",
-        "fr84"
+        "fr71",
+        "fr73",
+        "fr79",
+        "fr80",
+        "fr81"
       ],
       "wikidataId": "Q83245746",
       "wikidataLabel": "Palermo harbour",
@@ -1615,15 +1607,13 @@
         "Italy"
       ],
       "routeIds": [
+        "fr124",
+        "fr125",
+        "fr170",
+        "fr72",
         "fr73",
         "fr74",
-        "fr75",
-        "fr80",
-        "fr81",
-        "fr93",
-        "fr130",
-        "fr131",
-        "fr139"
+        "fr90"
       ],
       "wikidataId": "Q1515803",
       "wikidataLabel": "Port of Genoa",
@@ -1633,7 +1623,7 @@
     },
     {
       "id": "fp93",
-      "name": "SÃ¨te",
+      "name": "Sète",
       "lat": 43.41,
       "lng": 3.7,
       "country": "France",
@@ -1641,7 +1631,7 @@
         "France"
       ],
       "routeIds": [
-        "fr76"
+        "fr75"
       ]
     },
     {
@@ -1654,7 +1644,8 @@
         "Italy"
       ],
       "routeIds": [
-        "fr83"
+        "fr161",
+        "fr80"
       ],
       "wikidataId": "Q3398528",
       "wikidataLabel": "Port of Naples",
@@ -1672,10 +1663,10 @@
         "Ireland"
       ],
       "routeIds": [
-        "fr85",
-        "fr86",
-        "fr104",
-        "fr119"
+        "fr100",
+        "fr148",
+        "fr82",
+        "fr83"
       ],
       "wikidataId": "Q924978",
       "wikidataLabel": "Dublin Port Tunnel",
@@ -1692,8 +1683,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr86",
-        "fr119"
+        "fr83"
       ],
       "wikidataId": "Q7231154",
       "wikidataLabel": "Port of Holyhead",
@@ -1711,7 +1701,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr87"
+        "fr84"
       ],
       "wikidataId": "Q24677887",
       "wikidataLabel": "Pembroke Port",
@@ -1727,10 +1717,12 @@
         "Italy"
       ],
       "routeIds": [
-        "fr88",
-        "fr89",
-        "fr90",
-        "fr122"
+        "fr117",
+        "fr164",
+        "fr166",
+        "fr85",
+        "fr86",
+        "fr87"
       ],
       "wikidataId": "Q583707",
       "wikidataLabel": "Port of Ancona",
@@ -1747,7 +1739,7 @@
         "Croatia"
       ],
       "routeIds": [
-        "fr88"
+        "fr85"
       ],
       "wikidataId": "Q26224642",
       "wikidataLabel": "Hvar Port",
@@ -1764,7 +1756,7 @@
         "Croatia"
       ],
       "routeIds": [
-        "fr89"
+        "fr86"
       ]
     },
     {
@@ -1777,7 +1769,7 @@
         "Croatia"
       ],
       "routeIds": [
-        "fr90"
+        "fr87"
       ],
       "wikidataId": "Q26224651",
       "wikidataLabel": "Zadar Port",
@@ -1794,7 +1786,7 @@
         "Montenegro"
       ],
       "routeIds": [
-        "fr91"
+        "fr88"
       ],
       "wikidataId": "Q27572626",
       "wikidataLabel": "Bar Port",
@@ -1811,9 +1803,9 @@
         "Italy"
       ],
       "routeIds": [
-        "fr92",
-        "fr94",
-        "fr95"
+        "fr89",
+        "fr91",
+        "fr92"
       ],
       "wikidataId": "Q3909258",
       "wikidataLabel": "Port of Olbia",
@@ -1830,7 +1822,9 @@
         "Italy"
       ],
       "routeIds": [
-        "fr95"
+        "fr156",
+        "fr157",
+        "fr92"
       ],
       "wikidataId": "Q3909265",
       "wikidataLabel": "Port of Piombino",
@@ -1847,7 +1841,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr96"
+        "fr93"
       ],
       "wikidataId": "Q301442",
       "wikidataLabel": "Port of Aarhus",
@@ -1865,7 +1859,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr96"
+        "fr93"
       ],
       "wikidataId": "Q12321147",
       "wikidataLabel": "Kalundborg Port",
@@ -1882,7 +1876,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr97"
+        "fr94"
       ]
     },
     {
@@ -1895,7 +1889,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr97"
+        "fr94"
       ]
     },
     {
@@ -1908,7 +1902,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr98"
+        "fr95"
       ],
       "wikidataId": "Q24677732",
       "wikidataLabel": "Aberdeen Harbour",
@@ -1926,7 +1920,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr98"
+        "fr95"
       ],
       "wikidataId": "Q106009581",
       "wikidataLabel": "Lerwick Port Authority",
@@ -1943,7 +1937,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr99"
+        "fr96"
       ],
       "wikidataId": "Q24677727",
       "wikidataLabel": "Scrabster Port",
@@ -1959,7 +1953,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr99"
+        "fr96"
       ],
       "wikidataId": "Q24677720",
       "wikidataLabel": "Stromness Port",
@@ -1975,7 +1969,9 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr100"
+        "fr171",
+        "fr172",
+        "fr97"
       ],
       "wikidataId": "Q2082135",
       "wikidataLabel": "Port of Hull",
@@ -1992,7 +1988,8 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr100"
+        "fr171",
+        "fr97"
       ]
     },
     {
@@ -2005,9 +2002,8 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr101",
-        "fr103",
-        "fr114"
+        "fr109",
+        "fr98"
       ],
       "wikidataId": "Q24677731",
       "wikidataLabel": "Cairnryan Port",
@@ -2023,8 +2019,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr101",
-        "fr103"
+        "fr98"
       ],
       "wikidataId": "Q24677906",
       "wikidataLabel": "Larne Port",
@@ -2040,7 +2035,8 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr102"
+        "fr46",
+        "fr47"
       ],
       "wikidataId": "Q739207",
       "wikidataLabel": "Port of Dover",
@@ -2058,7 +2054,7 @@
         "France"
       ],
       "routeIds": [
-        "fr102"
+        "fr46"
       ],
       "wikidataId": "Q100336552",
       "wikidataLabel": "CALAIS PORT 2015 project",
@@ -2074,7 +2070,9 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr104"
+        "fr100",
+        "fr108",
+        "fr146"
       ]
     },
     {
@@ -2087,8 +2085,8 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr105",
-        "fr106"
+        "fr101",
+        "fr102"
       ],
       "wikidataId": "Q2516113",
       "wikidataLabel": "Port of Harlingen",
@@ -2105,7 +2103,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr105"
+        "fr101"
       ],
       "wikidataId": "Q116783656",
       "wikidataLabel": "port of West-Terschelling",
@@ -2122,7 +2120,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr106"
+        "fr102"
       ]
     },
     {
@@ -2135,8 +2133,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr107",
-        "fr110"
+        "fr103"
       ],
       "wikidataId": "Q23754066",
       "wikidataLabel": "Gedser Port",
@@ -2145,7 +2142,7 @@
     },
     {
       "id": "fp124",
-      "name": "RÃ¸dby",
+      "name": "Rødby",
       "lat": 54.65,
       "lng": 11.35,
       "country": "Denmark",
@@ -2153,7 +2150,7 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr109"
+        "fr104"
       ]
     },
     {
@@ -2166,7 +2163,7 @@
         "Germany"
       ],
       "routeIds": [
-        "fr109"
+        "fr104"
       ],
       "wikidataId": "Q32239654",
       "wikidataLabel": "Puttgarden Port",
@@ -2175,7 +2172,7 @@
     },
     {
       "id": "fp126",
-      "name": "SeyÃ°isfjÃ¶rÃ°ur",
+      "name": "Seyðisfjörður",
       "lat": 65.26,
       "lng": -13.91,
       "country": "Iceland",
@@ -2183,7 +2180,7 @@
         "Iceland"
       ],
       "routeIds": [
-        "fr111"
+        "fr106"
       ]
     },
     {
@@ -2196,7 +2193,7 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr112"
+        "fr107"
       ],
       "wikidataId": "Q5677860",
       "wikidataLabel": "Harwich International Port",
@@ -2213,7 +2210,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr112"
+        "fr107"
       ],
       "wikidataId": "Q34954253",
       "wikidataLabel": "Hook of Holland Port",
@@ -2229,8 +2226,8 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr113",
-        "fr114"
+        "fr108",
+        "fr109"
       ],
       "wikidataId": "Q7231086",
       "wikidataLabel": "Port of Belfast",
@@ -2248,7 +2245,9 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr113"
+        "fr100",
+        "fr108",
+        "fr146"
       ],
       "wikidataId": "Q3398514",
       "wikidataLabel": "Port of Liverpool",
@@ -2265,7 +2264,8 @@
         "United Kingdom"
       ],
       "routeIds": [
-        "fr115"
+        "fr110",
+        "fr148"
       ],
       "wikidataId": "Q24677905",
       "wikidataLabel": "Fishguard Port",
@@ -2281,8 +2281,8 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr116",
-        "fr117"
+        "fr111",
+        "fr112"
       ],
       "wikidataId": "Q23754069",
       "wikidataLabel": "Frederikshavn Port",
@@ -2299,7 +2299,8 @@
         "Denmark"
       ],
       "routeIds": [
-        "fr118"
+        "fr113",
+        "fr140"
       ],
       "wikidataId": "Q23754065",
       "wikidataLabel": "Grenaa Port",
@@ -2316,7 +2317,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr118"
+        "fr113"
       ],
       "wikidataId": "Q10351957",
       "wikidataLabel": "Varberg Port",
@@ -2333,7 +2334,7 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr120"
+        "fr115"
       ],
       "wikidataId": "Q32263669",
       "wikidataLabel": "Karlskrona Port",
@@ -2349,12 +2350,12 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr123",
-        "fr125",
-        "fr127",
-        "fr145",
-        "fr147",
-        "fr148"
+        "fr118",
+        "fr119",
+        "fr121",
+        "fr136",
+        "fr137",
+        "fr143"
       ],
       "wikidataId": "Q34966404",
       "wikidataLabel": "Port of Stockholm",
@@ -2370,7 +2371,7 @@
         "Latvia"
       ],
       "routeIds": [
-        "fr125"
+        "fr119"
       ],
       "wikidataId": "Q3018073",
       "wikidataLabel": "Freeport of Riga",
@@ -2387,7 +2388,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr128"
+        "fr122"
       ],
       "wikidataId": "Q18286517",
       "wikidataLabel": "Port of Den Helder Kings in het seizoen 2014-15",
@@ -2403,7 +2404,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr128"
+        "fr122"
       ]
     },
     {
@@ -2416,7 +2417,8 @@
         "Italy"
       ],
       "routeIds": [
-        "fr129"
+        "fr123",
+        "fr161"
       ],
       "wikidataId": "Q3909215",
       "wikidataLabel": "Port of Cagliari",
@@ -2434,7 +2436,7 @@
         "Italy"
       ],
       "routeIds": [
-        "fr130"
+        "fr124"
       ],
       "wikidataId": "Q34953543",
       "wikidataLabel": "Arbatax Port",
@@ -2451,7 +2453,8 @@
         "Italy"
       ],
       "routeIds": [
-        "fr131"
+        "fr125",
+        "fr154"
       ],
       "wikidataId": "Q3909269",
       "wikidataLabel": "Porto Torres Port",
@@ -2460,7 +2463,7 @@
     },
     {
       "id": "fp143",
-      "name": "MÃ¡laga",
+      "name": "Málaga",
       "lat": 36.72,
       "lng": -4.42,
       "country": "Spain",
@@ -2468,7 +2471,7 @@
         "Spain"
       ],
       "routeIds": [
-        "fr134"
+        "fr126"
       ]
     },
     {
@@ -2481,9 +2484,9 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr136",
-        "fr137",
-        "fr138"
+        "fr127",
+        "fr128",
+        "fr129"
       ],
       "wikidataId": "Q10351953",
       "wikidataLabel": "Port of Trelleborg",
@@ -2500,9 +2503,7 @@
       "countries": [
         "Poland"
       ],
-      "routeIds": [
-        "fr137"
-      ]
+      "routeIds": []
     },
     {
       "id": "fp146",
@@ -2514,8 +2515,8 @@
         "Bulgaria"
       ],
       "routeIds": [
-        "fr141",
-        "fr142"
+        "fr132",
+        "fr133"
       ],
       "wikidataId": "Q29569261",
       "wikidataLabel": "Bulyard",
@@ -2533,7 +2534,7 @@
         "Ukraine"
       ],
       "routeIds": [
-        "fr142"
+        "fr133"
       ],
       "wikidataId": "Q16709741",
       "wikidataLabel": "Odesa-Port railway station",
@@ -2550,6 +2551,10 @@
         "Finland"
       ],
       "routeIds": [
+        "fr135",
+        "fr136",
+        "fr137",
+        "fr143",
         "fr144"
       ],
       "wikidataId": "Q21976438",
@@ -2567,7 +2572,7 @@
         "Finland"
       ],
       "routeIds": [
-        "fr148"
+        "fr137"
       ],
       "wikidataId": "Q9362807",
       "wikidataLabel": "Turku Harbour railway station",
@@ -2584,7 +2589,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr149"
+        "fr138"
       ]
     },
     {
@@ -2597,7 +2602,7 @@
         "Netherlands"
       ],
       "routeIds": [
-        "fr149"
+        "fr138"
       ]
     },
     {
@@ -2610,7 +2615,7 @@
         "Finland"
       ],
       "routeIds": [
-        "fr150"
+        "fr139"
       ],
       "wikidataId": "Q9489244",
       "wikidataLabel": "Port of Vaasa",
@@ -2618,7 +2623,7 @@
     },
     {
       "id": "fp153",
-      "name": "UmeÃ¥",
+      "name": "Umeå",
       "lat": 63.82,
       "lng": 20.25,
       "country": "Sweden",
@@ -2626,3026 +2631,279 @@
         "Sweden"
       ],
       "routeIds": [
-        "fr150"
+        "fr139"
       ]
-    }
-  ],
-  "routes": [
-    {
-      "name": "Barcelona - Palma",
-      "coords": [
-        [
-          41.38,
-          2.17
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Acciona",
-      "id": "fr0"
     },
     {
-      "name": "Eemshaven - Borkum",
-      "coords": [
-        [
-          53.46,
-          6.83
-        ],
-        [
-          53.59,
-          6.67
-        ]
-      ],
+      "name": "Stavanger",
+      "lat": 58.97,
+      "lng": 5.73,
+      "country": "Norway",
       "countries": [
-        "Netherlands",
-        "Germany"
-      ],
-      "operator": "AG Ems",
-      "id": "fr1"
-    },
-    {
-      "name": "Barcelona - Algiers",
-      "coords": [
-        [
-          41.38,
-          2.17
-        ],
-        [
-          36.75,
-          3.06
-        ]
-      ],
-      "countries": [
-        "Spain",
-        "Algeria"
-      ],
-      "operator": "AlgÃ©rie Ferries",
-      "id": "fr2"
-    },
-    {
-      "name": "Marseille - Algiers",
-      "coords": [
-        [
-          43.3,
-          5.37
-        ],
-        [
-          36.75,
-          3.06
-        ]
-      ],
-      "countries": [
-        "France",
-        "Algeria"
-      ],
-      "operator": "AlgÃ©rie Ferries",
-      "id": "fr3"
-    },
-    {
-      "name": "Marseille - Oran",
-      "coords": [
-        [
-          43.3,
-          5.37
-        ],
-        [
-          35.7,
-          -0.64
-        ]
-      ],
-      "countries": [
-        "France",
-        "Algeria"
-      ],
-      "operator": "AlgÃ©rie Ferries",
-      "id": "fr4"
-    },
-    {
-      "name": "Valencia - Algiers",
-      "coords": [
-        [
-          39.46,
-          -0.32
-        ],
-        [
-          36.75,
-          3.06
-        ]
-      ],
-      "countries": [
-        "Spain",
-        "Algeria"
-      ],
-      "operator": "AlgÃ©rie Ferries",
-      "id": "fr5"
-    },
-    {
-      "name": "Bari - Igoumenitsa",
-      "coords": [
-        [
-          41.13,
-          16.87
-        ],
-        [
-          39.5,
-          20.27
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Greece"
-      ],
-      "operator": "ANEK Lines",
-      "id": "fr6"
-    },
-    {
-      "name": "Brindisi - Igoumenitsa",
-      "coords": [
-        [
-          40.64,
-          17.94
-        ],
-        [
-          39.5,
-          20.27
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Greece"
-      ],
-      "operator": "ANEK Lines",
-      "id": "fr7"
-    },
-    {
-      "name": "Venice - Igoumenitsa",
-      "coords": [
-        [
-          45.44,
-          12.33
-        ],
-        [
-          39.5,
-          20.27
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Greece"
-      ],
-      "operator": "ANEK Lines",
-      "id": "fr8"
-    },
-    {
-      "name": "Venice - Patras",
-      "coords": [
-        [
-          45.44,
-          12.33
-        ],
-        [
-          41.21,
-          17.9
-        ],
-        [
-          38.53,
-          20.59
-        ],
-        [
-          38.25,
-          21.73
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Greece"
-      ],
-      "operator": "ANEK Lines",
-      "id": "fr9"
-    },
-    {
-      "name": "Algeciras - Melilla",
-      "coords": [
-        [
-          36.13,
-          -5.46
-        ],
-        [
-          35.29,
-          -2.94
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Balearia",
-      "id": "fr10"
-    },
-    {
-      "name": "Barcelona - Ibiza",
-      "coords": [
-        [
-          41.38,
-          2.17
-        ],
-        [
-          38.91,
-          1.43
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Balearia",
-      "id": "fr11"
-    },
-    {
-      "name": "Barcelona - Palma",
-      "coords": [
-        [
-          41.38,
-          2.17
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Balearia",
-      "id": "fr12"
-    },
-    {
-      "name": "Denia - Ibiza - Palma",
-      "coords": [
-        [
-          38.84,
-          0.11
-        ],
-        [
-          38.91,
-          1.43
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Balearia",
-      "id": "fr13"
-    },
-    {
-      "name": "Motril - Al Hoceima",
-      "coords": [
-        [
-          36.72,
-          -3.52
-        ],
-        [
-          35.25,
-          -3.94
-        ]
-      ],
-      "countries": [
-        "Spain",
-        "Morocco"
-      ],
-      "operator": "Balearia",
-      "id": "fr14"
-    },
-    {
-      "name": "Valencia - Palma",
-      "coords": [
-        [
-          39.46,
-          -0.32
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "Balearia",
-      "id": "fr15"
-    },
-    {
-      "name": "Constanta - Batumi",
-      "coords": [
-        [
-          44.17,
-          28.65
-        ],
-        [
-          41.65,
-          41.64
-        ]
-      ],
-      "countries": [
-        "Romania",
-        "Georgia"
-      ],
-      "operator": "Black Sea Ferry",
-      "id": "fr16"
-    },
-    {
-      "name": "Bilbao - Portsmouth",
-      "coords": [
-        [
-          43.35,
-          -3.05
-        ],
-        [
-          50.8,
-          -1.09
-        ]
-      ],
-      "countries": [
-        "Spain",
-        "United Kingdom"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr17"
-    },
-    {
-      "name": "Cork - Roscoff",
-      "coords": [
-        [
-          51.9,
-          -8.48
-        ],
-        [
-          48.72,
-          -3.98
-        ]
-      ],
-      "countries": [
-        "Ireland",
-        "France"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr18"
-    },
-    {
-      "name": "Plymouth - Roscoff",
-      "coords": [
-        [
-          50.37,
-          -4.14
-        ],
-        [
-          48.72,
-          -3.98
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr19"
-    },
-    {
-      "name": "Poole - Cherbourg",
-      "coords": [
-        [
-          50.71,
-          -1.99
-        ],
-        [
-          49.64,
-          -1.62
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr20"
-    },
-    {
-      "name": "Portsmouth - Cherbourg",
-      "coords": [
-        [
-          50.8,
-          -1.09
-        ],
-        [
-          49.64,
-          -1.62
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr21"
-    },
-    {
-      "name": "Portsmouth - Le Havre",
-      "coords": [
-        [
-          50.8,
-          -1.09
-        ],
-        [
-          49.49,
-          0.1
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr22"
-    },
-    {
-      "name": "Portsmouth - St Malo",
-      "coords": [
-        [
-          50.8,
-          -1.09
-        ],
-        [
-          48.65,
-          -2.03
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr23"
-    },
-    {
-      "name": "Santander - Plymouth",
-      "coords": [
-        [
-          43.46,
-          -3.8
-        ],
-        [
-          50.37,
-          -4.14
-        ]
-      ],
-      "countries": [
-        "Spain",
-        "United Kingdom"
-      ],
-      "operator": "Brittany Ferries",
-      "id": "fr24"
-    },
-    {
-      "name": "Ardrossan - Brodick (Arran)",
-      "coords": [
-        [
-          55.64,
-          -4.81
-        ],
-        [
-          55.58,
-          -5.15
-        ]
-      ],
-      "countries": [
-        "United Kingdom"
-      ],
-      "operator": "Caledonian MacBrayne",
-      "id": "fr25"
-    },
-    {
-      "name": "Oban - Mull - Coll - Tiree",
-      "coords": [
-        [
-          56.41,
-          -5.47
-        ],
-        [
-          56.45,
-          -5.7
-        ],
-        [
-          56.63,
-          -6.56
-        ],
-        [
-          56.51,
-          -6.89
-        ]
-      ],
-      "countries": [
-        "United Kingdom"
-      ],
-      "operator": "Caledonian MacBrayne",
-      "id": "fr26"
-    },
-    {
-      "name": "Ullapool - Stornoway",
-      "coords": [
-        [
-          57.9,
-          -5.16
-        ],
-        [
-          58.21,
-          -6.39
-        ]
-      ],
-      "countries": [
-        "United Kingdom"
-      ],
-      "operator": "Caledonian MacBrayne",
-      "id": "fr27"
-    },
-    {
-      "name": "Hirtshals - Kristiansand",
-      "coords": [
-        [
-          57.59,
-          9.96
-        ],
-        [
-          58.15,
-          8
-        ]
-      ],
-      "countries": [
-        "Denmark",
         "Norway"
       ],
-      "operator": "Color Line",
-      "id": "fr28"
+      "id": "fp154",
+      "routeIds": [
+        "fr67"
+      ]
     },
     {
-      "name": "Hirtshals - Larvik",
-      "coords": [
-        [
-          57.59,
-          9.96
-        ],
-        [
-          59.05,
-          10.03
-        ]
-      ],
+      "name": "Dubrovnik",
+      "lat": 42.65,
+      "lng": 18.06,
+      "country": "Croatia",
       "countries": [
-        "Denmark",
-        "Norway"
-      ],
-      "operator": "Color Line",
-      "id": "fr29"
-    },
-    {
-      "name": "Kiel - Oslo",
-      "coords": [
-        [
-          54.32,
-          10.14
-        ],
-        [
-          55.34,
-          11.03
-        ],
-        [
-          59.91,
-          10.75
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Norway"
-      ],
-      "operator": "Color Line",
-      "id": "fr30"
-    },
-    {
-      "name": "Sandefjord - StrÃ¶mstad",
-      "coords": [
-        [
-          59.13,
-          10.23
-        ],
-        [
-          58.94,
-          11.17
-        ]
-      ],
-      "countries": [
-        "Norway",
-        "Sweden"
-      ],
-      "operator": "Color Line",
-      "id": "fr31"
-    },
-    {
-      "name": "Poole - Guernsey",
-      "coords": [
-        [
-          50.71,
-          -1.99
-        ],
-        [
-          49.46,
-          -2.54
-        ]
-      ],
-      "countries": [
-        "United Kingdom"
-      ],
-      "operator": "Condor Ferries",
-      "id": "fr32"
-    },
-    {
-      "name": "Poole - Jersey",
-      "coords": [
-        [
-          50.71,
-          -1.99
-        ],
-        [
-          49.19,
-          -2.11
-        ]
-      ],
-      "countries": [
-        "United Kingdom"
-      ],
-      "operator": "Condor Ferries",
-      "id": "fr33"
-    },
-    {
-      "name": "Poole - St Malo",
-      "coords": [
-        [
-          50.71,
-          -1.99
-        ],
-        [
-          48.65,
-          -2.03
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Condor Ferries",
-      "id": "fr34"
-    },
-    {
-      "name": "St Malo - Jersey",
-      "coords": [
-        [
-          48.65,
-          -2.03
-        ],
-        [
-          49.19,
-          -2.11
-        ]
-      ],
-      "countries": [
-        "France",
-        "United Kingdom"
-      ],
-      "operator": "Condor Ferries",
-      "id": "fr35"
-    },
-    {
-      "name": "Livorno - Bastia",
-      "coords": [
-        [
-          43.55,
-          10.31
-        ],
-        [
-          42.7,
-          9.45
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "France"
-      ],
-      "operator": "Corsica Ferries",
-      "id": "fr36"
-    },
-    {
-      "name": "Livorno - Golfo Aranci",
-      "coords": [
-        [
-          43.55,
-          10.31
-        ],
-        [
-          41,
-          9.62
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Corsica Ferries",
-      "id": "fr37"
-    },
-    {
-      "name": "Nice - Bastia",
-      "coords": [
-        [
-          43.7,
-          7.27
-        ],
-        [
-          42.7,
-          9.45
-        ]
-      ],
-      "countries": [
-        "France"
-      ],
-      "operator": "Corsica Ferries",
-      "id": "fr38"
-    },
-    {
-      "name": "Nice - Calvi",
-      "coords": [
-        [
-          43.7,
-          7.27
-        ],
-        [
-          42.57,
-          8.76
-        ]
-      ],
-      "countries": [
-        "France"
-      ],
-      "operator": "Corsica Ferries",
-      "id": "fr39"
-    },
-    {
-      "name": "Savona - Bastia",
-      "coords": [
-        [
-          44.31,
-          8.48
-        ],
-        [
-          42.7,
-          9.45
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "France"
-      ],
-      "operator": "Corsica Ferries",
-      "id": "fr40"
-    },
-    {
-      "name": "Marseille - Tunis",
-      "coords": [
-        [
-          43.3,
-          5.37
-        ],
-        [
-          38.84,
-          8.11
-        ],
-        [
-          36.87,
-          10.5
-        ],
-        [
-          36.8,
-          10.18
-        ]
-      ],
-      "countries": [
-        "France",
-        "Tunisia"
-      ],
-      "operator": "CTN",
-      "id": "fr41"
-    },
-    {
-      "name": "NynÃ¤shamn - Visby",
-      "coords": [
-        [
-          58.9,
-          17.95
-        ],
-        [
-          57.64,
-          18.3
-        ]
-      ],
-      "countries": [
-        "Sweden"
-      ],
-      "operator": "Destination Gotland",
-      "id": "fr42"
-    },
-    {
-      "name": "Oskarshamn - Visby",
-      "coords": [
-        [
-          57.27,
-          16.45
-        ],
-        [
-          57.64,
-          18.3
-        ]
-      ],
-      "countries": [
-        "Sweden"
-      ],
-      "operator": "Destination Gotland",
-      "id": "fr43"
-    },
-    {
-      "name": "Algeciras - Ceuta",
-      "coords": [
-        [
-          36.13,
-          -5.46
-        ],
-        [
-          35.89,
-          -5.31
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "DFDS",
-      "id": "fr44"
-    },
-    {
-      "name": "Algeciras - Tangier Med",
-      "coords": [
-        [
-          36.13,
-          -5.46
-        ],
-        [
-          35.88,
-          -5.52
-        ]
-      ],
-      "countries": [
-        "Spain",
-        "Morocco"
-      ],
-      "operator": "DFDS",
-      "id": "fr45"
-    },
-    {
-      "name": "Copenhagen - Oslo",
-      "coords": [
-        [
-          55.68,
-          12.57
-        ],
-        [
-          59.91,
-          10.75
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Norway"
-      ],
-      "operator": "DFDS",
-      "id": "fr46"
-    },
-    {
-      "name": "Dover - Calais",
-      "coords": [
-        [
-          51.129,
-          1.313
-        ],
-        [
-          50.965,
-          1.858
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "DFDS",
-      "id": "fr47"
-    },
-    {
-      "name": "Dover - Dunkirk",
-      "coords": [
-        [
-          51.129,
-          1.313
-        ],
-        [
-          51.05,
-          2.37
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "DFDS",
-      "id": "fr48"
-    },
-    {
-      "name": "Ghent - GÃ¶teborg",
-      "coords": [
-        [
-          51.05,
-          3.72
-        ],
-        [
-          57.69,
-          11.92
-        ]
-      ],
-      "countries": [
-        "Belgium",
-        "Sweden"
-      ],
-      "operator": "DFDS",
-      "id": "fr49"
-    },
-    {
-      "name": "IJmuiden - Newcastle",
-      "coords": [
-        [
-          52.46,
-          4.61
-        ],
-        [
-          55.01,
-          -1.45
-        ]
-      ],
-      "countries": [
-        "Netherlands",
-        "United Kingdom"
-      ],
-      "operator": "DFDS",
-      "id": "fr50"
-    },
-    {
-      "name": "Klaipeda - Karlshamn",
-      "coords": [
-        [
-          55.71,
-          21.13
-        ],
-        [
-          56.17,
-          14.86
-        ]
-      ],
-      "countries": [
-        "Lithuania",
-        "Sweden"
-      ],
-      "operator": "DFDS",
-      "id": "fr51"
-    },
-    {
-      "name": "Klaipeda - Kiel",
-      "coords": [
-        [
-          55.71,
-          21.13
-        ],
-        [
-          54.32,
-          10.14
-        ]
-      ],
-      "countries": [
-        "Lithuania",
-        "Germany"
-      ],
-      "operator": "DFDS",
-      "id": "fr52"
-    },
-    {
-      "name": "Newhaven - Dieppe",
-      "coords": [
-        [
-          50.79,
-          0.05
-        ],
-        [
-          49.92,
-          1.08
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "DFDS",
-      "id": "fr53"
-    },
-    {
-      "name": "Paldiski - KapellskÃ¤r",
-      "coords": [
-        [
-          59.35,
-          24.05
-        ],
-        [
-          59.72,
-          19.06
-        ]
-      ],
-      "countries": [
-        "Estonia",
-        "Sweden"
-      ],
-      "operator": "DFDS",
-      "id": "fr54"
-    },
-    {
-      "name": "Rosslare - Dunkirk",
-      "coords": [
-        [
-          52.25,
-          -6.34
-        ],
-        [
-          51.82,
-          -5.7
-        ],
-        [
-          49.88,
-          -5.85
-        ],
-        [
-          50.42,
-          -0.82
-        ],
-        [
-          50.93,
-          1.45
-        ],
-        [
-          51.12,
-          2.24
-        ],
-        [
-          51.05,
-          2.37
-        ]
-      ],
-      "countries": [
-        "Ireland",
-        "France"
-      ],
-      "operator": "DFDS",
-      "id": "fr55"
-    },
-    {
-      "name": "Grisslehamn - EckerÃ¶",
-      "coords": [
-        [
-          60.1,
-          18.82
-        ],
-        [
-          60.22,
-          19.6
-        ]
-      ],
-      "countries": [
-        "Sweden",
-        "Finland"
-      ],
-      "operator": "EckerÃ¶ Line",
-      "id": "fr56"
-    },
-    {
-      "name": "Helsinki - Tallinn",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.44,
-          24.75
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Estonia"
-      ],
-      "operator": "EckerÃ¶ Line",
-      "id": "fr57"
-    },
-    {
-      "name": "Bari - Durres",
-      "coords": [
-        [
-          41.13,
-          16.87
-        ],
-        [
-          41.32,
-          19.45
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Albania"
-      ],
-      "operator": "European Seaways",
-      "id": "fr58"
-    },
-    {
-      "name": "Brindisi - Vlora",
-      "coords": [
-        [
-          40.64,
-          17.94
-        ],
-        [
-          40.47,
-          19.49
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Albania"
-      ],
-      "operator": "European Seaways",
-      "id": "fr59"
-    },
-    {
-      "name": "Folkestone - Calais (Shuttle)",
-      "coords": [
-        [
-          51.08,
-          1.18
-        ],
-        [
-          50.95,
-          1.86
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Eurotunnel",
-      "id": "fr60"
-    },
-    {
-      "name": "Helsinki - Gdynia",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          54.52,
-          18.54
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Poland"
-      ],
-      "operator": "Finnlines",
-      "id": "fr61"
-    },
-    {
-      "name": "Helsinki - TravemÃ¼nde",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          53.96,
-          10.87
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Germany"
-      ],
-      "operator": "Finnlines",
-      "id": "fr62"
-    },
-    {
-      "name": "MalmÃ¶ - TravemÃ¼nde",
-      "coords": [
-        [
-          55.61,
-          13
-        ],
-        [
-          53.96,
-          10.87
-        ]
-      ],
-      "countries": [
-        "Sweden",
-        "Germany"
-      ],
-      "operator": "Finnlines",
-      "id": "fr63"
-    },
-    {
-      "name": "Rostock - Helsinki",
-      "coords": [
-        [
-          54.18,
-          12.08
-        ],
-        [
-          60.17,
-          24.94
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Finland"
-      ],
-      "operator": "Finnlines",
-      "id": "fr64"
-    },
-    {
-      "name": "TravemÃ¼nde - Helsinki",
-      "coords": [
-        [
-          53.96,
-          10.87
-        ],
-        [
-          60.17,
-          24.94
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Finland"
-      ],
-      "operator": "Finnlines",
-      "id": "fr65"
-    },
-    {
-      "name": "TravemÃ¼nde - Liepaja",
-      "coords": [
-        [
-          53.96,
-          10.87
-        ],
-        [
-          56.52,
-          21.01
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Latvia"
-      ],
-      "operator": "Finnlines",
-      "id": "fr66"
-    },
-    {
-      "name": "TravemÃ¼nde - MalmÃ¶",
-      "coords": [
-        [
-          53.96,
-          10.87
-        ],
-        [
-          55.61,
-          13
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Sweden"
-      ],
-      "operator": "Finnlines",
-      "id": "fr67"
-    },
-    {
-      "name": "Bergen - Stavanger - Hirtshals",
-      "coords": [
-        [
-          60.39,
-          5.32
-        ],
-        [
-          58.97,
-          5.73
-        ],
-        [
-          57.59,
-          9.96
-        ]
-      ],
-      "countries": [
-        "Norway",
-        "Denmark"
-      ],
-      "operator": "Fjord Line",
-      "id": "fr68"
-    },
-    {
-      "name": "Hirtshals - Langesund",
-      "coords": [
-        [
-          57.59,
-          9.96
-        ],
-        [
-          58.99,
-          9.75
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Norway"
-      ],
-      "operator": "Fjord Line",
-      "id": "fr69"
-    },
-    {
-      "name": "Hirtshals - Stavanger - Bergen",
-      "coords": [
-        [
-          57.59,
-          9.96
-        ],
-        [
-          57.83,
-          6.41
-        ],
-        [
-          58.68,
-          5.41
-        ],
-        [
-          58.97,
-          5.73
-        ],
-        [
-          59.34,
-          4.79
-        ],
-        [
-          60.2,
-          5.19
-        ],
-        [
-          60.39,
-          5.32
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Norway"
-      ],
-      "operator": "Fjord Line",
-      "id": "fr70"
-    },
-    {
-      "name": "HelsingÃ¸r - Helsingborg",
-      "coords": [
-        [
-          56.03,
-          12.61
-        ],
-        [
-          56.05,
-          12.69
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Sweden"
-      ],
-      "operator": "ForSea",
-      "id": "fr71"
-    },
-    {
-      "name": "Civitavecchia - Palermo",
-      "coords": [
-        [
-          42.1,
-          11.79
-        ],
-        [
-          38.12,
-          13.36
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "GNV",
-      "id": "fr72"
-    },
-    {
-      "name": "Genoa - Barcelona",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          41.38,
-          2.17
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Spain"
-      ],
-      "operator": "GNV",
-      "id": "fr73"
-    },
-    {
-      "name": "Genoa - Palermo",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          38.12,
-          13.36
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "GNV",
-      "id": "fr74"
-    },
-    {
-      "name": "Genoa - Tunis",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          36.8,
-          10.18
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Tunisia"
-      ],
-      "operator": "GNV",
-      "id": "fr75"
-    },
-    {
-      "name": "SÃ¨te - Tangier Med",
-      "coords": [
-        [
-          43.41,
-          3.7
-        ],
-        [
-          35.88,
-          -5.52
-        ]
-      ],
-      "countries": [
-        "France",
-        "Morocco"
-      ],
-      "operator": "GNV",
-      "id": "fr76"
-    },
-    {
-      "name": "Bari - Patras",
-      "coords": [
-        [
-          41.13,
-          16.87
-        ],
-        [
-          40.86,
-          18.02
-        ],
-        [
-          38.53,
-          20.59
-        ],
-        [
-          38.25,
-          21.73
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Greece"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr77"
-    },
-    {
-      "name": "Civitavecchia - Barcelona",
-      "coords": [
-        [
-          42.1,
-          11.79
-        ],
-        [
-          41.5,
-          10
-        ],
-        [
-          41,
-          8
-        ],
-        [
-          40.5,
-          6
-        ],
-        [
-          41.38,
-          2.17
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Spain"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr78"
-    },
-    {
-      "name": "Civitavecchia - Tunis",
-      "coords": [
-        [
-          42.1,
-          11.79
-        ],
-        [
-          36.8,
-          10.18
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Tunisia"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr79"
-    },
-    {
-      "name": "Genoa - Barcelona",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          43.5,
-          8
-        ],
-        [
-          42.5,
-          6
-        ],
-        [
-          41.5,
-          4
-        ],
-        [
-          41.38,
-          2.17
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Spain"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr80"
-    },
-    {
-      "name": "Genoa - Tunis",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          42,
-          10
-        ],
-        [
-          40,
-          10.5
-        ],
-        [
-          38,
-          10
-        ],
-        [
-          36.8,
-          10.18
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Tunisia"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr81"
-    },
-    {
-      "name": "Livorno - Palermo",
-      "coords": [
-        [
-          43.55,
-          10.31
-        ],
-        [
-          38.12,
-          13.36
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr82"
-    },
-    {
-      "name": "Naples - Palermo",
-      "coords": [
-        [
-          40.85,
-          14.27
-        ],
-        [
-          38.12,
-          13.36
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr83"
-    },
-    {
-      "name": "Palermo - Tunis",
-      "coords": [
-        [
-          38.12,
-          13.36
-        ],
-        [
-          38.42,
-          12.68
-        ],
-        [
-          36.8,
-          10.18
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Tunisia"
-      ],
-      "operator": "Grimaldi Lines",
-      "id": "fr84"
-    },
-    {
-      "name": "Dublin - Cherbourg",
-      "coords": [
-        [
-          53.35,
-          -6.26
-        ],
-        [
-          49.64,
-          -1.62
-        ]
-      ],
-      "countries": [
-        "Ireland",
-        "France"
-      ],
-      "operator": "Irish Ferries",
-      "id": "fr85"
-    },
-    {
-      "name": "Dublin - Holyhead",
-      "coords": [
-        [
-          53.35,
-          -6.26
-        ],
-        [
-          53.31,
-          -4.63
-        ]
-      ],
-      "countries": [
-        "Ireland",
-        "United Kingdom"
-      ],
-      "operator": "Irish Ferries",
-      "id": "fr86"
-    },
-    {
-      "name": "Rosslare - Pembroke",
-      "coords": [
-        [
-          52.25,
-          -6.34
-        ],
-        [
-          51.68,
-          -4.92
-        ]
-      ],
-      "countries": [
-        "Ireland",
-        "United Kingdom"
-      ],
-      "operator": "Irish Ferries",
-      "id": "fr87"
-    },
-    {
-      "name": "Ancona - Hvar",
-      "coords": [
-        [
-          43.62,
-          13.51
-        ],
-        [
-          43.17,
-          16.44
-        ]
-      ],
-      "countries": [
-        "Italy",
         "Croatia"
       ],
-      "operator": "Jadrolinija",
-      "id": "fr88"
+      "id": "fp155",
+      "routeIds": [
+        "fr167",
+        "fr88"
+      ]
     },
     {
-      "name": "Ancona - Split",
-      "coords": [
-        [
-          43.62,
-          13.51
-        ],
-        [
-          43.51,
-          16.44
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Croatia"
-      ],
-      "operator": "Jadrolinija",
-      "id": "fr89"
-    },
-    {
-      "name": "Ancona - Zadar",
-      "coords": [
-        [
-          43.62,
-          13.51
-        ],
-        [
-          44.12,
-          15.23
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Croatia"
-      ],
-      "operator": "Jadrolinija",
-      "id": "fr90"
-    },
-    {
-      "name": "Bari - Dubrovnik - Bar",
-      "coords": [
-        [
-          41.13,
-          16.87
-        ],
-        [
-          42.65,
-          18.09
-        ],
-        [
-          42.1,
-          19.09
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Croatia",
-        "Montenegro"
-      ],
-      "operator": "Jadrolinija",
-      "id": "fr91"
-    },
-    {
-      "name": "Civitavecchia - Olbia",
-      "coords": [
-        [
-          42.1,
-          11.79
-        ],
-        [
-          40.92,
-          9.5
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Moby Lines",
-      "id": "fr92"
-    },
-    {
-      "name": "Genoa - Bastia",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          42.7,
-          9.45
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "France"
-      ],
-      "operator": "Moby Lines",
-      "id": "fr93"
-    },
-    {
-      "name": "Livorno - Olbia",
-      "coords": [
-        [
-          43.55,
-          10.31
-        ],
-        [
-          40.92,
-          9.5
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Moby Lines",
-      "id": "fr94"
-    },
-    {
-      "name": "Piombino - Olbia",
-      "coords": [
-        [
-          42.93,
-          10.53
-        ],
-        [
-          40.92,
-          9.5
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Moby Lines",
-      "id": "fr95"
-    },
-    {
-      "name": "Aarhus - Kalundborg",
-      "coords": [
-        [
-          56.15,
-          10.22
-        ],
-        [
-          55.68,
-          11.09
-        ]
-      ],
-      "countries": [
-        "Denmark"
-      ],
-      "operator": "Molslinjen",
-      "id": "fr96"
-    },
-    {
-      "name": "Odden - Ebeltoft",
-      "coords": [
-        [
-          55.97,
-          11.35
-        ],
-        [
-          56.2,
-          10.68
-        ]
-      ],
-      "countries": [
-        "Denmark"
-      ],
-      "operator": "Molslinjen",
-      "id": "fr97"
-    },
-    {
-      "name": "Aberdeen - Kirkwall - Lerwick",
-      "coords": [
-        [
-          57.14,
-          -2.08
-        ],
-        [
-          58.98,
-          -2.96
-        ],
-        [
-          60.16,
-          -1.15
-        ]
-      ],
+      "name": "Kirkwall",
+      "lat": 58.98,
+      "lng": -2.96,
+      "country": "United Kingdom",
       "countries": [
         "United Kingdom"
       ],
-      "operator": "NorthLink Ferries",
-      "id": "fr98"
+      "id": "fp156",
+      "routeIds": [
+        "fr95"
+      ]
     },
     {
-      "name": "Scrabster - Stromness",
-      "coords": [
-        [
-          58.61,
-          -3.55
-        ],
-        [
-          58.96,
-          -3.3
-        ]
-      ],
+      "name": "Tórshavn",
+      "lat": 62.01,
+      "lng": -6.77,
+      "country": "Faroe Islands",
       "countries": [
-        "United Kingdom"
+        "Faroe Islands"
       ],
-      "operator": "NorthLink Ferries",
-      "id": "fr99"
+      "id": "fp157",
+      "routeIds": [
+        "fr106"
+      ]
     },
     {
-      "name": "Hull - Rotterdam",
-      "coords": [
-        [
-          53.74,
-          -0.33
-        ],
-        [
-          51.95,
-          4.14
-        ]
-      ],
+      "id": "fp158",
+      "name": "Caen",
+      "lat": 49.28,
+      "lng": -0.35,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom",
-        "Netherlands"
+        "Unknown"
       ],
-      "operator": "P&O",
-      "id": "fr100"
+      "routeIds": [
+        "fr149"
+      ]
     },
     {
-      "name": "Cairnryan - Larne",
-      "coords": [
-        [
-          54.97,
-          -5.02
-        ],
-        [
-          54.85,
-          -5.81
-        ]
-      ],
+      "id": "fp159",
+      "name": "Västervik",
+      "lat": 57.76,
+      "lng": 16.64,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom"
+        "Unknown"
       ],
-      "operator": "P&O Ferries",
-      "id": "fr101"
+      "routeIds": [
+        "fr145"
+      ]
     },
     {
-      "name": "Dover - Calais",
-      "coords": [
-        [
-          51.13,
-          1.31
-        ],
-        [
-          50.97,
-          1.86
-        ]
-      ],
+      "id": "fp160",
+      "name": "Halmstad",
+      "lat": 56.67,
+      "lng": 12.86,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom",
-        "France"
+        "Unknown"
       ],
-      "operator": "P&O Ferries",
-      "id": "fr102"
+      "routeIds": [
+        "fr140"
+      ]
     },
     {
-      "name": "Larne - Cairnryan",
-      "coords": [
-        [
-          54.85,
-          -5.81
-        ],
-        [
-          54.97,
-          -5.02
-        ]
-      ],
+      "id": "fp161",
+      "name": "Ventspils",
+      "lat": 57.39,
+      "lng": 21.56,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom"
+        "Unknown"
       ],
-      "operator": "P&O Ferries",
-      "id": "fr103"
+      "routeIds": [
+        "fr141"
+      ]
     },
     {
-      "name": "Liverpool - Dublin",
-      "coords": [
-        [
-          53.46,
-          -3.02
-        ],
-        [
-          53.35,
-          -6.26
-        ]
-      ],
+      "id": "fp162",
+      "name": "Douglas",
+      "lat": 54.15,
+      "lng": -4.48,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom",
-        "Ireland"
+        "Unknown"
       ],
-      "operator": "P&O Ferries",
-      "id": "fr104"
+      "routeIds": [
+        "fr146",
+        "fr147"
+      ]
     },
     {
-      "name": "Harlingen - Terschelling",
-      "coords": [
-        [
-          53.17,
-          5.42
-        ],
-        [
-          53.37,
-          5.22
-        ]
-      ],
+      "id": "fp163",
+      "name": "Heysham",
+      "lat": 54.03,
+      "lng": -2.92,
+      "country": "Unknown",
       "countries": [
-        "Netherlands"
+        "Unknown"
       ],
-      "operator": "Rederij Doeksen",
-      "id": "fr105"
+      "routeIds": [
+        "fr147"
+      ]
     },
     {
-      "name": "Harlingen - Vlieland",
-      "coords": [
-        [
-          53.17,
-          5.42
-        ],
-        [
-          53.3,
-          5.05
-        ]
-      ],
+      "id": "fp164",
+      "name": "Portoferraio",
+      "lat": 42.81,
+      "lng": 10.33,
+      "country": "Unknown",
       "countries": [
-        "Netherlands"
+        "Unknown"
       ],
-      "operator": "Rederij Doeksen",
-      "id": "fr106"
+      "routeIds": [
+        "fr156"
+      ]
     },
     {
-      "name": "Gedser - Rostock",
-      "coords": [
-        [
-          54.58,
-          11.93
-        ],
-        [
-          54.18,
-          12.08
-        ]
-      ],
+      "id": "fp165",
+      "name": "Toulon",
+      "lat": 43.12,
+      "lng": 5.93,
+      "country": "Unknown",
       "countries": [
-        "Denmark",
-        "Germany"
+        "Unknown"
       ],
-      "operator": "Scandlines",
-      "id": "fr107"
+      "routeIds": [
+        "fr158",
+        "fr159"
+      ]
     },
     {
-      "name": "HelsingÃ¸r - Helsingborg",
-      "coords": [
-        [
-          56.03,
-          12.61
-        ],
-        [
-          56.05,
-          12.69
-        ]
-      ],
+      "id": "fp166",
+      "name": "Ajaccio",
+      "lat": 41.92,
+      "lng": 8.74,
+      "country": "Unknown",
       "countries": [
-        "Denmark",
-        "Sweden"
+        "Unknown"
       ],
-      "operator": "Scandlines",
-      "id": "fr108"
+      "routeIds": [
+        "fr158",
+        "fr160"
+      ]
     },
     {
-      "name": "RÃ¸dby - Puttgarden",
-      "coords": [
-        [
-          54.65,
-          11.35
-        ],
-        [
-          54.5,
-          11.2
-        ]
-      ],
+      "id": "fp167",
+      "name": "Mahón",
+      "lat": 39.89,
+      "lng": 4.26,
+      "country": "Unknown",
       "countries": [
-        "Denmark",
-        "Germany"
+        "Unknown"
       ],
-      "operator": "Scandlines",
-      "id": "fr109"
+      "routeIds": [
+        "fr162"
+      ]
     },
     {
-      "name": "Rostock - Gedser",
-      "coords": [
-        [
-          54.18,
-          12.08
-        ],
-        [
-          54.58,
-          11.93
-        ]
-      ],
+      "id": "fp168",
+      "name": "Alcudia",
+      "lat": 39.84,
+      "lng": 3.13,
+      "country": "Unknown",
       "countries": [
-        "Germany",
-        "Denmark"
+        "Unknown"
       ],
-      "operator": "Scandlines",
-      "id": "fr110"
+      "routeIds": [
+        "fr163"
+      ]
     },
     {
-      "name": "Hirtshals - TÃ³rshavn - SeyÃ°isfjÃ¶rÃ°ur",
-      "coords": [
-        [
-          57.59,
-          9.96
-        ],
-        [
-          62.01,
-          -6.77
-        ],
-        [
-          65.26,
-          -13.91
-        ]
-      ],
+      "id": "fp169",
+      "name": "Gdańsk",
+      "lat": 54.4,
+      "lng": 18.66,
+      "country": "Unknown",
       "countries": [
-        "Denmark",
-        "Faroe Islands",
-        "Iceland"
+        "Unknown"
       ],
-      "operator": "Smyril Line",
-      "id": "fr111"
+      "routeIds": [
+        "fr173"
+      ]
     },
     {
-      "name": "Harwich - Hook of Holland",
-      "coords": [
-        [
-          51.94,
-          1.28
-        ],
-        [
-          51.98,
-          4.13
-        ]
-      ],
+      "id": "fp170",
+      "name": "Zeebrugge",
+      "lat": 51.33,
+      "lng": 3.21,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom",
-        "Netherlands"
+        "Unknown"
       ],
-      "operator": "Stena",
-      "id": "fr112"
+      "routeIds": [
+        "fr172"
+      ]
     },
     {
-      "name": "Belfast - Liverpool",
-      "coords": [
-        [
-          54.61,
-          -5.92
-        ],
-        [
-          53.39,
-          -3.01
-        ]
-      ],
+      "id": "fp171",
+      "name": "Gothenburg",
+      "lat": 57.7,
+      "lng": 11.94,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom"
+        "Unknown"
       ],
-      "operator": "Stena Line",
-      "id": "fr113"
+      "routeIds": []
     },
     {
-      "name": "Cairnryan - Belfast",
-      "coords": [
-        [
-          54.97,
-          -5.02
-        ],
-        [
-          54.61,
-          -5.92
-        ]
-      ],
+      "id": "fp172",
+      "name": "Malta",
+      "lat": 35.9,
+      "lng": 14.52,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom",
-        "United Kingdom"
+        "Unknown"
       ],
-      "operator": "Stena Line",
-      "id": "fr114"
+      "routeIds": [
+        "fr170"
+      ]
     },
     {
-      "name": "Fishguard - Rosslare",
-      "coords": [
-        [
-          52.01,
-          -4.98
-        ],
-        [
-          52.25,
-          -6.34
-        ]
-      ],
+      "id": "fp173",
+      "name": "Tangier",
+      "lat": 35.79,
+      "lng": -5.81,
+      "country": "Unknown",
       "countries": [
-        "United Kingdom",
-        "Ireland"
+        "Unknown"
       ],
-      "operator": "Stena Line",
-      "id": "fr115"
+      "routeIds": []
     },
     {
-      "name": "Frederikshavn - GÃ¶teborg",
-      "coords": [
-        [
-          57.44,
-          10.54
-        ],
-        [
-          57.69,
-          11.92
-        ]
-      ],
+      "id": "fp174",
+      "name": "Tanger Med",
+      "lat": 35.89,
+      "lng": -5.5,
+      "country": "Unknown",
       "countries": [
-        "Denmark",
-        "Sweden"
+        "Unknown"
       ],
-      "operator": "Stena Line",
-      "id": "fr116"
-    },
-    {
-      "name": "Frederikshavn - Oslo",
-      "coords": [
-        [
-          57.44,
-          10.54
-        ],
-        [
-          59.91,
-          10.75
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Norway"
-      ],
-      "operator": "Stena Line",
-      "id": "fr117"
-    },
-    {
-      "name": "Grenaa - Varberg",
-      "coords": [
-        [
-          56.41,
-          10.88
-        ],
-        [
-          57.11,
-          12.22
-        ]
-      ],
-      "countries": [
-        "Denmark",
-        "Sweden"
-      ],
-      "operator": "Stena Line",
-      "id": "fr118"
-    },
-    {
-      "name": "Holyhead - Dublin",
-      "coords": [
-        [
-          53.31,
-          -4.63
-        ],
-        [
-          53.35,
-          -6.26
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "Ireland"
-      ],
-      "operator": "Stena Line",
-      "id": "fr119"
-    },
-    {
-      "name": "Karlskrona - Gdynia",
-      "coords": [
-        [
-          56.17,
-          15.59
-        ],
-        [
-          54.52,
-          18.54
-        ]
-      ],
-      "countries": [
-        "Sweden",
-        "Poland"
-      ],
-      "operator": "Stena Line",
-      "id": "fr120"
-    },
-    {
-      "name": "Rosslare - Cherbourg",
-      "coords": [
-        [
-          52.25,
-          -6.34
-        ],
-        [
-          49.64,
-          -1.62
-        ]
-      ],
-      "countries": [
-        "Ireland",
-        "France"
-      ],
-      "operator": "Stena Line",
-      "id": "fr121"
-    },
-    {
-      "name": "Ancona - Igoumenitsa - Patras",
-      "coords": [
-        [
-          43.62,
-          13.51
-        ],
-        [
-          40.86,
-          18.02
-        ],
-        [
-          39.5,
-          20.27
-        ],
-        [
-          38.25,
-          21.73
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Greece"
-      ],
-      "operator": "Superfast Ferries",
-      "id": "fr122"
-    },
-    {
-      "name": "Helsinki - Stockholm",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.33,
-          18.07
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Sweden"
-      ],
-      "operator": "Tallink Silja",
-      "id": "fr123"
-    },
-    {
-      "name": "Helsinki - Tallinn",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.44,
-          24.75
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Estonia"
-      ],
-      "operator": "Tallink Silja",
-      "id": "fr124"
-    },
-    {
-      "name": "Riga - Stockholm",
-      "coords": [
-        [
-          56.95,
-          24.11
-        ],
-        [
-          59.33,
-          18.07
-        ]
-      ],
-      "countries": [
-        "Latvia",
-        "Sweden"
-      ],
-      "operator": "Tallink Silja",
-      "id": "fr125"
-    },
-    {
-      "name": "Tallinn - Helsinki",
-      "coords": [
-        [
-          59.44,
-          24.75
-        ],
-        [
-          60.17,
-          24.94
-        ]
-      ],
-      "countries": [
-        "Estonia",
-        "Finland"
-      ],
-      "operator": "Tallink Silja",
-      "id": "fr126"
-    },
-    {
-      "name": "Tallinn - Stockholm",
-      "coords": [
-        [
-          59.44,
-          24.75
-        ],
-        [
-          59.33,
-          18.07
-        ]
-      ],
-      "countries": [
-        "Estonia",
-        "Sweden"
-      ],
-      "operator": "Tallink Silja",
-      "id": "fr127"
-    },
-    {
-      "name": "Den Helder - Texel",
-      "coords": [
-        [
-          52.96,
-          4.76
-        ],
-        [
-          53.01,
-          4.79
-        ]
-      ],
-      "countries": [
-        "Netherlands"
-      ],
-      "operator": "TESO",
-      "id": "fr128"
-    },
-    {
-      "name": "Civitavecchia - Cagliari",
-      "coords": [
-        [
-          42.1,
-          11.79
-        ],
-        [
-          39.22,
-          9.11
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Tirrenia",
-      "id": "fr129"
-    },
-    {
-      "name": "Genoa - Arbatax",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          39.93,
-          9.7
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Tirrenia",
-      "id": "fr130"
-    },
-    {
-      "name": "Genoa - Porto Torres",
-      "coords": [
-        [
-          44.4,
-          8.93
-        ],
-        [
-          40.84,
-          8.4
-        ]
-      ],
-      "countries": [
-        "Italy"
-      ],
-      "operator": "Tirrenia",
-      "id": "fr131"
-    },
-    {
-      "name": "Algeciras - Melilla",
-      "coords": [
-        [
-          36.13,
-          -5.46
-        ],
-        [
-          35.29,
-          -2.94
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "TrasmediterrÃ¡nea",
-      "id": "fr132"
-    },
-    {
-      "name": "Barcelona - Palma",
-      "coords": [
-        [
-          41.38,
-          2.17
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "TrasmediterrÃ¡nea",
-      "id": "fr133"
-    },
-    {
-      "name": "MÃ¡laga - Melilla",
-      "coords": [
-        [
-          36.72,
-          -4.42
-        ],
-        [
-          35.29,
-          -2.94
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "TrasmediterrÃ¡nea",
-      "id": "fr134"
-    },
-    {
-      "name": "Valencia - Palma",
-      "coords": [
-        [
-          39.46,
-          -0.32
-        ],
-        [
-          39.57,
-          2.65
-        ]
-      ],
-      "countries": [
-        "Spain"
-      ],
-      "operator": "TrasmediterrÃ¡nea",
-      "id": "fr135"
-    },
-    {
-      "name": "Rostock - Trelleborg",
-      "coords": [
-        [
-          54.18,
-          12.08
-        ],
-        [
-          55.37,
-          13.17
-        ]
-      ],
-      "countries": [
-        "Germany",
-        "Sweden"
-      ],
-      "operator": "TT-Line",
-      "id": "fr136"
-    },
-    {
-      "name": "Trelleborg - ÅšwinoujÅ›cie",
-      "coords": [
-        [
-          55.37,
-          13.17
-        ],
-        [
-          53.91,
-          14.25
-        ]
-      ],
-      "countries": [
-        "Sweden",
-        "Poland"
-      ],
-      "operator": "TT-Line",
-      "id": "fr137"
-    },
-    {
-      "name": "Trelleborg - TravemÃ¼nde",
-      "coords": [
-        [
-          55.37,
-          13.17
-        ],
-        [
-          53.96,
-          10.87
-        ]
-      ],
-      "countries": [
-        "Sweden",
-        "Germany"
-      ],
-      "operator": "TT-Line",
-      "id": "fr138"
-    },
-    {
-      "name": "Tunis - Genoa",
-      "coords": [
-        [
-          36.8,
-          10.18
-        ],
-        [
-          44.4,
-          8.93
-        ]
-      ],
-      "countries": [
-        "Tunisia",
-        "Italy"
-      ],
-      "operator": "Tunisie Ferries",
-      "id": "fr139"
-    },
-    {
-      "name": "Tunis - Marseille",
-      "coords": [
-        [
-          36.8,
-          10.18
-        ],
-        [
-          43.3,
-          5.37
-        ]
-      ],
-      "countries": [
-        "Tunisia",
-        "France"
-      ],
-      "operator": "Tunisie Ferries",
-      "id": "fr140"
-    },
-    {
-      "name": "Constanta - Varna",
-      "coords": [
-        [
-          44.17,
-          28.65
-        ],
-        [
-          43.21,
-          27.91
-        ]
-      ],
-      "countries": [
-        "Romania",
-        "Bulgaria"
-      ],
-      "operator": "Ukrferry",
-      "id": "fr141"
-    },
-    {
-      "name": "Varna - Odessa",
-      "coords": [
-        [
-          43.21,
-          27.91
-        ],
-        [
-          43.5,
-          28.5
-        ],
-        [
-          44,
-          29
-        ],
-        [
-          44.5,
-          29.5
-        ],
-        [
-          45,
-          30
-        ],
-        [
-          45.5,
-          30.5
-        ],
-        [
-          46.48,
-          30.73
-        ]
-      ],
-      "countries": [
-        "Bulgaria",
-        "Ukraine"
-      ],
-      "operator": "Ukrferry",
-      "id": "fr142"
-    },
-    {
-      "name": "Brindisi - Corfu - Igoumenitsa - Patras",
-      "coords": [
-        [
-          40.64,
-          17.94
-        ],
-        [
-          39.62,
-          19.92
-        ],
-        [
-          39.5,
-          20.27
-        ],
-        [
-          38.25,
-          21.73
-        ]
-      ],
-      "countries": [
-        "Italy",
-        "Greece"
-      ],
-      "operator": "Ventouris Ferries",
-      "id": "fr143"
-    },
-    {
-      "name": "Helsinki - Mariehamn",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          60.08,
-          19.92
-        ]
-      ],
-      "countries": [
-        "Finland"
-      ],
-      "operator": "Viking Line",
-      "id": "fr144"
-    },
-    {
-      "name": "Helsinki - Stockholm",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.33,
-          18.07
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Sweden"
-      ],
-      "operator": "Viking Line",
-      "id": "fr145"
-    },
-    {
-      "name": "Helsinki - Tallinn",
-      "coords": [
-        [
-          60.17,
-          24.94
-        ],
-        [
-          59.44,
-          24.75
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Estonia"
-      ],
-      "operator": "Viking Line",
-      "id": "fr146"
-    },
-    {
-      "name": "Stockholm - Mariehamn - Helsinki",
-      "coords": [
-        [
-          59.33,
-          18.07
-        ],
-        [
-          60.08,
-          19.92
-        ],
-        [
-          59.51,
-          20.62
-        ],
-        [
-          59.86,
-          24.56
-        ],
-        [
-          60.17,
-          24.94
-        ]
-      ],
-      "countries": [
-        "Sweden",
-        "Finland"
-      ],
-      "operator": "Viking Line",
-      "id": "fr147"
-    },
-    {
-      "name": "Turku - Mariehamn - Stockholm",
-      "coords": [
-        [
-          60.45,
-          22.23
-        ],
-        [
-          60.08,
-          19.92
-        ],
-        [
-          59.33,
-          18.07
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Sweden"
-      ],
-      "operator": "Viking Line",
-      "id": "fr148"
-    },
-    {
-      "name": "Lauwersoog - Schiermonnikoog",
-      "coords": [
-        [
-          53.41,
-          6.21
-        ],
-        [
-          53.48,
-          6.16
-        ]
-      ],
-      "countries": [
-        "Netherlands"
-      ],
-      "operator": "Wagenborg",
-      "id": "fr149"
-    },
-    {
-      "name": "Vaasa - UmeÃ¥",
-      "coords": [
-        [
-          63.09,
-          21.57
-        ],
-        [
-          63.82,
-          20.25
-        ]
-      ],
-      "countries": [
-        "Finland",
-        "Sweden"
-      ],
-      "operator": "Wasaline",
-      "id": "fr150"
+      "routeIds": []
     }
   ],
   "generatedAt": "2026-05-27T15:59:20.088Z"

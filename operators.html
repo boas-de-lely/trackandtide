@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Operators - Track & Tide</title>
+<title>Operators — Track & Tide</title>
+<meta name="description" content="Browse European train and ferry operators — logos, websites, apps, countries served, and more." />
+<meta property="og:title" content="Operators — Track & Tide" />
+<meta property="og:description" content="Browse European train and ferry operators — logos, websites, apps, countries served, and more." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://trackandtide.eu/operators" />
+<link rel="canonical" href="https://trackandtide.eu/operators" />
 <link rel="icon" href="icon.png" />
 <style>
 :root {
@@ -636,7 +642,7 @@ function render() {
   }).join("") : `<div class="empty">No operators match these filters.</div>`;
 }
 
-fetch("./data.json")
+fetch("./data.json?v=20260603")
   .then(response => response.json())
   .then(data => {
     operators = data.operators || [];
