@@ -101,6 +101,28 @@
       top: 35px;
     }
 
+    .rail.top::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: -6px;
+      width: 30px;
+      height: 14px;
+      background: var(--primary);
+      border-radius: 4px;
+      transform: rotate(25deg);
+      transform-origin: left center;
+      opacity: 0.7;
+      animation: wobbleRail 6s ease-in-out infinite;
+    }
+
+    @keyframes wobbleRail {
+      0%, 45%, 100% { transform: rotate(25deg); }
+      50% { transform: rotate(35deg) translateY(2px); }
+      55% { transform: rotate(50deg) translateY(6px); }
+      65% { transform: rotate(25deg) translateY(2px); }
+    }
+
     .rail.bottom {
       bottom: 35px;
     }
@@ -167,15 +189,93 @@
     .w2 { left: 38px; }
     .w3 { left: 62px; }
 
-    @keyframes runaway {
+    .sparks {
+      position: absolute;
+      top: 30px;
+      right: 10px;
+      width: 60px;
+      height: 50px;
+      pointer-events: none;
+    }
+
+    .spark {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: var(--secondary);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkFly 6s ease-in-out infinite;
+    }
+
+    .s1 { top: 5px; left: 10px; animation-delay: 2.7s; }
+    .s2 { top: 10px; left: 25px; animation-delay: 2.85s; }
+    .s3 { top: 0px; left: 35px; animation-delay: 2.95s; }
+    .s4 { top: 15px; left: 15px; animation-delay: 3.05s; }
+    .s5 { top: 8px; left: 40px; animation-delay: 3.15s; }
+
+    @keyframes sparkFly {
       0% {
-        transform: translateX(0);
+        opacity: 0;
+        transform: translate(0, 0) scale(1);
+      }
+      5% {
+        opacity: 1;
+      }
+      25% {
+        opacity: 0.9;
+        transform: translate(-15px, -20px) scale(1.8);
       }
       50% {
-        transform: translateX(320px) rotate(2deg);
+        opacity: 0.4;
+        transform: translate(-30px, -35px) scale(1.2);
+      }
+      75% {
+        opacity: 0.1;
+        transform: translate(-40px, -50px) scale(0.6);
       }
       100% {
-        transform: translateX(0);
+        opacity: 0;
+        transform: translate(-55px, -65px) scale(0);
+      }
+    }
+
+    @keyframes runaway {
+      0% {
+        transform: translateX(0) rotate(0deg) translateY(0);
+        opacity: 1;
+      }
+      35% {
+        transform: translateX(200px) rotate(0.5deg) translateY(0);
+        opacity: 1;
+      }
+      48% {
+        transform: translateX(260px) rotate(3deg) translateY(2px);
+        opacity: 1;
+      }
+      55% {
+        transform: translateX(290px) rotate(12deg) translateY(8px);
+        opacity: 1;
+      }
+      68% {
+        transform: translateX(340px) rotate(35deg) translateY(35px);
+        opacity: 0.8;
+      }
+      80% {
+        transform: translateX(390px) rotate(65deg) translateY(80px);
+        opacity: 0.3;
+      }
+      90% {
+        transform: translateX(420px) rotate(90deg) translateY(130px);
+        opacity: 0;
+      }
+      91% {
+        transform: translateX(0) rotate(0deg) translateY(0);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0) rotate(0deg) translateY(0);
+        opacity: 1;
       }
     }
 
@@ -315,6 +415,14 @@
         <div class="window w1"></div>
         <div class="window w2"></div>
         <div class="window w3"></div>
+      </div>
+
+      <div class="sparks">
+        <span class="spark s1"></span>
+        <span class="spark s2"></span>
+        <span class="spark s3"></span>
+        <span class="spark s4"></span>
+        <span class="spark s5"></span>
       </div>
     </div>
 
