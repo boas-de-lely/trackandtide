@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://trackandtide.eu/sitemap.xml
+Sitemap: https://trackandtide.com/sitemap.xml
