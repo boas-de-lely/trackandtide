@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://trackandtide.eu/</loc>
+    <loc>https://trackandtide.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://trackandtide.eu/stations</loc>
+    <loc>https://trackandtide.com/stations</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://trackandtide.eu/ports</loc>
+    <loc>https://trackandtide.com/ports</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://trackandtide.eu/operators</loc>
+    <loc>https://trackandtide.com/operators</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

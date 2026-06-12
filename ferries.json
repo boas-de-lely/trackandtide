@@ -1455,30 +1455,6 @@
       "overnight": false
     },
     {
-      "name": "Folkestone - Calais (Shuttle)",
-      "coords": [
-        [
-          51.08,
-          1.18
-        ],
-        [
-          50.95,
-          1.86
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "France"
-      ],
-      "operator": "Eurotunnel",
-      "id": "fr59",
-      "distanceKm": 50,
-      "duration": "2.4h",
-      "durationHours": 2.4,
-      "frequency": "Multiple daily",
-      "overnight": false
-    },
-    {
       "name": "Helsinki - Gdynia",
       "coords": [
         [
@@ -2336,30 +2312,6 @@
       "durationHours": 2.2,
       "frequency": "Multiple daily",
       "overnight": false
-    },
-    {
-      "name": "Hull - Rotterdam",
-      "coords": [
-        [
-          53.74,
-          -0.33
-        ],
-        [
-          51.95,
-          4.14
-        ]
-      ],
-      "countries": [
-        "United Kingdom",
-        "Netherlands"
-      ],
-      "operator": "P&O",
-      "id": "fr97",
-      "distanceKm": 360,
-      "duration": "11.3h",
-      "durationHours": 11.3,
-      "frequency": "1-2x daily",
-      "overnight": true
     },
     {
       "name": "Cairnryan - Larne",

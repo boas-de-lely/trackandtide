@@ -2496,23 +2496,6 @@
       ]
     },
     {
-      "id": "p_o",
-      "name": "P&O",
-      "type": "ferries",
-      "website": "https://www.poferries.com/en/routes/hull-to-rotterdam#route",
-      "appLinks": {
-        "android": "",
-        "ios": ""
-      },
-      "logo": "po.png",
-      "description": "",
-      "operatorLabel": "Ferry operator",
-      "countries": [
-        "Netherlands",
-        "United Kingdom"
-      ]
-    },
-    {
       "id": "stena",
       "name": "Stena",
       "type": "ferries",
@@ -2862,29 +2845,12 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "irish_ferries.png",
       "description": "Irish Ferries operates passenger ferries between Ireland, the UK and France.",
       "operatorLabel": "Ferry operator",
       "countries": [
         "France",
         "Ireland",
-        "United Kingdom"
-      ]
-    },
-    {
-      "id": "eurotunnel",
-      "name": "Eurotunnel",
-      "type": "ferries",
-      "website": "https://www.eurotunnel.com",
-      "appLinks": {
-        "android": "",
-        "ios": ""
-      },
-      "logo": "eurotunnel.png",
-      "description": "Eurotunnel Le Shuttle operates car and passenger shuttle trains through the Channel Tunnel between Folkestone and Calais.",
-      "operatorLabel": "Channel Tunnel shuttle operator",
-      "countries": [
-        "France",
         "United Kingdom"
       ]
     },
@@ -2897,7 +2863,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "algerie_ferries.png",
       "description": "Algérie Ferries operates passenger ferries between Algeria and France and Spain.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -2915,7 +2881,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "tunisie_ferries.png",
       "description": "Tunisie Ferries operates ferry services between Tunisia and France and Italy.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -2933,7 +2899,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "tunisie_ferries.png",
       "description": "Compagnie Tunisienne de Navigation operates ferry services between Tunisia and France.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -2950,7 +2916,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "anek_lines.png",
       "description": "ANEK Lines operates ferry services between Greece and Italy in the Adriatic Sea.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -2967,7 +2933,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "superfast_ferries.png",
       "description": "Superfast Ferries operates high-speed ferry services between Greece, Italy and the Adriatic.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -2985,7 +2951,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "jadrolinija.png",
       "description": "Jadrolinija is Croatia's national ferry operator, connecting the mainland with the Adriatic islands and Italy.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3002,7 +2968,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "ventouris_ferries.png",
       "description": "Ventouris Ferries operates ferry services on Adriatic routes between Italy and Greece.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3019,7 +2985,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "molslinjen.png",
       "description": "Molslinjen operates domestic ferry routes in Denmark, connecting the peninsula with islands across the country.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3035,7 +3001,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "forsea.png",
       "description": "ForSea operates the ferry crossing between Helsingør (Denmark) and Helsingborg (Sweden).",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3052,7 +3018,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "eckero_line.png",
       "description": "Eckerö Line operates ferry services between Finland and Estonia and between Sweden and Finland.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3070,7 +3036,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "wasaline.png",
       "description": "Wasaline operates the ferry route between Vaasa (Finland) and Umeå (Sweden) in the Gulf of Bothnia.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3087,7 +3053,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "destination_gotland.png",
       "description": "Destination Gotland operates ferry services between mainland Sweden and the island of Gotland.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3135,7 +3101,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "wagenborg.png",
       "description": "Wagenborg operates the ferry to the Wadden Island of Schiermonnikoog in the Netherlands.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3151,7 +3117,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "ag_ems.png",
       "description": "AG Ems operates ferry services from Eemshaven (Netherlands) and Emden (Germany) to the German island of Borkum.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3168,7 +3134,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "northlink_ferries.png",
       "description": "NorthLink Ferries operates ferry services between mainland Scotland and the Orkney and Shetland islands.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3184,7 +3150,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "caledonian_macbrayne.png",
       "description": "Caledonian MacBrayne operates ferry services to the Hebrides and other Scottish islands.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3200,7 +3166,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "smyril_line.png",
       "description": "Smyril Line operates the only ferry service from Denmark to the Faroe Islands and Iceland across the North Atlantic.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3218,7 +3184,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "european_seaways.png",
       "description": "European Seaways operates ferry services between Italy and Albania across the Adriatic Sea.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3235,7 +3201,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "ukrferry.png",
       "description": "Ukrferry operates ferry services in the Black Sea connecting Ukraine, Romania, Bulgaria and Georgia.",
       "operatorLabel": "Ferry operator",
       "countries": [
@@ -3271,7 +3237,7 @@
         "android": "",
         "ios": ""
       },
-      "logo": "",
+      "logo": "acciona.svg",
       "description": "Acciona Trasmediterránea operates ferry services between mainland Spain and the Balearic and Canary Islands.",
       "operatorLabel": "Ferry operator",
       "countries": [
