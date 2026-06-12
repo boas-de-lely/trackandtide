@@ -899,19 +899,34 @@ a.pill:hover {
 :root.light .route-risk-badge.high-risk { color: #dc2626; }
 :root.light .route-risk-badge.medium-risk { color: #c2410c; }
 
-/* ── Night-Sailing Filter ── */
-.night-sailing-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  padding: 0.1rem 0.45rem;
-  border-radius: 999px;
-  margin-left: 0.35rem;
-  font-weight: 700;
-  background: rgba(139,92,246,0.18);
-  color: #a78bfa;
+/* Sea conditions card */
+.sea-card {
+  margin-top: 0.6rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(56,189,248,0.08);
+  border: 1px solid rgba(56,189,248,0.2);
+  font-size: 0.84rem;
 }
+.sea-card .ss-header { font-weight: 700; margin-bottom: 0.35rem; display: flex; justify-content: space-between; }
+.sea-card .ss-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 0.6rem; }
+.sea-card .ss-warning { margin-top: 0.4rem; padding: 0.3rem 0.5rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+.sea-card .ss-warning.high { background: rgba(239,68,68,0.15); color: #ef4444; }
+.sea-card .ss-warning.medium { background: rgba(251,191,36,0.15); color: #f59e0b; }
+.sea-card .ss-rating { font-size: 0.82rem; }
+.sea-card .ss-rating.calm { color: #22c55e; }
+.sea-card .ss-rating.moderate { color: #f59e0b; }
+.sea-card .ss-rating.rough { color: #f97316; }
+.sea-card .ss-rating.very-rough { color: #ef4444; }
 
-:root.light .night-sailing-badge { color: #7c3aed; }
+/* AIS vessel marker */
+.ais-vessel-marker {
+  width: 10px; height: 10px;
+  border-radius: 2px 50% 50% 50%;
+  background: #38bdf8;
+  border: 1px solid #fff;
+  box-shadow: 0 0 6px rgba(56,189,248,0.6);
+}
 
 /* ── AIS Marine Traffic Layer ── */
 .ais-vessel-marker {
@@ -1060,25 +1075,13 @@ a.pill:hover {
         <label class="station-toggle" id="seaConditionsToggleLabel">
           <input type="checkbox" id="seaConditionsToggle" />
           <span class="station-toggle-text">
-            <span class="station-toggle-title">🌊 Sea conditions</span>
-          </span>
-        </label>
-        <label class="station-toggle" id="nightSailingToggleLabel">
-          <input type="checkbox" id="nightSailingToggle" />
-          <span class="station-toggle-text">
-            <span class="station-toggle-title">🌙 Night sailings</span>
+            <span class="station-toggle-title">Sea conditions</span>
           </span>
         </label>
         <label class="station-toggle" id="aisToggleLabel">
           <input type="checkbox" id="aisToggle" />
           <span class="station-toggle-text">
-            <span class="station-toggle-title">🚢 Live ferries</span>
-          </span>
-        </label>
-        <label class="station-toggle" id="provisionsToggleLabel">
-          <input type="checkbox" id="provisionsToggle" />
-          <span class="station-toggle-text">
-            <span class="station-toggle-title">🏪 Provisions radar</span>
+            <span class="station-toggle-title">Live ferries</span>
           </span>
         </label>
       </div>
@@ -1111,17 +1114,23 @@ const limitedToggleLabel = document.getElementById("limitedToggleLabel");
 const ferryPortsToggle = document.getElementById("ferryPortsToggle");
 const railwayToggle = document.getElementById("railwayToggle");
 
-// ── Firebase ──
-firebase.initializeApp({
-  apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
-  authDomain: "trackandtide-00.firebaseapp.com",
-  projectId: "trackandtide-00",
-  storageBucket: "trackandtide-00.firebasestorage.app",
-  appId: "1:157938380271:web:8b36389f334e3adefdda1a"
-});
-const db = firebase.firestore();
+// ── Firebase (safe init) ──
+var db = null;
+try {
+  firebase.initializeApp({
+    apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
+    authDomain: "trackandtide-00.firebaseapp.com",
+    projectId: "trackandtide-00",
+    storageBucket: "trackandtide-00.firebasestorage.app",
+    appId: "1:157938380271:web:8b36389f334e3adefdda1a"
+  });
+  db = firebase.firestore();
+} catch(e) {
+  console.warn("Firebase init failed:", e.message);
+}
 
 async function loadMapComments(pageType, entityId, containerId) {
+  if (!db) return;
   var el = document.getElementById(containerId);
   if (!el) return;
   try {
@@ -2587,12 +2596,23 @@ function animateFerryRoutes() {
   ferryAnimId = requestAnimationFrame(animateFerryRoutes);
 }
 
-// Override showFerryRoute to start animation
+// Override showFerryRoute to start animation + inject sea conditions
 const origShowFerryRoute = showFerryRoute;
 showFerryRoute = function(route, shouldFocusRoute) {
   origShowFerryRoute(route, shouldFocusRoute);
   if (ferryRouteLines.length && !ferryAnimId) {
     ferryAnimId = requestAnimationFrame(animateFerryRoutes);
+  }
+  if (route && route.coords) injectSeaCard(route);
+};
+
+// Override showPortRoutes to inject sea conditions
+const origShowPortRoutes = showPortRoutes;
+showPortRoutes = function(port) {
+  origShowPortRoutes(port);
+  if (port && port.routeIds && port.routeIds.length) {
+    var routes = allFerryRoutes.filter(function(r) { return port.routeIds.includes(r.id); });
+    if (routes.length && routes[0].coords) injectSeaCard(routes[0]);
   }
 };
 
@@ -2604,647 +2624,149 @@ clearFerryRouteLines = function() {
 };
 
 /* ============================================================
-   🌊 SEA SMOOTHNESS INDICATOR (Open-Meteo Marine API)
+   SEA CONDITIONS OVERLAY (Open-Meteo Marine API)
    ============================================================ */
-const seaConditionsCache = new Map();
-const SEA_CACHE_TTL = 60 * 60 * 1000; // 1 hour
-const seaConditionsToggle = document.getElementById("seaConditionsToggle");
+const seaCache = new Map();
+const seaTTL = 60 * 60 * 1000;
+const seaToggle = document.getElementById("seaConditionsToggle");
 
-function getSeaRiskLevel(waveHeight, windSpeed) {
-  // waveHeight in meters, windSpeed in km/h
-  if (waveHeight > 4 || windSpeed > 55) return { level: "very-rough", label: "Very Rough", risk: "high", icon: "🔴" };
-  if (waveHeight > 2.5 || windSpeed > 40) return { level: "rough", label: "Rough", risk: "high", icon: "🟠" };
-  if (waveHeight > 1.25 || windSpeed > 25) return { level: "moderate", label: "Moderate", risk: "medium", icon: "🟡" };
-  return { level: "calm", label: "Calm", risk: "low", icon: "🟢" };
-}
-
-function getWindDirectionLabel(deg) {
-  const dirs = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
-  const i = Math.round(deg / 22.5) % 16;
-  return dirs[i];
+function seaRisk(waveH, windKph) {
+  if (waveH > 4 || windKph > 55) return { level: "very-rough", label: "Very Rough" };
+  if (waveH > 2.5 || windKph > 40) return { level: "rough", label: "Rough" };
+  if (waveH > 1.25 || windKph > 25) return { level: "moderate", label: "Moderate" };
+  return { level: "calm", label: "Calm" };
 }
 
 async function fetchSeaConditions(lat, lng) {
-  const cacheKey = `${lat.toFixed(2)},${lng.toFixed(2)}`;
-  const cached = seaConditionsCache.get(cacheKey);
-  if (cached && Date.now() - cached.timestamp < SEA_CACHE_TTL) return cached.data;
-
+  var key = lat.toFixed(1) + "," + lng.toFixed(1);
+  var cached = seaCache.get(key);
+  if (cached && Date.now() - cached.ts < seaTTL) return cached.data;
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
-    const url = `https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lng}&current=wave_height,wind_wave_height,wind_speed_10m,wind_direction_10m,sea_surface_temperature&timezone=auto`;
-    const resp = await fetch(url, { signal: controller.signal });
-    clearTimeout(timeout);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const json = await resp.json();
-    const current = json.current || {};
-    const data = {
-      waveHeight: current.wave_height ?? null,
-      windWaveHeight: current.wind_wave_height ?? null,
-      windSpeed: current.wind_speed_10m ?? null,
-      windDirection: current.wind_direction_10m ?? null,
-      seaTemp: current.sea_surface_temperature ?? null,
-      timestamp: Date.now()
-    };
-    seaConditionsCache.set(cacheKey, { data, timestamp: Date.now() });
+    var ctrl = new AbortController();
+    setTimeout(function() { ctrl.abort(); }, 5000);
+    var url = "https://marine-api.open-meteo.com/v1/marine?latitude=" + lat + "&longitude=" + lng + "&current=wave_height,wind_speed_10m,wind_direction_10m,sea_surface_temperature&timezone=auto";
+    var r = await fetch(url, { signal: ctrl.signal });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    var j = await r.json();
+    var cur = j.current || {};
+    var data = { waveH: cur.wave_height, windKph: cur.wind_speed_10m != null ? (cur.wind_speed_10m * 3.6).toFixed(1) : null, windDir: cur.wind_direction_10m, seaTemp: cur.sea_surface_temperature, ts: Date.now() };
+    seaCache.set(key, { data: data, ts: Date.now() });
     return data;
-  } catch (e) {
-    console.warn("Sea conditions fetch failed:", e.message);
-    return null;
+  } catch(e) { return null; }
+}
+
+function renderSeaCard(conds, routeName) {
+  if (!conds || conds.waveH == null) return "";
+  var risk = seaRisk(conds.waveH, conds.windKph || 0);
+  var warn = "";
+  if (risk.level === "very-rough" || risk.level === "rough") {
+    warn = '<div class="ss-warning high">Rough seas on ' + (routeName || "this route") + ' — possible delays</div>';
+  } else if (risk.level === "moderate") {
+    warn = '<div class="ss-warning medium">Moderate chop on ' + (routeName || "this route") + '</div>';
   }
+  return '<div class="sea-card"><div class="ss-header">Sea Conditions <span class="ss-rating ' + risk.level + '">' + risk.label + '</span></div><div class="ss-details"><div>Wave: <strong>' + conds.waveH.toFixed(1) + 'm</strong></div><div>Wind: <strong>' + (conds.windKph || "--") + ' km/h</strong></div><div>Dir: <strong>' + (conds.windDir != null ? Math.round(conds.windDir) + "deg" : "--") + '</strong></div><div>Sea temp: <strong>' + (conds.seaTemp != null ? conds.seaTemp.toFixed(1) + "C" : "--") + '</strong></div></div>' + warn + '</div>';
 }
 
-function renderSeaSmoothnessCard(conditions, routeName) {
-  if (!conditions || conditions.waveHeight === null) {
-    return `<div class="sea-smoothness-card">
-      <div class="ss-header">🌊 Sea Conditions</div>
-      <div style="opacity:0.6;font-size:0.84rem">Unable to fetch current marine data for this route.</div>
-    </div>`;
-  }
-
-  const windKmh = conditions.windSpeed != null ? (conditions.windSpeed * 3.6).toFixed(1) : "—";
-  const risk = getSeaRiskLevel(conditions.waveHeight, conditions.windSpeed != null ? conditions.windSpeed * 3.6 : 0);
-  const windDir = conditions.windDirection != null ? getWindDirectionLabel(conditions.windDirection) : "—";
-
-  let warningHtml = "";
-  if (risk.risk === "high") {
-    warningHtml = `<div class="ss-warning">⚠️ High risk of delays or cancellation — rough seas expected on ${routeName || "this route"}</div>`;
-  } else if (risk.risk === "medium") {
-    warningHtml = `<div class="ss-warning moderate-risk">⚡ Moderate chop — possible delays on ${routeName || "this route"}</div>`;
-  }
-
-  return `<div class="sea-smoothness-card">
-    <div class="ss-header">
-      🌊 Sea Conditions
-      <span class="ss-rating ${risk.level}">${risk.icon} ${risk.label}</span>
-    </div>
-    <div class="ss-details">
-      <div class="ss-detail-item">🌊 Wave: <strong>${conditions.waveHeight.toFixed(1)}m</strong></div>
-      <div class="ss-detail-item">💨 Wind: <strong>${windKmh} km/h</strong></div>
-      <div class="ss-detail-item">🧭 Direction: <strong>${windDir}</strong></div>
-      <div class="ss-detail-item">🌡️ Sea temp: <strong>${conditions.seaTemp != null ? conditions.seaTemp.toFixed(1) + "°C" : "—"}</strong></div>
-    </div>
-    ${warningHtml}
-  </div>`;
+async function injectSeaCard(route) {
+  if (!seaToggle.checked || !route || !route.coords) return;
+  var mid = route.coords[Math.floor(route.coords.length / 2)];
+  if (!mid) return;
+  var conds = await fetchSeaConditions(mid[0], mid[1]);
+  var html = renderSeaCard(conds, route.name);
+  if (!html) return;
+  var sb = document.getElementById("sidebarContent");
+  if (!sb) return;
+  var existing = sb.querySelector(".sea-card");
+  if (existing) existing.remove();
+  var div = document.createElement("div");
+  div.innerHTML = html;
+  sb.appendChild(div.firstElementChild);
 }
 
-async function fetchAndShowSeaConditions(route) {
-  if (!seaConditionsToggle.checked || !route?.coords?.length) return "";
-
-  // Use midpoint of route for conditions
-  const mid = route.coords[Math.floor(route.coords.length / 2)];
-  if (!mid) return "";
-
-  const conditions = await fetchSeaConditions(mid[0], mid[1]);
-  return renderSeaSmoothnessCard(conditions, route.name);
-}
-
-function getRouteRiskBadge(route) {
-  if (!seaConditionsToggle.checked || !route?.coords?.length) return "";
-  const mid = route.coords[Math.floor(route.coords.length / 2)];
-  if (!mid) return "";
-  const cacheKey = `${mid[0].toFixed(2)},${mid[1].toFixed(2)}`;
-  const cached = seaConditionsCache.get(cacheKey);
-  if (!cached || Date.now() - cached.timestamp >= SEA_CACHE_TTL) return "";
-  const c = cached.data;
-  if (!c || c.waveHeight === null) return "";
-  const risk = getSeaRiskLevel(c.waveHeight, c.windSpeed != null ? c.windSpeed * 3.6 : 0);
-  if (risk.risk === "high") return `<span class="route-risk-badge high-risk">⚠ Rough</span>`;
-  if (risk.risk === "medium") return `<span class="route-risk-badge medium-risk">Moderate</span>`;
-  return "";
-}
-
-// Pre-fetch sea conditions for visible routes when toggle enabled
-seaConditionsToggle.addEventListener("change", async () => {
-  if (!seaConditionsToggle.checked) {
-    // Clear cache and re-render to remove badges
-    seaConditionsCache.clear();
-  }
-  // Re-render sidebar to show/hide sea conditions
-  if (currentSelectedCountry) {
-    renderCountrySidebar(currentSelectedCountry);
-    // Also pre-fetch all visible route conditions
-    const normalized = norm(currentSelectedCountry);
-    const routeMatches = (allFerryRoutes || []).filter(route =>
-      route.countries?.some(country => norm(country) === normalized)
-    );
-    if (seaConditionsToggle.checked) {
-      for (const route of routeMatches) {
-        if (route.coords?.length) {
-          const mid = route.coords[Math.floor(route.coords.length / 2)];
-          if (mid) fetchSeaConditions(mid[0], mid[1]); // fire and forget
-        }
-      }
-      // Re-render after a short delay to show badges
-      setTimeout(() => { if (currentSelectedCountry) renderCountrySidebar(currentSelectedCountry); }, 1500);
-    }
-  }
-  if (selectedPort) showPortRoutes(selectedPort);
-});
-
-/* ============================================================
-   🌙 NIGHT-SAILING & SLEEPER FILTER
-   ============================================================ */
-const nightSailingToggle = document.getElementById("nightSailingToggle");
-
-function isOvernightRoute(route) {
-  return !!(route.overnight || route.durationHours >= 8);
-}
-
-function filterNightSailings(routes) {
-  if (!nightSailingToggle.checked) return routes;
-  return routes.filter(isOvernightRoute);
-}
-
-nightSailingToggle.addEventListener("change", () => {
+seaToggle.addEventListener("change", function() {
+  seaCache.clear();
   if (currentSelectedCountry) renderCountrySidebar(currentSelectedCountry);
   if (selectedPort) showPortRoutes(selectedPort);
 });
 
 /* ============================================================
-   🚢 MARINE TRAFFIC LAYER (AIS Live Ferry Positions)
+   LIVE FERRY TRACKING (aisstream.io via local proxy)
    ============================================================ */
 const aisToggle = document.getElementById("aisToggle");
-let aisMarkers = [];
-let aisSocket = null;
-let aisReconnectTimer = null;
+var aisMarkers = new Map();
+var aisPollTimer = null;
+// Point to your NAS IP + port 3099 (runs ais-proxy.js)
+const AIS_PROXY = "/ais";
 
-function createAISVesselMarker(vessel) {
-  const lat = vessel.latitude;
-  const lng = vessel.longitude;
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+function createVesselMarker(v) {
+  if (!Number.isFinite(v.lat) || !Number.isFinite(v.lng)) return null;
+  var el = document.createElement("div");
+  el.className = "ais-vessel-marker";
+  if (v.heading != null && v.heading !== 511) el.style.transform = "rotate(" + v.heading + "deg)";
 
-  const el = document.createElement("div");
-  el.className = "ais-vessel-marker ferry";
-  el.title = `${vessel.name || "Unknown vessel"} — ${vessel.shipType || "Ferry"}`;
+  var popupHtml = "<strong>" + (v.name || "Ferry") + "</strong>";
+  if (v.speed) popupHtml += "<br>Speed: " + v.speed + " km/h";
+  if (v.heading != null && v.heading !== 511) popupHtml += "<br>Heading: " + Math.round(v.heading) + " deg";
+  if (v.course != null) popupHtml += "<br>Course: " + Math.round(v.course) + " deg";
+  if (v.dest) popupHtml += "<br>Destination: " + v.dest;
+  if (v.callsign) popupHtml += "<br>Callsign: " + v.callsign;
+  if (v.mmsi) popupHtml += "<br>MMSI: " + v.mmsi;
 
-  // Arrow indicator for heading
-  if (vessel.heading != null) {
-    el.style.transform = `rotate(${vessel.heading}deg)`;
-    el.style.borderRadius = "2px 50% 50% 50%";
-  }
-
-  const marker = L.marker([lat, lng], {
-    icon: L.divIcon({
-      className: "ais-vessel-icon",
-      html: el.outerHTML,
-      iconSize: [12, 12],
-      iconAnchor: [6, 6]
-    }),
-    interactive: true,
-    bubblingMouseEvents: false
+  var marker = L.marker([v.lat, v.lng], {
+    icon: L.divIcon({ className: "ais-vessel-icon", html: el.outerHTML, iconSize: [12, 12], iconAnchor: [6, 6] }),
+    interactive: true
   });
-
-  marker.bindTooltip(
-    `${vessel.name || "Vessel"}${vessel.speed != null ? " · " + vessel.speed.toFixed(1) + " kn" : ""}`,
-    { direction: "top", offset: [0, -10], opacity: 0.9 }
-  );
+  marker.bindPopup(popupHtml);
+  marker.bindTooltip(v.name || "Ferry", { direction: "top", offset: [0, -8] });
 
   return marker;
 }
 
-function clearAISMarkers() {
-  aisMarkers.forEach(m => { if (map.hasLayer(m)) map.removeLayer(m); });
-  aisMarkers = [];
-}
-
-async function fetchAISData() {
-  // Use bounding box of current map view
-  const bounds = map.getBounds();
-  const sw = bounds.getSouthWest();
-  const ne = bounds.getNorthEast();
-
+async function pollAIS() {
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6000);
-    // Open-Meteo doesn't provide AIS; use a free proxy/aggregator.
-    // For demo: fetch from a public AIS aggregator or use sample data.
-    // Using the free AISHub-style approach: fetch recent vessel positions in viewport.
-    // Note: Real AIS requires a data provider. We use a practical approximation.
-    const url = `https://api.vesselfinder.com/vesseltracker?bbox=${sw.lng},${sw.lat},${ne.lng},${ne.lat}&zoom=${map.getZoom()}`;
-    // Fallback: we'll use a simulated approach that still looks realistic
-    // by placing vessels near ferry route endpoints
-    throw new Error("Use route-based positioning"); // fall through to simulated
-  } catch (e) {
-    // Simulated AIS: place vessels along active ferry routes
-    if (!aisToggle.checked) return;
-    clearAISMarkers();
-    
-    // Use visible ferry routes and port locations to place simulated vessels
-    const activeRoutes = allFerryRoutes.filter(r => {
-      if (!r.coords?.length) return false;
-      const mid = r.coords[Math.floor(r.coords.length / 2)];
-      return mid && map.getBounds().contains([mid[0], mid[1]]);
-    }).slice(0, 15);
-
-    activeRoutes.forEach((route, i) => {
-      if (route.coords.length < 2) return;
-      // Place vessel at 20-80% along the route based on time
-      const progress = 0.2 + ((Date.now() / 1000 / 37 + i * 7) % 1) * 0.6;
-      const segIdx = Math.floor(progress * (route.coords.length - 1));
-      const t = (progress * (route.coords.length - 1)) - segIdx;
-      const p1 = route.coords[segIdx];
-      const p2 = route.coords[Math.min(segIdx + 1, route.coords.length - 1)];
-      const lat = p1[0] + (p2[0] - p1[0]) * t;
-      const lng = p1[1] + (p2[1] - p1[1]) * t;
-      
-      const heading = Math.atan2(p2[1] - p1[1], p2[0] - p1[0]) * 180 / Math.PI;
-      
-      const vessel = {
-        name: route.name.split(" - ")[0] + " Ferry",
-        latitude: lat,
-        longitude: lng,
-        heading: heading,
-        speed: 8 + Math.sin(Date.now() / 10000 + i) * 5,
-        shipType: "Ferry"
-      };
-      
-      const marker = createAISVesselMarker(vessel);
-      if (marker) {
-        marker.addTo(map);
-        aisMarkers.push(marker);
+    var resp = await fetch(AIS_PROXY);
+    if (!resp.ok) return;
+    var json = await resp.json();
+    var vessels = json.vessels || json; // Support both {vessels:[...]} and plain array
+    if (!Array.isArray(vessels)) return;
+    var seen = new Set();
+    vessels.forEach(function(v) {
+      if (v.mmsi === 0 || !v.mmsi) return;
+      seen.add(v.mmsi);
+      var existing = aisMarkers.get(v.mmsi);
+      if (existing) {
+        existing.setLatLng([v.lat, v.lng]);
+        if (v.heading && v.heading !== 511) existing.setRotationAngle(v.heading);
+        if (v.dest) existing.setTooltipContent((v.name || "Ferry") + " -> " + v.dest);
+      } else {
+        var m = createVesselMarker(v);
+        if (m && aisMarkers.size < 1000) { m.addTo(map); aisMarkers.set(v.mmsi, m); }
       }
     });
+    aisMarkers.forEach(function(marker, mmsi) {
+      if (!seen.has(mmsi)) { map.removeLayer(marker); aisMarkers.delete(mmsi); }
+    });
+  } catch(e) {
+    if (aisMarkers.size === 0) console.log("AIS fetch failed:", e.message);
   }
 }
 
-let aisUpdateInterval = null;
-
-function startAISUpdates() {
-  stopAISUpdates();
-  fetchAISData();
-  aisUpdateInterval = setInterval(fetchAISData, 30000); // update every 30s
+function startAIS() {
+  if (aisPollTimer) return;
+  pollAIS();
+  aisPollTimer = setInterval(pollAIS, 8000);
 }
 
-function stopAISUpdates() {
-  clearAISMarkers();
-  if (aisUpdateInterval) { clearInterval(aisUpdateInterval); aisUpdateInterval = null; }
+function stopAIS() {
+  aisMarkers.forEach(function(m) { map.removeLayer(m); });
+  aisMarkers.clear();
+  if (aisPollTimer) { clearInterval(aisPollTimer); aisPollTimer = null; }
 }
 
-aisToggle.addEventListener("change", () => {
-  if (aisToggle.checked) {
-    startAISUpdates();
-  } else {
-    stopAISUpdates();
-  }
+aisToggle.addEventListener("change", function() {
+  if (aisToggle.checked) startAIS();
+  else stopAIS();
 });
-
-// Update AIS when map moves significantly
-let lastAISFetchCenter = null;
-map.on("moveend", () => {
-  if (!aisToggle.checked) return;
-  const center = map.getCenter();
-  const latRounded = center.lat.toFixed(1);
-  const lngRounded = center.lng.toFixed(1);
-  const key = `${latRounded},${lngRounded}`;
-  if (key !== lastAISFetchCenter) {
-    lastAISFetchCenter = key;
-    fetchAISData();
-  }
-});
-
-/* ============================================================
-   🏪 LAST-CALL PROVISIONS RADAR (OSM Overpass API)
-   ============================================================ */
-const provisionsToggle = document.getElementById("provisionsToggle");
-let provisionsLayer = null;
-let provisionsPOIs = [];
-
-const PROVISIONS_QUERY = (lat, lng, radius) => `
-[out:json][timeout:8];
-(
-  node["amenity"="pharmacy"](around:${radius},${lat},${lng});
-  node["shop"="chemist"](around:${radius},${lat},${lng});
-  node["amenity"="atm"](around:${radius},${lat},${lng});
-  node["amenity"="bank"](around:${radius},${lat},${lng});
-  node["shop"="supermarket"](around:${radius},${lat},${lng});
-  node["shop"="convenience"](around:${radius},${lat},${lng});
-  node["shop"="groceries"](around:${radius},${lat},${lng});
-);
-out body 15;
-out count;
-`;
-
-function getPOICategory(tags) {
-  if (tags.amenity === "pharmacy" || tags.shop === "chemist") return { cat: "pharmacy", icon: "💊", label: "Pharmacy" };
-  if (tags.amenity === "atm" || tags.amenity === "bank") return { cat: "atm", icon: "🏧", label: "ATM/Bank" };
-  if (tags.shop === "supermarket" || tags.shop === "convenience" || tags.shop === "groceries") return { cat: "grocery", icon: "🛒", label: "Store" };
-  return null;
-}
-
-async function fetchProvisions(lat, lng, radius = 800) {
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
-    const query = PROVISIONS_QUERY(lat, lng, radius);
-    // Overpass API requires form-urlencoded POST
-    const formBody = "data=" + encodeURIComponent(query);
-    const url = "https://overpass-api.de/api/interpreter";
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formBody,
-      signal: controller.signal
-    });
-    clearTimeout(timeout);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const json = await resp.json();
-    return (json.elements || []).map(el => {
-      const cat = getPOICategory(el.tags || {});
-      if (!cat) return null;
-      return {
-        id: el.id,
-        lat: el.lat,
-        lng: el.lon,
-        name: el.tags.name || cat.label,
-        ...cat,
-        tags: el.tags
-      };
-    }).filter(Boolean);
-  } catch (e) {
-    console.warn("Provisions fetch failed:", e.message);
-    return [];
-  }
-}
-
-function clearProvisions() {
-  if (provisionsLayer && map.hasLayer(provisionsLayer)) {
-    map.removeLayer(provisionsLayer);
-  }
-  provisionsLayer = null;
-  provisionsPOIs = [];
-}
-
-function renderProvisionsOnMap(pois) {
-  clearProvisions();
-  if (!pois.length || !provisionsToggle.checked) return;
-
-  provisionsLayer = L.layerGroup([]);
-  provisionsPOIs = pois;
-
-  pois.forEach(poi => {
-    const marker = L.circleMarker([poi.lat, poi.lng], {
-      radius: 5,
-      color: currentTheme === "light" ? "#1d4ed8" : "#fff",
-      weight: 2,
-      fillColor: poi.cat === "pharmacy" ? "#22c55e" : poi.cat === "atm" ? "#3b82f6" : "#f59e0b",
-      fillOpacity: 0.9,
-      interactive: true,
-      bubblingMouseEvents: false
-    });
-    marker.bindTooltip(`${poi.icon} ${poi.name}`, {
-      direction: "top",
-      offset: [0, -8],
-      opacity: 0.92
-    });
-    marker.addTo(provisionsLayer);
-  });
-
-  provisionsLayer.addTo(map);
-}
-
-function renderProvisionsSidebar(pois, portName) {
-  if (!pois.length) {
-    return `<div class="provisions-card">
-      <div class="pv-header">🏪 Provisions near ${portName || "port"}</div>
-      <div style="opacity:0.6;font-size:0.84rem">No pharmacies, ATMs, or grocery stores found within walking distance.</div>
-    </div>`;
-  }
-
-  const pharmacy = pois.filter(p => p.cat === "pharmacy");
-  const atm = pois.filter(p => p.cat === "atm");
-  const grocery = pois.filter(p => p.cat === "grocery");
-
-  const sections = [
-    { items: pharmacy, icon: "💊", label: "Pharmacies" },
-    { items: atm, icon: "🏧", label: "ATMs & Banks" },
-    { items: grocery, icon: "🛒", label: "Groceries" }
-  ].filter(s => s.items.length);
-
-  return `<div class="provisions-card">
-    <div class="pv-header">🏪 Provisions near ${portName || "port"}</div>
-    ${sections.map(s => `
-      <div style="font-weight:700;font-size:0.78rem;opacity:0.7;margin:0.4rem 0 0.2rem">${s.icon} ${s.label}</div>
-      <div class="pv-amenity-list">
-        ${s.items.map(p => `
-          <div class="pv-amenity-item" onclick="map.flyTo([${p.lat},${p.lng}],16,{duration:0.6})" title="Click to zoom to location">
-            <span class="pv-amenity-icon">${s.icon}</span>
-            <span>${escapeHTML(p.name)}</span>
-            <span style="margin-left:auto;font-size:0.75rem;opacity:0.55">📍</span>
-          </div>
-        `).join("")}
-      </div>
-    `).join("")}
-  </div>`;
-}
-
-provisionsToggle.addEventListener("change", () => {
-  if (!provisionsToggle.checked) {
-    clearProvisions();
-  }
-  // Re-render port view to show/hide provisions
-  if (selectedPort) showPortRoutes(selectedPort);
-});
-
-/* ============================================================
-   INTEGRATION: Override showPortRoutes & renderCountrySidebar
-   to include new features
-   ============================================================ */
-const origShowPortRoutes = showPortRoutes;
-showPortRoutes = async function(port) {
-  // Call original first (it sets up sidebar synchronously)
-  origShowPortRoutes(port);
-  
-  if (!port) return;
-  
-  // After original renders, inject sea conditions + provisions asynchronously
-  const routes = allFerryRoutes.filter(r => port.routeIds.includes(r.id));
-  
-  // Night-sailing filter
-  const filteredRoutes = filterNightSailings(routes);
-  
-  // If filtering changed the list, re-render the route buttons
-  if (nightSailingToggle.checked && filteredRoutes.length !== routes.length) {
-    const uniqueOperators = [...new Set(filteredRoutes.map(r => r.operator || "Unknown"))];
-    const routeList = filteredRoutes.map(route => {
-      const riskBadge = getRouteRiskBadge(route);
-      return `<button type="button" class="route-item" data-route-name="${escapeHTML(route.name)}">
-        ${escapeHTML(route.name)}
-        <span class="route-tag">${escapeHTML(route.operator || "")}</span>
-        ${route.overnight ? '<span class="night-sailing-badge">🌙 Overnight</span>' : ""}
-        ${riskBadge}
-      </button>`;
-    }).join("");
-    
-    const el = document.querySelector(".ferry-route-panel .route-list");
-    if (el) {
-      el.innerHTML = routeList || '<div style="opacity:0.6;font-size:0.88rem">No night sailings from this port.</div>';
-      // Re-wire click handlers
-      el.querySelectorAll(".route-item").forEach(button => {
-        button.addEventListener("click", () => {
-          const routeName = button.dataset.routeName;
-          const route = filteredRoutes.find(r => r.name === routeName);
-          if (route) {
-            clearFerryRouteLines();
-            const line = L.polyline(route.coords, {
-              color: "#38bdf8",
-              weight: 5,
-              opacity: 0.95,
-              dashArray: "10,8",
-              lineCap: "round",
-              lineJoin: "round"
-            }).addTo(map);
-            ferryRouteLines.push(line);
-            el.querySelectorAll(".route-item").forEach(item => item.classList.toggle("active", item === button));
-            focusFerryRoute(route);
-            // Inject sea conditions
-            injectSeaConditionsIntoPortView(route);
-          }
-        });
-      });
-    }
-  }
-  
-  // Inject sea conditions for the first route if toggle is on
-  if (seaConditionsToggle.checked && routes.length > 0) {
-    const mid = routes[0].coords[Math.floor(routes[0].coords.length / 2)];
-    if (mid) {
-      const conditions = await fetchSeaConditions(mid[0], mid[1]);
-      const seaHTML = renderSeaSmoothnessCard(conditions, routes[0].name);
-      const sidebar = document.getElementById("sidebarContent");
-      const commentsDiv = sidebar?.querySelector("#mapComments_port");
-      if (commentsDiv && sidebar) {
-        const temp = document.createElement("div");
-        temp.innerHTML = seaHTML;
-        commentsDiv.parentNode.insertBefore(temp.firstElementChild, commentsDiv);
-      }
-    }
-  }
-  
-  // Fetch and show provisions
-  if (provisionsToggle.checked) {
-    const pois = await fetchProvisions(port.lat, port.lng, 1000);
-    renderProvisionsOnMap(pois);
-    const provHTML = renderProvisionsSidebar(pois, port.name);
-    const sidebar = document.getElementById("sidebarContent");
-    const commentsDiv = sidebar?.querySelector("#mapComments_port");
-    if (commentsDiv && sidebar) {
-      const temp = document.createElement("div");
-      temp.innerHTML = provHTML;
-      commentsDiv.parentNode.insertBefore(temp.firstElementChild, commentsDiv);
-    }
-  } else {
-    clearProvisions();
-  }
-};
-
-async function injectSeaConditionsIntoPortView(route) {
-  if (!seaConditionsToggle.checked || !route?.coords?.length) return;
-  const mid = route.coords[Math.floor(route.coords.length / 2)];
-  if (!mid) return;
-  const conditions = await fetchSeaConditions(mid[0], mid[1]);
-  const seaHTML = renderSeaSmoothnessCard(conditions, route.name);
-  const sidebar = document.getElementById("sidebarContent");
-  const commentsDiv = sidebar?.querySelector("#mapComments_port");
-  // Remove existing sea card if any
-  const existing = sidebar?.querySelector(".sea-smoothness-card");
-  if (existing) existing.remove();
-  if (commentsDiv && sidebar) {
-    const temp = document.createElement("div");
-    temp.innerHTML = seaHTML;
-    commentsDiv.parentNode.insertBefore(temp.firstElementChild, commentsDiv);
-  }
-}
-
-// Override renderCountrySidebar to include night-sailing filter and risk badges
-const origRenderCountrySidebar = renderCountrySidebar;
-renderCountrySidebar = function(geoName) {
-  // Store original routeMatches for filtering
-  const normalized = norm(geoName);
-  let routeMatches = (allFerryRoutes || []).filter(route =>
-    route.countries?.some(country => norm(country) === normalized)
-  );
-  
-  // Apply night-sailing filter
-  const allRoutes = routeMatches;
-  routeMatches = filterNightSailings(routeMatches);
-  
-  // Call original but we need to modify it. Instead, we'll re-implement
-  // the render to include risk badges and night-sailing badges.
-  // Let's call original first, then patch in the badges.
-  origRenderCountrySidebar(geoName);
-  
-  // Now patch route items with badges
-  setTimeout(() => {
-    const routeItems = document.querySelectorAll("#sidebarContent .route-item");
-    routeItems.forEach(btn => {
-      const routeName = btn.dataset.routeName;
-      const route = allFerryRoutes.find(r => r.name === routeName);
-      if (!route) return;
-      
-      // Add night-sailing badge
-      if (route.overnight && !btn.querySelector(".night-sailing-badge")) {
-        const badge = document.createElement("span");
-        badge.className = "night-sailing-badge";
-        badge.textContent = "🌙 Overnight";
-        btn.appendChild(badge);
-      }
-      
-      // Add risk badge (async)
-      if (seaConditionsToggle.checked && route.coords?.length) {
-        const mid = route.coords[Math.floor(route.coords.length / 2)];
-        if (mid) {
-          fetchSeaConditions(mid[0], mid[1]).then(conditions => {
-            if (conditions && conditions.waveHeight !== null) {
-              const risk = getSeaRiskLevel(conditions.waveHeight, conditions.windSpeed != null ? conditions.windSpeed * 3.6 : 0);
-              if (risk.risk !== "low" && !btn.querySelector(".route-risk-badge")) {
-                const badge = document.createElement("span");
-                badge.className = `route-risk-badge ${risk.risk}-risk`;
-                badge.textContent = risk.risk === "high" ? "⚠ Rough" : "Moderate";
-                btn.appendChild(badge);
-              }
-            }
-          });
-        }
-      }
-    });
-  }, 100);
-};
-
-// Override showFerryRoute to inject sea conditions and provisions
-const origShowFerryRouteSingle = showFerryRoute;
-showFerryRoute = async function(route, shouldFocusRoute) {
-  origShowFerryRouteSingle(route, shouldFocusRoute);
-  if (!route) return;
-  
-  // Inject sea conditions
-  if (seaConditionsToggle.checked && route.coords?.length) {
-    const mid = route.coords[Math.floor(route.coords.length / 2)];
-    if (mid) {
-      const conditions = await fetchSeaConditions(mid[0], mid[1]);
-      const seaHTML = renderSeaSmoothnessCard(conditions, route.name);
-      const sidebar = document.getElementById("sidebarContent");
-      const stationPanel = sidebar?.querySelector("#stationDetailPanel");
-      // Remove existing sea card
-      const existing = sidebar?.querySelector(".sea-smoothness-card");
-      if (existing) existing.remove();
-      const existingProv = sidebar?.querySelector(".provisions-card");
-      if (existingProv) existingProv.remove();
-      if (stationPanel && sidebar) {
-        const temp = document.createElement("div");
-        temp.innerHTML = seaHTML;
-        stationPanel.parentNode.insertBefore(temp.firstElementChild, stationPanel.nextSibling);
-      }
-    }
-  }
-};
-
-// Override clearSelectedPort to also clean provisions
-const origClearSelectedPort = clearSelectedPort;
-clearSelectedPort = function() {
-  clearProvisions();
-  origClearSelectedPort();
-};
 
 </script>
 

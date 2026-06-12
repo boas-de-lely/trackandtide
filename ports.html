@@ -785,6 +785,10 @@ a.pill:hover {
           <option value="routes">Route count</option>
         </select>
       </div>
+      <label class="check-row" style="display:flex;gap:0.5rem;align-items:center;font-size:0.92rem;cursor:pointer">
+        <input type="checkbox" id="overnightFilter" />
+        Overnight routes only
+      </label>
       <div class="stats">
         <div class="stat"><strong id="totalStat">0</strong><span>Total</span></div>
         <div class="stat"><strong id="routeStat">0</strong><span>Routes</span></div>
@@ -808,6 +812,7 @@ const logo = document.getElementById("logo");
 const searchInput = document.getElementById("searchInput");
 const countryFilter = document.getElementById("countryFilter");
 const sortFilter = document.getElementById("sortFilter");
+const overnightFilter = document.getElementById("overnightFilter");
 const portList = document.getElementById("portList");
 const resultTitle = document.getElementById("resultTitle");
 const generatedAt = document.getElementById("generatedAt");
@@ -1398,7 +1403,8 @@ function getFilteredPorts() {
       const haystack = [port.name, port.country, ...(port.countries || []), routeNames, operators].join(" ");
 
       return (!query || normalizeForSearch(haystack).includes(normalizeForSearch(query))) &&
-        (!country || (port.countries || []).includes(country) || port.country === country);
+        (!country || (port.countries || []).includes(country) || port.country === country) &&
+        (!overnightFilter.checked || getRoutesForPort(port).some(r => r.overnight));
     })
     .sort((a, b) => {
       if (sortFilter.value === "country") return (a.country || "").localeCompare(b.country || "") || a.name.localeCompare(b.name);
@@ -1477,8 +1483,9 @@ Promise.all([
   await restoreSelectedPort();
 });
 
-[searchInput, countryFilter, sortFilter].forEach(control => {
+[searchInput, countryFilter, sortFilter, overnightFilter].forEach(control => {
   control.addEventListener("input", renderAndRestoreDetail);
+  control.addEventListener("change", renderAndRestoreDetail);
 });
 </script>
 
