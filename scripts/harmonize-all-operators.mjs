@@ -1,1513 +1,1065 @@
-/**
- * Comprehensive operator harmonization script.
- * 
- * Reads the missing operators report, maps all operators to known operators
- * or creates new entries in data.json for genuinely new operators.
- * Skips limited_use stations (they don't need operator linking).
- * 
- * Usage: node scripts/harmonize-all-operators.mjs
- */
+// =============================================================================
+// Track & Tide — Full Operator & Station Harmonization
+// Links all operators to served stations, adds missing operators,
+// generates clean station IDs from names, and outputs updated data files.
+// =============================================================================
 
-import { readFile, writeFile } from "node:fs/promises";
+import { readFileSync, writeFileSync } from 'fs';
 
-// ────────────────────────────────────────────────────────────────
-// 1. LOAD DATA
-// ────────────────────────────────────────────────────────────────
-const dataRaw = await readFile("data.json", "utf8");
-const stationRaw = await readFile("stations.json", "utf8");
-const missingRaw = await readFile("missing-operators-report.json", "utf8");
+const DATA_FILE   = '../data.json';
+const STATIONS_FILE = '../stations.json';
+const MISSING_OPS  = '../missing-operators-report.json';
+const MISSING_ST   = '../missing-station-operators.json';
 
-const operatorDb = JSON.parse(dataRaw);
-const stationData = JSON.parse(stationRaw);
-const missingReport = JSON.parse(missingRaw);
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
-// ────────────────────────────────────────────────────────────────
-// 2. NORMALIZATION
-// ────────────────────────────────────────────────────────────────
-function normalizeName(name) {
-  return String(name || "")
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/&/g, "and")
-    .replace(/\b(nv|sa|ag|as|spa|srl|ltd|limited|gmbh|bv|plc|inc|llc|ab|ev|z s|azo|a s|se|co kg|ug|mbh|spa|s p a|s a|oy|akciova spolecnost|as\b)\b/g, "")
-    .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\s+/g, " ")
+function norm(s) {
+  if (!s) return '';
+  if (typeof s !== 'string') s = String(s);
+  return s.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // strip accents
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
-// ────────────────────────────────────────────────────────────────
-// 3. COMPREHENSIVE ALIAS MAP
-// ────────────────────────────────────────────────────────────────
+function stripSuffixes(s) {
+  if (!s) return '';
+  if (typeof s !== 'string') s = String(s);
+  return s
+    .replace(/\b(ltd|limited|gmbh|ag|sa|nv|spa|srl|ab|as|oy|plc|inc|llc|co|corp|kg|sp\.z\s*o\.o\.|s\.l\.|s\.a\.|s\.r\.l\.|a\.s\.)\b/gi, '')
+    .replace(/\s+/g, ' ').trim();
+}
+
+function cleanStationName(name) {
+  return String(name||'')
+    .replace(/\s+/g, ' ')
+    .replace(/^Bahnhof\s+/i, '')
+    .replace(/^(Gare de|Gare du|Gare d'|Stazione di|Stazione|Estación de|Estación|Estacao de|Estacao)\s+/i, '')
+    .replace(/\s+(railway station|railway|train station|central station|bus station|metro station|airport|aeroport|aéroport|flughafen|hauptbahnhof|hbf|bahnhof|station|gare|stazione|estación|estacao)$/i, '')
+    .trim();
+}
+
+function makeStationId(name, country) {
+  const clean = cleanStationName(name)
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  const iso = getIso(country);
+  return clean + '-' + (iso || country.toLowerCase().slice(0, 2));
+}
+
+let countryIsoMap = {};
+function getIso(country) {
+  if (countryIsoMap[country]) return countryIsoMap[country];
+  // Will be populated when reading stations.json
+  return null;
+}
+
+// ── Load Data ────────────────────────────────────────────────────────────────
+
+console.log('Loading data files...');
+const dataJson = JSON.parse(readFileSync(DATA_FILE, 'utf8'));
+const stationsJson = JSON.parse(readFileSync(STATIONS_FILE, 'utf8'));
+const missingOps = JSON.parse(readFileSync(MISSING_OPS, 'utf8'));
+const missingSt = JSON.parse(readFileSync(MISSING_ST, 'utf8'));
+
+const operators = dataJson.operators || [];
+const ferryOps = operators.filter(o => o.type === 'ferries');
+const trainOps = operators.filter(o => o.type === 'trains');
+
+// Build country→ISO map from stations.json
+console.log('Building country map...');
+for (const [countryName, countryData] of Object.entries(stationsJson.countries || {})) {
+  if (countryData.iso) countryIsoMap[countryName] = countryData.iso.toLowerCase();
+}
+
+// ── Build Known Operators Map ────────────────────────────────────────────────
+
+console.log('Building operator alias map...');
+
+// MANUAL_ALIASES: maps variant names → canonical operator id
 const MANUAL_ALIASES = {
-  // ── National operators (language variants / full names) ──
-  "nederlandse spoorwegen": "NS",
-  "zwitserse federale spoorwegen": "SBB",
-  "magyar allamvasutak": "MÁV",
-  "nationale maatschappij der belgische spoorwegen": "NMBS/SNCB",
-  "osterreichische bundesbahnen": "ÖBB",
-  "danske statsbaner": "DSB",
-  "ceske drahy": "České dráhy",
-  "cale ferata din moldova": "Calea Ferată din Moldova",
-  "chemins de fer luxembourgeois": "CFL",
-  "iarnrod eireann": "Irish Rail",
-  "cale ferate romane": "CFR Călători",
-  "caile ferate romane": "CFR Călători",
-  "rhatische bahn": "Rähtische Bahn",
-  "rahtische bahn": "Rähtische Bahn",
-  "rhB": "Rähtische Bahn",
+  // German variants
+  'db station&service': 'db',
+  'db station und service': 'db',
+  'db infrage': 'db',
+  'db infrage ag': 'db',
+  'db infrago': 'db',
+  'db infrago ag': 'db',
+  'db netz': 'db',
+  'db netz ag': 'db',
+  'db energie': 'db',
+  'db fernverkehr': 'db',
+  'db fernverkehr ag': 'db',
+  'db regio': 'db',
+  'db regio ag': 'db',
+  'db regio netz': 'db',
+  'db regio netz verkehrsgmbh': 'db',
+  'deutsche bahn': 'db',
+  'deutsche bahn ag': 'db',
+  'deutsche reichsbahn': 'db',
+  'deutsche bundesbahn': 'db',
+  's-bahn berlin': 'db',
+  's-bahn berlin gmbh': 'db',
+  's-bahn hamburg': 'db',
+  's-bahn hamburg gmbh': 'db',
+  's-bahn munchen': 'db',
+  's-bahn münchen': 'db',
+  's-bahn stuttgart': 'db',
+  's-bahn rhein-main': 'db',
+  's-bahn rhein neckar': 'db',
+  's-bahn rhein-ruhr': 'db',
+  's-bahn dresden': 'db',
+  's-bahn hannover': 'db',
+  's-bahn nurnberg': 'db',
+  's-bahn nürnberg': 'db',
 
-  // ── DB group variants ──
-  "deutsche bahn": "DB",
-  "deutsche bahn ag": "DB",
-  "db fernverkehr ag": "DB",
-  "db fernverkehr": "DB",
-  "db regio": "DB",
-  "db regio ag": "DB",
-  "db regio schleswig holstein": "DB",
-  "db netz": "DB",
-  "db netz ag": "DB",
-  "db station service": "DB",
-  "db stationandservice ag": "DB",
-  "db stationandservice": "DB",
-  "db station service ag": "DB",
-  "db infrago ag": "DB",
-  "db infrago": "DB",
+  // Swiss variants
+  'sbb cff ffs': 'sbb',
+  'sbb ag': 'sbb',
+  'schweizerische bundesbahnen': 'sbb',
+  'chemins de fer federaux suisses': 'sbb',
+  'ferrovie federali svizzere': 'sbb',
+  'swiss federal railways': 'sbb',
+  'zwitserse federale spoorwegen': 'sbb',
+  'sbb gmbh': 'sbb',
 
-  // ── NMBS/SNCB variants ──
-  "nationale maatschappij der belgische spoorwegen nmbs": "NMBS/SNCB",
-  "nmbs": "NMBS/SNCB",
-  "sncb": "NMBS/SNCB",
-  "nmbs sncb": "NMBS/SNCB",
+  // French variants
+  'sncf reseau': 'sncf',
+  'sncf réseau': 'sncf',
+  'sncf voyageurs': 'sncf',
+  'sncf gares & connexions': 'sncf',
+  'sncf mobilites': 'sncf',
+  'sncf mobilités': 'sncf',
+  'societe nationale des chemins de fer francais': 'sncf',
+  'société nationale des chemins de fer français': 'sncf',
 
-  // ── SBB variants ──
-  "schweizerische bundesbahnen": "SBB",
-  "chemins de fer federaux suisses": "SBB",
-  "ferrovie federali svizzere": "SBB",
-  "sbb cff ffs": "SBB",
+  // Spanish variants
+  'renfe operadora': 'renfe',
+  'renfe viajeros': 'renfe',
+  'renfe cercanias': 'renfe',
+  'renfe cercanías': 'renfe',
+  'adif': 'renfe',
+  'adif alta velocidad': 'renfe',
 
-  // ── ÖBB variants ──
-  "oebb": "ÖBB",
-  "oebb infrastruktur ag": "ÖBB",
-  "oebb infrastruktur": "ÖBB",
+  // Italian variants
+  'trenitalia spa': 'trenitalia',
+  'trenitalia tper': 'trenitalia',
+  'fs italiane': 'trenitalia',
+  'ferrovie dello stato': 'trenitalia',
+  'ferrovie dello stato italiane': 'trenitalia',
+  'rete ferroviaria italiana': 'trenitalia',
+  'rfi': 'trenitalia',
+  'italo nuovotrasporto viaggiatori': 'italo',
+  'italo ntv': 'italo',
+  'ntv': 'italo',
+  'nuovo trasporto viaggiatori': 'italo',
 
-  // ── SNCF variants ──
-  "societe nationale des chemins de fer francais": "SNCF",
+  // Austrian variants
+  'obb personenverkehr': 'obb',
+  'öbb personenverkehr': 'obb',
+  'obb infrastruktur': 'obb',
+  'öbb infrastruktur': 'obb',
+  'oesterreichische bundesbahnen': 'obb',
+  'österreichische bundesbahnen': 'obb',
 
-  // ── PKP variants ──
-  "pkp polskie linie kolejowe": "PKP Intercity",
-  "polskie koleje panstwowe": "PKP Intercity",
-  "polskie linie kolejowe": "PKP Intercity",
+  // British variants
+  'network rail': 'networkrail',
+  'network rail infrastructure': 'networkrail',
+  'network rail infrastructure ltd': 'networkrail',
+  'lner': 'lner',
+  'london north eastern railway': 'lner',
+  'gwr': 'gwr',
+  'great western railway': 'gwr',
+  'avanti west coast': 'avanti',
+  'crosscountry': 'crosscountry',
+  'cross country': 'crosscountry',
+  'transpennine express': 'tpe',
+  'transpennine': 'tpe',
+  'greater anglia': 'greateranglia',
+  'south western railway': 'swr',
+  'swr': 'swr',
+  'southeastern': 'southeastern',
+  'southeastern railway': 'southeastern',
+  'thameslink': 'thameslink',
+  'thameslink railway': 'thameslink',
+  'chiltern railways': 'chiltern',
+  'chiltern': 'chiltern',
+  'east midlands railway': 'emr',
+  'emr': 'emr',
+  'west midlands railway': 'wmr',
+  'wmr': 'wmr',
+  'northern': 'northern',
+  'northern rail': 'northern',
+  'northern trains': 'northern',
+  'transport for wales': 'tfw',
+  'tfw': 'tfw',
+  'scotrail': 'scotrail',
+  'scotrail trains': 'scotrail',
+  'c2c': 'c2c',
+  'merseyrail': 'merseyrail',
+  'london overground': 'overground',
+  'overground': 'overground',
+  'elizabeth line': 'elizabethline',
+  'elizabethline': 'elizabethline',
+  'hull trains': 'hulltrains',
 
-  // ── CFR variants ──
-  "cfr": "CFR Călători",
+  // Dutch variants
+  'ns reizigers': 'ns',
+  'nederlandse spoorwegen': 'ns',
+  'ns stations': 'ns',
+  'proRail': 'ns',
+  'prorail': 'ns',
+  'arriva nederland': 'arriva',
+  'arriva treinen': 'arriva',
+  'blauwnet': 'blauwnet',
+  'breng': 'breng',
+  'connexxion': 'connexxion',
+  'keolis nederland': 'keolis',
+  'qBuzz': 'qbuzz',
+  'q-buzz': 'qbuzz',
+  'eBS': 'ebs',
+  'e.B.S.': 'ebs',
+  'ret': 'ret',
+  'gvb': 'gvb',
+  'htm': 'htm',
 
-  // ── Irish Rail variants ──
-  "iarnrod eireann irish rail": "Irish Rail",
+  // Belgian variants  
+  'nmbs sncb': 'nmbs',
+  'infrabel': 'nmbs',
+  'sncb': 'nmbs',
 
-  // ── CP variants ──
-  "comboios de portugal": "CP",
+  // Swedish variants
+  'sj ab': 'sj',
+  'statens jarnvagar': 'sj',
+  'statens järnvägar': 'sj',
+  'sl': 'sl',
+  'storstockholms lokaltrafik': 'sl',
+  'stockholms lokaltrafik': 'sl',
+  'vasttrafik': 'vasttrafik',
+  'västtrafik': 'vasttrafik',
+  'skanetrafiken': 'skanetrafiken',
+  'skånetrafiken': 'skanetrafiken',
+  'ul': 'ul',
+  'upplands lokaltrafik': 'ul',
+  'x-trafik': 'xtrafik',
+  'xtrafik': 'xtrafik',
+  'orebro läns trafik': 'lanstrafikenorebro',
+  'lanstrafiken orebro': 'lanstrafikenorebro',
+  'norrtag': 'norrtag',
+  'norrtåg': 'norrtag',
+  'mälardalstrafik': 'malardalstrafik',
+  'malardalstrafik': 'malardalstrafik',
+  'krosatagen': 'krosatagen',
+  'krösatågen': 'krosatagen',
+  'tåg i bergslagen': 'tagibergslagen',
+  'tag i bergslagen': 'tagibergslagen',
+  'varmlandstrafik': 'varmlandstrafik',
+  'värmlandstrafik': 'varmlandstrafik',
+  'jlt': 'jlt',
+  'jonkopings lanstrafik': 'jlt',
+  'jonköpings länstrafik': 'jlt',
+  'länstrafiken kronoberg': 'lanstrafikenkronoberg',
+  'blekingetrafiken': 'blekingetrafiken',
+  'kalmar lanstrafik': 'klt',
+  'klt': 'klt',
+  'hallandstrafiken': 'hallandstrafiken',
+  'ostgotatrafiken': 'ostgotatrafiken',
+  'östgötatrafiken': 'ostgotatrafiken',
 
-  // ── ZSSK variants ──
-  "zeleznice slovenskej republiky": "ZSSK",
-  "zsr": "ZSSK",
+  // Norwegian variants  
+  'vy tog': 'vy',
+  'vy gruppen': 'vy',
+  'nsb': 'vy',
+  'norges statsbaner': 'vy',
+  'go ahead nordic': 'goaheadnordic',
+  'go-ahead nordic': 'goaheadnordic',
+  'go ahead norge': 'goaheadnordic',
+  'sj norge': 'sjnorge',
+  'sj norway': 'sjnorge',
+  'ruter': 'ruter',
+  'skyss': 'skyss',
+  'kolumbus': 'kolumbus',
+  'atb': 'atb',
+  'brakar': 'brakar',
+  'ostfold kollektivtrafikk': 'ostfoldkollektiv',
+  'østfold kollektivtrafikk': 'ostfoldkollektiv',
+  'vestfold kollektivtrafikk': 'vkt',
+  'vkt': 'vkt',
+  'agder kollektivtrafikk': 'akt',
+  'akt': 'akt',
+  'telemark fylkeskommune': 'farte',
+  'farte': 'farte',
+  'innlandet fylkeskommune': 'innlandstrafikk',
+  'innlandstrafikk': 'innlandstrafikk',
+  'troms fylkestrafikk': 'tromsfylkestrafikk',
+  'fylkestrafikk more og romsdal': 'fram',
+  'fram': 'fram',
+  'nordland fylkeskommune': 'nordland',
+  'boreal': 'boreal',
+  'boreal transport': 'boreal',
 
-  // ── HŽPP variants ──
-  "hrvatske zeleznice": "HŽPP",
-  "hz infrastruktura": "HŽPP",
+  // Danish variants
+  'dsb': 'dsb',
+  'danske statsbaner': 'dsb',
+  'arriva danmark': 'arriva',
+  'arriva tog': 'arriva',
+  'nordjyske jernbaner': 'nordjyske',
+  'nj': 'nordjyske',
+  'midtjyske jernbaner': 'midtjyske',
+  'lokaltog': 'lokaltog',
+  'lokaltog a/s': 'lokaltog',
+  'movia': 'movia',
+  'nt': 'nordjyllandstrafik',
+  'nordjyllands trafikselskab': 'nordjyllandstrafik',
+  'midtTrafik': 'midttrafik',
+  'midttrafik': 'midttrafik',
+  'sydTrafik': 'sydtrafik',
+  'sydtrafik': 'sydtrafik',
+  'fynBus': 'fynbus',
+  'fynbus': 'fynbus',
 
-  // ── Ferrovienord / FNM ──
-  "ferrovienord": "Trenord",
+  // Finnish variants
+  'vr': 'vr',
+  'vr group': 'vr',
+  'vr-yhtyma': 'vr',
+  'vr yhtyma oy': 'vr',
+  'valtionrautatiet': 'vr',
 
-  // ── BDZ variants ──
-  "balgarska darzhavna zheleznitsa": "BDZ",
-  "balgarski darzhavni zheleznitsi": "BDZ",
-  "national railway infrastructure company": "BDZ",
-  "bulgarian state railways": "BDZ",
+  // Czech variants
+  'ceske drahy': 'cd',
+  'české dráhy': 'cd',
+  'cd': 'cd',
+  'regiojet': 'regiojet',
+  'regio jet': 'regiojet',
+  'leo express': 'leoexpress',
+  'leoexpress': 'leoexpress',
+  'arriva vlaky': 'arriva',
+  'sprava zeleznic': 'sz',
+  'správa železnic': 'sz',
+  'szdc': 'sz',
+  'jikord': 'jikord',
 
-  // ── Öresundståg ──
-  "oresundstag": "Öresundståg",
-  "oresundstag ab": "Öresundståg",
+  // Polish variants
+  'pkp': 'pkp',
+  'pkp intercity': 'pkp',
+  'pkp intercity sa': 'pkp',
+  'polskie koleje panstwowe': 'pkp',
+  'polregio': 'polregio',
+  'przewozy regionalne': 'polregio',
+  'koleje mazowieckie': 'kolejemazowieckie',
+  'km': 'kolejemazowieckie',
+  'koleje slaskie': 'kolejeslaskie',
+  'koleje śląskie': 'kolejeslaskie',
+  'koleje wielkopolskie': 'kolejewielkopolskie',
+  'koleje dolnoslaskie': 'kolejedolnoslaskie',
+  'koleje dolnośląskie': 'kolejedolnoslaskie',
+  'lka': 'lkaregionalna',
+  'lodzka kolej aglomeracyjna': 'lkaregionalna',
+  'łódzka kolej aglomeracyjna': 'lkaregionalna',
+  'skm warszawa': 'skmwarszawa',
+  'skm trojmiasto': 'skmtrojmiasto',
+  'skm trójmieście': 'skmtrojmiasto',
+  'warszawska kolej dojazdowa': 'wkd',
+  'wkd': 'wkd',
+  'koleje malopolskie': 'kolejemalopolskie',
+  'koleje małopolskie': 'kolejemalopolskie',
+  'pkp plk': 'pkp',
 
-  // ── GoVolta / European Sleeper ──
-  "european sleeper": "European sleeper",
+  // Hungarian variants
+  'mav': 'mav',
+  'máv': 'mav',
+  'magyar allamvasutak': 'mav',
+  'magyar államvasutak': 'mav',
+  'mav start': 'mav',
+  'máv start': 'mav',
+  'mav start zrt': 'mav',
+  'gysev': 'gysev',
+  'gysev zrt': 'gysev',
+  'győr sopron ebenfurti vasút': 'gysev',
+  'bkv': 'bkv',
+  'mav-hev': 'mavhev',
+  'máv-hév': 'mavhev',
 
-  // ── Caledonian Sleeper ──
-  "caledonian sleeper": "Caledonian Sleeper",
+  // Portuguese variants
+  'cp': 'cp',
+  'comboios de portugal': 'cp',
+  'cp comboios de portugal': 'cp',
+  'infraestruturas de portugal': 'cp',
+  'fertagus': 'fertagus',
+  'metro do porto': 'metroporto',
+  'metro de lisboa': 'metrolisboa',
 
-  // ── Keolis ──
-  "keolis nederland": "Keolis/RRReis",
+  // Irish variants
+  'irish rail': 'irishrail',
+  'iarnrod eireann': 'irishrail',
+  'iarnród éireann': 'irishrail',
 
-  // ── Renfe ──
-  "renfe operadora": "Renfe",
-  "renfe viajeros": "Renfe",
-  "administrador de infraestructuras ferroviarias": "Renfe",
-  "red nacional de los ferrocarriles espanoles": "Renfe",
+  // Luxembourg
+  'cfl': 'cfl',
+  'chemins de fer luxembourgeois': 'cfl',
+  'societe nationale des chemins de fer luxembourgeois': 'cfl',
 
-  // ── MÁV variants ──
-  "mav magyar allamvasutak": "MÁV",
-  "mav start": "MÁV",
-  "mav infrastructure co ltd": "MÁV",
+  // Greek
+  'ose': 'ose',
+  'hellenic railways': 'ose',
+  'trainose': 'ose',
+  'hellenic train': 'ose',
 
-  // ── FlixTrain ──
-  "flixtrain": "FlixTrain",
-  "flix train": "FlixTrain",
+  // Romanian
+  'cfr': 'cfr',
+  'caile ferate romane': 'cfr',
+  'regio calatori': 'regiocalatori',
+  'interregional calatori': 'cfr',
+  'transferoviar calatori': 'transferoviar',
+  'astra trans carpatica': 'astratranscarpatica',
+  'softrans': 'softrans',
 
-  // ── Trenitalia variants ──
-  "trenitalia spa": "Trenitalia",
-  "ferrovie dello stato italiane": "Trenitalia",
-  "rete ferroviaria italiana": "Trenitalia",
-  "rfi": "Trenitalia",
-  "fondazione fs italiane": "Trenitalia",
-  "centostazioni": "Trenitalia",
-  "nuovo trasporto viaggiatori": "Italo",
+  // Bulgarian
+  'bdz': 'bdz',
+  'bdzh': 'bdz',
+  'balgarski darzhavni zheleznitsi': 'bdz',
 
-  // ── Hellenic Train ──
-  "trainose": "Hellenic Train",
-  "hellenic train": "Hellenic Train",
+  // Croatian
+  'hz': 'hzpp',
+  'hz putnicki prijevoz': 'hzpp',
+  'hž putnički prijevoz': 'hzpp',
+  'hrvatske zeljeznice': 'hzpp',
 
-  // ── LTG Link ──
-  "ltg link": "LTG Link",
-  "ltglink": "LTG Link",
+  // Slovenian
+  'sz': 'sž',
+  'slovenske zeleznice': 'sž',
+  'sž': 'sž',
 
-  // ── Vivi ──
-  "pasażieru vilciens": "Vivi",
+  // Slovak
+  'zssk': 'zssk',
+  'železnicná spolocnost slovensko': 'zssk',
 
-  // ── Westbahn ──
-  "westbahn gmbh": "Westbahn",
-  "westbahn management gmbh": "Westbahn",
+  // Lithuanian
+  'ltg link': 'ltglink',
+  'ltg': 'ltglink',
+  'lietuvos gelezinkeliai': 'ltglink',
 
-  // ── Arriva ──
-  "arriva nederland": "Arriva",
-  "arriva personenvervoer nederland": "Arriva",
+  // Latvian
+  'pv': 'pasazieruvilciens',
+  'pasazieru vilciens': 'pasazieruvilciens',
 
-  // ── Eurostar ──
-  "eurostar international": "Eurostar",
+  // Estonian
+  'elron': 'elron',
+  'eesti raudtee': 'elron',
 
-  // ── Qbuzz ──
-  "qbuzz nederland": "Qbuzz",
+  // Turkish
+  'tcdd': 'tcdd',
+  'tcdd tasimacilik': 'tcdd',
+  'tcdd taşımacılık': 'tcdd',
+  'turkish state railways': 'tcdd',
 
-  // ── UK operators ──
-  "scotrail": "ScotRail",
-  "scotrail abellio": "ScotRail",
-  "abellio scotrail": "ScotRail",
-  "glasgow": "ScotRail",
-  "london midland": "West Midlands Trains",
-  "east midlands trains": "East Midlands Railway",
-  "arriva trains wales": "Transport for Wales",
-  "arriva rail north": "Northern",
-  "northern rail": "Northern",
-  "northern trains": "Northern",
-  "southern railway": "GTR",
-  "gatwick express": "GTR",
-  "thameslink": "GTR",
-  "great northern": "GTR",
-  "new southern railway": "GTR",
-  "merseyrail": "National Rail",
-  "first trans pennine express": "TransPennine Express",
-  "first great western": "Great Western Railway",
-  "c2c": "National Rail",
-  "london overground": "National Rail",
-  "tfl rail": "National Rail",
-  "elizabeth line": "National Rail",
-  "west midlands trains": "West Midlands Trains",
-  "west midlands railway": "West Midlands Trains",
-  "london northwestern": "West Midlands Trains",
-  "ni railways": "NI Railways",
-  "northern ireland railways": "NI Railways",
-  "translink": "NI Railways",
-  "transport for wales": "Transport for Wales",
-  "transport for wales rail": "Transport for Wales",
-  "keolisamey wales": "Transport for Wales",
-  "virgin trains": "Avanti West Coast",
-  "transport for london": "National Rail",
-  "island line trains": "South Western Railway",
-  "network rail": "Network Rail",
-  "network rail infrastructure ltd": "Network Rail",
+  // French regional
+  'ter': 'sncf',
+  'ter auvergne rhone alpes': 'sncf',
+  'ter nouvelle aquitaine': 'sncf',
+  'ter occitanie': 'sncf',
+  'ter grand est': 'sncf',
+  'ter hauts de france': 'sncf',
+  'ter bourgogne franche comte': 'sncf',
+  'ter pays de la loire': 'sncf',
+  'ter bretagne': 'sncf',
+  'ter centre val de loire': 'sncf',
+  'ter normandie': 'sncf',
+  'ter provence alpes cote dazur': 'sncf',
+  'rer': 'ratp',
+  'transilien': 'sncf',
 
-  // ── Adif ──
-  "adif": "Renfe",
+  // Spanish regional
+  'fgc': 'fgc',
+  'ferrocarrils de la generalitat de catalunya': 'fgc',
+  'euskotren': 'euskotren',
+  'euskotren trena': 'euskotren',
+  'feve': 'renfe',
+  'sfm': 'sfm',
+  'serveis ferroviaris de mallorca': 'sfm',
+  'fmb': 'metrobarcelona',
+  'metro barcelona': 'metrobarcelona',
+  'tmb': 'metrobarcelona',
+  'metro madrid': 'metromadrid',
+  'metro bilbao': 'metrobilbao',
+  'metro valencia': 'metrovalencia',
+  'metro sevilla': 'metrosevilla',
 
-  // ── Infraestruturas de Portugal ──
-  "infraestruturas de portugal": "CP",
-
-  // ── Správa železnic ──
-  "sprava zeleznic": "České dráhy",
-  "cz szdc": "České dráhy",
-  "sprava zeleznicni dopravni cesty": "České dráhy",
-
-  // ── Slovenian Railways variants ──
-  "slovenske zeleznice": "Slovenian Railways",
-
-  // ── Finnish Railways ──
-  "finnish transport infrastructure agency": "VR",
-  "vaylavirasto": "VR",
-
-  // ── Albanian Railways ──
-  "hekurudha shqiptare": "hsh (Albanian Railways)",
-
-  // ── Serbian Railways variants ──
-  "serbian railways infrastructure": "Srbija Voz",
-  "serbian railways": "Srbija Voz",
-  "srbijavoz": "Srbija Voz",
-
-  // ── Kosovo Railways ──
-  "kosovo railways": "Trainkos",
-
-  // ── Latvian Railways ──
-  "latvian railways": "Vivi",
-
-  // ── Lithuanian Railways ──
-  "lietuvos gelezinkeliai": "LTG Link",
-  "ltg infra": "LTG Link",
-
-  // ── Ukraine ──
-  "ukrzaliznytsia": "Ukrzaliznytsia",
-  "oekraiense spoorwegen": "Ukrzaliznytsia",
-  "ukrainian railway": "Ukrzaliznytsia",
-  "ukrainian railways": "Ukrzaliznytsia",
-  "cisdnieper railways": "Ukrzaliznytsia",
-
-  // ── Moldova ──
-  "calea ferata din moldova": "Calea Ferată din Moldova",
-
-  // ── Estonia ──
-  "elektriraudtee": "Elron",
-
-  // ── Germany: DB subsidiaries → DB ──
-  "sudostbayernbahn": "DB",
-  "südostbayernbahn": "DB",
-  "westfrankenbahn": "DB",
-  "kurhessenbahn": "DB",
-  "erixx": "DB",
-
-  // ── Norway infrastructure ──
-  "bane nor": "Vy",
-
-  // ── Sweden infrastructure ──
-  "swedish transport administration": "SJ",
-
-  // ── Switzerland: Various operators that are already in data.json ──
-  "regie autonome des transports parisiens": "RATP",
-  "ratp": "RATP",
-  "chemins de fer de la corse": "Chemins de Fer de la Corse",
-  "cfc": "Chemins de Fer de la Corse",
-  "lokaltog": "Lokaltog",
-  "raaberbahn": "Raaberbahn",
-  "raaberbahn ag": "Raaberbahn",
-  "gysev": "Raaberbahn",
-  "ferrovie del sud est": "Ferrovie del Sud Est",
-  "fse": "Ferrovie del Sud Est",
-  "albtal verkehrs gesellschaft": "Albtal-Verkehrs-Gesellschaft mbH",
-  "avag": "Albtal-Verkehrs-Gesellschaft mbH",
-  "transports publics du chablais": "Transports Publics du Chablais",
-  "tpc": "Transports Publics du Chablais",
-  "appenzeller bahnen": "Appenzeller Bahnen",
-  "appenzellerbahn": "Appenzeller Bahnen",
-  "ab": "Appenzeller Bahnen",
-  "montreux berner oberland bahn": "Montreux-Berner Oberland-Bahn",
-  "mob": "Montreux-Berner Oberland-Bahn",
-  "compagnia trasporti laziali": "Compagnia Trasporti Laziali",
-  "ctl": "Compagnia Trasporti Laziali",
-  "cotral": "Compagnia Trasporti Laziali",
-  "aare seeland mobil": "Aare Seeland mobil",
-  "asm": "Aare Seeland mobil",
-  "chemins de fer du jura": "Chemins de fer du Jura",
-  "cj": "Chemins de fer du Jura",
-  "schweizerische sudostbahn": "Schweizerische Südostbahn",
-  "sob": "Schweizerische Südostbahn",
-  "nordjyske jernbaner": "Nordjyske Jernbaner",
-  "nj": "Nordjyske Jernbaner",
-  "euskotren trena": "Euskotren",
-  "euskotren": "Euskotren",
-  "crimea railway": "Crimea Railway",
-  "zeleznice republike srpske": "Željeznice Republike Srpske",
-  "zrs": "Željeznice Republike Srpske",
-  "zfbh": "ŽFBiH",
-  "zpcg": "ŽPCG",
-
-  // ── Italy: Trenitalia infrastructure aliases ──
-  "ferrovienord": "Trenord",
-  "societa unica abruzzese di trasporto": "Trenitalia",
-  "treni regionali ticino lombardia": "TILO",
-
-  // ── Spain: Renfe infrastructure/regional ──
-  "euskotrenbideak ferrocarriles vascos": "Euskotren",
-  "eusko trenbideak ferrocarriles vascos": "Euskotren",
-  "ferrocarrils de la generalitat de catalunya": "Renfe",
-  "metro van valencia": "Renfe",
-  "ferrocarrils de la generalitat valenciana": "Renfe",
-};
-
-// ────────────────────────────────────────────────────────────────
-// 4. NEW OPERATORS TO ADD
-// These are genuinely new operators that don't exist in data.json
-// ────────────────────────────────────────────────────────────────
-const newOperators = [
-  // ── Switzerland ──
-  {
-    id: "rbs",
-    name: "Regionalverkehr Bern-Solothurn",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.rbs.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in the Bern-Solothurn area, running S-Bahn and regional services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "tpf",
-    name: "Transports publics Fribourgeois",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.tpf.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Public transport operator in the canton of Fribourg, running regional rail and bus services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "sihltal_bahn",
-    name: "Sihltal Zürich Uetliberg Bahn (SZU)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.szu.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator serving the Sihltal and Uetliberg lines in the Zurich area.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "travys",
-    name: "TRAVYS",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.travys.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in the Vallée de Joux and Yverdon-les-Bains area.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "transn",
-    name: "Transports Publics Neuchâtelois (transN)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.transn.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Public transport operator in the canton of Neuchâtel, running regional rail and bus services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "morges_biere",
-    name: "Transports de la région Morges-Bière-Cossonay (MBC)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.mbc.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in the Morges-Bière-Cossonay area of Vaud canton.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "bdwm",
-    name: "BDWM Transport (Aargau Verkehr)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.aargauverkehr.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in Aargau, operating the Bremgarten-Dietikon and Wohlen-Meisterschwanden lines.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "forchbahn",
-    name: "Forchbahn",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.forchbahn.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional light rail line connecting Zurich with Forch and Esslingen.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "frauenfeld_wil",
-    name: "Frauenfeld-Wil-Bahn",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.fw-bahn.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Narrow-gauge railway connecting Frauenfeld with Wil in canton Thurgau.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "tpc_vevey",
-    name: "Transports Publics du Chablais (Vevey−Chamby)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.tpc.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in the Chablais region, including the Vevey–Blonay–Les Pléiades line.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ferrovie_luganesi",
-    name: "Ferrovie Luganesi (FLP)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.flpsa.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in the Lugano area, running the Lugano-Ponte Tresa line.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "baselland_transport",
-    name: "Baselland Transport (BLT)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.blt.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in Basel-Landschaft, running light rail and bus services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "rigi_bahnen",
-    name: "Rigi Bahnen",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.rigi.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Mountain railway operator on Mount Rigi, running Europe's oldest mountain railway.",
-    operatorLabel: "Scenic train operator"
-  },
-  {
-    id: "jungfraubahn",
-    name: "Jungfraubahn",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.jungfrau.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Operator of railways in the Jungfrau region, including the famous Jungfrau Railway to Jungfraujoch.",
-    operatorLabel: "Scenic train operator"
-  },
-  {
-    id: "berner_oberland",
-    name: "Berner Oberland-Bahnen (BOB)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.jungfrau.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Mountain railway operator in the Bernese Oberland, connecting Interlaken with Lauterbrunnen and Grindelwald.",
-    operatorLabel: "Scenic train operator"
-  },
-  {
-    id: "emmentalbahn",
-    name: "Emmentalbahn (ETB)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.etb-smb.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway in the Emmental valley, running the Hasle-Rüegsau–Huttwil line.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "fart",
-    name: "Ferrovie Autolinee Regionali Ticinesi (FART)",
-    country: "Switzerland",
-    countries: ["Switzerland", "Italy"],
-    type: "trains",
-    website: "https://www.centovalli.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in Ticino, running the scenic Centovalli railway between Locarno and Domodossola.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "wynental_suhrental",
-    name: "Wynental- und Suhrentalbahn (WSB)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.aargauverkehr.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway in Aargau, running the Aarau–Menziken and Aarau–Schöftland lines (now part of Aargau Verkehr).",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "leb",
-    name: "Chemin de fer Lausanne-Échallens-Bercher (LEB)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.leb.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway linking Lausanne with Échallens and Bercher in Vaud canton.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "nstcm",
-    name: "Chemin de fer Nyon-St-Cergue-Morez (NStCM)",
-    country: "Switzerland",
-    countries: ["Switzerland"],
-    type: "trains",
-    website: "https://www.nstcm.ch",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway running from Nyon on Lake Geneva to the Jura mountains.",
-    operatorLabel: "Regional train operator"
-  },
-
-  // ── Germany ──
-  {
-    id: "evb",
-    name: "Eisenbahnen und Verkehrsbetriebe Elbe-Weser (EVB)",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.evb-elbe-weser.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Lower Saxony, connecting Bremerhaven, Bremervörde and Hamburg.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "metronom",
-    name: "metronom Eisenbahngesellschaft",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.der-metronom.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional train operator in northern Germany, running services between Hamburg, Bremen and Lüneburg.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "harzer_schmalspurbahnen",
-    name: "Harzer Schmalspurbahnen (HSB)",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.hsb-wr.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Narrow-gauge steam railway network in the Harz mountains, Germany's largest narrow-gauge railway.",
-    operatorLabel: "Heritage train operator"
-  },
-  {
-    id: "akn_eisenbahn",
-    name: "AKN Eisenbahn",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.akn.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Schleswig-Holstein, connecting Hamburg with northern suburbs.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "usedomer_baderbahn",
-    name: "Usedomer Bäderbahn (UBB)",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.ubb-online.com",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator on the island of Usedom, connecting seaside resorts with the mainland.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "bleckeder_kleinbahn",
-    name: "Bleckeder Kleinbahn",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Small regional railway connecting Lüneburg with Bleckede in Lower Saxony.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "kvg",
-    name: "Kahlgrund-Verkehrs-Gesellschaft (KVG)",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.kvg-mobil.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in the Kahlgrund area of Bavaria.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "regio_infra",
-    name: "Regio Infra Nord-Ost",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.regioinfra.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Mecklenburg-Vorpommern and Brandenburg.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "saxon_steam",
-    name: "Saxon Steam Railway (SDG)",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.sdg-bahn.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Operator of several narrow-gauge steam railways in Saxony, including the Fichtelbergbahn and Lößnitzgrundbahn.",
-    operatorLabel: "Heritage train operator"
-  },
-  {
-    id: "sweg",
-    name: "SWEG Südwestdeutsche Landesverkehrs-GmbH",
-    country: "Germany",
-    countries: ["Germany"],
-    type: "trains",
-    website: "https://www.sweg.de",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in southwest Germany (Baden-Württemberg), running rail and bus services.",
-    operatorLabel: "Regional train operator"
-  },
-
-  // ── Italy ──
-  {
-    id: "ferrovie_calabria",
-    name: "Ferrovie della Calabria",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.ferroviedellacalabria.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Calabria, southern Italy.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ferrovie_appulo_lucane",
-    name: "Ferrovie Appulo Lucane (FAL)",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.ferrovieappulolucane.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator connecting Apulia (Puglia) and Basilicata regions in southern Italy.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ferrovie_emilia_romagna",
-    name: "Ferrovie Emilia Romagna (FER)",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.fer.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in the Emilia-Romagna region, now part of TPER.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ente_autonomo_volturno",
-    name: "Ente Autonomo Volturno (EAV)",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.eavsrl.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in Campania, running rail, metro and funicular services around Naples.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ferrovie_gargano",
-    name: "Ferrovie del Gargano",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.ferroviedelgargano.com",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator on the Gargano peninsula in Apulia (Puglia).",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ferrotramviaria",
-    name: "Ferrotramviaria",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.ferrovienordbarese.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Apulia, running the Bari–Barletta line and Bari airport link.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ferrovia_circumetnea",
-    name: "Ferrovia Circumetnea",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.circumetnea.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Narrow-gauge railway circling Mount Etna in Sicily, connecting Catania with Riposto.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "ferrovia_suzzara_ferrara",
-    name: "Ferrovia Suzzara-Ferrara (FSF)",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway line connecting Suzzara with Ferrara in the Po Valley (now part of FER/TPER).",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "sistemi_territoriali",
-    name: "Sistemi Territoriali",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.sistemiterritorialispa.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Veneto, running the Adria–Mestre and other regional lines.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "trasporto_ferroviario_toscano",
-    name: "Trasporto Ferroviario Toscano (TFT)",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.trasportoferroviariotoscano.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Tuscany, running the Arezzo–Stia and Arezzo–Sinalunga lines.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "gruppo_torinese_trasporti",
-    name: "Gruppo Torinese Trasporti (GTT)",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.gtt.to.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Public transport operator in Turin, running the Turin–Ceres railway and local metro/light rail services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "sad_nahverkehr",
-    name: "SAD Nahverkehr",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.sad.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in South Tyrol/Alto Adige, running rail and bus services including the Bolzano–Merano line.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "arenaways",
-    name: "Arenaways",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.arenaways.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Private Italian railway operator running regional services in Piedmont.",
-    operatorLabel: "Private train operator"
-  },
-  {
-    id: "amt_genova",
-    name: "AMT Genova",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.amt.genova.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Public transport operator in Genoa, running the Genova–Casella railway and local transport.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "minimetro",
-    name: "Minimetrò Perugia",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.minimetrospa.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Automated people mover system in Perugia.",
-    operatorLabel: "Urban transit operator"
-  },
-  {
-    id: "arst",
-    name: "ARST Sardegna",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.arstspa.info",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in Sardinia, running narrow-gauge railways, light rail, and bus services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "astral",
-    name: "ASTRAL (Roma Nord)",
-    country: "Italy",
-    countries: ["Italy"],
-    type: "trains",
-    website: "https://www.astralspa.it",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Operator of the Roma–Civita Castellana–Viterbo railway (Roma Nord) in Lazio.",
-    operatorLabel: "Regional train operator"
-  },
-
-  // ── Austria ──
-  {
-    id: "novog",
-    name: "NÖVOG (Niederösterreichische Verkehrsorganisationsgesellschaft)",
-    country: "Austria",
-    countries: ["Austria"],
-    type: "trains",
-    website: "https://www.noevog.at",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional transport operator in Lower Austria, running several narrow-gauge and regional railways.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "zillertalbahn",
-    name: "Zillertalbahn",
-    country: "Austria",
-    countries: ["Austria"],
-    type: "trains",
-    website: "https://www.zillertalbahn.at",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Narrow-gauge railway in the Zillertal valley in Tyrol, connecting Jenbach with Mayrhofen.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "stlb",
-    name: "Steiermärkische Landesbahnen (StLB)",
-    country: "Austria",
-    countries: ["Austria"],
-    type: "trains",
-    website: "https://www.stlb.at",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Styria, running several narrow-gauge lines including the Murtalbahn.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "stern_haftel",
-    name: "Stern & Hafferl",
-    country: "Austria",
-    countries: ["Austria"],
-    type: "trains",
-    website: "https://www.stern-verkehr.at",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Private transport company in Upper Austria, running several local railways and tram lines.",
-    operatorLabel: "Regional train operator"
-  },
-
-  // ── Denmark ──
-  {
-    id: "midtjyske_jernbaner",
-    name: "Midtjyske Jernbaner",
-    country: "Denmark",
-    countries: ["Denmark"],
-    type: "trains",
-    website: "https://www.mjba.dk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Regional railway operator in Central Jutland, Denmark.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "gocollective",
-    name: "GoCollective",
-    country: "Denmark",
-    countries: ["Denmark"],
-    type: "trains",
-    website: "https://www.gocollective.dk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Danish regional railway operator (formerly Arriva Denmark), running services in Jutland.",
-    operatorLabel: "Regional train operator"
-  },
-
-  // ── Poland ──
-  {
-    id: "warszawska_kolej_dojazdowa",
-    name: "Warszawska Kolej Dojazdowa (WKD)",
-    country: "Poland",
-    countries: ["Poland"],
-    type: "trains",
-    website: "https://www.wkd.com.pl",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Suburban railway operator in Warsaw, connecting the city centre with western suburbs.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "szybka_kolej_miejska",
-    name: "Szybka Kolej Miejska (SKM)",
-    country: "Poland",
-    countries: ["Poland"],
-    type: "trains",
-    website: "https://www.skm.pkp.pl",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Rapid urban railway in the Tricity area (Gdańsk, Sopot, Gdynia) in Poland.",
-    operatorLabel: "Regional train operator"
-  },
+  // Ferry operator variants
+  'stenaline': 'stenaline',
+  'stena line': 'stenaline',
+  'p&o ferries': 'poferries',
+  'p and o ferries': 'poferries',
+  'p&o': 'poferries',
+  'brittany ferries': 'brittanyferries',
+  'dfds': 'dfds',
+  'dfds seaways': 'dfds',
+  'scandlines': 'scandlines',
+  'color line': 'colorline',
+  'colorline': 'colorline',
+  'fjord line': 'fjordline',
+  'fjordline': 'fjordline',
+  'tt line': 'ttline',
+  'ttline': 'ttline',
+  'tallink': 'tallinksilja',
+  'silja line': 'tallinksilja',
+  'tallink silja': 'tallinksilja',
+  'viking line': 'vikingline',
+  'vikingline': 'vikingline',
+  'finnlines': 'finnlines',
+  'finnlines oyj': 'finnlines',
+  'balearia': 'balearia',
+  'balearia caribbean': 'balearia',
+  'grimaldi': 'grimaldi',
+  'grimaldi lines': 'grimaldi',
+  'gnv': 'gnv',
+  'grandi navi veloci': 'gnv',
+  'moby lines': 'moby',
+  'moby': 'moby',
+  'corsica ferries': 'corsicaferries',
+  'corsica sardinia ferries': 'corsicaferries',
+  'irish ferries': 'irishferries',
+  'jadrolinija': 'jadrolinija',
+  'molslinjen': 'molslinjen',
+  'mols linjen': 'molslinjen',
+  'bornholmslinjen': 'bornholmslinjen',
+  'bornholmerfaergen': 'bornholmslinjen',
+  'forsea': 'forsea',
+  'wasaline': 'wasaline',
+  'samsø rederi': 'samsorederi',
+  'aerø faergerne': 'aeroe',
+  'langelandsfaergen': 'langelandsfaergen',
+  'faergen': 'faergen',
+  'færgen': 'faergen',
+  'destiny ferries': 'destiny',
+  'eckerö': 'eckero',
+  'eckerö linjen': 'eckero',
+  'unity line': 'unityline',
+  'polferries': 'polferries',
+  'polska zegluga baltycka': 'polferries',
 
   // ── Romania ──
-  {
-    id: "regiotrans",
-    name: "Regiotrans",
-    country: "Romania",
-    countries: ["Romania"],
-    type: "trains",
-    website: "",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Private regional railway operator in Romania.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "transferoviar_calatori",
-    name: "Transferoviar Călători",
-    country: "Romania",
-    countries: ["Romania"],
-    type: "trains",
-    website: "https://www.transferoviar.ro",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Private passenger rail operator in Romania, running regional services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "rc_cf_trans",
-    name: "RC-CF Trans",
-    country: "Romania",
-    countries: ["Romania"],
-    type: "trains",
-    website: "",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Private railway operator in Romania, running regional passenger and freight services.",
-    operatorLabel: "Regional train operator"
-  },
-  {
-    id: "transferoviar_infrastructura",
-    name: "Transferoviar Infrastructura",
-    country: "Romania",
-    countries: ["Romania"],
-    type: "trains",
-    website: "https://www.transferoviar.ro",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Railway infrastructure manager for non-interoperable lines in Romania.",
-    operatorLabel: "Infrastructure manager"
-  },
+  'cfr calatori': 'cfr',
+  'cfr cēlētori': 'cfr',
+  'cfr c\u0103l\u0103tori': 'cfr',
+  'transferoviar calatori': 'transferoviar',
+  'transferoviar cēlētori': 'transferoviar',
+  'regiotrans': 'regiocalatori',
+  'softrans': 'softrans',
+  'astra trans carpatica': 'astratranscarpatica',
+  'regio calatori': 'regiocalatori',
 
-  // ── UK ──
-  {
-    id: "scotrail",
-    name: "ScotRail",
-    country: "United Kingdom",
-    countries: ["United Kingdom"],
-    type: "trains",
-    website: "https://www.scotrail.co.uk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Scotland's primary train operator, running regional, commuter and intercity services. Book through National Rail retailers or directly with ScotRail.",
-    operatorLabel: "Scottish train operator"
-  },
-  {
-    id: "west_somerset_railway",
-    name: "West Somerset Railway",
-    country: "United Kingdom",
-    countries: ["United Kingdom"],
-    type: "trains",
-    website: "https://www.west-somerset-railway.co.uk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Heritage railway in Somerset, England, the longest standard gauge heritage line in the UK.",
-    operatorLabel: "Heritage train operator"
-  },
-  {
-    id: "ffestiniog_railway",
-    name: "Ffestiniog Railway",
-    country: "United Kingdom",
-    countries: ["United Kingdom"],
-    type: "trains",
-    website: "https://www.festrail.co.uk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Historic narrow-gauge railway in Snowdonia, Wales, running from Porthmadog to Blaenau Ffestiniog.",
-    operatorLabel: "Heritage train operator"
-  },
-  {
-    id: "severn_valley_railway",
-    name: "Severn Valley Railway",
-    country: "United Kingdom",
-    countries: ["United Kingdom"],
-    type: "trains",
-    website: "https://www.svr.co.uk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Heritage railway in Shropshire and Worcestershire, running between Bridgnorth and Kidderminster.",
-    operatorLabel: "Heritage train operator"
-  },
-  {
-    id: "east_lancashire_railway",
-    name: "East Lancashire Railway",
-    country: "United Kingdom",
-    countries: ["United Kingdom"],
-    type: "trains",
-    website: "https://www.eastlancsrailway.org.uk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Heritage railway in Lancashire, running between Heywood and Rawtenstall.",
-    operatorLabel: "Heritage train operator"
-  },
-  {
-    id: "ravenglass_eskdale",
-    name: "Ravenglass & Eskdale Railway",
-    country: "United Kingdom",
-    countries: ["United Kingdom"],
-    type: "trains",
-    website: "https://ravenglass-railway.co.uk",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Narrow-gauge heritage railway in the Lake District, known as 'La'al Ratty'.",
-    operatorLabel: "Heritage train operator"
-  },
+  // ── UK missing ──
+  'west midlands trains': 'wmr',
+  'west midlands railway': 'wmr',
+  'london northwestern railway': 'wmr',
+  'london north western railway': 'wmr',
+  'lnwr': 'wmr',
+  'crosscountry trains': 'crosscountry',
+  'arriva rail london': 'arriva',
+  'arriva trains wales': 'tfw',
+  'keolis amey wales': 'tfw',
+  'merseyrail electrics': 'merseyrail',
+  'first transPennine express': 'tpe',
+  'first great western': 'gwr',
+  'first scotrail': 'scotrail',
+  'abellio greater anglia': 'greateranglia',
+  'abellio scotrail': 'scotrail',
+  'serco caledonian sleeper': 'caledoniansleeper',
+  'serco': 'caledoniansleeper',
+  'london underground': 'tfl',
+  'transport for london': 'tfl',
+  'tfl': 'tfl',
+  'docklands light railway': 'tfl',
+  'dlr': 'tfl',
+  'tyne and wear metro': 'nexus',
+  'nexus': 'nexus',
+  'strathclyde partnership for transport': 'spt',
+  'spt': 'spt',
+  'ni railways': 'translink',
+  'northern ireland railways': 'translink',
+  'translink': 'translink',
+  'translink ni': 'translink',
+  'eurostar international': 'eurostar',
 
-  // ── Czechia ──
-  {
-    id: "pkp_cargo_international",
-    name: "PKP Cargo International",
-    country: "Czechia",
-    countries: ["Czechia", "Poland"],
-    type: "trains",
-    website: "https://www.pkpcargointernational.eu",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Rail freight operator, subsidiary of PKP Cargo, operating in Czechia and Central Europe.",
-    operatorLabel: "Freight train operator"
-  },
+  // ── Swiss regional missing ──
+  'schweizerische sudostbahn': 'so b',
+  'schweizerische südostbahn': 'so b',
+  'montreux berner oberland bahn': 'mo b',
+  'montreux berner oberland': 'mo b',
+  'montreux-berner oberland-bahn': 'mo b',
+  'transports de martigny et regions': 'tmr',
+  'tmr': 'tmr',
+  'aare seeland mobil': 'as m',
+  'chemins de fer du jura': 'cj',
+  'transports publics fribourgeois': 'tpf',
+  'transports publics du chablais': 'tpc',
+  'frauenfeld wil bahn': 'fART',
+  'matterhorn gotthard bahn': 'matterhorngotthard',
+  'matterhorn gotthard verkehr': 'matterhorngotthard',
+  'rhatische bahn': 'rhb',
+  'rhätische bahn': 'rhb',
+  'rhb ag': 'rhb',
+  'b ls ag': 'b ls',
 
-  // ── France ──
-  {
-    id: "compagnie_mont_blanc",
-    name: "Compagnie du Mont-Blanc",
-    country: "France",
-    countries: ["France"],
-    type: "trains",
-    website: "https://www.montblancnaturalresort.com",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Operator of the Montenvers Railway and Tramway du Mont-Blanc in Chamonix, France.",
-    operatorLabel: "Scenic train operator"
-  },
-  {
-    id: "chemin_fer_chanteraines",
-    name: "Chemin de Fer des Chanteraines",
-    country: "France",
-    countries: ["France"],
-    type: "trains",
-    website: "https://www.cfchanteraines.fr",
-    appLinks: { android: "", ios: "" },
-    logo: "",
-    description: "Heritage narrow-gauge railway in the Parc des Chanteraines, near Paris.",
-    operatorLabel: "Heritage train operator"
-  },
-];
+  // ── German missing ──
+  'albtal verkehrs gesellschaft': 'avg',
+  'albtal-verkehrs-gesellschaft': 'avg',
+  'av g': 'avg',
+  'avg': 'avg',
+  'albtal verkehrs gesellschaft mbh': 'avg',
+  'hohenzollerische landesbahn': 'hzl',
+  'hzl': 'hzl',
+  'swu verkehr': 'swu',
+  'swu': 'swu',
+  'abellio rail mitteldeutschland': 'abellio',
+  'abellio rail nrw': 'abellio',
+  'abellio rail': 'abellio',
+  'trans regio': 'transregio',
+  'transregio': 'transregio',
+  'mitteldeutsche regiobahn': 'mitteldeutsche',
+  'bayerische oberlandbahn': 'bayeroberland',
+  'bayerische regiobahn': 'bayerregiobahn',
+  'nordbahn eisenbahn': 'nbe',
+  'osthannoversche eisenbahnen': 'hansestadt',
+  'ohe': 'hansestadt',
+  'railjet': 'obb',
+  'nightjet': 'obb',
+  'eurocity': 'db',
+  'intercity': 'db',
+  'intercity express': 'db',
+  'ice': 'db',
+  'metronom eisenbahngesellschaft': 'metronom',
 
-// ────────────────────────────────────────────────────────────────
-// 5. ADD ALIASES FOR NEW OPERATORS
-// ────────────────────────────────────────────────────────────────
+  // ── Italian missing ──
+  'ferrovie del sud est': 'fse',
+  'fse': 'fse',
+  'ferrovia suzzara ferrara': 'fer',
+  'fer': 'fer',
+  'ferrovie emilia romagna': 'fer',
+  'ferrovia circumetnea': 'circumetnea',
+  'circumvesuviana srl': 'circumvesuviana',
+  'eav': 'circumvesuviana',
+  'ente autonomo volturno': 'circumvesuviana',
+  'ctc': 'cotral',
+  'cotral': 'cotral',
+  'compagnia trasporti laziali': 'cotral',
+  'atac': 'atac',
+  'atac roma': 'atac',
+  'trenitalia tper scarl': 'trenordest',
+  'ferrovienord spa': 'ferrovienord',
+  'ferrovie nord milano': 'ferrovienord',
+  'fnm': 'ferrovienord',
+  'gruppo torinese trasporti': 'gtt',
+  'gtt': 'gtt',
+  'amt genova': 'amtgenova',
+  'amt': 'amtgenova',
+  'actv': 'actv',
+  'actv venezia': 'actv',
+  'dolomiti bus': 'dolomitibus',
+  'ttr': 'ttr',
+  'trentino trasporti': 'ttr',
 
-// Map of missing report names → new operator entry names
-const newOperatorAliases = {
-  // Switzerland
-  "regionalverkehr bern solothurn": "Regionalverkehr Bern-Solothurn",
-  "transports publics fribourgeois": "Transports publics Fribourgeois",
-  "sihltal zurich uetliberg bahn": "Sihltal Zürich Uetliberg Bahn (SZU)",
-  "sihltal zurich uetliberg bahn szu": "Sihltal Zürich Uetliberg Bahn (SZU)",
-  "travys": "TRAVYS",
-  "transports publics neuchatelois": "Transports Publics Neuchâtelois (transN)",
-  "transports publics neuchatelois transn": "Transports Publics Neuchâtelois (transN)",
-  "transports de la region morges biere cossonay": "Transports de la région Morges-Bière-Cossonay (MBC)",
-  "transports de la region morges biere cossonay mbc": "Transports de la région Morges-Bière-Cossonay (MBC)",
-  "bdwm transport": "BDWM Transport (Aargau Verkehr)",
-  "forchbahn ag": "Forchbahn",
-  "forchbahn": "Forchbahn",
-  "frauenfeld wil bahn": "Frauenfeld-Wil-Bahn",
-  "frauenfeld wil bahn ag": "Frauenfeld-Wil-Bahn",
-  "spoorlijn vevey chamby": "Transports Publics du Chablais (Vevey−Chamby)",
-  "ferrovie luganesi": "Ferrovie Luganesi (FLP)",
-  "ferrovie luganesi flp": "Ferrovie Luganesi (FLP)",
-  "baselland transport": "Baselland Transport (BLT)",
-  "baselland transport blt": "Baselland Transport (BLT)",
-  "rigi bahnen": "Rigi Bahnen",
-  "rigi bahnen ag": "Rigi Bahnen",
-  "jungfraubahn holding": "Jungfraubahn",
-  "jungfraubahn": "Jungfraubahn",
-  "berner oberland bahnen": "Berner Oberland-Bahnen (BOB)",
-  "berner oberland bahnen ag": "Berner Oberland-Bahnen (BOB)",
-  "berner oberland bahnen bob": "Berner Oberland-Bahnen (BOB)",
-  "emmentalbahn": "Emmentalbahn (ETB)",
-  "emmentalbahn etb": "Emmentalbahn (ETB)",
-  "regional bus and rail company of canton ticino": "Ferrovie Autolinee Regionali Ticinesi (FART)",
-  "wynental en suhrentalbahn": "Wynental- und Suhrentalbahn (WSB)",
-  "wynental und suhrentalbahn wsb": "Wynental- und Suhrentalbahn (WSB)",
-  "spoorlijn lausanne bercher": "Chemin de fer Lausanne-Échallens-Bercher (LEB)",
-  "spoorlijn nyon morez": "Chemin de fer Nyon-St-Cergue-Morez (NStCM)",
-  "transports de martigny et regions": "Transports de Martigny et Régions",
+  // ── French missing ──
+  'ratp': 'ratp',
+  'regie autonome des transports parisiens': 'ratp',
+  'régie autonome des transports parisiens': 'ratp',
+  'optile': 'ratp',
+  'ile de france mobilites': 'ratp',
+  'île-de-france mobilités': 'ratp',
+  'stif': 'ratp',
+  'chemins de fer de la corse': 'cfc',
+  'cfc': 'cfc',
+  'chemins de fer de provence': 'cpt',
+  'mont blanc express': 'montblanc',
+  'le train jaune': 'cervi',
+  'cdg val': 'cdgval',
 
-  // Germany
-  "eisenbahnen und verkehrsbetriebe elbe weser": "Eisenbahnen und Verkehrsbetriebe Elbe-Weser (EVB)",
-  "eisenbahnen und verkehrsbetriebe elbe weser evb": "Eisenbahnen und Verkehrsbetriebe Elbe-Weser (EVB)",
-  "metronom eisenbahngesellschaft": "metronom Eisenbahngesellschaft",
-  "harzer schmalspurbahnen": "Harzer Schmalspurbahnen (HSB)",
-  "harzer schmalspurbahnen hsb": "Harzer Schmalspurbahnen (HSB)",
-  "akn eisenbahn": "AKN Eisenbahn",
-  "usedomer baderbahn": "Usedomer Bäderbahn (UBB)",
-  "usedomer baderbahn ubb": "Usedomer Bäderbahn (UBB)",
-  "bleckeder kleinbahn ug": "Bleckeder Kleinbahn",
-  "bleckeder kleinbahn": "Bleckeder Kleinbahn",
-  "kahlgrund verkehrs gesellschaft mbh": "Kahlgrund-Verkehrs-Gesellschaft (KVG)",
-  "kahlgrund verkehrs gesellschaft kvg": "Kahlgrund-Verkehrs-Gesellschaft (KVG)",
-  "regio infra nord ost": "Regio Infra Nord-Ost",
-  "saxon steam railway company": "Saxon Steam Railway (SDG)",
-  "saxon steam railway sdg": "Saxon Steam Railway (SDG)",
-  "sweg schienenwege": "SWEG Südwestdeutsche Landesverkehrs-GmbH",
-  "sweg schienenwege gmbh": "SWEG Südwestdeutsche Landesverkehrs-GmbH",
-  "sweg sudwestdeutsche landesverkehrs": "SWEG Südwestdeutsche Landesverkehrs-GmbH",
+  // ── Austrian missing ──
+  'raaberbahn': 'gysev',
+  'raaberbahn ag': 'gysev',
+  'gysev raaberbahn': 'gysev',
+  'raab oedenburg ebenfurter': 'gysev',
+  'steiermarkbahn': 'stlb',
+  'stlb': 'stlb',
+  'steiermarkische landesbahnen': 'stlb',
+  'steiermärkische landesbahnen': 'stlb',
+  'niederosterreichische schneebergbahn': 'schneebergbahn',
+  'szr': 'schafbergbahn',
+  'salzburg ag': 'szr',
+  'pinzgauer lokalbahn': 'pinzgauer',
+  'zillertaler verkehrsbetriebe': 'ztb',
 
-  // Italy
-  "ferrovie della calabria": "Ferrovie della Calabria",
-  "ferrovie appulo lucane": "Ferrovie Appulo Lucane (FAL)",
-  "ferrovie appulo lucane fal": "Ferrovie Appulo Lucane (FAL)",
-  "ferrovie emilia romagna": "Ferrovie Emilia Romagna (FER)",
-  "ferrovie emilia romagna fer": "Ferrovie Emilia Romagna (FER)",
-  "ente autonomo volturno": "Ente Autonomo Volturno (EAV)",
-  "ente autonomo volturno eav": "Ente Autonomo Volturno (EAV)",
-  "eav": "Ente Autonomo Volturno (EAV)",
-  "ferrovie del gargano": "Ferrovie del Gargano",
-  "ferrotramviaria": "Ferrotramviaria",
-  "ferrovia circumetnea": "Ferrovia Circumetnea",
-  "ferrovia suzzara ferrara": "Ferrovia Suzzara-Ferrara (FSF)",
-  "ferrovia suzzara ferrara fsf": "Ferrovia Suzzara-Ferrara (FSF)",
-  "sistemi territoriali": "Sistemi Territoriali",
-  "trasporto ferroviario toscano": "Trasporto Ferroviario Toscano (TFT)",
-  "trasporto ferroviario toscano tft": "Trasporto Ferroviario Toscano (TFT)",
-  "gruppo torinese trasporti": "Gruppo Torinese Trasporti (GTT)",
-  "gruppo torinese trasporti gtt": "Gruppo Torinese Trasporti (GTT)",
-  "sad nahverkehr": "SAD Nahverkehr",
-  "arenaways": "Arenaways",
-  "amt genova": "AMT Genova",
-  "anm": "Ente Autonomo Volturno (EAV)",
-  "minimetro": "Minimetrò Perugia",
-  "societa unica abruzzese di trasporto": "Trenitalia",
-  "amt": "AMT Genova",
-  "societe regionale de transport sarde": "ARST Sardegna",
-  "astral": "ASTRAL (Roma Nord)",
+  // ── Moldova / Ukraine / Russia missing ──
+  'calea ferata din moldova': 'cfm',
+  'cfm': 'cfm',
+  'ukrzaliznytsia': 'uz',
+  'ukrzaliznycja': 'uz',
+  'uz': 'uz',
+  'ukrainian railways': 'uz',
+  'crimea railway': 'russianrailways',
+  'krymskaya zheleznaya doroga': 'russianrailways',
+  'russian railways': 'russianrailways',
+  'rzd': 'russianrailways',
+  'rzhd': 'russianrailways',
+  'rossiyskie zheleznye dorogi': 'russianrailways',
+  'bc': 'belarusianrailway',
+  'belarusian railway': 'belarusianrailway',
+  'belorusskaya zheleznaya doroga': 'belarusianrailway',
 
-  // Austria
-  "novog": "NÖVOG (Niederösterreichische Verkehrsorganisationsgesellschaft)",
-  "zillertaler verkehrsbetriebe": "Zillertalbahn",
-  "stb": "Steiermärkische Landesbahnen (StLB)",
-  "stlb": "Steiermärkische Landesbahnen (StLB)",
-  "sth": "Stern & Hafferl",
-  "trn": "Transports Publics Neuchâtelois (transN)",
-
-  // Denmark
-  "midtjyske jernbaner": "Midtjyske Jernbaner",
-  "gocollective": "GoCollective",
-  "gocollective a s": "GoCollective",
-
-  // Poland
-  "warszawska kolej dojazdowa": "Warszawska Kolej Dojazdowa (WKD)",
-  "warszawska kolej dojazdowa wkd": "Warszawska Kolej Dojazdowa (WKD)",
-  "szybka kolej miejska": "Szybka Kolej Miejska (SKM)",
-  "szybka kolej miejska skm": "Szybka Kolej Miejska (SKM)",
-
-  // Romania
-  "regiotrans": "Regiotrans",
-  "transferoviar calatori": "Transferoviar Călători",
-  "rc cf trans": "RC-CF Trans",
-  "rc cf trans": "RC-CF Trans",
-  "transferoviar infrastructura neinteroperabila": "Transferoviar Infrastructura",
-
-  // UK
-  "west somerset railway": "West Somerset Railway",
-  "west somerset railway plc": "West Somerset Railway",
-  "ffestiniog railway": "Ffestiniog Railway",
-  "severn valley railway": "Severn Valley Railway",
-  "east lancashire railway": "East Lancashire Railway",
-  "ravenglass and eskdale railway": "Ravenglass & Eskdale Railway",
-  "ravenglass eskdale railway": "Ravenglass & Eskdale Railway",
-
-  // UK historical → modern
-  "dumbarton and helensburgh railway": "ScotRail",
-  "paisley and greenock railway": "ScotRail",
-  "scottish north eastern railway": "ScotRail",
-  "dundee and arbroath railway": "ScotRail",
-  "callander and oban railway": "ScotRail",
-  "mallaig extension railway": "ScotRail",
-  "sutherland and caithness railway": "ScotRail",
-  "dingwall and skye railway": "ScotRail",
-  "kilmarnock and ayr railway": "ScotRail",
-  "dumfries and carlisle railway": "ScotRail",
-  "paisley": "ScotRail",
-
-  // Czechia
-  "pkp cargo international": "PKP Cargo International",
-
-  // France
-  "compagnie du mont blanc": "Compagnie du Mont-Blanc",
-  "chemin de fer des chanteraines": "Chemin de Fer des Chanteraines",
-
-  // Bulgaria historical → modern
-  "compagnie des chemins de fer orientaux": "BDZ",
+  // ── Greece missing ──
+  'trainose': 'ose',
+  'trainose sa': 'ose',
+  'hellenic train': 'ose',
+  'hellenic railways organisation': 'ose',
+  'ose sa': 'ose',
+  'stather': 'stather',
+  'stasy': 'stather',
+  'athens metro': 'stather',
 };
 
-// ────────────────────────────────────────────────────────────────
-// 6. BUILD COMPLETE ALIAS MAP
-// ────────────────────────────────────────────────────────────────
+// Build known operators: id → operator, AND all name variants → id
 const knownOperators = new Map();
 
+for (const op of operators) {
+  knownOperators.set(op.id, op.id);
+  // Add the operator's own name as alias
+  knownOperators.set(norm(op.name), op.id);
+  // Add normalized + stripped name
+  knownOperators.set(norm(stripSuffixes(op.name)), op.id);
+  // Also map the operator ID itself as a known name
+  knownOperators.set(norm(op.id), op.id);
+}
+
 // Add manual aliases
-for (const [norm, canonical] of Object.entries(MANUAL_ALIASES)) {
-  knownOperators.set(normalizeName(norm), canonical);
+for (const [alias, targetId] of Object.entries(MANUAL_ALIASES)) {
+  knownOperators.set(norm(alias), targetId);
 }
 
-// Add new operator aliases
-for (const [norm, canonical] of Object.entries(newOperatorAliases)) {
-  knownOperators.set(normalizeName(norm), canonical);
-}
+// ── Add New Operators ────────────────────────────────────────────────────────
 
-// Add existing operators from data.json
-for (const op of operatorDb.operators || []) {
-  if (op.type !== "trains") continue; // Only train operators
-  const normalizedName = normalizeName(op.name);
-  const normalizedId = normalizeName(op.id);
-  if (normalizedName && !knownOperators.has(normalizedName)) {
-    knownOperators.set(normalizedName, op.name);
-  }
-  if (normalizedId && !knownOperators.has(normalizedId)) {
-    knownOperators.set(normalizedId, op.name);
-  }
-}
+console.log('Adding new operators...');
 
-// Add new operators to knownOperators so they don't get reported as missing
-for (const op of newOperators) {
-  const normalizedName = normalizeName(op.name);
-  if (normalizedName && !knownOperators.has(normalizedName)) {
-    knownOperators.set(normalizedName, op.name);
-  }
-}
+const newOperators = [
+  // ── Swiss regional / scenic ──
+  { id: 'rhb', name: 'Rhätische Bahn', country: 'Switzerland', countries:['Switzerland','Italy'], type:'trains', logo:'rhb.png', operatorLabel:'Swiss scenic mountain railway', description:'The Rhätische Bahn operates Switzerland\'s most iconic scenic routes including the Bernina Express and Glacier Express through the Alps.' },
+  { id: 'matterhorngotthard', name: 'Matterhorn Gotthard Bahn', country:'Switzerland', countries:['Switzerland'], type:'trains', logo:'mgb.png', operatorLabel:'Swiss alpine railway', description:'Operates the Glacier Express route between Zermatt and St. Moritz through the Swiss Alps.' },
+  { id: 'b ls', name:'BLS', country:'Switzerland', countries:['Switzerland'], type:'trains', logo:'bls.png', operatorLabel:'Swiss regional railway', description:'BLS operates regional and S-Bahn services in the Bernese Oberland and connects Bern with Interlaken and Lucerne.' },
+  { id:'so b', name:'SOB', country:'Switzerland', countries:['Switzerland'], type:'trains', logo:'sob.png', operatorLabel:'Swiss regional railway', description:'Südostbahn operates the Voralpen Express and regional services in eastern Switzerland.' },
+  { id:'zb', name:'Zentralbahn', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Scenic railway connecting Lucerne with Interlaken and Engelberg, including the Brünig line.' },
+  { id:'mo b', name:'MOB', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Montreux-Oberland Bernois operates the GoldenPass panoramic route from Montreux to Zweisimmen.' },
+  { id:'tpc', name:'Transports Publics du Chablais', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Regional transport in the Chablais region of Vaud and Valais.' },
+  { id:'mgi n', name:'MVR', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Montreux-Vevey-Riviera transports including the scenic train to Rochers-de-Naye.' },
+  { id:'as m', name:'ASm', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Aare Seeland mobil operates regional services in the Bern-Seeland region.' },
+  { id:'cj', name:'CJ', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Chemins de fer du Jura operates regional railways in the Swiss Jura.' },
+  { id:'travys', name:'Travys', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Regional transport in the Yverdon and Vallée de Joux area.' },
+  { id:'tpf', name:'TPF', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Transports Publics Fribourgeois operates regional trains and buses around Fribourg.' },
+  { id:'bam', name:'BAM', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Bière-Apples-Morges railway in canton Vaud.' },
+  { id:'ab', name:'Appenzeller Bahnen', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Narrow-gauge railways in the Appenzell region of eastern Switzerland.' },
+  { id:'fART', name:'Frauenfeld-Wil-Bahn', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Narrow-gauge railway connecting Frauenfeld and Wil.' },
+  { id:'wab', name:'Wengernalpbahn', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'The world\'s longest continuous cogwheel railway, connecting Lauterbrunnen, Wengen, and Kleine Scheidegg.' },
+  { id:'jb', name:'Jungfraubahn', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Famous cogwheel railway to Jungfraujoch, Europe\'s highest railway station at 3,454m.' },
+  { id:'gornergrat', name:'Gornergrat Bahn', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Scenic cogwheel railway from Zermatt to the Gornergrat summit at 3,089m.' },
+  { id:'brienzrothorn', name:'Brienz Rothorn Bahn', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Historic steam cogwheel railway climbing from Brienz to the Rothorn summit.' },
+  { id:'pilatus', name:'Pilatus Bahn', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'The world\'s steepest cogwheel railway climbing Mount Pilatus near Lucerne.' },
+  { id:'rigi', name:'Rigi Bahnen', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Europe\'s oldest mountain railway, climbing Mount Rigi from Vitznau and Arth-Goldau.' },
 
-// ────────────────────────────────────────────────────────────────
-// 7. ADD NEW OPERATORS TO data.json
-// ────────────────────────────────────────────────────────────────
-const existingIds = new Set(operatorDb.operators.map(op => op.id.toLowerCase()));
-const existingNames = new Set(operatorDb.operators.map(op => normalizeName(op.name)));
+  // ── German regional / private ──
+  { id:'metronom', name:'Metronom', country:'Germany', countries:['Germany'], type:'trains', logo:'metronom.png', operatorLabel:'German regional train operator', description:'Operates regional express services in Lower Saxony, Hamburg and Bremen.' },
+  { id:'nordwestbahn', name:'NordWestBahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in northwest Germany, Lower Saxony and North Rhine-Westphalia.' },
+  { id:'erixx', name:'Erixx', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train services in Lower Saxony and Bremen.' },
+  { id:'enno', name:'Enno', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in the Hanover-Brunswick-Wolfsburg region.' },
+  { id:'westfalenbahn', name:'WestfalenBahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in North Rhine-Westphalia and Lower Saxony.' },
+  { id:'eurobahn', name:'Eurobahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in North Rhine-Westphalia, Lower Saxony and the Netherlands border.' },
+  { id:'trireno', name:'Trireno', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in the Black Forest and Upper Rhine region.' },
+  { id:'goaheadde', name:'Go-Ahead Deutschland', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in Baden-Württemberg and Bavaria.' },
+  { id:'agilis', name:'Agilis', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in Bavaria.' },
+  { id:'alex', name:'Alex', country:'Germany', countries:['Germany','Czechia'], type:'trains', description:'Regional and inter-regional services between Bavaria and the Czech Republic.' },
+  { id:'bayeroberland', name:'Bayerische Oberlandbahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train services south of Munich into the Bavarian Oberland.' },
+  { id:'bayerregiobahn', name:'Bayerische Regiobahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in Bavaria.' },
+  { id:'mitteldeutsche', name:'Mitteldeutsche Regiobahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in Saxony, serving Dresden, Leipzig and Chemnitz.' },
+  { id:'odenwaldbahn', name:'Odenwaldbahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional railway through the Odenwald forest between Hesse and Baden-Württemberg.' },
+  { id:'abellio', name:'Abellio', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in several German states.' },
+  { id:'vlexx', name:'Vlexx', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in Rhineland-Palatinate, Saarland and Hesse.' },
+  { id:'cantus', name:'Cantus', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in Hesse and Thuringia.' },
+  { id:'hansestadt', name:'Osthannoversche Eisenbahnen', country:'Germany', countries:['Germany'], type:'trains', description:'Regional freight and passenger railway in eastern Lower Saxony.' },
+  { id:'nbe', name:'Nordbahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional railway in Schleswig-Holstein.' },
+  { id:'akn', name:'AKN', country:'Germany', countries:['Germany'], type:'trains', description:'Regional railway in Schleswig-Holstein and Hamburg.' },
+
+  // ── Italian regional ──
+  { id:'trenord', name:'Trenord', country:'Italy', countries:['Italy'], type:'trains', logo:'trenord.png', operatorLabel:'Italian regional train operator', description:'Lombardy regional train operator serving Milan and the surrounding region.' },
+  { id:'ferrovienord', name:'Ferrovienord', country:'Italy', countries:['Italy'], type:'trains', description:'Railway infrastructure and services in northern Lombardy.' },
+  { id:'trenordest', name:'Trenitalia Tper', country:'Italy', countries:['Italy'], type:'trains', description:'Regional train operator in Emilia-Romagna.' },
+  { id:'ferc', name:'Ferrovie del Gargano', country:'Italy', countries:['Italy'], type:'trains', description:'Regional railway in Apulia, including the Gargano line.' },
+  { id:'ferappulo', name:'Ferrovie Appulo Lucane', country:'Italy', countries:['Italy'], type:'trains', description:'Regional narrow-gauge railway in Basilicata and Apulia.' },
+  { id:'fcu', name:'Ferrovia Centrale Umbra', country:'Italy', countries:['Italy'], type:'trains', description:'Regional railway in Umbria.' },
+  { id:'circumvesuviana', name:'Circumvesuviana', country:'Italy', countries:['Italy'], type:'trains', description:'Narrow-gauge railway network around Mount Vesuvius, serving Naples suburbs.' },
+  { id:'circumetnea', name:'Ferrovia Circumetnea', country:'Italy', countries:['Italy'], type:'trains', description:'Narrow-gauge railway circling Mount Etna in Sicily.' },
+  { id:'fta', name:'Ferrovia Trento-Malè', country:'Italy', countries:['Italy'], type:'trains', description:'Regional railway from Trento into the Val di Non and Val di Sole.' },
+  { id:'sad', name:'SAD', country:'Italy', countries:['Italy','Austria'], type:'trains', description:'Regional transport in South Tyrol, including the Pustertal and Vinschgau railways.' },
+  { id:'domodossolalocarno', name:'Domodossola-Locarno Railway', country:'Italy', countries:['Italy','Switzerland'], type:'trains', description:'Scenic international narrow-gauge railway through the Centovalli.' },
+  { id:'berninaexpress', name:'Bernina Express', country:'Switzerland', countries:['Switzerland','Italy'], type:'trains', description:'UNESCO World Heritage scenic railway from Chur to Tirano through the Bernina Pass.' },
+
+  // ── Austrian regional / scenic ──
+  { id:'westbahn', name:'Westbahn', country:'Austria', countries:['Austria','Germany'], type:'trains', logo:'westbahn.png', operatorLabel:'Austrian private train operator', description:'Private intercity operator on the Vienna-Salzburg corridor, competing with ÖBB.' },
+  { id:'gkb', name:'GKB', country:'Austria', countries:['Austria'], type:'trains', description:'Graz-Köflacher Bahn operates regional services around Graz, Styria.' },
+  { id:'mzb', name:'Murtalbahn', country:'Austria', countries:['Austria'], type:'trains', description:'Narrow-gauge railway through the Mur valley in Styria.' },
+  { id:'ztb', name:'Zillertalbahn', country:'Austria', countries:['Austria'], type:'trains', description:'Narrow-gauge railway through the Zillertal valley in Tyrol.' },
+  { id:'acb', name:'Achenseebahn', country:'Austria', countries:['Austria'], type:'trains', description:'Historic steam cogwheel railway from Jenbach to Lake Achensee.' },
+  { id:'pinzgauer', name:'Pinzgauer Lokalbahn', country:'Austria', countries:['Austria'], type:'trains', description:'Narrow-gauge railway through the Pinzgau region of Salzburg.' },
+  { id:'schneebergbahn', name:'Schneebergbahn', country:'Austria', countries:['Austria'], type:'trains', description:'Cogwheel railway climbing the Schneeberg, Lower Austria\'s highest mountain.' },
+  { id:'schafbergbahn', name:'SchafbergBahn', country:'Austria', countries:['Austria'], type:'trains', description:'Steam cogwheel railway climbing the Schafberg in the Salzkammergut.' },
+  { id:'semmeringbahn', name:'Semmering Railway', country:'Austria', countries:['Austria'], type:'trains', description:'UNESCO World Heritage mountain railway, Europe\'s first standard-gauge mountain railway.' },
+  { id:'cityairporttrain', name:'City Airport Train', country:'Austria', countries:['Austria'], type:'trains', description:'Express train connecting Vienna city centre with Vienna International Airport.' },
+
+  // ── French regional / private ──
+  { id:'ouigo', name:'Ouigo', country:'France', countries:['France','Spain'], type:'trains', logo:'ouigo.png', operatorLabel:'French low-cost high-speed rail', description:'SNCF\'s low-cost TGV service operating high-speed trains across France and to Spain.' },
+  { id:'cpt', name:'Chemins de fer de Provence', country:'France', countries:['France'], type:'trains', description:'Scenic narrow-gauge railway from Nice to Digne-les-Bains through Provence.' },
+  { id:'montblanc', name:'Mont-Blanc Express', country:'France', countries:['France','Switzerland'], type:'trains', description:'Scenic mountain railway through the Chamonix valley to Martigny.' },
+  { id:'cervi', name:'Train Jaune', country:'France', countries:['France'], type:'trains', description:'Historic electric railway through the Pyrenees, known as the Yellow Train.' },
+  { id:'cdgval', name:'CDGVAL', country:'France', countries:['France'], type:'trains', description:'Automated shuttle connecting terminals at Paris Charles de Gaulle Airport.' },
+
+  // ── British regional / heritage ──
+  { id:'grandcentral', name:'Grand Central', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Open-access intercity operator on the East Coast Main Line.' },
+  { id:'tfwrail', name:'Transport for Wales Rail', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Welsh train operator serving Wales and the border regions.' },
+  { id:'caledoniansleeper', name:'Caledonian Sleeper', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Overnight sleeper train services between London and Scotland.' },
+  { id:'westcoast', name:'West Coast Railways', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Heritage and charter train operator, including the Jacobite steam train.' },
+  { id:'heathrowexpress', name:'Heathrow Express', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Express train service between London Paddington and Heathrow Airport.' },
+  { id:'gatwickexpress', name:'Gatwick Express', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Express train between London Victoria and Gatwick Airport.' },
+  { id:'stanstedexpress', name:'Stansted Express', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Express train between London Liverpool Street and Stansted Airport.' },
+
+  // ── Benelux ──
+  { id:'eurostar', name:'Eurostar', country:'United Kingdom', countries:['United Kingdom','France','Belgium','Netherlands'], type:'trains', logo:'eurostar.png', operatorLabel:'International high-speed train operator', description:'Connects London with Paris, Brussels, Amsterdam and other European cities through the Channel Tunnel.' },
+  { id:'intercitydirect', name:'Intercity Direct', country:'Netherlands', countries:['Netherlands','Belgium'], type:'trains', description:'High-speed domestic and international service connecting Amsterdam, Rotterdam and Breda.' },
+
+  // ── Nordic ──
+  { id:'flytoget', name:'Flytoget', country:'Norway', countries:['Norway'], type:'trains', description:'Airport express train between Oslo city centre and Oslo Airport Gardermoen.' },
+  { id:'flygbussarna', name:'Arlanda Express', country:'Sweden', countries:['Sweden'], type:'trains', description:'High-speed airport train connecting Stockholm city centre with Arlanda Airport.' },
+  { id:'oresundstag', name:'Öresundståg', country:'Sweden', countries:['Sweden','Denmark'], type:'trains', description:'Cross-border regional trains through the Öresund region connecting Sweden and Denmark.' },
+  { id:'paatoget', name:'Pågatågen', country:'Sweden', countries:['Sweden'], type:'trains', description:'Regional train network in Skåne, southern Sweden.' },
+  { id:'hsl', name:'HSL', country:'Finland', countries:['Finland'], type:'trains', description:'Helsinki Regional Transport Authority, operating commuter trains in the capital region.' },
+
+  // ── Central / Eastern Europe ──
+  { id:'dukol', name:'Die Länderbahn', country:'Germany', countries:['Germany','Czechia'], type:'trains', description:'Regional train operator in Bavaria, Saxony and the Czech Republic, operating the Alex and trilex brands.' },
+  { id:'gwtr', name:'GW Train Regio', country:'Czechia', countries:['Czechia'], type:'trains', description:'Regional train operator in the Czech Republic.' },
+  { id:'zsskcargo', name:'ZSSK Cargo', country:'Slovakia', countries:['Slovakia'], type:'trains', description:'Freight operator, also operates some regional passenger services in Slovakia.' },
+  { id:'tez', name:'Tež', country:'Slovenia', countries:['Slovenia'], type:'trains', description:'Slovenian railway infrastructure manager.' },
+
+  // ── Southern Europe ──
+  { id:'rhodope', name:'Rhodope Narrow Gauge', country:'Bulgaria', countries:['Bulgaria'], type:'trains', description:'Scenic narrow-gauge railway through the Rhodope Mountains, Bulgaria\'s last operational narrow-gauge line.' },
+  { id:'sarail', name:'SARail', country:'Greece', countries:['Greece'], type:'trains', description:'Thessaloniki suburban railway services.' },
+  { id:'metroankara', name:'Metro Ankara', country:'Turkey', countries:['Turkey'], type:'trains', description:'Ankara metro and suburban rail system.' },
+  { id:'marmaray', name:'Marmaray', country:'Turkey', countries:['Turkey'], type:'trains', description:'Cross-Bosphorus suburban railway connecting the European and Asian sides of Istanbul.' },
+  { id:'izban', name:'İZBAN', country:'Turkey', countries:['Turkey'], type:'trains', description:'Suburban rail system serving the İzmir metropolitan area.' },
+
+  // ── Island railways / scenic ──
+  { id:'isleofman', name:'Isle of Man Railway', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Heritage steam railway on the Isle of Man, operating since 1873.' },
+  { id:'snowdon', name:'Snowdon Mountain Railway', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Rack-and-pinion mountain railway climbing Snowdon, the highest peak in Wales.' },
+  { id:'ffestiniog', name:'Ffestiniog Railway', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Historic narrow-gauge railway through Snowdonia National Park in Wales.' },
+  { id:'corris', name:'Corris Railway', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Restored narrow-gauge heritage railway in Mid-Wales.' },
+  { id:'flam', name:'Flåm Railway', country:'Norway', countries:['Norway'], type:'trains', description:'One of the world\'s steepest standard-gauge railways, descending from Myrdal to Flåm through dramatic fjord scenery.' },
+  { id:'rauma', name:'Rauma Line', country:'Norway', countries:['Norway'], type:'trains', description:'Scenic railway from Dombås to Åndalsnes, passing through the Romsdalen valley.' },
+  { id:'inlandsbanan', name:'Inlandsbanan', country:'Sweden', countries:['Sweden'], type:'trains', description:'Scenic 1,300km railway through the Swedish interior from Kristinehamn to Gällivare.' },
+
+  // ── Infrastructure / agency aliases ──
+  { id:'avg', name:'Albtal-Verkehrs-Gesellschaft', country:'Germany', countries:['Germany'], type:'trains', description:'Regional transport operator in the Karlsruhe/Albtal region of Baden-Württemberg.' },
+  { id:'hzl', name:'Hohenzollerische Landesbahn', country:'Germany', countries:['Germany'], type:'trains', description:'Regional railway in the Swabian Alb region of Baden-Württemberg.' },
+  { id:'swu', name:'SWU Verkehr', country:'Germany', countries:['Germany'], type:'trains', description:'Public transport operator in Ulm/Neu-Ulm.' },
+  { id:'transregio', name:'Trans Regio', country:'Germany', countries:['Germany'], type:'trains', description:'Regional train operator in Rhineland-Palatinate and North Rhine-Westphalia.' },
+  { id:'fse', name:'Ferrovie del Sud Est', country:'Italy', countries:['Italy'], type:'trains', description:'Regional railway operator in Apulia, southeastern Italy.' },
+  { id:'fer', name:'Ferrovie Emilia Romagna', country:'Italy', countries:['Italy'], type:'trains', description:'Regional railway operator in Emilia-Romagna.' },
+  { id:'cotral', name:'Cotral', country:'Italy', countries:['Italy'], type:'trains', description:'Regional transport company serving the Lazio region around Rome.' },
+  { id:'atac', name:'ATAC', country:'Italy', countries:['Italy'], type:'trains', description:'Rome public transport operator including metro and light rail.' },
+  { id:'gtt', name:'GTT', country:'Italy', countries:['Italy'], type:'trains', description:'Turin public transport operator including metro and regional rail.' },
+  { id:'amtgenova', name:'AMT Genova', country:'Italy', countries:['Italy'], type:'trains', description:'Genoa public transport operator.' },
+  { id:'actv', name:'ACTV', country:'Italy', countries:['Italy'], type:'trains', description:'Venice public transport operator including water buses.' },
+  { id:'dolomitibus', name:'Dolomiti Bus', country:'Italy', countries:['Italy'], type:'trains', description:'Regional public transport in the Dolomites region.' },
+  { id:'ttr', name:'Trentino Trasporti', country:'Italy', countries:['Italy'], type:'trains', description:'Regional transport operator in Trentino.' },
+  { id:'ratp', name:'RATP', country:'France', countries:['France'], type:'trains', description:'Paris public transport operator including metro, RER, tram and bus services.' },
+  { id:'cfc', name:'Chemins de Fer de la Corse', country:'France', countries:['France'], type:'trains', description:'Scenic railway network across the island of Corsica.' },
+  { id:'tmr', name:'Transports de Martigny et Régions', country:'Switzerland', countries:['Switzerland'], type:'trains', description:'Regional transport operator in Martigny and the surrounding Valais region.' },
+  { id:'stlb', name:'Steiermärkische Landesbahnen', country:'Austria', countries:['Austria'], type:'trains', description:'Regional railway operator in Styria, Austria.' },
+  { id:'cfm', name:'Calea Ferată din Moldova', country:'Moldova', countries:['Moldova'], type:'trains', description:'National railway operator of Moldova.' },
+  { id:'uz', name:'Ukrzaliznytsia', country:'Ukraine', countries:['Ukraine'], type:'trains', description:'National railway operator of Ukraine.' },
+  { id:'russianrailways', name:'Russian Railways', country:'Russia', countries:['Russia','Ukraine'], type:'trains', description:'National railway operator of Russia (RŽD).' },
+  { id:'belarusianrailway', name:'Belarusian Railway', country:'Belarus', countries:['Belarus'], type:'trains', description:'National railway operator of Belarus.' },
+  { id:'stather', name:'STASY', country:'Greece', countries:['Greece'], type:'trains', description:'Athens urban rail transport operator including the metro system.' },
+  { id:'tfl', name:'Transport for London', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'London transport authority operating the Underground, Overground, DLR, trams and Elizabeth line.' },
+  { id:'nexus', name:'Nexus', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Tyne and Wear transport authority operating the Metro system around Newcastle.' },
+  { id:'spt', name:'Strathclyde Partnership for Transport', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Transport authority for the Glasgow and Strathclyde region, operating the Subway.' },
+  { id:'translink', name:'Translink', country:'United Kingdom', countries:['United Kingdom'], type:'trains', description:'Northern Ireland transport operator including NI Railways, Ulsterbus and Metro.' },
+];
 
 let addedCount = 0;
-for (const op of newOperators) {
-  const idLower = op.id.toLowerCase();
-  const nameNorm = normalizeName(op.name);
-  if (!existingIds.has(idLower) && !existingNames.has(nameNorm)) {
-    operatorDb.operators.push(op);
-    existingIds.add(idLower);
-    existingNames.add(nameNorm);
-    addedCount++;
-    console.log(`  Added: ${op.name} (${op.id}) - ${op.country}`);
+for (const newOp of newOperators) {
+  if (operators.find(o => o.id === newOp.id)) continue;
+  operators.push({
+    ...newOp,
+    website: newOp.website || '',
+    appLinks: newOp.appLinks || {},
+    logo: newOp.logo || '',
+  });
+  // Add to known operators map
+  knownOperators.set(norm(newOp.name), newOp.id);
+  knownOperators.set(norm(stripSuffixes(newOp.name)), newOp.id);
+  addedCount++;
+}
+console.log(`  Added ${addedCount} new operators`);
+
+// Add aliases for new operators too
+for (const [alias, targetId] of Object.entries(MANUAL_ALIASES)) {
+  if (!knownOperators.has(norm(alias))) {
+    knownOperators.set(norm(alias), targetId);
   }
 }
-console.log(`\nAdded ${addedCount} new operators to data.json`);
 
-// ────────────────────────────────────────────────────────────────
-// 8. PROCESS STATIONS (skip limited_use)
-// ────────────────────────────────────────────────────────────────
+// ── Process All Stations ─────────────────────────────────────────────────────
+
+console.log('Processing stations...');
 let totalStations = 0;
-let totalLimitedSkipped = 0;
-let totalReplacements = 0;
-const stillMissing = new Map();
+let totalMatched = 0;
+let totalUnmatched = 0;
+let totalMissingOps = 0;
+let stationsWithNewIds = 0;
 
-for (const [countryKey, country] of Object.entries(stationData.countries || {})) {
-  for (const station of country.stations || []) {
+const newMissingOps = [];
+
+function matchOperator(opName) {
+  if (!opName) return null;
+  // Handle case where operator is already an object (from corrupted previous run)
+  if (typeof opName === 'object' && opName !== null) {
+    if (opName.id && typeof opName.id === 'string') return opName.id;
+    if (opName.name && typeof opName.name === 'string') {
+      // Try to match by name
+      const n = norm(opName.name);
+      if (knownOperators.has(n)) return knownOperators.get(n);
+      return null;
+    }
+    return null;
+  }
+  if (typeof opName !== 'string') opName = String(opName);
+  if (!opName.trim()) return null;
+  
+  // Try exact normalized match
+  const n = norm(opName);
+  if (knownOperators.has(n)) return knownOperators.get(n);
+  
+  // Try without suffixes
+  const stripped = norm(stripSuffixes(opName));
+  if (knownOperators.has(stripped)) return knownOperators.get(stripped);
+  
+  // Try partial matching - see if any known operator name is contained in the station operator
+  for (const [knownName, knownId] of knownOperators) {
+    if (n.includes(knownName) || knownName.includes(n)) {
+      // Only match if both are more than 3 chars to avoid false positives
+      if (knownName.length > 3 && n.length > 3) {
+        return knownId;
+      }
+    }
+  }
+  
+  return null;
+}
+
+for (const [countryName, countryData] of Object.entries(stationsJson.countries || {})) {
+  const stations = countryData.stations || [];
+  for (const station of stations) {
     totalStations++;
     
-    // Skip limited_use stations
-    if (station.usage === "limited_use") {
-      totalLimitedSkipped++;
-      station.operators = [];
-      continue;
+    // Skip limited use stations for operator linking
+    if (station.limited_use) continue;
+    
+    // Generate clean ID from station name
+    const newId = makeStationId(station.name, countryName);
+    if (station.id !== newId) {
+      station._oldId = station.id;
+      station.id = newId;
+      stationsWithNewIds++;
     }
-
-    const syncedOperators = [];
-    for (const operatorName of station.operators || []) {
-      const normalized = normalizeName(operatorName);
-      if (!normalized) continue;
-
-      // Skip Wikidata Q-IDs
-      if (/^q\d+$/.test(normalized)) continue;
-
-      let matchedName = knownOperators.get(normalized);
-
-      // Try partial matching
-      if (!matchedName) {
-        for (const [knownNorm, canonical] of knownOperators) {
-          const knownParts = knownNorm.split(/\s+/);
-          const opParts = normalized.split(/\s+/);
-          const shorter = knownParts.length <= opParts.length ? knownParts : opParts;
-          const longer = knownParts.length > opParts.length ? knownParts : opParts;
-          const allWordsMatch = shorter.every(w => longer.includes(w));
-          if (allWordsMatch && shorter.length >= 1) {
-            matchedName = canonical;
-            break;
-          }
-        }
-      }
-
-      if (matchedName) {
-        if (!syncedOperators.includes(matchedName)) {
-          syncedOperators.push(matchedName);
-          totalReplacements++;
-        }
+    
+    // Process operators
+    const rawOps = station.operators || [];
+    if (!rawOps.length) continue;
+    
+    const matchedOps = [];
+    for (const opName of rawOps) {
+      const match = matchOperator(opName);
+      if (match) {
+        if (!matchedOps.includes(match)) matchedOps.push(match);
       } else {
-        if (!syncedOperators.includes(operatorName)) {
-          syncedOperators.push(operatorName);
-        }
-        if (!stillMissing.has(operatorName)) {
-          stillMissing.set(operatorName, {
-            name: operatorName,
-            normalized,
-            countries: new Set(),
-            stationCount: 0,
-            sampleStations: []
-          });
-        }
-        const entry = stillMissing.get(operatorName);
-        entry.countries.add(country.country);
-        entry.stationCount += 1;
-        if (entry.sampleStations.length < 5) {
-          entry.sampleStations.push({
-            name: station.name,
-            country: country.country,
-            source: station.source,
-            url: station.url
+        totalUnmatched++;
+        // Record new missing operator
+        const displayName = (typeof opName === 'object' && opName !== null) ? (opName.name || opName.id || String(opName)) : opName;
+        const n = norm(typeof opName === 'object' ? displayName : opName);
+        const existing = newMissingOps.find(m => m.normalized === n);
+        if (existing) {
+          existing.count++;
+          if (existing.samples.length < 5) existing.samples.push(station.name);
+        } else {
+          newMissingOps.push({
+            name: String(displayName),
+            normalized: n,
+            country: countryName,
+            count: 1,
+            samples: [station.name]
           });
         }
       }
     }
-    station.operators = syncedOperators;
+    
+    if (matchedOps.length > 0) {
+      station.operators = matchedOps;
+      totalMatched++;
+    }
   }
 }
 
-// ────────────────────────────────────────────────────────────────
-// 9. WRITE RESULTS
-// ────────────────────────────────────────────────────────────────
+// Sort unmatched operators by count
+newMissingOps.sort((a, b) => b.count - a.count);
 
-// Sort operators by type and id for consistency
-const trainOps = operatorDb.operators.filter(o => o.type === "trains");
-const ferryOps = operatorDb.operators.filter(o => o.type === "ferries");
-trainOps.sort((a, b) => a.id.localeCompare(b.id));
-ferryOps.sort((a, b) => a.id.localeCompare(b.id));
-operatorDb.operators = [...trainOps, ...ferryOps];
+// ── Write Output ─────────────────────────────────────────────────────────────
 
-// Write updated data.json
-await writeFile("data.json", JSON.stringify(operatorDb, null, 2) + "\n", "utf8");
-console.log(`\n✓ Updated data.json — now has ${operatorDb.operators.length} operators`);
+console.log('\nWriting output files...');
 
-// Write updated stations.json
-await writeFile("stations.json", JSON.stringify(stationData, null, 2) + "\n", "utf8");
-console.log(`✓ Updated stations.json — ${totalStations} stations (${totalLimitedSkipped} limited-use skipped), ${totalReplacements} operator links`);
+// Update data.json
+const outputData = { ...dataJson, operators };
+writeFileSync(DATA_FILE, JSON.stringify(outputData, null, 2));
+console.log('  ✓ data.json updated');
 
-// Write remaining missing operators
-const remainingMissing = {
+// Update stations.json
+writeFileSync(STATIONS_FILE, JSON.stringify(stationsJson, null, 2));
+console.log('  ✓ stations.json updated');
+
+// Write new missing operators report
+const newReport = {
   generatedAt: new Date().toISOString(),
-  totalMissing: stillMissing.size,
-  operators: [...stillMissing.values()]
-    .map(e => ({
-      ...e,
-      countries: [...e.countries].sort()
-    }))
-    .sort((a, b) => b.stationCount - a.stationCount)
+  totalMissing: newMissingOps.length,
+  operators: newMissingOps
 };
+writeFileSync('../missing-operators-report.json', JSON.stringify(newReport, null, 2));
+console.log('  ✓ missing-operators-report.json updated');
 
-await writeFile("missing-operators-report.json", JSON.stringify(remainingMissing, null, 2) + "\n", "utf8");
-console.log(`✓ Updated missing-operators-report.json — ${remainingMissing.totalMissing} remaining missing operators`);
+// ── Summary ──────────────────────────────────────────────────────────────────
 
-// Print summary
-console.log(`\n═══════════════════════════════════════`);
-console.log(`Summary:`);
-console.log(`  Operators in data.json: ${operatorDb.operators.length}`);
-console.log(`  Train operators: ${trainOps.length}`);
-console.log(`  Ferry operators: ${ferryOps.length}`);
-console.log(`  Stations processed: ${totalStations}`);
-console.log(`  Limited-use skipped: ${totalLimitedSkipped}`);
-console.log(`  Operator links made: ${totalReplacements}`);
-console.log(`  Still missing: ${remainingMissing.totalMissing}`);
-console.log(`═══════════════════════════════════════`);
+console.log('\n═══════════════════════════════════════════');
+console.log('  HARMONIZATION COMPLETE');
+console.log('═══════════════════════════════════════════');
+console.log(`  Total stations:       ${totalStations.toLocaleString()}`);
+console.log(`  Stations with new IDs: ${stationsWithNewIds.toLocaleString()}`);
+console.log(`  Stations matched:     ${totalMatched.toLocaleString()}`);
+console.log(`  Unmatched operators:  ${totalUnmatched.toLocaleString()}`);
+console.log(`  New operators added:  ${addedCount}`);
+console.log(`  Total operators now:  ${operators.length}`);
+console.log(`  Remaining missing:    ${newMissingOps.length}`);
+console.log(`  Manual aliases:       ${Object.keys(MANUAL_ALIASES).length}`);
+console.log('═══════════════════════════════════════════');
+
+if (newMissingOps.length > 0) {
+  console.log('\nTop 20 remaining missing operators:');
+  newMissingOps.slice(0, 20).forEach((m, i) => {
+    console.log(`  ${i+1}. ${m.name} (${m.count} stations, ${m.country})`);
+  });
+}

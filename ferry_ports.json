@@ -2496,14 +2496,16 @@
     },
     {
       "id": "fp145",
-      "name": "ÅšwinoujÅ›cie",
+      "name": "Świnoujście",
       "lat": 53.91,
       "lng": 14.25,
       "country": "Poland",
       "countries": [
         "Poland"
       ],
-      "routeIds": []
+      "routeIds": [
+        "fr128"
+      ]
     },
     {
       "id": "fp146",
@@ -2851,9 +2853,9 @@
       "name": "Zeebrugge",
       "lat": 51.33,
       "lng": 3.21,
-      "country": "Unknown",
+      "country": "Belgium",
       "countries": [
-        "Unknown"
+        "Belgium"
       ],
       "routeIds": [
         "fr172"
@@ -2864,11 +2866,13 @@
       "name": "Gothenburg",
       "lat": 57.7,
       "lng": 11.94,
-      "country": "Unknown",
+      "country": "Sweden",
       "countries": [
-        "Unknown"
+        "Sweden"
       ],
-      "routeIds": []
+      "routeIds": [
+        "fr111"
+      ]
     },
     {
       "id": "fp172",
@@ -2888,9 +2892,9 @@
       "name": "Tangier",
       "lat": 35.79,
       "lng": -5.81,
-      "country": "Unknown",
+      "country": "Morocco",
       "countries": [
-        "Unknown"
+        "Morocco"
       ],
       "routeIds": []
     },
@@ -2899,11 +2903,95 @@
       "name": "Tanger Med",
       "lat": 35.89,
       "lng": -5.5,
-      "country": "Unknown",
+      "country": "Morocco",
       "countries": [
-        "Unknown"
+        "Morocco"
       ],
-      "routeIds": []
+      "routeIds": [
+        "fr44",
+        "fr75"
+      ]
+    },
+    {
+      "id": "fp175",
+      "name": "Almería",
+      "lat": 36.83,
+      "lng": -2.47,
+      "country": "Spain",
+      "countries": [
+        "Spain"
+      ],
+      "routeIds": [
+        "fr168",
+        "fr169"
+      ]
+    },
+    {
+      "id": "fp176",
+      "name": "Nador",
+      "lat": 35.17,
+      "lng": -2.93,
+      "country": "Morocco",
+      "countries": [
+        "Morocco"
+      ],
+      "routeIds": [
+        "fr168"
+      ]
+    },
+    {
+      "id": "fp177",
+      "name": "Corfu",
+      "lat": 39.62,
+      "lng": 19.92,
+      "country": "Greece",
+      "countries": [
+        "Greece"
+      ],
+      "routeIds": [
+        "fr134",
+        "fr164",
+        "fr165"
+      ]
+    },
+    {
+      "id": "fp178",
+      "name": "Mull",
+      "lat": 56.47,
+      "lng": -5.7,
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "routeIds": [
+        "fr25"
+      ]
+    },
+    {
+      "id": "fp179",
+      "name": "Coll",
+      "lat": 56.63,
+      "lng": -6.56,
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "routeIds": [
+        "fr25"
+      ]
+    },
+    {
+      "id": "fp180",
+      "name": "Stari Grad",
+      "lat": 43.18,
+      "lng": 16.6,
+      "country": "Croatia",
+      "countries": [
+        "Croatia"
+      ],
+      "routeIds": [
+        "fr166"
+      ]
     }
   ],
   "generatedAt": "2026-05-27T15:59:20.088Z"

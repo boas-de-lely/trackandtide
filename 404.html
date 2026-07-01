@@ -1,444 +1,395 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 - Lost Track</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <title>404 - Lost Track | Track & Tide</title>
+  <meta name="description" content="Page not found — the station you're looking for doesn't exist on our map. Return to Track & Tide to explore European train stations and ferry routes." />
+  <meta property="og:title" content="404 - Lost Track | Track & Tide" />
+  <meta property="og:description" content="Page not found — return to Track & Tide to explore European train stations and ferry routes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackandtide.com/404" />
+  <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Track & Tide logo" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Track & Tide" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="404 - Lost Track | Track & Tide" />
+  <meta name="twitter:description" content="Page not found — return to Track & Tide to explore European train stations and ferry routes." />
+  <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1F2937" />
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg: #1F2937;
+      --panel: #1F2937;
+      --card: #273549;
+      --text: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --border: #3B4A5F;
+      --hover: #38BDF8;
+      --active: #0EA5E9;
+      --rail: #F59E0B;
+      --station: #22D3EE;
     }
 
-    :root {
-      --bg: #eef8fb;
-      --primary: #5f8797;
-      --secondary: #7fd1f0;
-      --dark: #294552;
-      --white: #ffffff;
+    :root.light {
+      --bg: #F1F5F9;
+      --panel: #FFFFFF;
+      --card: #F8FAFC;
+      --text: #111827;
+      --text-secondary: #6B7280;
+      --border: #D1D5DB;
+      --hover: #38BDF8;
+      --active: #0284C7;
+      --rail: #D97706;
+      --station: #0E7490;
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      height: 100vh;
-      overflow: hidden;
-      font-family: "Outfit", sans-serif;
-      background:
-        radial-gradient(circle at top left, #d8f3fb 0%, transparent 35%),
-        radial-gradient(circle at bottom right, #c4ecf7 0%, transparent 35%),
-        var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--dark);
-      position: relative;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
     }
 
-    .waves {
-      position: absolute;
-      bottom: -20px;
-      left: 0;
-      width: 100%;
-      opacity: 0.18;
-      animation: floatWaves 8s ease-in-out infinite;
-    }
-
-    @keyframes floatWaves {
-      0%,100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .container {
-      text-align: center;
-      max-width: 950px;
-      padding: 40px;
-      position: relative;
-      z-index: 2;
-    }
+    .container { text-align: center; max-width: 600px; }
 
     .badge {
       display: inline-block;
-      padding: 10px 18px;
+      padding: 8px 16px;
       border-radius: 999px;
-      background: rgba(95, 135, 151, 0.12);
-      color: var(--primary);
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(95,135,151,0.18);
-      backdrop-filter: blur(8px);
+      background: var(--card);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
     }
 
     h1 {
-      font-size: clamp(5rem, 12vw, 10rem);
-      line-height: 0.9;
+      font-size: clamp(6rem, 15vw, 10rem);
       font-weight: 900;
-      color: var(--primary);
-      position: relative;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.03em;
     }
 
     .track {
-      width: 420px;
-      max-width: 90%;
-      height: 140px;
-      margin: 20px auto 10px;
+      width: 340px;
+      max-width: 85%;
+      height: 60px;
+      margin: 1.5rem auto;
       position: relative;
-      transform: rotate(-8deg);
+      overflow: hidden;
     }
 
-    .rail {
+    .rail-line {
       position: absolute;
       width: 100%;
-      height: 12px;
-      background: var(--primary);
-      border-radius: 999px;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
     }
-
-    .rail.top {
-      top: 35px;
-    }
-
-    .rail.top::after {
-      content: "";
-      position: absolute;
-      right: -4px;
-      top: -6px;
-      width: 30px;
-      height: 14px;
-      background: var(--primary);
-      border-radius: 4px;
-      transform: rotate(25deg);
-      transform-origin: left center;
-      opacity: 0.7;
-      animation: wobbleRail 6s ease-in-out infinite;
-    }
-
-    @keyframes wobbleRail {
-      0%, 45%, 100% { transform: rotate(25deg); }
-      50% { transform: rotate(35deg) translateY(2px); }
-      55% { transform: rotate(50deg) translateY(6px); }
-      65% { transform: rotate(25deg) translateY(2px); }
-    }
-
-    .rail.bottom {
-      bottom: 35px;
-    }
-
-    .ties {
-      position: absolute;
-      top: 24px;
-      width: 100%;
-      height: 90px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-    }
-
-    .ties span {
-      width: 12px;
-      height: 70px;
-      background: rgba(95, 135, 151, 0.5);
-      border-radius: 6px;
-    }
+    .rail-line.top { top: 22px; }
+    .rail-line.bottom { bottom: 22px; }
 
     .train {
       position: absolute;
-      top: 10px;
+      top: 4px;
       left: 0;
-      width: 90px;
-      height: 60px;
-      border-radius: 18px 18px 12px 12px;
-      background: linear-gradient(135deg, var(--secondary), #58b7da);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-      animation: runaway 6s ease-in-out infinite;
+      width: 70px;
+      height: 36px;
+      animation: run 5s ease-in-out infinite;
     }
 
-    .train::before,
-    .train::after {
+    .train-body {
+      width: 100%;
+      height: 100%;
+      background: var(--rail);
+      border-radius: 8px 14px 6px 6px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .train-body::after {
       content: "";
       position: absolute;
-      bottom: -12px;
-      width: 16px;
-      height: 16px;
-      background: var(--dark);
+      top: 0; right: 0;
+      width: 22px; height: 100%;
+      background: rgba(0,0,0,0.2);
+      border-radius: 0 14px 6px 0;
+    }
+
+    .train-window {
+      position: absolute;
+      top: 8px;
+      width: 12px; height: 10px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 2px;
+    }
+    .tw1 { left: 12px; }
+    .tw2 { left: 28px; }
+    .tw3 { left: 44px; }
+
+    .train-wheel {
+      position: absolute;
+      bottom: -7px;
+      width: 14px; height: 14px;
+      background: #1F2937;
       border-radius: 50%;
+      border: 2px solid var(--border);
+    }
+    .twh1 { left: 10px; }
+    .twh2 { left: 42px; }
+
+    @keyframes run {
+      0%   { transform: translateX(-80px); }
+      15%  { transform: translateX(0); }
+      55%  { transform: translateX(240px); }
+      70%  { transform: translateX(290px) rotate(6deg) translateY(4px); }
+      85%  { transform: translateX(340px) rotate(20deg) translateY(30px); opacity: 0; }
+      86%  { transform: translateX(-80px) rotate(0) translateY(0); opacity: 0; }
+      100% { transform: translateX(-80px) rotate(0) translateY(0); opacity: 1; }
     }
 
-    .train::before {
-      left: 14px;
-    }
-
-    .train::after {
-      right: 14px;
-    }
-
-    .window {
-      position: absolute;
-      top: 14px;
-      width: 18px;
-      height: 18px;
-      background: rgba(255,255,255,0.85);
-      border-radius: 4px;
-    }
-
-    .w1 { left: 14px; }
-    .w2 { left: 38px; }
-    .w3 { left: 62px; }
-
-    .sparks {
-      position: absolute;
-      top: 30px;
-      right: 10px;
-      width: 60px;
-      height: 50px;
-      pointer-events: none;
-    }
-
-    .spark {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: var(--secondary);
-      border-radius: 50%;
-      opacity: 0;
-      animation: sparkFly 6s ease-in-out infinite;
-    }
-
-    .s1 { top: 5px; left: 10px; animation-delay: 2.7s; }
-    .s2 { top: 10px; left: 25px; animation-delay: 2.85s; }
-    .s3 { top: 0px; left: 35px; animation-delay: 2.95s; }
-    .s4 { top: 15px; left: 15px; animation-delay: 3.05s; }
-    .s5 { top: 8px; left: 40px; animation-delay: 3.15s; }
-
-    @keyframes sparkFly {
-      0% {
-        opacity: 0;
-        transform: translate(0, 0) scale(1);
-      }
-      5% {
-        opacity: 1;
-      }
-      25% {
-        opacity: 0.9;
-        transform: translate(-15px, -20px) scale(1.8);
-      }
-      50% {
-        opacity: 0.4;
-        transform: translate(-30px, -35px) scale(1.2);
-      }
-      75% {
-        opacity: 0.1;
-        transform: translate(-40px, -50px) scale(0.6);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-55px, -65px) scale(0);
-      }
-    }
-
-    @keyframes runaway {
-      0% {
-        transform: translateX(0) rotate(0deg) translateY(0);
-        opacity: 1;
-      }
-      35% {
-        transform: translateX(200px) rotate(0.5deg) translateY(0);
-        opacity: 1;
-      }
-      48% {
-        transform: translateX(260px) rotate(3deg) translateY(2px);
-        opacity: 1;
-      }
-      55% {
-        transform: translateX(290px) rotate(12deg) translateY(8px);
-        opacity: 1;
-      }
-      68% {
-        transform: translateX(340px) rotate(35deg) translateY(35px);
-        opacity: 0.8;
-      }
-      80% {
-        transform: translateX(390px) rotate(65deg) translateY(80px);
-        opacity: 0.3;
-      }
-      90% {
-        transform: translateX(420px) rotate(90deg) translateY(130px);
-        opacity: 0;
-      }
-      91% {
-        transform: translateX(0) rotate(0deg) translateY(0);
-        opacity: 0;
-      }
-      100% {
-        transform: translateX(0) rotate(0deg) translateY(0);
-        opacity: 1;
-      }
-    }
-
-    h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-top: 10px;
-      margin-bottom: 16px;
-      font-weight: 800;
-    }
+    h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text); }
 
     p {
-      font-size: 1.15rem;
-      line-height: 1.7;
-      max-width: 700px;
-      margin: 0 auto;
-      color: rgba(41,69,82,0.85);
-    }
-
-    .buttons {
-      margin-top: 38px;
-      display: flex;
-      gap: 18px;
-      justify-content: center;
-      flex-wrap: wrap;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto 2rem;
     }
 
     .btn {
-      padding: 16px 28px;
-      border-radius: 18px;
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 12px;
       text-decoration: none;
-      font-weight: 700;
-      transition: 0.25s ease;
+      font-weight: 600;
       font-size: 1rem;
+      transition: all 0.2s ease;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary), #7399a7);
-      color: white;
-      box-shadow: 0 12px 24px rgba(95,135,151,0.25);
+      background: var(--active);
+      color: #fff;
     }
-
     .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 30px rgba(95,135,151,0.35);
+      background: var(--hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(14,165,233,0.3);
     }
 
-    .btn-secondary {
-      background: rgba(255,255,255,0.75);
-      border: 1px solid rgba(95,135,151,0.15);
-      color: var(--primary);
-      backdrop-filter: blur(10px);
-    }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; row-gap: 0.5rem; padding: 8px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    header img { width: 200px; }
+    @media (max-width: 1000px) { header img { width: 120px; } }
+    .main-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
+    .main-nav a { color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem; border-radius: 999px; opacity: 0.78; border: 1px solid transparent; }
+    .main-nav a:hover { opacity: 1; background: var(--card); border-color: var(--border); }
+    .theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
+    .theme-switch input { opacity: 0; width: 0; height: 0; }
+    .theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
+    .theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
+    .theme-switch input:checked + .theme-slider { background: var(--hover); }
+    .theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
 
-    .btn-secondary:hover {
-      transform: translateY(-3px);
-      background: white;
-    }
-
-    .floating {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(127,209,240,0.25);
-      animation: bubble 12s linear infinite;
-    }
-
-    .f1 {
-      width: 120px;
-      height: 120px;
-      top: 12%;
-      left: 8%;
-    }
-
-    .f2 {
-      width: 80px;
-      height: 80px;
-      bottom: 18%;
-      right: 10%;
-      animation-delay: 3s;
-    }
-
-    .f3 {
-      width: 50px;
-      height: 50px;
-      top: 20%;
-      right: 20%;
-      animation-delay: 6s;
-    }
-
-    @keyframes bubble {
-      0%,100% { transform: translateY(0px); }
-      50% { transform: translateY(-25px); }
-    }
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     @media (max-width: 768px) {
-      .container {
-        padding: 24px;
-      }
-
-      .track {
-        height: 120px;
-      }
-
-      p {
-        font-size: 1rem;
-      }
+      .hamburger { display: flex; }
+      .main-nav { display: none; flex-direction: column; position: absolute; top: 60px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+      .main-nav.open { display: flex; }
+      .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
     }
+
+    .site-footer { text-align: center; padding: 1.5rem 1rem 2rem; border-top: 1px solid var(--border); margin-top: 2rem; opacity: 0.85; }
+    .footer-link { color: var(--hover); cursor: pointer; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
+    .footer-link:hover { text-decoration: underline; opacity: 1; }
+    .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
+    .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
+
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 10000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-overlay.open { display: flex; }
+    .modal-dialog { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); position: relative; }
+    .modal-close { position: absolute; top: 0.75rem; right: 1rem; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; opacity: 0.6; }
+    .modal-close:hover { opacity: 1; }
+    .modal-dialog h2 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+    .modal-dialog > p { margin: 0 0 1.2rem; opacity: 0.75; font-size: 0.9rem; }
+    .report-form { display: grid; gap: 1rem; }
+    .report-form .field { display: grid; gap: 0.35rem; }
+    .report-form .field label { font-size: 0.85rem; opacity: 0.8; }
+    .report-form input, .report-form select, .report-form textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.75rem; background: rgba(255,255,255,0.08); color: var(--text); font: inherit; box-sizing: border-box; }
+    .report-form textarea { resize: vertical; min-height: 100px; }
+    .report-form .submit-btn { padding: 0.75rem 1.5rem; border-radius: 999px; border: none; background: var(--hover); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+    .report-form .submit-btn:hover { background: var(--active); }
+    .form-success { display: none; text-align: center; padding: 2rem 1rem; }
+    .form-success.show { display: block; }
   </style>
 </head>
 <body>
 
-  <div class="floating f1"></div>
-  <div class="floating f2"></div>
-  <div class="floating f3"></div>
-
-  <svg class="waves" viewBox="0 0 1440 320">
-    <path fill="#7fd1f0" fill-opacity="1"
-      d="M0,192L80,202.7C160,213,320,235,480,224C640,213,800,171,960,170.7C1120,171,1280,213,1360,234.7L1440,256L1440,320L0,320Z">
-    </path>
-  </svg>
+  <header>
+    <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" aria-label="Main navigation" id="mainNav">
+      <a href="/">Map</a>
+      <a href="/stations">Stations</a>
+      <a href="/ports">Ports</a>
+      <a href="/operators">Operators</a>
+      <a href="/journey">Journey</a>
+      <a href="/about">About</a>
+    </nav>
+  </header>
 
   <div class="container">
-
     <div class="badge">Route Not Found</div>
 
     <h1>404</h1>
 
     <div class="track">
-      <div class="rail top"></div>
-      <div class="rail bottom"></div>
-
-      <div class="ties">
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-      </div>
-
+      <div class="rail-line top"></div>
+      <div class="rail-line bottom"></div>
       <div class="train">
-        <div class="window w1"></div>
-        <div class="window w2"></div>
-        <div class="window w3"></div>
-      </div>
-
-      <div class="sparks">
-        <span class="spark s1"></span>
-        <span class="spark s2"></span>
-        <span class="spark s3"></span>
-        <span class="spark s4"></span>
-        <span class="spark s5"></span>
+        <div class="train-body">
+          <div class="train-window tw1"></div>
+          <div class="train-window tw2"></div>
+          <div class="train-window tw3"></div>
+        </div>
+        <div class="train-wheel twh1"></div>
+        <div class="train-wheel twh2"></div>
       </div>
     </div>
 
-    <h2>Oops… lost track...</h2>
+    <h2>Lost track...</h2>
 
     <p>
-      Looks like this route derailed somewhere between the station and the ferry dock.
-      The page you’re looking for may have departed, drifted away, or never existed in the first place.
+      This route derailed somewhere between the station and the ferry dock.
+      The page you are looking for may have departed, drifted away, or never existed.
     </p>
 
-    <div class="buttons">
-      <a href="/" class="btn btn-primary">Back to Home</a>
-      <a href="/routes" class="btn btn-secondary">Browse Routes</a>
-    </div>
-
+    <a href="/" class="btn btn-primary">Back to Home</a>
   </div>
+
+  <footer class="site-footer">
+    <div class="footer-theme">
+      <span class="footer-theme-label" id="themeLabel">Light mode</span>
+      <label class="theme-switch" title="Toggle dark/light mode">
+        <input type="checkbox" id="themeToggle" />
+        <span class="theme-slider"></span>
+      </label>
+    </div>
+    <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById("themeToggle");
+    const logo = document.getElementById("logo");
+
+    function applyTheme() {
+      const saved = localStorage.getItem("trackandtide:theme");
+      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+      const isLight = saved ? saved === "light" : prefersLight;
+      if (isLight) root.classList.add("light");
+      else root.classList.remove("light");
+      updateUI();
+    }
+
+    function toggleTheme() {
+      root.classList.toggle("light");
+      localStorage.setItem("trackandtide:theme", root.classList.contains("light") ? "light" : "dark");
+      updateUI();
+    }
+
+    function updateUI() {
+      const isLight = root.classList.contains("light");
+      toggle.checked = isLight;
+      const themeLabel = document.getElementById("themeLabel");
+      if (themeLabel) themeLabel.textContent = isLight ? "Light mode" : "Dark mode";
+          logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
+    }
+
+    applyTheme();
+
+    toggle.addEventListener('change', () => {
+      const isLight = toggle.checked;
+      if (isLight) root.classList.add("light");
+      else root.classList.remove("light");
+      localStorage.setItem("trackandtide:theme", isLight ? "light" : "dark");
+      updateUI();
+    });
+
+    // Hamburger menu
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const mainNav = document.getElementById("mainNav");
+
+    hamburgerBtn.addEventListener("click", () => {
+      const open = !mainNav.classList.contains("open");
+      mainNav.classList.toggle("open", open);
+      hamburgerBtn.classList.toggle("open", open);
+      hamburgerBtn.setAttribute("aria-expanded", open);
+    });
+
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove("open");
+        hamburgerBtn.classList.remove("open");
+        hamburgerBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+  </script>
+
+<script>
+function openReportModal() { document.getElementById('reportModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeReportModal() { document.getElementById('reportModal').classList.remove('open'); document.body.style.overflow = ''; }
+</script>
+
+<div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeReportModal()" aria-label="Close">&times;</button>
+    <h2>Report something</h2>
+    <p>Spotted a bug or have a feature idea?</p>
+    <form class="report-form" id="reportForm">
+      <div class="field"><label for="reportType">Type *</label>
+        <select id="reportType" required><option value="">Select...</option><option>Bug</option><option>Feature Idea</option><option>Other</option></select>
+      </div>
+      <div class="field"><label for="reportName">Your name</label><input type="text" id="reportName" placeholder="Jane Doe"></div>
+      <div class="field"><label for="reportMessage">Message *</label><textarea id="reportMessage" required placeholder="Describe the issue..."></textarea></div>
+      <button type="submit" class="submit-btn">Send report</button>
+    </form>
+    <div class="form-success" id="formSuccess"><h3>Thank you!</h3><p>Your report has been sent.</p></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('reportForm').addEventListener('submit', async function(e) {
+  e.preventDefault(); var f = e.target; var b = f.querySelector('.submit-btn'); b.textContent = 'Sending...'; b.disabled = true;
+  try {
+    var r = await fetch('https://api.web3forms.com/submit', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ Type:f.querySelector('#reportType').value, Name:f.querySelector('#reportName').value, Message:f.querySelector('#reportMessage').value, access_key:'6ff77564-e32e-4034-95ee-57830e7c2fb7' }) });
+    if (r.ok) { f.style.display = 'none'; document.getElementById('formSuccess').classList.add('show'); } else throw new Error('Failed');
+  } catch(err) { b.textContent = 'Send report'; b.disabled = false; }
+});
+</script>
 
 </body>
 </html>

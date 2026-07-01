@@ -1,0 +1,641 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journey Planner — Track & Tide</title>
+  <meta name="description" content="Plan your train journey across Europe using open transit data from Transitous." />
+  <meta property="og:title" content="Journey Planner — Track & Tide" />
+  <meta property="og:description" content="Plan your train journey across Europe using open transit data from Transitous." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackandtide.com/journey" />
+  <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Track & Tide — Journey Planner" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Track & Tide" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Journey Planner — Track & Tide" />
+  <meta name="twitter:description" content="Plan your train journey across Europe using open transit data from Transitous." />
+  <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <link rel="canonical" href="https://trackandtide.com/journey" />
+  <link rel="icon" href="icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1F2937" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Track & Tide Journey Planner",
+    "url": "https://trackandtide.com/journey",
+    "description": "Plan your train journey across Europe using open transit data from Transitous.",
+    "applicationCategory": "TravelApplication",
+    "operatingSystem": "Web",
+    "isPartOf": {
+      "@type": "WebApplication",
+      "name": "Track & Tide",
+      "url": "https://trackandtide.com/"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css"/>
+
+  <style>
+    :root {
+      --bg: #1F2937; --panel: #1F2937; --card: #273549;
+      --text: #F8FAFC; --text-secondary: #94A3B8; --border: #3B4A5F;
+      --hover: #38BDF8; --active: #0EA5E9; --rail: #F59E0B;
+    }
+    :root.light {
+      --bg: #F1F5F9; --panel: #FFFFFF; --card: #F8FAFC;
+      --text: #111827; --text-secondary: #6B7280; --border: #D1D5DB;
+      --hover: #38BDF8; --active: #0284C7; --rail: #D97706;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; row-gap: 0.5rem; padding: 8px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    header img { width: 200px; }
+    .main-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
+    .main-nav a { color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem; border-radius: 999px; opacity: 0.78; border: 1px solid transparent; }
+    .main-nav a:hover, .main-nav a.active { opacity: 1; background: var(--card); border-color: var(--border); }
+    .theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
+    .theme-switch input { opacity: 0; width: 0; height: 0; }
+    .theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
+    .theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
+    .theme-switch input:checked + .theme-slider { background: var(--hover); }
+    .theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .main-nav { display: none; flex-direction: column; position: absolute; top: 60px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+      .main-nav.open { display: flex; }
+      .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
+    }
+
+    @media (max-width: 1000px) {
+      header img { width: 120px; }
+    }
+
+    .site-footer { text-align: center; padding: 1.5rem 1rem 2rem; border-top: 1px solid var(--border); margin-top: 2rem; opacity: 0.85; }
+    .footer-link { color: var(--hover); cursor: pointer; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
+    .footer-link:hover { text-decoration: underline; opacity: 1; }
+    .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
+    .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
+
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 10000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-overlay.open { display: flex; }
+    .modal-dialog { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); position: relative; }
+    .modal-close { position: absolute; top: 0.75rem; right: 1rem; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; opacity: 0.6; }
+    .modal-close:hover { opacity: 1; }
+    .modal-dialog h2 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+    .modal-dialog > p { margin: 0 0 1.2rem; opacity: 0.75; font-size: 0.9rem; }
+    .report-form { display: grid; gap: 1rem; }
+    .report-form .field { display: grid; gap: 0.35rem; }
+    .report-form .field label { font-size: 0.85rem; opacity: 0.8; }
+    .report-form input, .report-form select, .report-form textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.75rem; background: rgba(255,255,255,0.08); color: var(--text); font: inherit; box-sizing: border-box; }
+    .report-form textarea { resize: vertical; min-height: 100px; }
+    .report-form .submit-btn { padding: 0.75rem 1.5rem; border-radius: 999px; border: none; background: var(--hover); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+    .report-form .submit-btn:hover { background: var(--active); }
+    .form-success { display: none; text-align: center; padding: 2rem 1rem; }
+    .form-success.show { display: block; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem; }
+
+    h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 1rem; }
+
+    .search-form { display: grid; gap: 0.85rem; margin-bottom: 1.5rem; }
+    .field { display: grid; gap: 0.25rem; }
+    .field label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .field input { width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); font: inherit; font-size: 0.92rem; outline: none; }
+    .field input:focus { border-color: var(--active); }
+
+    .swap-row { display: flex; justify-content: center; }
+    .swap-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 0.4rem 0.7rem; cursor: pointer; font-size: 1.1rem; }
+    .swap-btn:hover { background: var(--border); }
+
+    .search-btn { padding: 0.75rem; background: var(--active); color: #fff; border: none; border-radius: 12px; font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
+    .search-btn:hover { background: var(--hover); }
+    .search-btn:disabled { opacity: 0.5; }
+
+    .error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #f87171; padding: 0.65rem 0.85rem; border-radius: 10px; font-size: 0.85rem; }
+
+    .journey { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 0.75rem; cursor: pointer; transition: border-color 0.15s; }
+    .journey:hover { border-color: var(--active); }
+    .journey.active { border-color: var(--active); border-width: 2px; }
+    .journey-header { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.85rem; font-size: 0.82rem; color: var(--text-secondary); user-select: none; }
+    .journey-header .expand-icon { font-size: 0.7rem; transition: transform 0.2s; margin-left: 0.35rem; }
+    .journey.expanded .journey-header .expand-icon { transform: rotate(180deg); }
+    .journey.expanded .journey-header { border-bottom: 1px solid var(--border); }
+    .journey-summary { flex: 1; min-width: 0; }
+    .journey-summary .stations { color: var(--text); font-weight: 600; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .journey-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .journey.expanded .journey-body { max-height: 1100px; overflow-y: auto; }
+    .journey-map { height: 350px; margin: 0.5rem 0.85rem 0.65rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .journey-duration { font-weight: 700; color: var(--text); text-align: right; }
+    .journey-transfers { font-size: 0.72rem; color: var(--text-secondary); text-align: right; }
+    .leg { display: grid; gap: 0.25rem; padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+    .leg:last-child { border-bottom: none; }
+    .leg-station { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+    .leg-to-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.05rem 0; }
+    .leg-details { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem; padding-top: 0.3rem; border-top: 1px dashed var(--border); flex-wrap: wrap; }
+    .leg-depart { font-weight: 700; font-size: 0.85rem; }
+    .leg-platform { font-size: 0.7rem; color: var(--text-secondary); background: rgba(255,255,255,0.04); padding: 0.1rem 0.35rem; border-radius: 3px; }
+    .leg-line { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.75rem; font-weight: 700; background: rgba(245,158,11,0.2); color: var(--rail); }
+    .leg-direction { font-size: 0.78rem; color: var(--text-secondary); }
+    .leg-operator { font-size: 0.7rem; color: var(--text-secondary); }
+    .leg-walk { padding: 0.4rem 0.85rem; border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--text-secondary); background: rgba(255,255,255,0.02); display: flex; align-items: center; gap: 0.4rem; }
+
+    .loading { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem; }
+    .no-results { text-align: center; padding: 2rem; color: var(--text-secondary); }
+
+    .suggestions { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-top: 2px; max-height: 200px; overflow-y: auto; display: none; position: absolute; width: 100%; z-index: 10; }
+    .suggestions.open { display: block; }
+    .suggestion-item { padding: 0.5rem 0.8rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+    .suggestion-item:hover { background: rgba(56,189,248,0.1); }
+    .field-wrapper { position: relative; }
+
+
+    .maplibregl-popup-content { background: var(--panel) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; padding: 0.4rem 0.6rem !important; font-size: 0.82rem !important; }
+    .maplibregl-popup-tip { border-top-color: var(--panel) !important; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" aria-label="Main navigation" id="mainNav">
+      <a href="/">Map</a><a href="/stations">Stations</a><a href="/ports">Ports</a>
+      <a href="/operators">Operators</a><a href="/journey" class="active">Journey</a><a href="/about">About</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Journey Planner</h1>
+
+    <div class="search-form">
+      <div class="field">
+        <label for="fromInput">From</label>
+        <div class="field-wrapper">
+          <input type="text" id="fromInput" placeholder="Station name..." autocomplete="off" />
+          <div class="suggestions" id="fromSuggestions"></div>
+        </div>
+      </div>
+      <div class="swap-row"><button class="swap-btn" onclick="swapStations()" title="Swap stations">Swap</button></div>
+      <div class="field">
+        <label for="toInput">To</label>
+        <div class="field-wrapper">
+          <input type="text" id="toInput" placeholder="Station name..." autocomplete="off" />
+          <div class="suggestions" id="toSuggestions"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="dateInput">Date & Time</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <input type="date" id="dateInput" />
+          <input type="time" id="timeInput" />
+        </div>
+      </div>
+      <button class="search-btn" id="searchBtn" onclick="searchJourney()">Search</button>
+      <div id="errorMsg" class="error" style="display:none"></div>
+    </div>
+
+    <div id="results"></div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-theme">
+      <span class="footer-theme-label" id="themeLabel">Light mode</span>
+      <label class="theme-switch" title="Toggle dark/light mode">
+        <input type="checkbox" id="themeToggle" />
+        <span class="theme-slider"></span>
+      </label>
+    </div>
+    <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+  </footer>
+
+  <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+
+  <script>
+    var fromStation = null, toStation = null;
+    var journeyMap = null;
+    var currentJourneys = [];
+    var activeJourney = -1;
+    var mapMarkers = [];
+    var LINE_ID = 'journey-line';
+    var OP_COLORS = ['#F59E0B','#3B82F6','#EF4444','#10B981','#8B5CF6','#EC4899','#06B6D4','#F97316','#84CC16','#F43F5E'];
+    var allStations = [];
+
+    // Load station database for local search
+    fetch('/stations.json').then(function(r) { return r.json(); }).then(function(data) {
+      for (var c in data.countries) {
+        (data.countries[c].stations||[]).forEach(function(s) {
+          allStations.push({ name: s.name, lat: s.lat, lng: s.lng });
+        });
+      }
+    });
+
+    // Decode Google-encoded polyline (precision 7 = 1e7 scaling)
+    function decodePolyline(encoded) {
+      var poly = [];
+      var index = 0, len = encoded.length;
+      var lat = 0, lng = 0;
+      while (index < len) {
+        var b, shift = 0, result = 0;
+        do {
+          b = encoded.charCodeAt(index++) - 63;
+          result |= (b & 0x1f) << shift;
+          shift += 5;
+        } while (b >= 0x20);
+        var dlat = (result & 1) ? ~(result >> 1) : (result >> 1);
+        lat += dlat;
+        shift = 0; result = 0;
+        do {
+          b = encoded.charCodeAt(index++) - 63;
+          result |= (b & 0x1f) << shift;
+          shift += 5;
+        } while (b >= 0x20);
+        var dlng = (result & 1) ? ~(result >> 1) : (result >> 1);
+        lng += dlng;
+        poly.push([lng / 1e7, lat / 1e7]);
+      }
+      return poly;
+    }
+
+    function initDateTime() {
+      var now = new Date();
+      document.getElementById('dateInput').value = now.toISOString().split('T')[0];
+      document.getElementById('timeInput').value = now.toTimeString().slice(0,5);
+    }
+    initDateTime();
+
+    function destroyMap() {
+      if (journeyMap) { journeyMap.remove(); journeyMap = null; }
+      mapMarkers = [];
+    }
+
+    function initMapInCard(journey) {
+      destroyMap();
+      var container = document.getElementById('journeyMap');
+      if (!container) return;
+      var isLight = document.documentElement.classList.contains('light');
+      journeyMap = new maplibregl.Map({
+        container: 'journeyMap',
+        style: isLight ? 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json' : 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+        center: [10, 50], zoom: 4, attributionControl: false
+      });
+      journeyMap.addControl(new maplibregl.AttributionControl({ compact: true }));
+      journeyMap.on('load', function() {
+        journeyMap.addSource(LINE_ID, { type: 'geojson', data: { type:'FeatureCollection', features: [] } });
+        journeyMap.addLayer({ id: LINE_ID, type: 'line', source: LINE_ID,
+          paint: { 'line-color': ['get','color'], 'line-width': 4, 'line-opacity': 0.85 },
+          layout: { 'line-cap': 'round', 'line-join': 'round' }
+        });
+        showJourneyOnMap(journey, true);
+      });
+    }
+
+    function toggleJourney(idx) {
+      if (activeJourney === idx) {
+        // Collapse
+        destroyMap();
+        activeJourney = -1;
+        renderJourneys();
+      } else {
+        // Expand
+        destroyMap();
+        activeJourney = idx;
+        renderJourneys();
+        setTimeout(function() {
+          initMapInCard(currentJourneys[idx]);
+        }, 200);
+      }
+    }
+
+    var searchTimeout;
+    function setupSearch(inputId, suggestId, setFn) {
+      var input = document.getElementById(inputId);
+      var suggest = document.getElementById(suggestId);
+      input.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        var q = input.value.trim();
+        if (q.length < 2) { suggest.classList.remove('open'); return; }
+        searchTimeout = setTimeout(function() {
+          var qLower = q.toLowerCase();
+          var matches = allStations.filter(function(s) { return s.name.toLowerCase().indexOf(qLower) !== -1; }).slice(0, 8);
+          if (!matches.length) { suggest.classList.remove('open'); return; }
+          suggest.innerHTML = matches.map(function(s) {
+            return '<div class="suggestion-item" data-lat="'+s.lat+'" data-lng="'+s.lng+'" data-name="'+s.name+'">'+s.name+'</div>';
+          }).join('');
+          suggest.classList.add('open');
+          suggest.querySelectorAll('.suggestion-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+              setFn({ lat: parseFloat(item.dataset.lat), lng: parseFloat(item.dataset.lng), name: item.dataset.name });
+              input.value = item.dataset.name;
+              suggest.classList.remove('open');
+            });
+          });
+        }, 150);
+      });
+      input.addEventListener('blur', function() { setTimeout(function() { suggest.classList.remove('open'); }, 200); });
+    }
+    setupSearch('fromInput', 'fromSuggestions', function(s) { fromStation = s; });
+    setupSearch('toInput', 'toSuggestions', function(s) { toStation = s; });
+
+    function swapStations() {
+      var fi = document.getElementById('fromInput'), ti = document.getElementById('toInput');
+      var tmpVal = fi.value; fi.value = ti.value; ti.value = tmpVal;
+      var tmp = fromStation; fromStation = toStation; toStation = tmp;
+    }
+
+    function clearMap() {
+      mapMarkers.forEach(function(m) { m.remove(); });
+      mapMarkers = [];
+      if (journeyMap && journeyMap.getSource(LINE_ID)) {
+        journeyMap.getSource(LINE_ID).setData({ type:'FeatureCollection', features: [] });
+      }
+    }
+
+    function showJourneyOnMap(journey, fit) {
+      clearMap();
+      if (!journey || !journey.legs) return;
+
+      // Build a color map: same operator → same color
+      var opColors = {};
+      var nextColor = 0;
+      function colorFor(op) {
+        var key = (op||'').toLowerCase();
+        if (!opColors[key]) { opColors[key] = OP_COLORS[nextColor++ % OP_COLORS.length]; }
+        return opColors[key];
+      }
+
+      var features = [];
+      var allCoords = [];
+      var railLegs = journey.legs.filter(function(l) { return l.mode !== 'WALK'; });
+
+      railLegs.forEach(function(leg, i) {
+        var coords = [];
+        if (leg.legGeometry && leg.legGeometry.points) {
+          coords = decodePolyline(leg.legGeometry.points);
+        } else if (leg.from && leg.from.lat && leg.from.lon && leg.to && leg.to.lat && leg.to.lon) {
+          coords = [[leg.from.lon, leg.from.lat], [leg.to.lon, leg.to.lat]];
+        }
+        if (coords.length) {
+          allCoords = allCoords.concat(coords);
+          features.push({
+            type: 'Feature',
+            geometry: { type: 'LineString', coordinates: coords },
+            properties: { color: colorFor(leg.agencyName||leg.routeShortName||leg.route||'') }
+          });
+        }
+      });
+
+      if (!allCoords.length) return;
+
+      // Origin marker (cyan)
+      var first = allCoords[0];
+      [
+        { coord: first, color: '#22D3EE', label: 'Start' }
+      ].forEach(function(pt) {
+        var el = document.createElement('div');
+        el.style.cssText = 'width:16px;height:16px;border-radius:50%;background:'+pt.color+';border:3px solid #fff;box-shadow:0 0 8px rgba(0,0,0,0.4)';
+        el.title = pt.label;
+        mapMarkers.push(new maplibregl.Marker({element:el}).setLngLat(pt.coord).addTo(journeyMap));
+      });
+
+      // Destination marker (red)
+      var last = allCoords[allCoords.length-1];
+      [
+        { coord: last, color: '#EF4444', label: 'End' }
+      ].forEach(function(pt) {
+        var el = document.createElement('div');
+        el.style.cssText = 'width:16px;height:16px;border-radius:50%;background:'+pt.color+';border:3px solid #fff;box-shadow:0 0 8px rgba(0,0,0,0.4)';
+        el.title = pt.label;
+        mapMarkers.push(new maplibregl.Marker({element:el}).setLngLat(pt.coord).addTo(journeyMap));
+      });
+
+      // Transfer/change markers (small dots at each leg's .to, except last leg)
+      for (var i = 0; i < railLegs.length - 1; i++) {
+        var to = railLegs[i].to;
+        if (to && to.lat && to.lon) {
+          var tel = document.createElement('div');
+          tel.style.cssText = 'width:10px;height:10px;border-radius:50%;background:#F59E0B;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,0.4)';
+          tel.title = 'Change at ' + (to.name||'');
+          mapMarkers.push(new maplibregl.Marker({element:tel}).setLngLat([to.lon, to.lat]).addTo(journeyMap));
+        }
+      }
+
+      if (journeyMap.getSource(LINE_ID)) {
+        journeyMap.getSource(LINE_ID).setData({
+          type: 'FeatureCollection',
+          features: features
+        });
+      }
+
+      if (fit) {
+        var bounds = new maplibregl.LngLatBounds();
+        allCoords.forEach(function(c) { bounds.extend(c); });
+        journeyMap.fitBounds(bounds, { padding: 40, maxZoom: 10 });
+      }
+    }
+
+    function searchJourney() {
+      var errEl = document.getElementById('errorMsg');
+      var resultsEl = document.getElementById('results');
+      var btn = document.getElementById('searchBtn');
+      errEl.style.display = 'none';
+      if (!fromStation || !toStation) {
+        errEl.textContent = 'Please select both stations from the suggestions.';
+        errEl.style.display = ''; return;
+      }
+      var date = document.getElementById('dateInput').value;
+      var time = document.getElementById('timeInput').value || '12:00';
+      var dateTime = date + 'T' + time + ':00Z';
+      btn.disabled = true; btn.textContent = 'Searching...';
+      resultsEl.innerHTML = '<div class="loading">Searching...</div>';
+      destroyMap();
+      activeJourney = -1;
+      var url = 'https://api.transitous.org/api/v1/plan' +
+        '?fromPlace=' + fromStation.lat + ',' + fromStation.lng +
+        '&toPlace=' + toStation.lat + ',' + toStation.lng +
+        '&time=' + encodeURIComponent(dateTime) +
+        '&numItineraries=6' +
+        '&mode=RAIL' +
+        '&maxWalkDistance=1000' +
+        '&walkSpeed=1.4';
+      fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+        btn.disabled = false; btn.textContent = 'Search';
+        currentJourneys = (data.itineraries || []).slice(0, 4);
+        activeJourney = -1;
+        if (!currentJourneys.length) { resultsEl.innerHTML = '<div class="no-results">No train journeys found.</div>'; return; }
+        renderJourneys();
+      }).catch(function(e) {
+        btn.disabled = false; btn.textContent = 'Search';
+        errEl.textContent = 'Search failed. Try again.';
+        errEl.style.display = ''; resultsEl.innerHTML = ''; console.error(e);
+      });
+    }
+
+    function renderJourneys() {
+      var resultsEl = document.getElementById('results');
+      resultsEl.innerHTML = currentJourneys.map(function(j, ji) {
+        var legs = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
+        var walks = (j.legs||[]).filter(function(l) { return l.mode === 'WALK'; });
+        var durMin = Math.round(j.duration/60);
+        var isExpanded = ji === activeJourney;
+        var fromName = (legs[0]&&legs[0].from?legs[0].from.name:'');
+        var lastLeg = legs[legs.length-1];
+        var toName = (lastLeg&&lastLeg.to?lastLeg.to.name:'');
+        return '<div class="journey'+(isExpanded?' expanded':'')+'" onclick="toggleJourney('+ji+')">' +
+          '<div class="journey-header">' +
+            '<div class="journey-summary">' +
+              '<div class="stations">' + fromName + ' → ' + toName + '</div>' +
+              '<div>' + new Date(j.startTime).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) + ' – ' + new Date(j.endTime).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) + '</div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="journey-duration">'+Math.floor(durMin/60)+'h '+(durMin%60)+'min</div>' +
+              '<div class="journey-transfers">'+(j.transfers===0?'Direct':j.transfers+' chg')+'</div>' +
+            '</div>' +
+            '<span class="expand-icon">▼</span>' +
+          '</div>' +
+          '<div class="journey-body">' +
+            legs.map(function(leg) {
+              var dt = new Date(leg.from.departure||leg.startTime);
+              var at = leg.to&&leg.to.arrival ? new Date(leg.to.arrival) : null;
+              var name = leg.routeShortName||leg.route||'';
+              var fromName = (leg.from&&leg.from.name)||'';
+              var toName = (leg.to&&leg.to.name)||'';
+              if (toName.length>30) toName = toName.substring(0,30)+'...';
+              if (fromName.length>30) fromName = fromName.substring(0,30)+'...';
+              return '<div class="leg">' +
+                '<div class="leg-station">'+fromName+'</div>' +
+                '<div class="leg-to-label">→ to</div>' +
+                '<div class="leg-station">'+toName+'</div>' +
+                '<div class="leg-details">' +
+                  '<span class="leg-depart">'+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</span>' +
+                  (at?'<span style="font-size:0.7rem;color:var(--text-secondary)">– '+at.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</span>':'') +
+                  (leg.from.track?'<span class="leg-platform">Pl.'+leg.from.track+'</span>':'') +
+                  (name?'<span class="leg-line">'+name+'</span>':'') +
+                  (leg.headsign?'<span class="leg-direction">'+leg.headsign+'</span>':'') +
+                '</div>' +
+                (leg.agencyName?'<div class="leg-operator">'+leg.agencyName+'</div>':'') +
+              '</div>';
+            }).join('') +
+            (walks.length?'<div class="leg-walk">↳ '+walks.map(function(l){return Math.round(l.duration/60)+' min walk';}).join(' + ')+'</div>':'') +
+            (isExpanded ? '<div id="journeyMap" class="journey-map"></div>' : '') +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    var root = document.documentElement;
+    var toggle = document.getElementById('themeToggle');
+    var logo = document.getElementById('logo');
+    function updateUI() {
+      var isLight = root.classList.contains('light');
+      toggle.checked = isLight;
+      var themeLabel = document.getElementById('themeLabel');
+      if (themeLabel) themeLabel.textContent = isLight ? 'Light mode' : 'Dark mode';
+      logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
+    }
+    function applyTheme() {
+      var saved = localStorage.getItem('trackandtide:theme');
+      var isLight = saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (isLight) root.classList.add('light'); else root.classList.remove('light');
+      updateUI();
+    }
+    function toggleTheme() {
+      root.classList.toggle('light');
+      localStorage.setItem('trackandtide:theme', root.classList.contains('light') ? 'light' : 'dark');
+      updateUI();
+      if (journeyMap) {
+        destroyMap();
+        if (activeJourney >= 0 && currentJourneys[activeJourney]) {
+          // Re-render to recreate #journeyMap in the card, then re-init
+          renderJourneys();
+          setTimeout(function() { initMapInCard(currentJourneys[activeJourney]); }, 200);
+        }
+      }
+    }
+    applyTheme();
+
+    toggle.addEventListener('change', function() {
+      var isLight = toggle.checked;
+      if (isLight) root.classList.add('light');
+      else root.classList.remove('light');
+      localStorage.setItem('trackandtide:theme', isLight ? 'light' : 'dark');
+      updateUI();
+      if (journeyMap) {
+        destroyMap();
+        if (activeJourney >= 0 && currentJourneys[activeJourney]) {
+          renderJourneys();
+          setTimeout(function() { initMapInCard(currentJourneys[activeJourney]); }, 200);
+        }
+      }
+    });
+
+    // Hamburger menu
+    var hamburgerBtn = document.getElementById('hamburgerBtn');
+    var mainNav = document.getElementById('mainNav');
+
+    hamburgerBtn.addEventListener('click', function() {
+      var open = !mainNav.classList.contains('open');
+      mainNav.classList.toggle('open', open);
+      hamburgerBtn.classList.toggle('open', open);
+      hamburgerBtn.setAttribute('aria-expanded', open);
+    });
+
+    mainNav.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mainNav.classList.remove('open');
+        hamburgerBtn.classList.remove('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+
+<script>
+function openReportModal() { document.getElementById('reportModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeReportModal() { document.getElementById('reportModal').classList.remove('open'); document.body.style.overflow = ''; }
+</script>
+
+<div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeReportModal()" aria-label="Close">&times;</button>
+    <h2>Report something</h2>
+    <p>Spotted a bug or have a feature idea?</p>
+    <form class="report-form" id="reportForm">
+      <div class="field"><label for="reportType">Type *</label>
+        <select id="reportType" required><option value="">Select...</option><option>Bug</option><option>Feature Idea</option><option>Other</option></select>
+      </div>
+      <div class="field"><label for="reportName">Your name</label><input type="text" id="reportName" placeholder="Jane Doe"></div>
+      <div class="field"><label for="reportMessage">Message *</label><textarea id="reportMessage" required placeholder="Describe the issue..."></textarea></div>
+      <button type="submit" class="submit-btn">Send report</button>
+    </form>
+    <div class="form-success" id="formSuccess"><h3>Thank you!</h3><p>Your report has been sent.</p></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('reportForm').addEventListener('submit', async function(e) {
+  e.preventDefault(); var f = e.target; var b = f.querySelector('.submit-btn'); b.textContent = 'Sending...'; b.disabled = true;
+  try {
+    var r = await fetch('https://api.web3forms.com/submit', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ Type:f.querySelector('#reportType').value, Name:f.querySelector('#reportName').value, Message:f.querySelector('#reportMessage').value, access_key:'6ff77564-e32e-4034-95ee-57830e7c2fb7' }) });
+    if (r.ok) { f.style.display = 'none'; document.getElementById('formSuccess').classList.add('show'); } else throw new Error('Failed');
+  } catch(err) { b.textContent = 'Send report'; b.disabled = false; }
+});
+</script>
+
+</body>
+</html>

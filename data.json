@@ -3243,6 +3243,1421 @@
       "countries": [
         "Spain"
       ]
+    },
+    {
+      "id": "matterhorngotthard",
+      "name": "Matterhorn Gotthard Bahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "logo": "mgb.png",
+      "operatorLabel": "Swiss alpine railway",
+      "description": "Operates the Glacier Express route between Zermatt and St. Moritz through the Swiss Alps.",
+      "website": "",
+      "appLinks": {}
+    },
+    {
+      "id": "b ls",
+      "name": "BLS",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "logo": "bls.png",
+      "operatorLabel": "Swiss regional railway",
+      "description": "BLS operates regional and S-Bahn services in the Bernese Oberland and connects Bern with Interlaken and Lucerne.",
+      "website": "",
+      "appLinks": {}
+    },
+    {
+      "id": "so b",
+      "name": "SOB",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "logo": "sob.png",
+      "operatorLabel": "Swiss regional railway",
+      "description": "Südostbahn operates the Voralpen Express and regional services in eastern Switzerland.",
+      "website": "",
+      "appLinks": {}
+    },
+    {
+      "id": "zb",
+      "name": "Zentralbahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Scenic railway connecting Lucerne with Interlaken and Engelberg, including the Brünig line.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "mo b",
+      "name": "MOB",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Montreux-Oberland Bernois operates the GoldenPass panoramic route from Montreux to Zweisimmen.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "mgi n",
+      "name": "MVR",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Montreux-Vevey-Riviera transports including the scenic train to Rochers-de-Naye.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "as m",
+      "name": "ASm",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Aare Seeland mobil operates regional services in the Bern-Seeland region.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cj",
+      "name": "CJ",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Chemins de fer du Jura operates regional railways in the Swiss Jura.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "bam",
+      "name": "BAM",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Bière-Apples-Morges railway in canton Vaud.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ab",
+      "name": "Appenzeller Bahnen",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Narrow-gauge railways in the Appenzell region of eastern Switzerland.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "fART",
+      "name": "Frauenfeld-Wil-Bahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Narrow-gauge railway connecting Frauenfeld and Wil.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "wab",
+      "name": "Wengernalpbahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "The world's longest continuous cogwheel railway, connecting Lauterbrunnen, Wengen, and Kleine Scheidegg.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "jb",
+      "name": "Jungfraubahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Famous cogwheel railway to Jungfraujoch, Europe's highest railway station at 3,454m.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "gornergrat",
+      "name": "Gornergrat Bahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Scenic cogwheel railway from Zermatt to the Gornergrat summit at 3,089m.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "brienzrothorn",
+      "name": "Brienz Rothorn Bahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Historic steam cogwheel railway climbing from Brienz to the Rothorn summit.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "pilatus",
+      "name": "Pilatus Bahn",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "The world's steepest cogwheel railway climbing Mount Pilatus near Lucerne.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "rigi",
+      "name": "Rigi Bahnen",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Europe's oldest mountain railway, climbing Mount Rigi from Vitznau and Arth-Goldau.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "nordwestbahn",
+      "name": "NordWestBahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in northwest Germany, Lower Saxony and North Rhine-Westphalia.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "erixx",
+      "name": "Erixx",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train services in Lower Saxony and Bremen.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "enno",
+      "name": "Enno",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in the Hanover-Brunswick-Wolfsburg region.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "westfalenbahn",
+      "name": "WestfalenBahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in North Rhine-Westphalia and Lower Saxony.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "eurobahn",
+      "name": "Eurobahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in North Rhine-Westphalia, Lower Saxony and the Netherlands border.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "trireno",
+      "name": "Trireno",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in the Black Forest and Upper Rhine region.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "goaheadde",
+      "name": "Go-Ahead Deutschland",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Baden-Württemberg and Bavaria.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "agilis",
+      "name": "Agilis",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Bavaria.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "alex",
+      "name": "Alex",
+      "country": "Germany",
+      "countries": [
+        "Germany",
+        "Czechia"
+      ],
+      "type": "trains",
+      "description": "Regional and inter-regional services between Bavaria and the Czech Republic.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "bayeroberland",
+      "name": "Bayerische Oberlandbahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train services south of Munich into the Bavarian Oberland.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "bayerregiobahn",
+      "name": "Bayerische Regiobahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Bavaria.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "mitteldeutsche",
+      "name": "Mitteldeutsche Regiobahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Saxony, serving Dresden, Leipzig and Chemnitz.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "odenwaldbahn",
+      "name": "Odenwaldbahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional railway through the Odenwald forest between Hesse and Baden-Württemberg.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "abellio",
+      "name": "Abellio",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in several German states.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "vlexx",
+      "name": "Vlexx",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Rhineland-Palatinate, Saarland and Hesse.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cantus",
+      "name": "Cantus",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Hesse and Thuringia.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "hansestadt",
+      "name": "Osthannoversche Eisenbahnen",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional freight and passenger railway in eastern Lower Saxony.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "nbe",
+      "name": "Nordbahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional railway in Schleswig-Holstein.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ferrovienord",
+      "name": "Ferrovienord",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Railway infrastructure and services in northern Lombardy.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "trenordest",
+      "name": "Trenitalia Tper",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Emilia-Romagna.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ferc",
+      "name": "Ferrovie del Gargano",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional railway in Apulia, including the Gargano line.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ferappulo",
+      "name": "Ferrovie Appulo Lucane",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional narrow-gauge railway in Basilicata and Apulia.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "fcu",
+      "name": "Ferrovia Centrale Umbra",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional railway in Umbria.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "circumvesuviana",
+      "name": "Circumvesuviana",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Narrow-gauge railway network around Mount Vesuvius, serving Naples suburbs.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "circumetnea",
+      "name": "Ferrovia Circumetnea",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Narrow-gauge railway circling Mount Etna in Sicily.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "fta",
+      "name": "Ferrovia Trento-Malè",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional railway from Trento into the Val di Non and Val di Sole.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "sad",
+      "name": "SAD",
+      "country": "Italy",
+      "countries": [
+        "Italy",
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Regional transport in South Tyrol, including the Pustertal and Vinschgau railways.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "domodossolalocarno",
+      "name": "Domodossola-Locarno Railway",
+      "country": "Italy",
+      "countries": [
+        "Italy",
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Scenic international narrow-gauge railway through the Centovalli.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "berninaexpress",
+      "name": "Bernina Express",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland",
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "UNESCO World Heritage scenic railway from Chur to Tirano through the Bernina Pass.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "gkb",
+      "name": "GKB",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Graz-Köflacher Bahn operates regional services around Graz, Styria.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "mzb",
+      "name": "Murtalbahn",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Narrow-gauge railway through the Mur valley in Styria.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ztb",
+      "name": "Zillertalbahn",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Narrow-gauge railway through the Zillertal valley in Tyrol.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "acb",
+      "name": "Achenseebahn",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Historic steam cogwheel railway from Jenbach to Lake Achensee.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "pinzgauer",
+      "name": "Pinzgauer Lokalbahn",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Narrow-gauge railway through the Pinzgau region of Salzburg.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "schneebergbahn",
+      "name": "Schneebergbahn",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Cogwheel railway climbing the Schneeberg, Lower Austria's highest mountain.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "schafbergbahn",
+      "name": "SchafbergBahn",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Steam cogwheel railway climbing the Schafberg in the Salzkammergut.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "semmeringbahn",
+      "name": "Semmering Railway",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "UNESCO World Heritage mountain railway, Europe's first standard-gauge mountain railway.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cityairporttrain",
+      "name": "City Airport Train",
+      "country": "Austria",
+      "countries": [
+        "Austria"
+      ],
+      "type": "trains",
+      "description": "Express train connecting Vienna city centre with Vienna International Airport.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cpt",
+      "name": "Chemins de fer de Provence",
+      "country": "France",
+      "countries": [
+        "France"
+      ],
+      "type": "trains",
+      "description": "Scenic narrow-gauge railway from Nice to Digne-les-Bains through Provence.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "montblanc",
+      "name": "Mont-Blanc Express",
+      "country": "France",
+      "countries": [
+        "France",
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Scenic mountain railway through the Chamonix valley to Martigny.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cervi",
+      "name": "Train Jaune",
+      "country": "France",
+      "countries": [
+        "France"
+      ],
+      "type": "trains",
+      "description": "Historic electric railway through the Pyrenees, known as the Yellow Train.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cdgval",
+      "name": "CDGVAL",
+      "country": "France",
+      "countries": [
+        "France"
+      ],
+      "type": "trains",
+      "description": "Automated shuttle connecting terminals at Paris Charles de Gaulle Airport.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "grandcentral",
+      "name": "Grand Central",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Open-access intercity operator on the East Coast Main Line.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "tfwrail",
+      "name": "Transport for Wales Rail",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Welsh train operator serving Wales and the border regions.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "caledoniansleeper",
+      "name": "Caledonian Sleeper",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Overnight sleeper train services between London and Scotland.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "westcoast",
+      "name": "West Coast Railways",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Heritage and charter train operator, including the Jacobite steam train.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "heathrowexpress",
+      "name": "Heathrow Express",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Express train service between London Paddington and Heathrow Airport.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "gatwickexpress",
+      "name": "Gatwick Express",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Express train between London Victoria and Gatwick Airport.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "stanstedexpress",
+      "name": "Stansted Express",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Express train between London Liverpool Street and Stansted Airport.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "intercitydirect",
+      "name": "Intercity Direct",
+      "country": "Netherlands",
+      "countries": [
+        "Netherlands",
+        "Belgium"
+      ],
+      "type": "trains",
+      "description": "High-speed domestic and international service connecting Amsterdam, Rotterdam and Breda.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "flygbussarna",
+      "name": "Arlanda Express",
+      "country": "Sweden",
+      "countries": [
+        "Sweden"
+      ],
+      "type": "trains",
+      "description": "High-speed airport train connecting Stockholm city centre with Arlanda Airport.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "paatoget",
+      "name": "Pågatågen",
+      "country": "Sweden",
+      "countries": [
+        "Sweden"
+      ],
+      "type": "trains",
+      "description": "Regional train network in Skåne, southern Sweden.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "hsl",
+      "name": "HSL",
+      "country": "Finland",
+      "countries": [
+        "Finland"
+      ],
+      "type": "trains",
+      "description": "Helsinki Regional Transport Authority, operating commuter trains in the capital region.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "dukol",
+      "name": "Die Länderbahn",
+      "country": "Germany",
+      "countries": [
+        "Germany",
+        "Czechia"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Bavaria, Saxony and the Czech Republic, operating the Alex and trilex brands.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "gwtr",
+      "name": "GW Train Regio",
+      "country": "Czechia",
+      "countries": [
+        "Czechia"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in the Czech Republic.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "zsskcargo",
+      "name": "ZSSK Cargo",
+      "country": "Slovakia",
+      "countries": [
+        "Slovakia"
+      ],
+      "type": "trains",
+      "description": "Freight operator, also operates some regional passenger services in Slovakia.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "tez",
+      "name": "Tež",
+      "country": "Slovenia",
+      "countries": [
+        "Slovenia"
+      ],
+      "type": "trains",
+      "description": "Slovenian railway infrastructure manager.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "rhodope",
+      "name": "Rhodope Narrow Gauge",
+      "country": "Bulgaria",
+      "countries": [
+        "Bulgaria"
+      ],
+      "type": "trains",
+      "description": "Scenic narrow-gauge railway through the Rhodope Mountains, Bulgaria's last operational narrow-gauge line.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "sarail",
+      "name": "SARail",
+      "country": "Greece",
+      "countries": [
+        "Greece"
+      ],
+      "type": "trains",
+      "description": "Thessaloniki suburban railway services.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "metroankara",
+      "name": "Metro Ankara",
+      "country": "Turkey",
+      "countries": [
+        "Turkey"
+      ],
+      "type": "trains",
+      "description": "Ankara metro and suburban rail system.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "marmaray",
+      "name": "Marmaray",
+      "country": "Turkey",
+      "countries": [
+        "Turkey"
+      ],
+      "type": "trains",
+      "description": "Cross-Bosphorus suburban railway connecting the European and Asian sides of Istanbul.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "izban",
+      "name": "İZBAN",
+      "country": "Turkey",
+      "countries": [
+        "Turkey"
+      ],
+      "type": "trains",
+      "description": "Suburban rail system serving the İzmir metropolitan area.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "isleofman",
+      "name": "Isle of Man Railway",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Heritage steam railway on the Isle of Man, operating since 1873.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "snowdon",
+      "name": "Snowdon Mountain Railway",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Rack-and-pinion mountain railway climbing Snowdon, the highest peak in Wales.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ffestiniog",
+      "name": "Ffestiniog Railway",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Historic narrow-gauge railway through Snowdonia National Park in Wales.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "corris",
+      "name": "Corris Railway",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Restored narrow-gauge heritage railway in Mid-Wales.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "flam",
+      "name": "Flåm Railway",
+      "country": "Norway",
+      "countries": [
+        "Norway"
+      ],
+      "type": "trains",
+      "description": "One of the world's steepest standard-gauge railways, descending from Myrdal to Flåm through dramatic fjord scenery.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "rauma",
+      "name": "Rauma Line",
+      "country": "Norway",
+      "countries": [
+        "Norway"
+      ],
+      "type": "trains",
+      "description": "Scenic railway from Dombås to Åndalsnes, passing through the Romsdalen valley.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "avg",
+      "name": "Albtal-Verkehrs-Gesellschaft",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional transport operator in the Karlsruhe/Albtal region of Baden-Württemberg.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "hzl",
+      "name": "Hohenzollerische Landesbahn",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional railway in the Swabian Alb region of Baden-Württemberg.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "swu",
+      "name": "SWU Verkehr",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Public transport operator in Ulm/Neu-Ulm.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "transregio",
+      "name": "Trans Regio",
+      "country": "Germany",
+      "countries": [
+        "Germany"
+      ],
+      "type": "trains",
+      "description": "Regional train operator in Rhineland-Palatinate and North Rhine-Westphalia.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "fse",
+      "name": "Ferrovie del Sud Est",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional railway operator in Apulia, southeastern Italy.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cotral",
+      "name": "Cotral",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional transport company serving the Lazio region around Rome.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "atac",
+      "name": "ATAC",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Rome public transport operator including metro and light rail.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "amtgenova",
+      "name": "AMT Genova",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Genoa public transport operator.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "actv",
+      "name": "ACTV",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Venice public transport operator including water buses.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "dolomitibus",
+      "name": "Dolomiti Bus",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional public transport in the Dolomites region.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ttr",
+      "name": "Trentino Trasporti",
+      "country": "Italy",
+      "countries": [
+        "Italy"
+      ],
+      "type": "trains",
+      "description": "Regional transport operator in Trentino.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "ratp",
+      "name": "RATP",
+      "country": "France",
+      "countries": [
+        "France"
+      ],
+      "type": "trains",
+      "description": "Paris public transport operator including metro, RER, tram and bus services.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cfc",
+      "name": "Chemins de Fer de la Corse",
+      "country": "France",
+      "countries": [
+        "France"
+      ],
+      "type": "trains",
+      "description": "Scenic railway network across the island of Corsica.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "tmr",
+      "name": "Transports de Martigny et Régions",
+      "country": "Switzerland",
+      "countries": [
+        "Switzerland"
+      ],
+      "type": "trains",
+      "description": "Regional transport operator in Martigny and the surrounding Valais region.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "cfm",
+      "name": "Calea Ferată din Moldova",
+      "country": "Moldova",
+      "countries": [
+        "Moldova"
+      ],
+      "type": "trains",
+      "description": "National railway operator of Moldova.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "uz",
+      "name": "Ukrzaliznytsia",
+      "country": "Ukraine",
+      "countries": [
+        "Ukraine"
+      ],
+      "type": "trains",
+      "description": "National railway operator of Ukraine.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "russianrailways",
+      "name": "Russian Railways",
+      "country": "Russia",
+      "countries": [
+        "Russia",
+        "Ukraine"
+      ],
+      "type": "trains",
+      "description": "National railway operator of Russia (RŽD).",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "belarusianrailway",
+      "name": "Belarusian Railway",
+      "country": "Belarus",
+      "countries": [
+        "Belarus"
+      ],
+      "type": "trains",
+      "description": "National railway operator of Belarus.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "stather",
+      "name": "STASY",
+      "country": "Greece",
+      "countries": [
+        "Greece"
+      ],
+      "type": "trains",
+      "description": "Athens urban rail transport operator including the metro system.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "tfl",
+      "name": "Transport for London",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "London transport authority operating the Underground, Overground, DLR, trams and Elizabeth line.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "nexus",
+      "name": "Nexus",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Tyne and Wear transport authority operating the Metro system around Newcastle.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "spt",
+      "name": "Strathclyde Partnership for Transport",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Transport authority for the Glasgow and Strathclyde region, operating the Subway.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
+    },
+    {
+      "id": "translink",
+      "name": "Translink",
+      "country": "United Kingdom",
+      "countries": [
+        "United Kingdom"
+      ],
+      "type": "trains",
+      "description": "Northern Ireland transport operator including NI Railways, Ulsterbus and Metro.",
+      "website": "",
+      "appLinks": {},
+      "logo": ""
     }
   ],
   "countryInfo": [

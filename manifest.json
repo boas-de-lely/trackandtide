@@ -1,0 +1,25 @@
+{
+  "name": "Track & Tide — European Rail & Ferry Map",
+  "short_name": "Track & Tide",
+  "description": "Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan intermodal journeys across Europe.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1F2937",
+  "theme_color": "#1F2937",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "trackandtide logo full.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["travel", "navigation", "maps"],
+  "lang": "en",
+  "scope": "/"
+}

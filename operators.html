@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -8,14 +8,43 @@
 <meta property="og:title" content="Operators — Track & Tide" />
 <meta property="og:description" content="Browse European train and ferry operators — logos, websites, apps, countries served, and more." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://trackandtide.eu/operators" />
-<link rel="canonical" href="https://trackandtide.eu/operators" />
+<meta property="og:url" content="https://trackandtide.com/operators" />
+<meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Track & Tide — Operators" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:site_name" content="Track & Tide" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Operators — Track & Tide" />
+<meta name="twitter:description" content="Browse European train and ferry operators — logos, websites, apps, countries served, and more." />
+<meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+<link rel="canonical" href="https://trackandtide.com/operators" />
 <link rel="icon" href="icon.png" />
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#1F2937" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Operators — Track & Tide",
+  "url": "https://trackandtide.com/operators",
+  "description": "Browse European train and ferry operators — logos, websites, apps, countries served, and more.",
+  "isPartOf": {
+    "@type": "WebApplication",
+    "name": "Track & Tide",
+    "url": "https://trackandtide.com/"
+  }
+}
+</script>
 <style>
 :root {
   --bg: #1f2937;
-  --panel: rgba(31,41,55,0.75);
+  --panel: #1f2937;
+  --card: #273549;
   --text: #ffffff;
+  --text-secondary: #94A3B8;
   --border: rgba(255,255,255,0.08);
   --hover: #60a5fa;
   --active: #3b82f6;
@@ -23,8 +52,10 @@
 
 :root.light {
   --bg: #d5d9e2;
-  --panel: #f8fafc;
+  --panel: #ffffff;
+  --card: #f8fafc;
   --text: #111827;
+  --text-secondary: #6B7280;
   --border: rgba(15,23,42,0.16);
 }
 
@@ -45,7 +76,10 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 14px 20px;
+  row-gap: 0.5rem;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
 }
 
 header img {
@@ -59,26 +93,44 @@ header img {
   justify-content: center;
 }
 
-.main-nav a,
-.toggle {
+.main-nav a {
   color: var(--text);
   text-decoration: none;
   padding: 0.55rem 0.75rem;
   border-radius: 999px;
-  opacity: 0.8;
+  opacity: 0.78;
   border: 1px solid transparent;
 }
 
 .main-nav a:hover,
-.main-nav a.active,
-.toggle {
+.main-nav a.active {
   opacity: 1;
-  background: var(--panel);
+  background: var(--card);
   border-color: var(--border);
 }
 
-.toggle {
-  cursor: pointer;
+.theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
+.theme-switch input { opacity: 0; width: 0; height: 0; }
+.theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
+.theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
+.theme-switch input:checked + .theme-slider { background: var(--hover); }
+.theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
+
+.hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .main-nav { display: none; flex-direction: column; position: absolute; top: 60px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .main-nav.open { display: flex; }
+  .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
+}
+
+@media (max-width: 1000px) {
+  header img { width: 120px; }
 }
 
 main {
@@ -316,15 +368,6 @@ option {
 }
 
 @media (max-width: 900px) {
-  header {
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-  .main-nav {
-    order: 3;
-    width: 100%;
-    justify-content: flex-start;
-  }
   .page-shell {
     grid-template-columns: 1fr;
   }
@@ -354,6 +397,8 @@ option {
   gap: 0.4rem;
 }
 .footer-link:hover { text-decoration: underline; opacity: 1; }
+.footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
+.footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 
 /* ── Modal ── */
 .modal-overlay {
@@ -441,15 +486,20 @@ option {
 </style>
 </head>
 <body>
+
 <header>
-  <img id="logo" src="trackandtide logo full.png" alt="Track & Tide" />
-  <nav class="main-nav" aria-label="Main navigation">
+  <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="main-nav" aria-label="Main navigation" id="mainNav">
     <a href="/">Map</a>
     <a href="/stations">Stations</a>
     <a href="/ports">Ports</a>
     <a href="/operators" class="active">Operators</a>
+    <a href="/journey">Journey</a>
+    <a href="/about">About</a>
   </nav>
-  <div class="toggle" id="themeToggle">Light mode</div>
 </header>
 
 <main>
@@ -499,6 +549,17 @@ option {
   </div>
 </main>
 
+<footer class="site-footer">
+  <div class="footer-theme">
+    <span class="footer-theme-label" id="themeLabel">Light mode</span>
+    <label class="theme-switch" title="Toggle dark/light mode">
+      <input type="checkbox" id="themeToggle" />
+      <span class="theme-slider"></span>
+    </label>
+  </div>
+  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+</footer>
+
 <script>
 const root = document.documentElement;
 const toggle = document.getElementById("themeToggle");
@@ -521,7 +582,9 @@ function setTheme(mode) {
   if (mode === "light") root.classList.add("light");
   else root.classList.remove("light");
   localStorage.setItem("trackandtide:theme", mode);
-  toggle.textContent = root.classList.contains("light") ? "Dark mode" : "Light mode";
+  toggle.checked = (mode === "light");
+  const themeLabel = document.getElementById("themeLabel");
+  if (themeLabel) themeLabel.textContent = mode === "light" ? "Light mode" : "Dark mode";
   logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
 }
 
@@ -531,8 +594,27 @@ function detectTheme() {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
-toggle.onclick = () => setTheme(root.classList.contains("light") ? "dark" : "light");
+toggle.addEventListener('change', () => setTheme(toggle.checked ? "light" : "dark"));
 setTheme(detectTheme());
+
+// Hamburger menu
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const mainNav = document.getElementById("mainNav");
+
+hamburgerBtn.addEventListener("click", () => {
+  const open = !mainNav.classList.contains("open");
+  mainNav.classList.toggle("open", open);
+  hamburgerBtn.classList.toggle("open", open);
+  hamburgerBtn.setAttribute("aria-expanded", open);
+});
+
+mainNav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mainNav.classList.remove("open");
+    hamburgerBtn.classList.remove("open");
+    hamburgerBtn.setAttribute("aria-expanded", "false");
+  });
+});
 
 function escapeHTML(text) {
   return String(text)
@@ -677,10 +759,6 @@ fetch("./data.json?v=20260603")
   control.addEventListener("change", render);
 });
 </script>
-
-<footer class="site-footer">
-  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
-</footer>
 
 <div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
   <div class="modal-dialog">

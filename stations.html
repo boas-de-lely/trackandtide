@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -6,18 +6,47 @@
 <title>Train Stations — Track & Tide</title>
 <meta name="description" content="Browse European train stations — find operators, Wikidata details, and community tips for thousands of stations across Europe." />
 <meta property="og:title" content="Train Stations — Track & Tide" />
-<meta property="og:description" content="Browse European train stations — find operators, Wikidata details, and community tips." />
+<meta property="og:description" content="Browse European train stations — find operators, Wikidata details, and community tips for thousands of stations across Europe." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://trackandtide.eu/stations" />
-<link rel="canonical" href="https://trackandtide.eu/stations" />
+<meta property="og:url" content="https://trackandtide.com/stations" />
+<meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Track & Tide — Train Stations" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:site_name" content="Track & Tide" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Train Stations — Track & Tide" />
+<meta name="twitter:description" content="Browse European train stations — find operators, Wikidata details, and community tips." />
+<meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+<link rel="canonical" href="https://trackandtide.com/stations" />
 <link rel="icon" href="icon.png" />
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#1F2937" />
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Train Stations — Track & Tide",
+  "url": "https://trackandtide.com/stations",
+  "description": "Browse European train stations — find operators, Wikidata details, and community tips for thousands of stations across Europe.",
+  "isPartOf": {
+    "@type": "WebApplication",
+    "name": "Track & Tide",
+    "url": "https://trackandtide.com/"
+  }
+}
+</script>
 <style>
 :root {
   --bg: #1f2937;
-  --panel: rgba(31,41,55,0.75);
+  --panel: #1f2937;
+  --card: #273549;
   --text: #ffffff;
+  --text-secondary: #94A3B8;
   --border: rgba(255,255,255,0.08);
   --hover: #60a5fa;
   --active: #3b82f6;
@@ -25,8 +54,10 @@
 
 :root.light {
   --bg: #d5d9e2;
-  --panel: #f8fafc;
+  --panel: #ffffff;
+  --card: #f8fafc;
   --text: #111827;
+  --text-secondary: #6B7280;
   --border: rgba(15,23,42,0.16);
 }
 
@@ -47,7 +78,10 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 14px 20px;
+  row-gap: 0.5rem;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
 }
 
 header img {
@@ -61,26 +95,44 @@ header img {
   justify-content: center;
 }
 
-.main-nav a,
-.toggle {
+.main-nav a {
   color: var(--text);
   text-decoration: none;
   padding: 0.55rem 0.75rem;
   border-radius: 999px;
-  opacity: 0.8;
+  opacity: 0.78;
   border: 1px solid transparent;
 }
 
 .main-nav a:hover,
-.main-nav a.active,
-.toggle {
+.main-nav a.active {
   opacity: 1;
-  background: var(--panel);
+  background: var(--card);
   border-color: var(--border);
 }
 
-.toggle {
-  cursor: pointer;
+.theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
+.theme-switch input { opacity: 0; width: 0; height: 0; }
+.theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
+.theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
+.theme-switch input:checked + .theme-slider { background: var(--hover); }
+.theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
+
+.hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .main-nav { display: none; flex-direction: column; position: absolute; top: 60px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .main-nav.open { display: flex; }
+  .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
+}
+
+@media (max-width: 1000px) {
+  header img { width: 120px; }
 }
 
 main {
@@ -504,22 +556,6 @@ option {
   color: var(--text);
 }
 
-.usage-pill.usage-in_use {
-  color: #34d399;
-}
-
-.usage-pill.usage-limited_use {
-  color: #fb923c;
-}
-
-:root.light .usage-pill.usage-in_use {
-  color: #059669;
-}
-
-:root.light .usage-pill.usage-limited_use {
-  color: #c2410c;
-}
-
 .source-link {
   color: var(--hover);
   font-weight: 700;
@@ -533,15 +569,6 @@ option {
 }
 
 @media (max-width: 900px) {
-  header {
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-  .main-nav {
-    order: 3;
-    width: 100%;
-    justify-content: flex-start;
-  }
   .page-shell {
     grid-template-columns: 1fr;
   }
@@ -579,6 +606,8 @@ option {
   align-items: center;
   gap: 0.4rem;
 }
+.footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
+.footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 .footer-link:hover { text-decoration: underline; opacity: 1; }
 
 /* ── Modal ── */
@@ -667,15 +696,20 @@ option {
 </style>
 </head>
 <body>
+
 <header>
-  <img id="logo" src="trackandtide logo full.png" alt="Track & Tide" />
-  <nav class="main-nav" aria-label="Main navigation">
+  <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="main-nav" aria-label="Main navigation" id="mainNav">
     <a href="/">Map</a>
     <a href="/stations" class="active">Stations</a>
     <a href="/ports">Ports</a>
     <a href="/operators">Operators</a>
+    <a href="/journey">Journey</a>
+    <a href="/about">About</a>
   </nav>
-  <div class="toggle" id="themeToggle">Light mode</div>
 </header>
 
 <main>
@@ -703,14 +737,6 @@ option {
         <select id="operatorFilter"></select>
       </div>
       <div class="field">
-        <label for="usageFilter">Usage</label>
-        <select id="usageFilter">
-          <option value="">All</option>
-          <option value="in_use">In use</option>
-          <option value="limited_use">Limited use</option>
-        </select>
-      </div>
-      <div class="field">
         <label for="sortFilter">Sort</label>
         <select id="sortFilter">
           <option value="name">Name</option>
@@ -733,6 +759,17 @@ option {
   </div>
 </main>
 
+<footer class="site-footer">
+  <div class="footer-theme">
+    <span class="footer-theme-label" id="themeLabel">Light mode</span>
+    <label class="theme-switch" title="Toggle dark/light mode">
+      <input type="checkbox" id="themeToggle" />
+      <span class="theme-slider"></span>
+    </label>
+  </div>
+  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+</footer>
+
 <script>
 const root = document.documentElement;
 const toggle = document.getElementById("themeToggle");
@@ -741,7 +778,6 @@ const searchInput = document.getElementById("searchInput");
 const countryFilter = document.getElementById("countryFilter");
 const sourceFilter = document.getElementById("sourceFilter");
 const operatorFilter = document.getElementById("operatorFilter");
-const usageFilter = document.getElementById("usageFilter");
 const sortFilter = document.getElementById("sortFilter");
 const stationList = document.getElementById("stationList");
 const resultTitle = document.getElementById("resultTitle");
@@ -764,7 +800,9 @@ function setTheme(mode) {
   if (mode === "light") root.classList.add("light");
   else root.classList.remove("light");
   localStorage.setItem("trackandtide:theme", mode);
-  toggle.textContent = root.classList.contains("light") ? "Dark mode" : "Light mode";
+  toggle.checked = (mode === "light");
+  const themeLabel = document.getElementById("themeLabel");
+  if (themeLabel) themeLabel.textContent = mode === "light" ? "Light mode" : "Dark mode";
   logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
 }
 
@@ -774,8 +812,27 @@ function detectTheme() {
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 
-toggle.onclick = () => setTheme(root.classList.contains("light") ? "dark" : "light");
+toggle.addEventListener('change', () => setTheme(toggle.checked ? "light" : "dark"));
 setTheme(detectTheme());
+
+// Hamburger menu
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const mainNav = document.getElementById("mainNav");
+
+hamburgerBtn.addEventListener("click", () => {
+  const open = !mainNav.classList.contains("open");
+  mainNav.classList.toggle("open", open);
+  hamburgerBtn.classList.toggle("open", open);
+  hamburgerBtn.setAttribute("aria-expanded", open);
+});
+
+mainNav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mainNav.classList.remove("open");
+    hamburgerBtn.classList.remove("open");
+    hamburgerBtn.setAttribute("aria-expanded", "false");
+  });
+});
 
 function escapeHTML(text) {
   return String(text)
@@ -1029,7 +1086,6 @@ async function renderStationDetailHTML(station, wikiData) {
         <h3>${escapeHTML(displayStationName(station.name))}</h3>
         <div class="detail-pills">
           <span class="pill">${escapeHTML(station.country)}</span>
-          <span class="pill usage-pill usage-${escapeHTML(station.usage || "in_use")}">${station.usage === "limited_use" ? "Limited use" : "In use"}</span>
           ${(station.operators || []).slice(0, 3).map(op => `<a class="pill" href="/operators?operator=${encodeURIComponent(op)}" target="_self" rel="noopener">${escapeHTML(op)}</a>`).join("")}
         </div>
       </div>
@@ -1066,7 +1122,7 @@ async function renderStationCommentsHTML(stationId, stationName) {
       var isMine = myIds.includes(c._id);
       var hasUpvoted = upvotedIds.includes(c._id);
       var upvotes = c.upvotes || 0;
-      var delBtn = isMine ? `<button onclick="event.stopPropagation();deleteStationComment('${c._id}')" style="float:right;background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.9rem;color:var(--text)" title="Delete">✕</button>` : '';
+      var delBtn = isMine ? `<button onclick="event.stopPropagation();deleteStationComment('${c._id}')" style="float:right;background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.9rem;color:var(--text)" title="Delete">Delete</button>` : '';
       var upBtn = hasUpvoted
         ? `<span style="color:var(--hover);font-weight:700;font-size:0.85rem">▲${upvotes}</span>`
         : `<button onclick="event.stopPropagation();upvoteStationComment('${c._id}','${escapeHTML(stationId)}')" style="background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text);padding:0.15rem 0.4rem;font-size:0.8rem;margin-right:0.35rem" title="Upvote">▲ ${upvotes || ''}</button>`;
@@ -1245,7 +1301,6 @@ function getFilteredStations() {
   const country = countryFilter.value;
   const source = sourceFilter.value;
   const operator = operatorFilter.value;
-  const usage = usageFilter.value;
 
   return stations
     .filter(station => {
@@ -1259,8 +1314,7 @@ function getFilteredStations() {
       return (!query || normalizeForSearch(haystack).includes(normalizeForSearch(query))) &&
         (!country || station.country === country) &&
         (!source || station.source === source) &&
-        (!operator || station.operators?.includes(operator)) &&
-        (!usage || (station.usage || "in_use") === usage);
+        (!operator || station.operators?.includes(operator));
     })
     .sort((a, b) => {
       if (sortFilter.value === "country") return a.country.localeCompare(b.country) || a.name.localeCompare(b.name);
@@ -1282,7 +1336,6 @@ function render() {
         <div class="station-name">${escapeHTML(displayStationName(station.name))}</div>
         <div class="station-meta">
           <span class="pill">${escapeHTML(station.country)}</span>
-          <span class="pill usage-pill usage-${escapeHTML(station.usage || "in_use")}">${station.usage === "limited_use" ? "Limited use" : "In use"}</span>
           ${(station.operators || []).slice(0, 3).map(operator => `<span class="pill">${escapeHTML(operator)}</span>`).join("")}
         </div>
       </div>
@@ -1319,7 +1372,7 @@ Promise.all([
   restoreSelectedStation();
 });
 
-[searchInput, countryFilter, sourceFilter, operatorFilter, usageFilter, sortFilter].forEach(control => {
+[searchInput, countryFilter, sourceFilter, operatorFilter, sortFilter].forEach(control => {
   control.addEventListener("input", renderAndRestoreDetail);
 });
 
@@ -1328,10 +1381,6 @@ countryFilter.addEventListener("change", () => {
   renderAndRestoreDetail();
 });
 </script>
-
-<footer class="site-footer">
-  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
-</footer>
 
 <!-- Station tip modal -->
 <div class="modal-overlay" id="stationTipModal" onclick="if(event.target===this)closeStationTipModal()">
