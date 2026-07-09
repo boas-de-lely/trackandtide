@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Journey Planner — Track & Tide</title>
-  <meta name="description" content="Plan your train journey across Europe using open transit data from Transitous." />
+  <meta name="description" content="Plan your train journey in the Netherlands using open transit data." />
   <meta property="og:title" content="Journey Planner — Track & Tide" />
-  <meta property="og:description" content="Plan your train journey across Europe using open transit data from Transitous." />
+  <meta property="og:description" content="Plan your train journey in the Netherlands using open transit data." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://trackandtide.com/journey" />
   <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
@@ -17,7 +17,7 @@
   <meta property="og:site_name" content="Track & Tide" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Journey Planner — Track & Tide" />
-  <meta name="twitter:description" content="Plan your train journey across Europe using open transit data from Transitous." />
+  <meta name="twitter:description" content="Plan your train journey in the Netherlands using open transit data." />
   <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
   <link rel="canonical" href="https://trackandtide.com/journey" />
   <link rel="icon" href="icon.png" />
@@ -30,7 +30,7 @@
     "@type": "WebApplication",
     "name": "Track & Tide Journey Planner",
     "url": "https://trackandtide.com/journey",
-    "description": "Plan your train journey across Europe using open transit data from Transitous.",
+    "description": "Plan your train journey in the Netherlands using open transit data.",
     "applicationCategory": "TravelApplication",
     "operatingSystem": "Web",
     "isPartOf": {
@@ -119,8 +119,9 @@
     .field input:focus { border-color: var(--active); }
 
     .swap-row { display: flex; justify-content: center; }
-    .swap-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 0.4rem 0.7rem; cursor: pointer; font-size: 1.1rem; }
+    .swap-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 0.4rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .swap-btn:hover { background: var(--border); }
+    .swap-btn svg { width: 18px; height: 18px; stroke: currentColor; }
 
     .search-btn { padding: 0.75rem; background: var(--active); color: #fff; border: none; border-radius: 12px; font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
     .search-btn:hover { background: var(--hover); }
@@ -128,31 +129,94 @@
 
     .error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #f87171; padding: 0.65rem 0.85rem; border-radius: 10px; font-size: 0.85rem; }
 
-    .journey { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 0.75rem; cursor: pointer; transition: border-color 0.15s; }
-    .journey:hover { border-color: var(--active); }
-    .journey.active { border-color: var(--active); border-width: 2px; }
-    .journey-header { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.85rem; font-size: 0.82rem; color: var(--text-secondary); user-select: none; }
-    .journey-header .expand-icon { font-size: 0.7rem; transition: transform 0.2s; margin-left: 0.35rem; }
-    .journey.expanded .journey-header .expand-icon { transform: rotate(180deg); }
-    .journey.expanded .journey-header { border-bottom: 1px solid var(--border); }
+    /* ── Journey Card ── */
+    .journey { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
+    .journey:hover { border-color: var(--active); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .journey-header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; user-select: none; gap: 0.5rem; }
+    .journey-header .expand-icon { font-size: 0.65rem; transition: transform 0.25s; opacity: 0.5; flex-shrink: 0; }
+    .journey.expanded .journey-header .expand-icon { transform: rotate(180deg); opacity: 0.8; }
+    .journey.expanded .journey-header { border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.03); }
     .journey-summary { flex: 1; min-width: 0; }
-    .journey-summary .stations { color: var(--text); font-weight: 600; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .journey-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-    .journey.expanded .journey-body { max-height: 1100px; overflow-y: auto; }
-    .journey-map { height: 350px; margin: 0.5rem 0.85rem 0.65rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .journey-duration { font-weight: 700; color: var(--text); text-align: right; }
+    .journey-summary .stations { color: var(--text); font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .journey-summary .times { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
+    .journey-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .journey.expanded .journey-body { max-height: 1600px; overflow-y: auto; }
+    /* ── Map (hidden until requested) ── */
+    .tl-map-btn { display: block; width: 100%; padding: 0.6rem; background: none; border: none; border-top: 1px solid var(--border); color: var(--hover); font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; text-align: center; transition: background 0.15s; }
+    .tl-map-btn:hover { background: rgba(56,189,248,0.08); }
+    .journey-map { height: 350px; border-top: 1px solid var(--border); overflow: hidden; display: none; }
     .journey-transfers { font-size: 0.72rem; color: var(--text-secondary); text-align: right; }
-    .leg { display: grid; gap: 0.25rem; padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-    .leg:last-child { border-bottom: none; }
-    .leg-station { font-weight: 700; font-size: 0.95rem; color: var(--text); }
-    .leg-to-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.05rem 0; }
-    .leg-details { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem; padding-top: 0.3rem; border-top: 1px dashed var(--border); flex-wrap: wrap; }
-    .leg-depart { font-weight: 700; font-size: 0.85rem; }
-    .leg-platform { font-size: 0.7rem; color: var(--text-secondary); background: rgba(255,255,255,0.04); padding: 0.1rem 0.35rem; border-radius: 3px; }
-    .leg-line { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.75rem; font-weight: 700; background: rgba(245,158,11,0.2); color: var(--rail); }
-    .leg-direction { font-size: 0.78rem; color: var(--text-secondary); }
-    .leg-operator { font-size: 0.7rem; color: var(--text-secondary); }
-    .leg-walk { padding: 0.4rem 0.85rem; border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--text-secondary); background: rgba(255,255,255,0.02); display: flex; align-items: center; gap: 0.4rem; }
+
+    /* ── Timeline ── */
+    .timeline { padding: 0.5rem 0 0.25rem; }
+
+    /* Stop row: time · dot · station + platform */
+    .tl-stop { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.15rem 0.5rem; position: relative; }
+    .tl-stop-time-col { min-width: 48px; text-align: right; line-height: 1.2; }
+    .tl-stop-time { font-size: 1.05rem; font-weight: 800; color: var(--text); line-height: 1.4; font-variant-numeric: tabular-nums; }
+    .tl-stop-dot { width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid var(--rail); background: var(--card); flex-shrink: 0; margin-top: 5px; position: relative; z-index: 1; }
+    .tl-stop:first-child .tl-stop-dot { border-color: #22D3EE; background: #22D3EE; }
+    .tl-stop:last-child .tl-stop-dot { border-color: #EF4444; background: #EF4444; }
+    .tl-stop-info { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 0.45rem; flex-wrap: wrap; line-height: 1.4; }
+    .tl-stop-station { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+    .tl-stop-platform { font-size: 0.68rem; color: var(--text-secondary); background: rgba(128,128,128,0.12); padding: 1px 6px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+
+    /* ── Delay display ── */
+    .tl-delayed { color: #f87171 !important; }
+    .tl-planned { font-size: 0.65rem; color: var(--text-secondary); opacity: 0.6; display: block; line-height: 1; }
+    .tl-delay-badge { display: inline-block; font-size: 0.62rem; font-weight: 700; color: #f87171; background: rgba(239,68,68,0.15); padding: 1px 5px; border-radius: 4px; white-space: nowrap; margin-left: 4px; vertical-align: middle; }
+    .tl-cancelled { opacity: 0.35; }
+    .tl-cancelled-badge { display: inline-block; font-size: 0.62rem; font-weight: 700; color: #f87171; background: rgba(239,68,68,0.2); padding: 1px 5px; border-radius: 4px; white-space: nowrap; margin-left: 4px; vertical-align: middle; }
+
+    /* ── Train info between stops ── */
+    .tl-train { display: flex; align-items: stretch; gap: 1rem; padding: 0 0.5rem; }
+    .tl-train-gutter { width: calc(48px + 0.65rem + 6px); flex-shrink: 0; position: relative; }
+    .tl-train-line-wrap { position: absolute; right: 0; top: 0; bottom: 0; width: 3px; }
+    .tl-train-line-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--rail); border-radius: 2px; }
+    .tl-train-line-fill { position: absolute; bottom: 0; left: 0; right: 0; background: #D97706; border-radius: 2px; transition: height 0.3s; }
+    .tl-dur-label { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 0.62rem; font-weight: 700; color: #fff; white-space: nowrap; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.35); }
+    .tl-train-body { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; padding: 0.1rem 0 0.3rem; min-width: 0; justify-content: center; }
+    .tl-train-info { display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; font-size: 0.78rem; cursor: pointer; user-select: none; align-self: flex-start; }
+    .tl-train-info .tl-op { font-weight: 700; color: var(--rail); cursor: pointer; text-decoration: none; white-space: nowrap; }
+    .tl-train-info .tl-op:hover { text-decoration: underline; opacity: 0.85; }
+    .tl-train-info .tl-nr { font-weight: 600; color: var(--text); white-space: nowrap; }
+    .tl-train-info .tl-dir { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+    .tl-train-info .tl-stops { color: var(--text-secondary); font-size: 0.72rem; white-space: nowrap; }
+    .tl-train-info .tl-stops:hover { color: var(--hover); }
+    .tl-train-info .tl-stops-arrow { font-size: 0.6rem; margin-left: 2px; transition: transform 0.2s; display: inline-block; }
+    .tl-train-info.open .tl-stops-arrow { transform: rotate(180deg); }
+
+    /* ── Leg divider (between legs) ── */
+    .tl-leg-divider { display: flex; align-items: center; gap: 0.65rem; padding: 0.1rem 0.5rem; }
+    .tl-leg-divider-gutter { min-width: 48px; }
+    .tl-leg-divider-line { flex: 1; border-top: 1px solid var(--border); opacity: 0.8; }
+
+    /* ── Intermediate stops foldout ── */
+    .tl-stops-list { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .tl-stops-list.open { max-height: 600px; overflow-y: auto; }
+    .tl-stops-list-inner { padding: 0.25rem 0 0.25rem 0.85rem; border-left: 2px solid var(--border); margin-left: 0.8rem; }
+    .tl-stop-item { display: flex; align-items: center; gap: 0.4rem; padding: 0.15rem 0; font-size: 0.75rem; }
+    .tl-stop-item-time { font-weight: 600; color: var(--text-secondary); min-width: 38px; text-align: right; font-variant-numeric: tabular-nums; font-size: 0.72rem; }
+    .tl-stop-item-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-secondary); opacity: 0.4; flex-shrink: 0; }
+    .tl-stop-item-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tl-stop-item-track { font-size: 0.65rem; color: var(--text-secondary); opacity: 0.7; }
+
+    /* ── Transfer ── */
+    .tl-xfer { display: flex; align-items: center; gap: 0.65rem; padding: 0.15rem 0.5rem 0.35rem; }
+    .tl-xfer-gutter { min-width: 48px; display: flex; justify-content: center; }
+    .tl-xfer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-secondary); flex-shrink: 0; opacity: 0.45; }
+    .tl-xfer-text { font-size: 0.75rem; color: var(--text-secondary); }
+
+    /* ── Depart/Arrive toggle ── */
+    .deparr-toggle { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); user-select: none; }
+    .deparr-toggle .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+    .deparr-toggle .switch input { opacity: 0; width: 0; height: 0; }
+    .deparr-toggle .switch-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 24px; transition: 0.25s; }
+    .deparr-toggle .switch-slider::before { content: ""; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.25s; }
+    .deparr-toggle .switch input:checked + .switch-slider { background: var(--active); }
+    .deparr-toggle .switch input:checked + .switch-slider::before { transform: translateX(20px); }
+    .deparr-toggle .active-label { color: var(--text); }
+    .deparr-toggle .inactive-label { opacity: 0.5; }
 
     .loading { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem; }
     .no-results { text-align: center; padding: 2rem; color: var(--text-secondary); }
@@ -192,7 +256,7 @@
           <div class="suggestions" id="fromSuggestions"></div>
         </div>
       </div>
-      <div class="swap-row"><button class="swap-btn" onclick="swapStations()" title="Swap stations">Swap</button></div>
+      <div class="swap-row"><button class="swap-btn" onclick="swapStations()" title="Swap stations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button></div>
       <div class="field">
         <label for="toInput">To</label>
         <div class="field-wrapper">
@@ -205,6 +269,13 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
           <input type="date" id="dateInput" />
           <input type="time" id="timeInput" />
+        </div>
+        <div style="margin-top:0.5rem">
+          <label class="deparr-toggle">
+            <span id="depLabel" class="active-label">Depart at</span>
+            <label class="switch"><input type="checkbox" id="arriveByToggle" onchange="updateDepArrLabel()"><span class="switch-slider"></span></label>
+            <span id="arrLabel" class="inactive-label">Arrive by</span>
+          </label>
         </div>
       </div>
       <button class="search-btn" id="searchBtn" onclick="searchJourney()">Search</button>
@@ -280,6 +351,19 @@
     }
     initDateTime();
 
+    function updateDepArrLabel() {
+      var checked = document.getElementById('arriveByToggle').checked;
+      var depLabel = document.getElementById('depLabel');
+      var arrLabel = document.getElementById('arrLabel');
+      if (checked) {
+        depLabel.className = 'inactive-label';
+        arrLabel.className = 'active-label';
+      } else {
+        depLabel.className = 'active-label';
+        arrLabel.className = 'inactive-label';
+      }
+    }
+
     function destroyMap() {
       if (journeyMap) { journeyMap.remove(); journeyMap = null; }
       mapMarkers = [];
@@ -308,19 +392,23 @@
 
     function toggleJourney(idx) {
       if (activeJourney === idx) {
-        // Collapse
         destroyMap();
         activeJourney = -1;
         renderJourneys();
       } else {
-        // Expand
         destroyMap();
         activeJourney = idx;
         renderJourneys();
-        setTimeout(function() {
-          initMapInCard(currentJourneys[idx]);
-        }, 200);
       }
+    }
+
+    function showJourneyMap(ji) {
+      var mapDiv = document.getElementById('journeyMap');
+      if (!mapDiv) return;
+      mapDiv.style.display = 'block';
+      initMapInCard(currentJourneys[ji]);
+      var btn = document.getElementById('mapBtn');
+      if (btn) btn.style.display = 'none';
     }
 
     var searchTimeout;
@@ -462,78 +550,269 @@
       var date = document.getElementById('dateInput').value;
       var time = document.getElementById('timeInput').value || '12:00';
       var dateTime = date + 'T' + time + ':00Z';
+      var arriveBy = document.getElementById('arriveByToggle').checked;
       btn.disabled = true; btn.textContent = 'Searching...';
       resultsEl.innerHTML = '<div class="loading">Searching...</div>';
       destroyMap();
       activeJourney = -1;
-      var url = 'https://api.transitous.org/api/v1/plan' +
-        '?fromPlace=' + fromStation.lat + ',' + fromStation.lng +
+      var url = '/api/departures?action=plan' +
+        '&fromPlace=' + fromStation.lat + ',' + fromStation.lng +
         '&toPlace=' + toStation.lat + ',' + toStation.lng +
-        '&time=' + encodeURIComponent(dateTime) +
+        (arriveBy ? '&arriveBy=true&departureTime=' : '&departureTime=') + encodeURIComponent(dateTime) +
         '&numItineraries=6' +
         '&mode=RAIL' +
         '&maxWalkDistance=1000' +
         '&walkSpeed=1.4';
       fetch(url).then(function(r) { return r.json(); }).then(function(data) {
         btn.disabled = false; btn.textContent = 'Search';
+        if (data.error) {
+          errEl.textContent = 'Search failed: ' + data.error;
+          errEl.style.display = ''; resultsEl.innerHTML = ''; return;
+        }
         currentJourneys = (data.itineraries || []).slice(0, 4);
         activeJourney = -1;
         if (!currentJourneys.length) { resultsEl.innerHTML = '<div class="no-results">No train journeys found.</div>'; return; }
         renderJourneys();
       }).catch(function(e) {
         btn.disabled = false; btn.textContent = 'Search';
-        errEl.textContent = 'Search failed. Try again.';
+        errEl.textContent = 'Search failed. Check your connection and try again.';
         errEl.style.display = ''; resultsEl.innerHTML = ''; console.error(e);
       });
     }
 
+    var OPERATOR_SLUGS = {
+      'ns': 'ns','nederlandse spoorwegen': 'ns','arriva': 'arriva','blauwnet': 'blauwnet',
+      'keolis': 'keolis','connexxion': 'connexxion','qbuzz': 'qbuzz','eurostar': 'eurostar',
+      'thalys': 'thalys','ice':'ice','nmbs':'nmbs','sncb':'nmbs','db':'db','öbb':'obb',
+      'sbb':'sbb','sncf':'sncf','trenitalia':'trenitalia','renfe':'renfe','cfl':'cfl'
+    };
+    // Unique counter for each leg to create unique IDs
+    var _legUid = 0;
+
+    function fmtTime(iso) {
+      if (!iso) return '';
+      var d = new Date(iso);
+      var h = d.getHours(), m = d.getMinutes();
+      return (h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+    }
+
+    function durStr(sec) {
+      var m = Math.round((sec||0)/60);
+      if (m < 60) return m + ' min';
+      var h = Math.floor(m/60);
+      return h + 'h ' + (m%60) + 'min';
+    }
+
+    function opLink(agencyName) {
+      if (!agencyName) return '';
+      var key = (agencyName||'').toLowerCase();
+      var slug = OPERATOR_SLUGS[key] || '';
+      if (slug) {
+        return '<a href="/operators#'+slug+'" class="tl-op" onclick="event.stopPropagation()" title="View '+agencyName+'">'+agencyName+'</a>';
+      }
+      return '<span class="tl-op" style="cursor:default">'+agencyName+'</span>';
+    }
+
+    function trainType(routeName) {
+      if (!routeName) return '';
+      var m = routeName.match(/^([A-Za-z]+)\d/);
+      if (m) return m[1];
+      return routeName;
+    }
+
+    function delayMin(scheduledIso, actualIso) {
+      if (!scheduledIso || !actualIso) return 0;
+      return Math.round((new Date(actualIso) - new Date(scheduledIso)) / 60000);
+    }
+
+    function legProgressPct(leg) {
+      var dep = leg.from && (leg.from.departure||leg.startTime);
+      var arr = leg.to && leg.to.arrival;
+      if (!dep || !arr) return 0;
+      var now = Date.now();
+      var depMs = new Date(dep).getTime();
+      var arrMs = new Date(arr).getTime();
+      if (now <= depMs) return 0;
+      if (now >= arrMs) return 100;
+      return Math.round(((now - depMs) / (arrMs - depMs)) * 100);
+    }
+
+    function toggleLegStops(uid, e) {
+      e.stopPropagation();
+      var info = document.getElementById('tlinfo_'+uid);
+      var list = document.getElementById('tlstops_'+uid);
+      if (!info || !list) return;
+      var open = list.classList.contains('open');
+      if (open) { list.classList.remove('open'); info.classList.remove('open'); }
+      else { list.classList.add('open'); info.classList.add('open'); }
+    }
+
     function renderJourneys() {
       var resultsEl = document.getElementById('results');
+      _legUid = 0;
       resultsEl.innerHTML = currentJourneys.map(function(j, ji) {
         var legs = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
-        var walks = (j.legs||[]).filter(function(l) { return l.mode === 'WALK'; });
         var durMin = Math.round(j.duration/60);
         var isExpanded = ji === activeJourney;
         var fromName = (legs[0]&&legs[0].from?legs[0].from.name:'');
         var lastLeg = legs[legs.length-1];
         var toName = (lastLeg&&lastLeg.to?lastLeg.to.name:'');
+
+        var timelineHtml = '';
+        for (var li = 0; li < legs.length; li++) {
+          var leg = legs[li];
+          var uid = ++_legUid;
+
+          var depActual = leg.from.departure||leg.startTime;
+          var depScheduled = leg.from.scheduledDeparture || depActual;
+          var arrActual = leg.to&&leg.to.arrival ? leg.to.arrival : null;
+          var arrScheduled = leg.to&&leg.to.scheduledArrival ? leg.to.scheduledArrival : arrActual;
+
+          var depTime = fmtTime(depActual);
+          var arrTime = fmtTime(arrActual);
+          var fromNameL = (leg.from&&leg.from.name)||'';
+          var toNameL = (leg.to&&leg.to.name)||'';
+          var routeName = leg.routeShortName||leg.route||'';
+          var direction = leg.headsign||'';
+          var agency = leg.agencyName||'';
+          var depTrack = leg.from.track||'';
+          var arrTrack = leg.to&&leg.to.track ? leg.to.track : '';
+          var stops = leg.intermediateStops || [];
+          var stopCount = stops.length;
+          var type = trainType(routeName);
+          var cancelled = (leg.from&&leg.from.cancelled) || (leg.to&&leg.to.cancelled) || false;
+
+          var depDelay = delayMin(depScheduled, depActual);
+          var arrDelay = arrActual ? delayMin(arrScheduled, arrActual) : 0;
+
+          var trainLabel = agency;
+          if (agency && type && type !== routeName) {
+            trainLabel = agency + ' ' + type;
+          }
+
+          // Progress for this leg
+          var pct = legProgressPct(leg);
+
+          // ── Departure stop ──
+          var depTimeHtml = '';
+          if (cancelled) {
+            depTimeHtml = '<div class="tl-stop-time tl-cancelled">'+fmtTime(depScheduled)+'</div><span class="tl-cancelled-badge">Cancelled</span>';
+          } else if (depDelay > 0) {
+            depTimeHtml = '<div class="tl-stop-time tl-delayed">'+depTime+'</div>' +
+              '<div class="tl-planned">'+fmtTime(depScheduled)+'</div>' +
+              '<span class="tl-delay-badge">+'+depDelay+'m</span>';
+          } else {
+            depTimeHtml = '<div class="tl-stop-time">'+depTime+'</div>';
+          }
+
+          timelineHtml += '<div class="tl-stop">' +
+            '<div class="tl-stop-time-col">'+depTimeHtml+'</div>' +
+            '<div class="tl-stop-dot"></div>' +
+            '<div class="tl-stop-info">' +
+              '<span class="tl-stop-station">'+fromNameL+'</span>' +
+              (depTrack ? '<span class="tl-stop-platform">Pl. '+depTrack+'</span>' : '') +
+            '</div>' +
+          '</div>';
+
+          // ── Train info row with progress bar ──
+          var shortDur = Math.round((leg.duration||0)/60);
+          var durLabel = shortDur >= 60 ? Math.floor(shortDur/60)+'h'+(shortDur%60)+'m' : shortDur+'m';
+          timelineHtml += '<div class="tl-train">' +
+            '<div class="tl-train-gutter">' +
+              '<div class="tl-train-line-wrap">' +
+                '<span class="tl-dur-label">'+durLabel+'</span>' +
+                '<div class="tl-train-line-bg"></div>' +
+                '<div class="tl-train-line-fill" style="height:'+pct+'%"></div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="tl-train-body">' +
+              '<div class="tl-train-info" id="tlinfo_'+uid+'" onclick="toggleLegStops('+uid+',event)">' +
+                (agency ? opLink(trainLabel) : '') +
+                (routeName ? '<span class="tl-nr">'+routeName+'</span>' : '') +
+                (direction ? '<span class="tl-dir">→ '+direction+'</span>' : '') +
+                (stopCount > 0 ? '<span class="tl-stops">'+stopCount+' stop'+(stopCount!==1?'s':'')+' <span class="tl-stops-arrow">▼</span></span>' : '') +
+              '</div>';
+
+          // Intermediate stops foldout
+          if (stopCount > 0) {
+            timelineHtml += '<div class="tl-stops-list" id="tlstops_'+uid+'">' +
+              '<div class="tl-stops-list-inner">';
+            for (var si = 0; si < stops.length; si++) {
+              var s = stops[si];
+              var sTime = s.arrival||s.departure||'';
+              timelineHtml += '<div class="tl-stop-item">' +
+                '<span class="tl-stop-item-time">'+(sTime?fmtTime(sTime):'')+'</span>' +
+                '<span class="tl-stop-item-dot"></span>' +
+                '<span class="tl-stop-item-name">'+(s.name||'')+'</span>' +
+                (s.track?'<span class="tl-stop-item-track">Pl. '+s.track+'</span>':'') +
+              '</div>';
+            }
+            timelineHtml += '</div></div>';
+          }
+
+          timelineHtml += '</div></div>';
+
+          // ── Arrival stop ──
+          var arrTimeHtml = '';
+          if (cancelled) {
+            arrTimeHtml = '<div class="tl-stop-time tl-cancelled">'+fmtTime(arrScheduled)+'</div>';
+          } else if (arrDelay > 0) {
+            arrTimeHtml = '<div class="tl-stop-time tl-delayed">'+arrTime+'</div>' +
+              '<div class="tl-planned">'+fmtTime(arrScheduled)+'</div>' +
+              '<span class="tl-delay-badge">+'+arrDelay+'m</span>';
+          } else {
+            arrTimeHtml = '<div class="tl-stop-time">'+arrTime+'</div>';
+          }
+
+          timelineHtml += '<div class="tl-stop">' +
+            '<div class="tl-stop-time-col">'+arrTimeHtml+'</div>' +
+            '<div class="tl-stop-dot"></div>' +
+            '<div class="tl-stop-info">' +
+              '<span class="tl-stop-station">'+toNameL+'</span>' +
+              (arrTrack ? '<span class="tl-stop-platform">Pl. '+arrTrack+'</span>' : '') +
+            '</div>' +
+          '</div>';
+
+          // ── Transfer ──
+          if (li < legs.length - 1) {
+            timelineHtml += '<div class="tl-leg-divider">' +
+              '<div class="tl-leg-divider-gutter"></div>' +
+              '<div class="tl-leg-divider-line"></div>' +
+            '</div>';
+            var nextLeg = legs[li+1];
+            var nextDep = new Date(nextLeg.from.departure||nextLeg.startTime);
+            var thisArr = leg.to&&leg.to.arrival ? new Date(leg.to.arrival) : null;
+            if (thisArr && nextDep) {
+              var xferMin = Math.round((nextDep - thisArr) / 60000);
+              if (xferMin > 0) {
+                timelineHtml += '<div class="tl-xfer">' +
+                  '<div class="tl-xfer-gutter"><div class="tl-xfer-dot"></div></div>' +
+                  '<div class="tl-xfer-text">'+xferMin+' min transfer</div>' +
+                '</div>';
+              }
+            }
+            timelineHtml += '<div class="tl-leg-divider">' +
+              '<div class="tl-leg-divider-gutter"></div>' +
+              '<div class="tl-leg-divider-line"></div>' +
+            '</div>';
+          }
+        }
+
         return '<div class="journey'+(isExpanded?' expanded':'')+'" onclick="toggleJourney('+ji+')">' +
           '<div class="journey-header">' +
             '<div class="journey-summary">' +
-              '<div class="stations">' + fromName + ' → ' + toName + '</div>' +
-              '<div>' + new Date(j.startTime).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) + ' – ' + new Date(j.endTime).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) + '</div>' +
+              '<div class="stations">'+fromName+' → '+toName+'</div>' +
+              '<div class="times">'+fmtTime(j.startTime)+' – '+fmtTime(j.endTime)+'</div>' +
             '</div>' +
             '<div>' +
               '<div class="journey-duration">'+Math.floor(durMin/60)+'h '+(durMin%60)+'min</div>' +
-              '<div class="journey-transfers">'+(j.transfers===0?'Direct':j.transfers+' chg')+'</div>' +
+              '<div class="journey-transfers">'+(j.transfers===0?'Direct':j.transfers+' change'+(j.transfers!==1?'s':''))+'</div>' +
             '</div>' +
             '<span class="expand-icon">▼</span>' +
           '</div>' +
           '<div class="journey-body">' +
-            legs.map(function(leg) {
-              var dt = new Date(leg.from.departure||leg.startTime);
-              var at = leg.to&&leg.to.arrival ? new Date(leg.to.arrival) : null;
-              var name = leg.routeShortName||leg.route||'';
-              var fromName = (leg.from&&leg.from.name)||'';
-              var toName = (leg.to&&leg.to.name)||'';
-              if (toName.length>30) toName = toName.substring(0,30)+'...';
-              if (fromName.length>30) fromName = fromName.substring(0,30)+'...';
-              return '<div class="leg">' +
-                '<div class="leg-station">'+fromName+'</div>' +
-                '<div class="leg-to-label">→ to</div>' +
-                '<div class="leg-station">'+toName+'</div>' +
-                '<div class="leg-details">' +
-                  '<span class="leg-depart">'+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</span>' +
-                  (at?'<span style="font-size:0.7rem;color:var(--text-secondary)">– '+at.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</span>':'') +
-                  (leg.from.track?'<span class="leg-platform">Pl.'+leg.from.track+'</span>':'') +
-                  (name?'<span class="leg-line">'+name+'</span>':'') +
-                  (leg.headsign?'<span class="leg-direction">'+leg.headsign+'</span>':'') +
-                '</div>' +
-                (leg.agencyName?'<div class="leg-operator">'+leg.agencyName+'</div>':'') +
-              '</div>';
-            }).join('') +
-            (walks.length?'<div class="leg-walk">↳ '+walks.map(function(l){return Math.round(l.duration/60)+' min walk';}).join(' + ')+'</div>':'') +
-            (isExpanded ? '<div id="journeyMap" class="journey-map"></div>' : '') +
+            '<div class="timeline">'+timelineHtml+'</div>' +
+            (isExpanded ? '<button id="mapBtn" class="tl-map-btn" onclick="showJourneyMap('+ji+');event.stopPropagation()">Show on map</button><div id="journeyMap" class="journey-map"></div>' : '') +
           '</div>' +
         '</div>';
       }).join('');

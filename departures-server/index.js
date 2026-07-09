@@ -1,9 +1,9 @@
-const https = require('https');
+const http = require('http');
 const cache = new Map(), TTL = 60000;
 
-function get(host, path) {
+function get(host, port, path) {
   return new Promise((ok, fail) => {
-    https.get({ hostname: host, path, timeout: 12000, headers: { 'User-Agent': 'trackandtide/5.0' } }, r => {
+    http.get({ hostname: host, port: port, path, timeout: 12000, headers: { 'User-Agent': 'trackandtide/5.0' } }, r => {
       let d = ''; r.on('data', c => d += c);
       r.on('end', () => {
         if (r.statusCode !== 200) { fail(new Error('HTTP ' + r.statusCode)); return; }
@@ -18,7 +18,7 @@ function delayMin(scheduled, actual) {
   return Math.round((new Date(actual) - new Date(scheduled)) / 60000);
 }
 
-// Override MOTIS mode based on headsign keywords
+// Override mode based on headsign keywords
 function detectMode(headsign, routeShortName, mode) {
   const h = (headsign || '').toLowerCase();
   const r = (routeShortName || '').toLowerCase();
@@ -30,12 +30,12 @@ function detectMode(headsign, routeShortName, mode) {
   return mode;
 }
 
-async function tryMotis(name) {
-  const locs = await get('api.transitous.org', '/api/v1/geocode?text=' + encodeURIComponent(name));
+async function fetchMotisDepartures(name) {
+  const locs = await get('192.168.188.170', 8080, '/api/v1/geocode?text=' + encodeURIComponent(name));
   if (!Array.isArray(locs) || !locs.length) return null;
   const s = locs[0];
   if (!s.lat || !s.lon) return null;
-  const data = await get('api.transitous.org', '/api/v1/stoptimes?center=' + s.lat + ',' + s.lon + '&radius=1500&n=200');
+  const data = await get('192.168.188.170', 8080, '/api/v1/stoptimes?center=' + s.lat + ',' + s.lon + '&radius=1500&n=200');
   const times = data.stopTimes || [];
   if (!times.length) return null;
 
@@ -65,24 +65,6 @@ async function tryMotis(name) {
   return { departures: deps, station: { name: s.name || name } };
 }
 
-async function trySwiss(name) {
-  const data = await get('transport.opendata.ch', '/v1/stationboard?station=' + encodeURIComponent(name) + '&limit=20');
-  const board = data.stationboard || [];
-  if (!board.length) return null;
-  const deps = board.map(d => ({
-    when: d.stop?.prognosis?.departure || d.stop?.departure || null,
-    plannedWhen: d.stop?.departure || null,
-    platform: d.stop?.platform || null,
-    direction: d.to || d.name || '',
-    line: { name: (d.category || '') + (d.number ? ' ' + d.number : ''), product: d.category || 'REGIONAL_RAIL' },
-    mode: /^IC|^EC|^ICE/.test(d.category || '') ? 'INTERCITY' : /^S/.test(d.category || '') ? 'SUBURBAN' : /^IR|^RE|^R/.test(d.category || '') ? 'REGIONAL' : d.category || '',
-    agencyName: d.operator || '',
-    cancelled: false, realTime: !!d.stop?.prognosis,
-    delayMinutes: d.stop?.delay != null ? d.stop.delay : (d.stop?.prognosis?.departure && d.stop?.departure ? Math.round((new Date(d.stop.prognosis.departure) - new Date(d.stop.departure)) / 60000) : 0)
-  }));
-  return { departures: deps, station: { name: data.station?.name || name } };
-}
-
 require('http').createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
@@ -94,6 +76,30 @@ require('http').createServer(async (req, res) => {
   }
 
   if (u.pathname === '/departures') {
+    // Journey planner mode: /departures?action=plan&fromPlace=...&toPlace=...
+    if (u.searchParams.get('action') === 'plan') {
+      try {
+        let params = new URLSearchParams();
+        params.set('fromPlace', u.searchParams.get('fromPlace') || '');
+        params.set('toPlace', u.searchParams.get('toPlace') || '');
+        params.set('departureTime', u.searchParams.get('departureTime') || u.searchParams.get('time') || '');
+        params.set('mode', u.searchParams.get('mode') || 'RAIL');
+        params.set('numItineraries', u.searchParams.get('numItineraries') || '6');
+        params.set('maxWalkDistance', u.searchParams.get('maxWalkDistance') || '1000');
+        params.set('walkSpeed', u.searchParams.get('walkSpeed') || '1.4');
+        const motisPath = '/api/v1/plan?' + params.toString();
+        console.log('[plan via departures] proxying to MOTIS:', motisPath);
+        const data = await get('192.168.188.170', 8080, motisPath);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data));
+      } catch (e) {
+        console.error('[plan via departures] error:', e.message);
+        res.writeHead(502, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: e.message }));
+      }
+      return;
+    }
+    // Normal departures mode
     const name = u.searchParams.get('name');
     if (!name) { res.writeHead(400); return res.end('{"error":"missing name"}'); }
     const key = name.toLowerCase();
@@ -103,8 +109,7 @@ require('http').createServer(async (req, res) => {
       return res.end(JSON.stringify(c.data));
     }
     try {
-      let r = await tryMotis(name);
-      if (!r || !r.departures.length) r = await trySwiss(name);
+      const r = await fetchMotisDepartures(name);
       if (!r || !r.departures.length) { res.writeHead(404, { 'Content-Type': 'application/json' }); return res.end('{"error":"no departures"}'); }
       cache.set(key, { data: r, ts: Date.now() });
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -115,5 +120,28 @@ require('http').createServer(async (req, res) => {
     }
     return;
   }
-  res.writeHead(404); res.end('{"error":"use /departures or /health"}');
+
+  // Proxy /plan to MOTIS for journey planning
+  if (u.pathname === '/plan') {
+    try {
+      // MOTIS expects 'departureTime', not 'time' — transform if needed
+      let params = new URLSearchParams(u.search);
+      if (params.has('time') && !params.has('departureTime')) {
+        params.set('departureTime', params.get('time'));
+        params.delete('time');
+      }
+      const motisPath = '/api/v1/plan?' + params.toString();
+      console.log('[plan] proxying to MOTIS:', motisPath);
+      const data = await get('192.168.188.170', 8080, motisPath);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (e) {
+      console.error('[plan] error:', e.message);
+      res.writeHead(502, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: e.message }));
+    }
+    return;
+  }
+
+  res.writeHead(404); res.end('{"error":"use /departures, /plan, or /health"}');
 }).listen(3098, '0.0.0.0', () => console.log('ready'));

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-27T18:45:56.125Z",
+  "generatedAt": "2026-07-01T21:07:02.085Z",
   "totalMissing": 454,
   "operators": [
     {
@@ -37,8 +37,8 @@
         "Abaclia",
         "AlexĒndreni",
         "Bahmut",
-        "Bălțați",
-        "Bălți Oraș"
+        "Basarabeasca",
+        "Berești"
       ]
     },
     {
@@ -74,8 +74,8 @@
       "count": 13,
       "samples": [
         "Bahnea",
-        "Bălăușeri",
         "Bistrița Fabricii",
+        "Bălăușeri",
         "Coroiu",
         "Fântânele"
       ]
@@ -154,8 +154,8 @@
         "Hártókút",
         "Királyrét",
         "Kismaros",
-        "Márianosztra",
-        "Morgó"
+        "Morgó",
+        "Márianosztra"
       ]
     },
     {
@@ -454,18 +454,6 @@
       ]
     },
     {
-      "name": "Öchsle Bahn",
-      "normalized": "ochsle bahn",
-      "country": "Germany",
-      "count": 4,
-      "samples": [
-        "Äpfingen",
-        "Maselheim",
-        "Ochsenhausen",
-        "Reinstetten"
-      ]
-    },
-    {
       "name": "Berliner Parkeisenbahn",
       "normalized": "berliner parkeisenbahn",
       "country": "Germany",
@@ -583,6 +571,18 @@
         "Schlössel",
         "Schmalzgrube",
         "Steinbach"
+      ]
+    },
+    {
+      "name": "Öchsle Bahn",
+      "normalized": "ochsle bahn",
+      "country": "Germany",
+      "count": 4,
+      "samples": [
+        "Maselheim",
+        "Ochsenhausen",
+        "Reinstetten",
+        "Äpfingen"
       ]
     },
     {
@@ -848,17 +848,6 @@
       ]
     },
     {
-      "name": "Ferienlandeisenbahn Crispendorf e.V.",
-      "normalized": "ferienlandeisenbahn crispendorf e v",
-      "country": "Germany",
-      "count": 3,
-      "samples": [
-        "Festwiese",
-        "Stollen",
-        "Ferienland"
-      ]
-    },
-    {
       "name": "RSE Rhein-Sieg-Eisenbahn GmbH",
       "normalized": "rse rhein sieg eisenbahn gmbh",
       "country": "Germany",
@@ -878,6 +867,17 @@
         "Entringen",
         "Pfäffingen",
         "Tübingen West"
+      ]
+    },
+    {
+      "name": "Ferienlandeisenbahn Crispendorf e.V.",
+      "normalized": "ferienlandeisenbahn crispendorf e v",
+      "country": "Germany",
+      "count": 3,
+      "samples": [
+        "Ferienland",
+        "Festwiese",
+        "Stollen"
       ]
     },
     {
@@ -991,6 +991,17 @@
       ]
     },
     {
+      "name": "PisaMo",
+      "normalized": "pisamo",
+      "country": "Italy",
+      "count": 3,
+      "samples": [
+        "Centrale",
+        "Pisa Aeroporto",
+        "San Giusto - Aurelia"
+      ]
+    },
+    {
       "name": "Azienda Veneziana della Mobilità",
       "normalized": "azienda veneziana della mobilita",
       "country": "Italy",
@@ -999,17 +1010,6 @@
         "Marittima (cruise terminal)",
         "Piazzale Roma",
         "Tronchetto"
-      ]
-    },
-    {
-      "name": "PisaMo",
-      "normalized": "pisamo",
-      "country": "Italy",
-      "count": 3,
-      "samples": [
-        "Pisa Aeroporto",
-        "San Giusto - Aurelia",
-        "Centrale"
       ]
     },
     {
@@ -1029,9 +1029,9 @@
       "country": "Poland",
       "count": 3,
       "samples": [
+        "Szczebrzeszyn LHS",
         "Sędziszów LHS",
-        "Sławków Południowy LHS",
-        "Szczebrzeszyn LHS"
+        "Sławków Południowy LHS"
       ]
     },
     {
@@ -1052,8 +1052,8 @@
       "count": 3,
       "samples": [
         "Argel",
-        "Mănăstirea Moldovița",
-        "Moldovița"
+        "Moldovița",
+        "Mănăstirea Moldovița"
       ]
     },
     {
@@ -1063,8 +1063,8 @@
       "count": 3,
       "samples": [
         "Capul Midia",
-        "NĒvodari",
-        "Nazarcea"
+        "Nazarcea",
+        "NĒvodari"
       ]
     },
     {
@@ -1084,8 +1084,8 @@
       "country": "Sweden",
       "count": 3,
       "samples": [
-        "Härnön",
         "Hedlandet",
+        "Härnön",
         "Taxinge-Näsby"
       ]
     },
@@ -1321,16 +1321,6 @@
       ]
     },
     {
-      "name": "Hornické muzeum Příbram",
-      "normalized": "hornicke muzeum pribram",
-      "country": "Czechia",
-      "count": 2,
-      "samples": [
-        "Ševčínská štola",
-        "Ševčínský důl"
-      ]
-    },
-    {
       "name": "Železnice 600, z.s.",
       "normalized": "zeleznice 600 z s",
       "country": "Czechia",
@@ -1338,6 +1328,16 @@
       "samples": [
         "Vracov hlavní nádraží",
         "Záboří"
+      ]
+    },
+    {
+      "name": "Hornické muzeum Příbram",
+      "normalized": "hornicke muzeum pribram",
+      "country": "Czechia",
+      "count": 2,
+      "samples": [
+        "Ševčínská štola",
+        "Ševčínský důl"
       ]
     },
     {
@@ -1366,8 +1366,8 @@
       "country": "France",
       "count": 2,
       "samples": [
-        "d'Artouste",
-        "Lac d'Artouste"
+        "Lac d'Artouste",
+        "d'Artouste"
       ]
     },
     {
@@ -1428,16 +1428,6 @@
       "samples": [
         "Bad Lauchstädt",
         "Naumburg (Saale) Ost"
-      ]
-    },
-    {
-      "name": "Parkeisenbahn Dresden",
-      "normalized": "parkeisenbahn dresden",
-      "country": "Germany",
-      "count": 2,
-      "samples": [
-        "Straßburger Platz",
-        "Zoo"
       ]
     },
     {
@@ -1731,6 +1721,16 @@
       ]
     },
     {
+      "name": "Parkeisenbahn Dresden",
+      "normalized": "parkeisenbahn dresden",
+      "country": "Germany",
+      "count": 2,
+      "samples": [
+        "Straßburger Platz",
+        "Zoo"
+      ]
+    },
+    {
       "name": "Emsländische Eisenbahn GmbH",
       "normalized": "emslandische eisenbahn gmbh",
       "country": "Germany",
@@ -1746,8 +1746,8 @@
       "country": "Germany",
       "count": 2,
       "samples": [
-        "Taläcker Bergstation",
-        "Talstation"
+        "Talstation",
+        "Taläcker Bergstation"
       ]
     },
     {
@@ -1766,8 +1766,8 @@
       "country": "Hungary",
       "count": 2,
       "samples": [
-        "Állatkert",
-        "Dömörkapu"
+        "Dömörkapu",
+        "Állatkert"
       ]
     },
     {
@@ -1851,6 +1851,16 @@
       ]
     },
     {
+      "name": "Busitalia",
+      "normalized": "busitalia",
+      "country": "Italy",
+      "count": 2,
+      "samples": [
+        "FS",
+        "Piazza Cahen"
+      ]
+    },
+    {
       "name": "Grandi Stazioni",
       "normalized": "grandi stazioni",
       "country": "Italy",
@@ -1908,16 +1918,6 @@
       "samples": [
         "Montecatini Alto",
         "Montecatini Terme"
-      ]
-    },
-    {
-      "name": "Busitalia",
-      "normalized": "busitalia",
-      "country": "Italy",
-      "count": 2,
-      "samples": [
-        "Piazza Cahen",
-        "FS"
       ]
     },
     {
@@ -2066,8 +2066,8 @@
       "country": "Sweden",
       "count": 2,
       "samples": [
-        "Östra Vemmerlöv",
-        "Ravlundabro"
+        "Ravlundabro",
+        "Östra Vemmerlöv"
       ]
     },
     {
@@ -2525,21 +2525,21 @@
       ]
     },
     {
-      "name": "Pairi Daiza",
-      "normalized": "pairi daiza",
-      "country": "Belgium",
-      "count": 1,
-      "samples": [
-        "train à vapeur"
-      ]
-    },
-    {
       "name": "PFT/TSP",
       "normalized": "pft tsp",
       "country": "Belgium",
       "count": 1,
       "samples": [
         "Senenne"
+      ]
+    },
+    {
+      "name": "Pairi Daiza",
+      "normalized": "pairi daiza",
+      "country": "Belgium",
+      "count": 1,
+      "samples": [
+        "train à vapeur"
       ]
     },
     {
@@ -2678,24 +2678,6 @@
       ]
     },
     {
-      "name": "Régie d'Artouste",
-      "normalized": "regie d artouste",
-      "country": "France",
-      "count": 1,
-      "samples": [
-        "la Sagette"
-      ]
-    },
-    {
-      "name": "Edeis",
-      "normalized": "edeis",
-      "country": "France",
-      "count": 1,
-      "samples": [
-        "Petit Train de la Mure"
-      ]
-    },
-    {
       "name": "Régie Régionale des Transports",
       "normalized": "regie regionale des transports",
       "country": "France",
@@ -2750,6 +2732,15 @@
       ]
     },
     {
+      "name": "Edeis",
+      "normalized": "edeis",
+      "country": "France",
+      "count": 1,
+      "samples": [
+        "Petit Train de la Mure"
+      ]
+    },
+    {
       "name": "Société des Transports de l'Agglomération Thononnaise",
       "normalized": "societe des transports de l agglomeration thononnaise",
       "country": "France",
@@ -2795,6 +2786,15 @@
       ]
     },
     {
+      "name": "Régie d'Artouste",
+      "normalized": "regie d artouste",
+      "country": "France",
+      "count": 1,
+      "samples": [
+        "la Sagette"
+      ]
+    },
+    {
       "name": "Arbeitsgemeinschaft Historische Eisenbahn e. V.",
       "normalized": "arbeitsgemeinschaft historische eisenbahn e v",
       "country": "Germany",
@@ -2837,42 +2837,6 @@
       "count": 1,
       "samples": [
         "Bad Wurzach"
-      ]
-    },
-    {
-      "name": "Dampfbahner Plochingen e.V.",
-      "normalized": "dampfbahner plochingen e v",
-      "country": "Germany",
-      "count": 1,
-      "samples": [
-        "am Bruckenbach"
-      ]
-    },
-    {
-      "name": "Görlitzer Oldtimer Parkeisenbahn e.V.",
-      "normalized": "gorlitzer oldtimer parkeisenbahn e v",
-      "country": "Germany",
-      "count": 1,
-      "samples": [
-        "Freizeitpark"
-      ]
-    },
-    {
-      "name": "Förderverein Parkeisenbahn Syratal Plauen e.V.",
-      "normalized": "forderverein parkeisenbahn syratal plauen e v",
-      "country": "Germany",
-      "count": 1,
-      "samples": [
-        "Hainstraße"
-      ]
-    },
-    {
-      "name": "Parkeisenbahn Chemnitz gGmbH",
-      "normalized": "parkeisenbahn chemnitz ggmbh",
-      "country": "Germany",
-      "count": 1,
-      "samples": [
-        "Küchwaldwiese"
       ]
     },
     {
@@ -2993,6 +2957,15 @@
       ]
     },
     {
+      "name": "Görlitzer Oldtimer Parkeisenbahn e.V.",
+      "normalized": "gorlitzer oldtimer parkeisenbahn e v",
+      "country": "Germany",
+      "count": 1,
+      "samples": [
+        "Freizeitpark"
+      ]
+    },
+    {
       "name": "Bahnbetriebe Blumberg GmbH & Co. KG",
       "normalized": "bahnbetriebe blumberg gmbh co kg",
       "country": "Germany",
@@ -3020,15 +2993,6 @@
       ]
     },
     {
-      "name": "ELS Eisenbahn und Logistik und Service GmbH",
-      "normalized": "els eisenbahn und logistik und service gmbh",
-      "country": "Germany",
-      "count": 1,
-      "samples": [
-        "Gräfenhainichen Ferropolis"
-      ]
-    },
-    {
       "name": "EFW Infrastruktur GmbH",
       "normalized": "efw infrastruktur gmbh",
       "country": "Germany",
@@ -3044,6 +3008,24 @@
       "count": 1,
       "samples": [
         "Großvoigtsberg"
+      ]
+    },
+    {
+      "name": "ELS Eisenbahn und Logistik und Service GmbH",
+      "normalized": "els eisenbahn und logistik und service gmbh",
+      "country": "Germany",
+      "count": 1,
+      "samples": [
+        "Gräfenhainichen Ferropolis"
+      ]
+    },
+    {
+      "name": "Förderverein Parkeisenbahn Syratal Plauen e.V.",
+      "normalized": "forderverein parkeisenbahn syratal plauen e v",
+      "country": "Germany",
+      "count": 1,
+      "samples": [
+        "Hainstraße"
       ]
     },
     {
@@ -3128,15 +3110,6 @@
       ]
     },
     {
-      "name": "Bergbahnen im Siebengebirge AG",
-      "normalized": "bergbahnen im siebengebirge ag",
-      "country": "Germany",
-      "count": 1,
-      "samples": [
-        "Königswinter Drachenfelsbahn"
-      ]
-    },
-    {
       "name": "EIU Ablachtalbahn",
       "normalized": "eiu ablachtalbahn",
       "country": "Germany",
@@ -3152,6 +3125,24 @@
       "count": 1,
       "samples": [
         "Kurort Oybin-Niederdorf"
+      ]
+    },
+    {
+      "name": "Bergbahnen im Siebengebirge AG",
+      "normalized": "bergbahnen im siebengebirge ag",
+      "country": "Germany",
+      "count": 1,
+      "samples": [
+        "Königswinter Drachenfelsbahn"
+      ]
+    },
+    {
+      "name": "Parkeisenbahn Chemnitz gGmbH",
+      "normalized": "parkeisenbahn chemnitz ggmbh",
+      "country": "Germany",
+      "count": 1,
+      "samples": [
+        "Küchwaldwiese"
       ]
     },
     {
@@ -3362,21 +3353,21 @@
       ]
     },
     {
-      "name": "Saale-Unstrut-Bahn",
-      "normalized": "saale unstrut bahn",
-      "country": "Germany",
-      "count": 1,
-      "samples": [
-        "Roßleben"
-      ]
-    },
-    {
       "name": "Kleinbahnverein Rothenburg (OL.)",
       "normalized": "kleinbahnverein rothenburg ol",
       "country": "Germany",
       "count": 1,
       "samples": [
         "Rothenburg (OL.)"
+      ]
+    },
+    {
+      "name": "Saale-Unstrut-Bahn",
+      "normalized": "saale unstrut bahn",
+      "country": "Germany",
+      "count": 1,
+      "samples": [
+        "Roßleben"
       ]
     },
     {
@@ -3521,6 +3512,15 @@
       "count": 1,
       "samples": [
         "Zwickau Stadthalle"
+      ]
+    },
+    {
+      "name": "Dampfbahner Plochingen e.V.",
+      "normalized": "dampfbahner plochingen e v",
+      "country": "Germany",
+      "count": 1,
+      "samples": [
+        "am Bruckenbach"
       ]
     },
     {
@@ -3830,33 +3830,6 @@
       ]
     },
     {
-      "name": "Zakład Komunalny w Śmiglu",
-      "normalized": "zak ad komunalny w smiglu",
-      "country": "Poland",
-      "count": 1,
-      "samples": [
-        "Śmigiel"
-      ]
-    },
-    {
-      "name": "Starostwo Powiatowe w Środzie Wielkopolskiej",
-      "normalized": "starostwo powiatowe w srodzie wielkopolskiej",
-      "country": "Poland",
-      "count": 1,
-      "samples": [
-        "Środa Wielkopolska Miasto"
-      ]
-    },
-    {
-      "name": "Gmina Miejska Świeradów-Zdrój",
-      "normalized": "gmina miejska swieradow zdroj",
-      "country": "Poland",
-      "count": 1,
-      "samples": [
-        "Świeradów-Zdrój"
-      ]
-    },
-    {
       "name": "Dolnośląska Służba Dróg i Kolei we Wrocławiu",
       "normalized": "dolnoslaska s uzba drog i kolei we wroc awiu",
       "country": "Poland",
@@ -3890,6 +3863,33 @@
       "count": 1,
       "samples": [
         "Zbiersk"
+      ]
+    },
+    {
+      "name": "Zakład Komunalny w Śmiglu",
+      "normalized": "zak ad komunalny w smiglu",
+      "country": "Poland",
+      "count": 1,
+      "samples": [
+        "Śmigiel"
+      ]
+    },
+    {
+      "name": "Starostwo Powiatowe w Środzie Wielkopolskiej",
+      "normalized": "starostwo powiatowe w srodzie wielkopolskiej",
+      "country": "Poland",
+      "count": 1,
+      "samples": [
+        "Środa Wielkopolska Miasto"
+      ]
+    },
+    {
+      "name": "Gmina Miejska Świeradów-Zdrój",
+      "normalized": "gmina miejska swieradow zdroj",
+      "country": "Poland",
+      "count": 1,
+      "samples": [
+        "Świeradów-Zdrój"
       ]
     },
     {
@@ -3938,21 +3938,21 @@
       ]
     },
     {
-      "name": "Košická detská historická železnica",
-      "normalized": "kosicka detska historicka zeleznica",
-      "country": "Slovakia",
-      "count": 1,
-      "samples": [
-        "Čermeľ"
-      ]
-    },
-    {
       "name": "ČHŽ",
       "normalized": "chz",
       "country": "Slovakia",
       "count": 1,
       "samples": [
         "Valaská, Obec"
+      ]
+    },
+    {
+      "name": "Košická detská historická železnica",
+      "normalized": "kosicka detska historicka zeleznica",
+      "country": "Slovakia",
+      "count": 1,
+      "samples": [
+        "Čermeľ"
       ]
     },
     {
@@ -4091,21 +4091,21 @@
       ]
     },
     {
-      "name": "Verticalp Emosson",
-      "normalized": "verticalp emosson",
-      "country": "Switzerland",
-      "count": 1,
-      "samples": [
-        "Pied du barrage"
-      ]
-    },
-    {
       "name": "Dampfbahn Münsingen",
       "normalized": "dampfbahn munsingen",
       "country": "Switzerland",
       "count": 1,
       "samples": [
         "PZM Sagi"
+      ]
+    },
+    {
+      "name": "Verticalp Emosson",
+      "normalized": "verticalp emosson",
+      "country": "Switzerland",
+      "count": 1,
+      "samples": [
+        "Pied du barrage"
       ]
     },
     {
