@@ -55,6 +55,12 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0;
+      background: url('map background photo.png') center/cover no-repeat;
+      opacity: 0.12;
+    }
+    :root.light body::before { opacity: 0.08; }
 
     header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; row-gap: 0.5rem; padding: 8px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
     header img { width: 200px; }
@@ -91,11 +97,17 @@
     .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
     .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 
-    .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem; }
+    .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem; position: relative; z-index: 1; }
 
-    h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 1rem; }
+    h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.25rem; }
+    h1 + p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem; }
 
-    .search-form { display: grid; gap: 0.85rem; margin-bottom: 1.5rem; }
+    .search-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.25rem; margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .search-form { display: grid; gap: 0.85rem; }
     .field { display: grid; gap: 0.25rem; }
     .field label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
     .field input { width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); font: inherit; font-size: 0.92rem; outline: none; }
@@ -217,6 +229,7 @@
 
     .mobile-only { display: none; }
     @media (max-width: 768px) {
+      header, .hamburger, .main-nav { display: none !important; }
       .mobile-only { display: inline; }
       .desktop-only { display: none; }
       .site-footer { display: none; }
@@ -239,7 +252,9 @@
 
   <div class="container">
     <h1>Journey Planner</h1>
+    <p>Plan your trip across Europe</p>
 
+    <div class="search-card">
     <div class="search-form">
       <div class="field">
         <label for="fromInput">From</label>
@@ -273,6 +288,7 @@
       <button class="search-btn" id="searchBtn" onclick="searchJourney()">Search</button>
       <div id="errorMsg" class="error" style="display:none"></div>
     </div>
+    </div><!-- .search-card -->
 
     <div id="results"></div>
   </div>

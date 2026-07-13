@@ -627,17 +627,51 @@ header img {
 }
 
 .station-detail {
-  margin-bottom: 1rem;
-  padding: 0.85rem;
-  border-radius: 14px;
-  border: 1px solid rgba(34,211,238,0.35);
-  background: rgba(34,211,238,0.12);
+  margin-bottom: 0.5rem;
 }
 
 .station-detail h3 {
-  margin: 0 0 0.45rem;
-  font-size: 1.05rem;
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
 }
+
+.station-detail .info-sub {
+  font-size: 0.82rem;
+  opacity: 0.55;
+  margin-bottom: 0.5rem;
+}
+
+.info-actions {
+  display: flex; gap: 0.5rem; margin-bottom: 0.75rem;
+}
+.info-act {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0;
+  color: var(--text); text-decoration: none;
+  transition: background 0.15s;
+}
+.info-act:hover { background: var(--border); }
+.info-act img { width: 18px; height: 18px; object-fit: contain; }
+:root.light .info-act img { filter: none; }
+:root:not(.light) .info-act img { filter: invert(1); }
+
+.dep-load-btn {
+  width: 100%; padding: 0.65rem;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  font: inherit; font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; opacity: 0.65;
+  transition: opacity 0.15s, background 0.15s;
+  margin-bottom: 0.5rem;
+}
+.dep-load-btn:hover { opacity: 1; background: rgba(56,189,248,0.08); }
+.dep-load-btn:disabled { opacity: 0.4; cursor: default; }
 
 .station-detail p {
   margin: 0.25rem 0;
@@ -1115,7 +1149,7 @@ a.pill:hover {
       <div id="sidebarBody">
         <div id="stationDetailPanel"></div>
         <h2>Track & Tide</h2>
-        <p>Select a country or ferry route.</p>
+        <p>Select a station or port.</p>
       </div>
       <div id="favoritesPanel" class="favorites-panel" style="display:none"></div>
       <div id="statsBar" class="stats-bar" style="display:none"></div>
@@ -1502,27 +1536,69 @@ function closeBottomSheet() {
   if (trackMap) setTimeout(function() { trackMap.resize(); }, 50);
 }
 
-// ── Swipe-to-resize sheet ──
-var dragY = 0, dragStartPct = 50, dragging = false;
+// ── Swipe-to-resize sheet (handle + content edges) ──
+var dragY = 0, dragStartPct = 50, dragging = false, dragPending = false;
 
-sidebarHandle.addEventListener("touchstart", function(e) {
-  if (!isMobile()) return;
+function getSheetPct() {
+  var t = sidebar.style.transform;
+  if (!t || t === "none") {
+    if (sidebar.classList.contains("full")) return 0;
+    if (sidebar.classList.contains("open")) return 50;
+    return 100;
+  }
+  var m = t.match(/translateY\((\d+)%\)/);
+  return m ? parseFloat(m[1]) : 100;
+}
+
+function startDrag(y) {
   dragging = true;
-  dragY = e.touches[0].clientY;
-  dragStartPct = parseFloat(sidebar.style.transform.replace("translateY(","").replace("%)","")) || (sidebar.classList.contains("full") ? 0 : sidebar.classList.contains("open") ? 50 : 100);
+  dragPending = false;
+  dragY = y;
+  dragStartPct = getSheetPct();
   sidebar.style.transition = "none";
+}
+
+sidebar.addEventListener("touchstart", function(e) {
+  if (!isMobile() || !sidebar.classList.contains("open")) return;
+  // Handle bar or content edge — record position, decide on first move
+  dragY = e.touches[0].clientY;
+  dragStartPct = getSheetPct();
+  dragPending = true;
 }, { passive: true });
 
-sidebarHandle.addEventListener("touchmove", function(e) {
-  if (!dragging) return;
-  e.preventDefault();
-  var dy = e.touches[0].clientY - dragY;
-  var dpct = (dy / window.innerHeight) * 140;
-  var pct = Math.max(0, Math.min(100, dragStartPct + dpct));
-  sidebar.style.transform = "translateY(" + pct + "%)";
+sidebar.addEventListener("touchmove", function(e) {
+  if (!isMobile()) return;
+  var y = e.touches[0].clientY;
+  if (dragging) {
+    // Already dragging sheet
+    e.preventDefault();
+    var dpct = ((y - dragY) / window.innerHeight) * 140;
+    var pct = Math.max(0, Math.min(100, dragStartPct + dpct));
+    sidebar.style.transform = "translateY(" + pct + "%)";
+    return;
+  }
+  if (!dragPending) return;
+  // First move — check if at scroll boundary and swiping in sheet-move direction
+  var st = sidebar.scrollTop;
+  var maxSt = sidebar.scrollHeight - sidebar.clientHeight;
+  var dy = y - dragY;
+  var atTop = st <= 1 && dy > 5;       // at top, swiping down
+  var atBottom = st >= maxSt - 1 && dy < -5; // at bottom, swiping up
+  var onHandle = !!e.target.closest(".sidebar-handle");
+  if (onHandle || atTop || atBottom) {
+    startDrag(dragY); // use recorded start Y
+    e.preventDefault();
+    // Apply the current delta
+    var dpct2 = ((y - dragY) / window.innerHeight) * 140;
+    var pct2 = Math.max(0, Math.min(100, dragStartPct + dpct2));
+    sidebar.style.transform = "translateY(" + pct2 + "%)";
+  } else {
+    dragPending = false; // let it scroll
+  }
 }, { passive: false });
 
-sidebarHandle.addEventListener("touchend", function() {
+sidebar.addEventListener("touchend", function() {
+  dragPending = false;
   if (!dragging) return;
   dragging = false;
   sidebar.style.transition = "";
@@ -2001,24 +2077,47 @@ function clearStationSelection() {
 ========================= */
 function renderStationDetailHTML(station) {
   if (!station) return '';
-  const cleanName = cleanStationName(station.name);
-  const stationsUrl = '/explore?tab=stations&stationId='+encodeURIComponent(station.id);
-  return '<div class="station-detail"><h3>'+escapeHTML(cleanName)+'</h3><div class="detail-links" style="display:flex;gap:0.4rem;margin-bottom:0.5rem"><a class="detail-link" href="'+stationsUrl+'" target="_self">Full details</a><a class="detail-link" href="javascript:void(0)" onclick="event.preventDefault();goToStation(\''+station.id+'\')">View on map</a></div><div id="departuresPanel_'+escapeHTML(station.id)+'" class="departures-panel"></div></div>';
+  var name = cleanStationName(station.name);
+  var country = station.country || '';
+  var sid = station.id;
+  return '<div class="station-detail">' +
+    '<div class="info-header">' +
+      '<div><h3>'+escapeHTML(name)+'</h3>' +
+      (country ? '<div class="info-sub">'+escapeHTML(country)+'</div>' : '') + '</div>' +
+    '</div>' +
+    '<div class="info-actions">' +
+      '<button class="info-act" title="Comment" onclick="openMapTipModal(\'station\',\''+escapeHTML(sid)+'\',\''+escapeHTML(name)+'\')"><img src="webapp icons/comment.png" width="18" height="18" alt="Comment" /></button>' +
+      '<button class="info-act" title="Share" onclick="event.stopPropagation();shareStation({id:\''+escapeHTML(sid)+'\'})"><img src="webapp icons/share.png" width="18" height="18" alt="Share" /></button>' +
+      '<a class="info-act" title="Full details" href="/explore?tab=stations&stationId='+encodeURIComponent(sid)+'" target="_self"><img src="webapp icons/info.png" width="18" height="18" alt="Details" /></a>' +
+      '<button class="info-act" title="View on map" onclick="event.preventDefault();goToStation(\''+escapeHTML(sid)+'\')"><img src="webapp icons/locate.png" width="18" height="18" alt="Map" /></button>' +
+    '</div>' +
+    '<button class="dep-load-btn" id="depLoadBtn_'+escapeHTML(sid)+'" onclick="loadDeparturesForStation(\''+escapeHTML(sid)+'\')">Show live departures</button>' +
+    '<div id="departuresPanel_'+escapeHTML(sid)+'" class="departures-panel" style="display:none"></div>' +
+    '<div id="weatherWidget" class="weather-widget" style="display:none"></div>' +
+    '<div id="mapComments_station"></div>' +
+  '</div>';
 }
 
 async function renderStationDetail(station) {
-  const panel = document.getElementById('stationDetailPanel');
+  var panel = document.getElementById('stationDetailPanel');
   if (!panel) return;
-  let html = renderStationDetailHTML(station);
-  const extra = '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.5rem"><span class="share-btn" onclick="event.stopPropagation();shareStation({id:\''+station.id+'\'})">Share</span></div>';
-  const lastDiv = html.lastIndexOf('</div>');
-  if (lastDiv>0) html = html.substring(0,lastDiv) + extra + '<div id="weatherWidget" class="weather-widget" style="display:none"></div><div id="mapComments_station"></div><button id="mapComments_stationTipBtn" class="detail-link" style="margin-top:0.35rem;cursor:pointer;display:none" onclick="openMapTipModal(\'station\',\''+escapeHTML(station.id)+'\',\''+escapeHTML(cleanStationName(station.name))+'\')">Leave a comment</button>' + html.substring(lastDiv);
-  panel.innerHTML = html;
+  panel.innerHTML = renderStationDetailHTML(station);
   scrollSidebarIntoView();
-  fetchAndRenderDepartures(station);
   renderWeatherWidget(station);
   loadMapComments('station', station.id, 'mapComments_station');
   updateStatsBar();
+}
+
+function loadDeparturesForStation(stationId) {
+  var btn = document.getElementById('depLoadBtn_' + stationId);
+  if (btn) { btn.textContent = 'Loading...'; btn.disabled = true; }
+  var station = stationsData.find(function(s) { return s.id === stationId; });
+  if (!station) return;
+  var panel = document.getElementById('departuresPanel_' + stationId);
+  if (panel) panel.style.display = 'block';
+  fetchAndRenderDepartures(station).then(function() {
+    if (btn) btn.style.display = 'none';
+  });
 }
 
 /* =========================
