@@ -91,23 +91,6 @@
     .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
     .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 10000; align-items: center; justify-content: center; padding: 1rem; }
-    .modal-overlay.open { display: flex; }
-    .modal-dialog { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); position: relative; }
-    .modal-close { position: absolute; top: 0.75rem; right: 1rem; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; opacity: 0.6; }
-    .modal-close:hover { opacity: 1; }
-    .modal-dialog h2 { margin: 0 0 0.5rem; font-size: 1.3rem; }
-    .modal-dialog > p { margin: 0 0 1.2rem; opacity: 0.75; font-size: 0.9rem; }
-    .report-form { display: grid; gap: 1rem; }
-    .report-form .field { display: grid; gap: 0.35rem; }
-    .report-form .field label { font-size: 0.85rem; opacity: 0.8; }
-    .report-form input, .report-form select, .report-form textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.75rem; background: rgba(255,255,255,0.08); color: var(--text); font: inherit; box-sizing: border-box; }
-    .report-form textarea { resize: vertical; min-height: 100px; }
-    .report-form .submit-btn { padding: 0.75rem 1.5rem; border-radius: 999px; border: none; background: var(--hover); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
-    .report-form .submit-btn:hover { background: var(--active); }
-    .form-success { display: none; text-align: center; padding: 2rem 1rem; }
-    .form-success.show { display: block; }
-
     .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem; }
 
     h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 1rem; }
@@ -223,8 +206,9 @@
 
     .suggestions { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-top: 2px; max-height: 200px; overflow-y: auto; display: none; position: absolute; width: 100%; z-index: 10; }
     .suggestions.open { display: block; }
-    .suggestion-item { padding: 0.5rem 0.8rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+    .suggestion-item { padding: 0.5rem 0.8rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.4rem; }
     .suggestion-item:hover { background: rgba(56,189,248,0.1); }
+    .suggestion-item .flag { font-size: 1.1rem; flex-shrink: 0; }
     .field-wrapper { position: relative; }
 
 
@@ -311,11 +295,18 @@
     // Load station database for local search
     fetch('/stations.json').then(function(r) { return r.json(); }).then(function(data) {
       for (var c in data.countries) {
+        var iso = data.countries[c].iso || '';
         (data.countries[c].stations||[]).forEach(function(s) {
-          allStations.push({ name: s.name, lat: s.lat, lng: s.lng });
+          allStations.push({ name: s.name, lat: s.lat, lng: s.lng, country: iso });
         });
       }
     });
+
+    // Convert ISO country code to flag emoji
+    function isoToFlag(iso) {
+      if (!iso || iso.length !== 2) return '';
+      return String.fromCodePoint(0x1F1E6 + iso.charCodeAt(0) - 65) + String.fromCodePoint(0x1F1E6 + iso.charCodeAt(1) - 65);
+    }
 
     // Decode Google-encoded polyline (precision 7 = 1e7 scaling)
     function decodePolyline(encoded) {
@@ -424,7 +415,8 @@
           var matches = allStations.filter(function(s) { return s.name.toLowerCase().indexOf(qLower) !== -1; }).slice(0, 8);
           if (!matches.length) { suggest.classList.remove('open'); return; }
           suggest.innerHTML = matches.map(function(s) {
-            return '<div class="suggestion-item" data-lat="'+s.lat+'" data-lng="'+s.lng+'" data-name="'+s.name+'">'+s.name+'</div>';
+            var flag = isoToFlag(s.country);
+            return '<div class="suggestion-item" data-lat="'+s.lat+'" data-lng="'+s.lng+'" data-name="'+s.name+'"><span class="flag">'+flag+'</span> '+s.name+'</div>';
           }).join('');
           suggest.classList.add('open');
           suggest.querySelectorAll('.suggestion-item').forEach(function(item) {
@@ -560,7 +552,7 @@
         '&toPlace=' + toStation.lat + ',' + toStation.lng +
         (arriveBy ? '&arriveBy=true&departureTime=' : '&departureTime=') + encodeURIComponent(dateTime) +
         '&numItineraries=6' +
-        '&mode=RAIL' +
+        '&mode=RAIL,FERRY' +
         '&maxWalkDistance=1000' +
         '&walkSpeed=1.4';
       fetch(url).then(function(r) { return r.json(); }).then(function(data) {
@@ -569,9 +561,18 @@
           errEl.textContent = 'Search failed: ' + data.error;
           errEl.style.display = ''; resultsEl.innerHTML = ''; return;
         }
-        currentJourneys = (data.itineraries || []).slice(0, 4);
+        var raw = (data.plan && data.plan.itineraries) || data.itineraries || [];
+        // Only keep train & ferry — no bus, coach, tram, metro
+        var blocked = ['BUS','COACH','TRAM','SUBWAY','METRO','GONDOLA','CABLE_CAR','FUNICULAR'];
+        var filtered = raw.filter(function(j) {
+          return (j.legs||[]).every(function(l) {
+            var m = (l.mode||'').toUpperCase();
+            return !blocked.some(function(b) { return m.indexOf(b) >= 0; });
+          });
+        });
+        currentJourneys = filtered.slice(0, 4);
         activeJourney = -1;
-        if (!currentJourneys.length) { resultsEl.innerHTML = '<div class="no-results">No train journeys found.</div>'; return; }
+        if (!currentJourneys.length) { resultsEl.innerHTML = '<div class="no-results">No train or ferry journeys found.</div>'; return; }
         renderJourneys();
       }).catch(function(e) {
         btn.disabled = false; btn.textContent = 'Search';
@@ -647,12 +648,22 @@
       else { list.classList.add('open'); info.classList.add('open'); }
     }
 
+    // Compute transit-only duration: first non-walk departure → last non-walk arrival
+    function transitDurMin(journey) {
+      var nonWalk = (journey.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
+      if (!nonWalk.length) return Math.round(journey.duration/60);
+      var firstDep = nonWalk[0].from.departure || nonWalk[0].startTime;
+      var lastArr = nonWalk[nonWalk.length-1].to.arrival;
+      if (!firstDep || !lastArr) return Math.round(journey.duration/60);
+      return Math.round((new Date(lastArr) - new Date(firstDep)) / 60000);
+    }
+
     function renderJourneys() {
       var resultsEl = document.getElementById('results');
       _legUid = 0;
       resultsEl.innerHTML = currentJourneys.map(function(j, ji) {
         var legs = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
-        var durMin = Math.round(j.duration/60);
+        var durMin = transitDurMin(j);
         var isExpanded = ji === activeJourney;
         var fromName = (legs[0]&&legs[0].from?legs[0].from.name:'');
         var lastLeg = legs[legs.length-1];
@@ -884,37 +895,7 @@
     });
   </script>
 
-<script>
-function openReportModal() { document.getElementById('reportModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeReportModal() { document.getElementById('reportModal').classList.remove('open'); document.body.style.overflow = ''; }
-</script>
-
-<div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
-  <div class="modal-dialog">
-    <button class="modal-close" onclick="closeReportModal()" aria-label="Close">&times;</button>
-    <h2>Report something</h2>
-    <p>Spotted a bug or have a feature idea?</p>
-    <form class="report-form" id="reportForm">
-      <div class="field"><label for="reportType">Type *</label>
-        <select id="reportType" required><option value="">Select...</option><option>Bug</option><option>Feature Idea</option><option>Other</option></select>
-      </div>
-      <div class="field"><label for="reportName">Your name</label><input type="text" id="reportName" placeholder="Jane Doe"></div>
-      <div class="field"><label for="reportMessage">Message *</label><textarea id="reportMessage" required placeholder="Describe the issue..."></textarea></div>
-      <button type="submit" class="submit-btn">Send report</button>
-    </form>
-    <div class="form-success" id="formSuccess"><h3>Thank you!</h3><p>Your report has been sent.</p></div>
-  </div>
-</div>
-
-<script>
-document.getElementById('reportForm').addEventListener('submit', async function(e) {
-  e.preventDefault(); var f = e.target; var b = f.querySelector('.submit-btn'); b.textContent = 'Sending...'; b.disabled = true;
-  try {
-    var r = await fetch('https://api.web3forms.com/submit', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ Type:f.querySelector('#reportType').value, Name:f.querySelector('#reportName').value, Message:f.querySelector('#reportMessage').value, access_key:'6ff77564-e32e-4034-95ee-57830e7c2fb7' }) });
-    if (r.ok) { f.style.display = 'none'; document.getElementById('formSuccess').classList.add('show'); } else throw new Error('Failed');
-  } catch(err) { b.textContent = 'Send report'; b.disabled = false; }
-});
-</script>
+<script src="report-modal.js"></script>
 
 </body>
 </html>

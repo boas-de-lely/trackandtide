@@ -13,6 +13,42 @@ function get(host, port, path) {
   });
 }
 
+// Server-side itinerary filter: only allow train & ferry legs
+function filterItineraries(data, modeStr) {
+  var itineraries = (data && data.plan && data.plan.itineraries) || (data && data.itineraries);
+  if (!itineraries || !Array.isArray(itineraries)) { console.log('[filter] WARNING: no itineraries found in response'); return; }
+  var before = itineraries.length;
+
+  // Collect all unique modes for debugging
+  var allModes = {};
+  itineraries.forEach(function(it) {
+    (it.legs||[]).forEach(function(leg) {
+      allModes[(leg.mode||'UNKNOWN')] = (leg.routeShortName||leg.route||'');
+    });
+  });
+  console.log('[filter] all modes in response:', JSON.stringify(allModes));
+
+  // Blocklist: anything containing these words is excluded
+  var blocked = ['BUS', 'COACH', 'TRAM', 'SUBWAY', 'METRO', 'GONDOLA', 'CABLE_CAR', 'FUNICULAR', 'TRANSIT'];
+
+  var filtered = itineraries.filter(function(it) {
+    return (it.legs||[]).every(function(leg) {
+      var m = (leg.mode||'').toUpperCase();
+      for (var i = 0; i < blocked.length; i++) {
+        if (m.indexOf(blocked[i]) >= 0) {
+          console.log('[filter] DROPPED itinerary — leg mode: ' + leg.mode + ' route: ' + (leg.routeShortName||leg.route||'') + ' agency: ' + (leg.agencyName||''));
+          return false;
+        }
+      }
+      return true;
+    });
+  });
+
+  if (data.plan) { data.plan.itineraries = filtered; }
+  else { data.itineraries = filtered; }
+  console.log('[filter] ' + before + ' → ' + filtered.length + ' itineraries');
+}
+
 function delayMin(scheduled, actual) {
   if (!scheduled || !actual) return null;
   return Math.round((new Date(actual) - new Date(scheduled)) / 60000);
@@ -90,6 +126,8 @@ require('http').createServer(async (req, res) => {
         const motisPath = '/api/v1/plan?' + params.toString();
         console.log('[plan via departures] proxying to MOTIS:', motisPath);
         const data = await get('192.168.188.170', 8080, motisPath);
+        // Server-side filter: exclude bus/coach/tram/metro — only train & ferry
+        filterItineraries(data, params.get('mode') || 'RAIL');
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(data));
       } catch (e) {
@@ -133,6 +171,8 @@ require('http').createServer(async (req, res) => {
       const motisPath = '/api/v1/plan?' + params.toString();
       console.log('[plan] proxying to MOTIS:', motisPath);
       const data = await get('192.168.188.170', 8080, motisPath);
+      // Server-side filter: exclude bus/coach/tram/metro — only train & ferry
+      filterItineraries(data, params.get('mode') || 'RAIL');
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(data));
     } catch (e) {
