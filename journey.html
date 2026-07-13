@@ -214,6 +214,14 @@
 
     .maplibregl-popup-content { background: var(--panel) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; padding: 0.4rem 0.6rem !important; font-size: 0.82rem !important; }
     .maplibregl-popup-tip { border-top-color: var(--panel) !important; }
+
+    .mobile-only { display: none; }
+    @media (max-width: 768px) {
+      .mobile-only { display: inline; }
+      .desktop-only { display: none; }
+      .site-footer { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -224,8 +232,8 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/">Map</a><a href="/stations">Stations</a><a href="/ports">Ports</a>
-      <a href="/operators">Operators</a><a href="/journey" class="active">Journey</a><a href="/about">About</a>
+      <a href="/">Map</a><a href="/explore">Explore</a>
+      <a href="/journey" class="active">Journey</a><a href="/about" class="desktop-only">About</a><a href="/more" class="mobile-only">More</a>
     </nav>
   </header>
 
@@ -896,6 +904,7 @@
   </script>
 
 <script src="report-modal.js"></script>
+<script src="bottom-nav.js"></script>
 
 </body>
 </html>

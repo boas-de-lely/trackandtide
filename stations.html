@@ -610,6 +610,13 @@ option {
 .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 .footer-link:hover { text-decoration: underline; opacity: 1; }
 
+.mobile-only { display: none; }
+@media (max-width: 768px) {
+  .mobile-only { display: inline; }
+  .desktop-only { display: none; }
+  .site-footer { display: none; }
+}
+
 </style>
 </head>
 <body>
@@ -621,11 +628,10 @@ option {
   </button>
   <nav class="main-nav" aria-label="Main navigation" id="mainNav">
     <a href="/">Map</a>
-    <a href="/stations" class="active">Stations</a>
-    <a href="/ports">Ports</a>
-    <a href="/operators">Operators</a>
+    <a href="/explore" class="active">Explore</a>
     <a href="/journey">Journey</a>
-    <a href="/about">About</a>
+    <a href="/about" class="desktop-only">About</a>
+    <a href="/more" class="mobile-only">More</a>
   </nav>
 </header>
 
@@ -1326,6 +1332,7 @@ countryFilter.addEventListener("change", () => {
 </div>
 
 <script src="report-modal.js"></script>
+<script src="bottom-nav.js"></script>
 
 // ── Station tip modal ──
 function openStationTipModal(stationId, stationName) {

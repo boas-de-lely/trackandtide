@@ -205,6 +205,13 @@
     .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
     .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 
+    .mobile-only { display: none; }
+    @media (max-width: 768px) {
+      .mobile-only { display: inline; }
+      .desktop-only { display: none; }
+      .site-footer { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -216,11 +223,10 @@
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
       <a href="/">Map</a>
-      <a href="/stations">Stations</a>
-      <a href="/ports">Ports</a>
-      <a href="/operators">Operators</a>
+      <a href="/explore">Explore</a>
       <a href="/journey">Journey</a>
       <a href="/about" class="active">About</a>
+      <a href="/more" class="mobile-only">More</a>
     </nav>
   </header>
 
@@ -308,9 +314,10 @@
       <p>
         Real-time departure data is powered by a self-hosted
         <strong>MOTIS</strong> server, providing transit schedules
-        for the Netherlands. When you click on a station,
+        for the most countries in europe. When you click on a station,
         you see actual upcoming trains and their real-time delay information &mdash;
-        no proprietary data, no commercial feeds, just open data at work.
+        no proprietary data, no commercial feeds, just open data at work. 
+        I do advise to check the departure boards on the stations for the most accurate information.
       </p>
     </div>
 
@@ -340,17 +347,6 @@
     <p>
       This also means Track &amp; Tide will never charge for access or hide
       data behind a paywall. The trains belong to everyone. So should the map.
-    </p>
-
-    <h2>Built by one person</h2>
-
-    <p>
-      Track &amp; Tide is developed and maintained by Boas, a solo developer
-      based in the Netherlands. There is no team, no funding, no startup
-      behind this &mdash; just someone who really likes trains, maps, and
-      open data. The project runs on a single server, costs almost nothing to
-      operate, and is built with plain HTML, CSS, JavaScript, and a handful
-      of open-source tools (MapLibre, Node.js, etc).
     </p>
 
     <p>
@@ -433,6 +429,7 @@
   </script>
 
 <script src="report-modal.js"></script>
+<script src="bottom-nav.js"></script>
 
 </body>
 </html>

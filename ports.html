@@ -713,6 +713,13 @@ a.pill:hover {
 .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
 .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 
+.mobile-only { display: none; }
+@media (max-width: 768px) {
+  .mobile-only { display: inline; }
+  .desktop-only { display: none; }
+  .site-footer { display: none; }
+}
+
 </style>
 </head>
 <body>
@@ -724,11 +731,10 @@ a.pill:hover {
   </button>
   <nav class="main-nav" aria-label="Main navigation" id="mainNav">
     <a href="/">Map</a>
-    <a href="/stations">Stations</a>
-    <a href="/ports" class="active">Ports</a>
-    <a href="/operators">Operators</a>
+    <a href="/explore" class="active">Explore</a>
     <a href="/journey">Journey</a>
-    <a href="/about">About</a>
+    <a href="/about" class="desktop-only">About</a>
+    <a href="/more" class="mobile-only">More</a>
   </nav>
 </header>
 
@@ -1516,6 +1522,7 @@ Promise.all([
 </div>
 
 <script src="report-modal.js"></script>
+<script src="bottom-nav.js"></script>
 
 // ── Tip modal ──
 function openTipModal(entityType, entityId, entityName) {

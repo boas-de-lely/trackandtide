@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Explore — Track & Tide</title>
+<meta name="description" content="Browse European train operators, stations, and ferry ports — logos, websites, routes, Wikidata details, and community tips." />
+<meta property="og:title" content="Explore — Track & Tide" />
+<meta property="og:description" content="Browse European train operators, stations, and ferry ports — logos, websites, routes, Wikidata details, and community tips." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://trackandtide.com/explore" />
+<meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Track & Tide — Explore" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:site_name" content="Track & Tide" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Explore — Track & Tide" />
+<meta name="twitter:description" content="Browse European train operators, stations, and ferry ports." />
+<meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+<link rel="canonical" href="https://trackandtide.com/explore" />
+<link rel="icon" href="icon.png" />
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#1F2937" />
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Explore — Track & Tide",
+  "url": "https://trackandtide.com/explore",
+  "description": "Browse European train operators, stations, and ferry ports.",
+  "isPartOf": {
+    "@type": "WebApplication",
+    "name": "Track & Tide",
+    "url": "https://trackandtide.com/"
+  }
+}
+</script>
+<style>
+:root {
+  --bg: #1f2937;
+  --panel: #1f2937;
+  --card: #273549;
+  --text: #ffffff;
+  --text-secondary: #94A3B8;
+  --border: rgba(255,255,255,0.08);
+  --hover: #60a5fa;
+  --active: #3b82f6;
+}
+
+:root.light {
+  --bg: #d5d9e2;
+  --panel: #ffffff;
+  --card: #f8fafc;
+  --text: #111827;
+  --text-secondary: #6B7280;
+  --border: rgba(15,23,42,0.16);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; min-height: 100vh; font-family: system-ui;
+  background: var(--bg); color: var(--text);
+}
+
+/* ── Header ── */
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; row-gap: 0.5rem; padding: 8px 20px;
+  border-bottom: 1px solid var(--border); flex-wrap: wrap;
+}
+header img { width: 200px; }
+.main-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
+.main-nav a {
+  color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem;
+  border-radius: 999px; opacity: 0.78; border: 1px solid transparent;
+}
+.main-nav a:hover, .main-nav a.active { opacity: 1; background: var(--card); border-color: var(--border); }
+
+/* ── Theme switch ── */
+.theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
+.theme-switch input { opacity: 0; width: 0; height: 0; }
+.theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
+.theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
+.theme-switch input:checked + .theme-slider { background: var(--hover); }
+.theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
+
+/* ── Hamburger ── */
+.hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .main-nav { display: none; flex-direction: column; position: absolute; top: 60px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .main-nav.open { display: flex; }
+  .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
+}
+@media (max-width: 1000px) { header img { width: 120px; } }
+
+/* ── Main layout ── */
+main { padding: 1rem; }
+.page-shell {
+  display: grid; grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 1rem; align-items: start;
+}
+.filters, .results-panel {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+}
+.filters { position: sticky; top: 1rem; padding: 1rem; display: grid; gap: 0.85rem; }
+.filters h1 { margin: 0; font-size: 1.35rem; }
+.field { display: grid; gap: 0.35rem; }
+.field label { font-size: 0.82rem; opacity: 0.76; }
+input, select {
+  width: 100%; border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.7rem 0.75rem; background: rgba(255,255,255,0.08);
+  color: var(--text); font: inherit;
+}
+option { color: #111827; }
+.check-row { display: flex; gap: 0.45rem; align-items: center; font-size: 0.95rem; }
+.check-row input { width: 1rem; height: 1rem; accent-color: var(--active); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.stat { padding: 0.65rem; border-radius: 12px; background: rgba(255,255,255,0.07); }
+.stat strong { display: block; font-size: 1.2rem; }
+.stat span { font-size: 0.78rem; opacity: 0.72; }
+.results-panel { overflow: hidden; }
+.results-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem; border-bottom: 1px solid var(--border); }
+.results-head h2 { margin: 0; font-size: 1.1rem; }
+.empty { padding: 2rem; opacity: 0.76; }
+
+@media (max-width: 900px) {
+  .page-shell { grid-template-columns: 1fr; }
+  .filters { position: static; }
+}
+
+/* ── Tab navigation ── */
+.tab-nav {
+  display: flex; gap: 0; padding: 0 1rem; border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.tab-btn {
+  flex: 1; max-width: 200px; padding: 0.75rem 1rem;
+  background: none; border: none; border-bottom: 3px solid transparent;
+  color: var(--text); cursor: pointer; font: inherit; font-size: 0.95rem; font-weight: 600;
+  opacity: 0.65; transition: opacity 0.2s, border-color 0.2s;
+  text-align: center; white-space: nowrap;
+}
+.tab-btn:hover { opacity: 0.85; }
+.tab-btn.active { opacity: 1; border-bottom-color: var(--hover); color: var(--hover); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.tab-count { font-size: 0.78rem; opacity: 0.6; font-weight: 400; margin-left: 0.25rem; }
+
+/* ── Operator cards ── */
+.operator-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.8rem; padding: 1rem; align-items: stretch; }
+.operator-card { display: flex; flex-direction: column; gap: 0.75rem; min-height: 220px; height: 100%; padding: 0.9rem; border: 1px solid var(--border); border-radius: 14px; background: rgba(255,255,255,0.07); }
+.operator-card.highlighted { border-color: var(--hover); box-shadow: 0 0 0 2px var(--hover); background: rgba(96,165,250,0.15); }
+.operator-card .clear-highlight { display: none; }
+.operator-card.highlighted .clear-highlight { display: inline-flex; }
+:root.light .operator-card { background: rgba(15,23,42,0.04); }
+.operator-top { display: grid; grid-template-columns: 44px 1fr; gap: 0.75rem; align-items: center; }
+.operator-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 10px; background: rgba(255,255,255,0.12); }
+.operator-name { font-weight: 800; }
+.operator-label { margin-top: 0.15rem; opacity: 0.76; font-size: 0.88rem; }
+.operator-description { margin: 0; line-height: 1.45; opacity: 0.86; font-size: 0.92rem; flex: 1; }
+.pills { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: flex-start; align-self: start; }
+.pill { flex: 0 1 auto; width: max-content; max-width: 100%; border-radius: 999px; padding: 0.22rem 0.5rem; background: rgba(255,255,255,0.08); font-size: 0.82rem; }
+a.pill { color: var(--text); text-decoration: none; }
+a.pill:hover { background: var(--hover); color: #fff; }
+.actions { display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: flex-start; align-self: start; margin-top: auto; }
+.action-link { flex: 0 0 auto; color: var(--text); text-decoration: none; padding: 0.5rem 0.65rem; border-radius: 10px; background: rgba(255,255,255,0.08); border: 1px solid var(--border); font-size: 0.9rem; }
+.action-link.primary { background: var(--active); }
+@media (max-width: 900px) { .operator-grid { grid-template-columns: 1fr; } }
+
+/* ── Station rows ── */
+.station-list, .port-list { padding: 0; }
+.station-row, .port-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem; padding: 0.7rem 1rem; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background 0.15s; font-size: 0.9rem;
+}
+.station-row:hover, .port-row:hover { background: rgba(56,189,248,0.06); }
+.station-row.selected, .port-row.selected { background: rgba(96,165,250,0.12); border-left: 4px solid var(--hover); }
+.station-name, .port-name { font-weight: 700; }
+.station-meta, .port-meta { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.2rem; }
+.source-link { font-size: 0.78rem; opacity: 0.55; text-decoration: none; color: var(--text); white-space: nowrap; }
+.source-link:hover { opacity: 0.8; }
+
+/* ── Station/Port detail inline ── */
+.station-detail-inline, .port-detail-inline {
+  padding: 1rem 1rem 1rem 1.5rem; border-bottom: 1px solid var(--border);
+  border-left: 4px solid var(--hover); background: rgba(96,165,250,0.08);
+}
+.station-detail-loading, .port-detail-loading { opacity: 0.7; }
+.detail-header { display: grid; gap: 0.4rem; }
+.detail-header h3 { margin: 0; font-size: 1.05rem; }
+.detail-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.detail-wiki { display: grid; gap: 0.5rem; margin-top: 0.5rem; }
+.detail-wiki-img { width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; border: 1px solid var(--border); background: rgba(0,0,0,0.15); }
+.detail-wiki-desc { margin: 0; font-size: 0.9rem; opacity: 0.82; line-height: 1.5; }
+.detail-stats { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.stat-badge { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 0.9rem; min-width: 80px; }
+.stat-num { font-size: 1.3rem; font-weight: 700; color: var(--hover); }
+.stat-label { font-size: 0.72rem; opacity: 0.6; }
+.detail-meta-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.meta-chip { font-size: 0.8rem; padding: 0.2rem 0.55rem; border-radius: 999px; background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.25); color: #A78BFA; }
+.detail-facilities { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.facility-chip { font-size: 0.78rem; padding: 0.18rem 0.5rem; border-radius: 999px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.2); }
+.detail-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.3rem; }
+.detail-link { display: inline-flex; align-items: center; color: var(--hover) !important; font-weight: 600; text-decoration: none; font-size: 0.88rem; padding: 0.35rem 0.65rem; border-radius: 8px; border: 1px solid rgba(14,165,233,0.3); background: rgba(14,165,233,0.1); transition: background 0.2s; cursor: pointer; }
+.detail-link:hover { background: rgba(14,165,233,0.22); }
+.detail-images { display: grid; gap: 0.5rem; }
+
+/* ── Comments ── */
+.station-detail-comments, .port-detail-comments { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
+.comments-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+.comment-item { padding: 0.6rem 0.75rem; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); margin-bottom: 0.45rem; font-size: 0.88rem; line-height: 1.5; }
+.comment-meta { font-size: 0.75rem; opacity: 0.65; margin-bottom: 0.25rem; }
+.comment-author { font-weight: 700; color: var(--hover); }
+.leave-tip-btn { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.5rem; font-size: 0.84rem; font-weight: 600; color: var(--hover); cursor: pointer; background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.3); border-radius: 999px; padding: 0.4rem 0.9rem; transition: background 0.2s; }
+.leave-tip-btn:hover { background: rgba(96,165,250,0.2); }
+:root.light .comment-item { background: rgba(15,23,42,0.02); }
+
+/* ── Port operator cards ── */
+.port-detail-operators { margin-top: 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.6rem; }
+.port-operator-card { display: flex; flex-direction: column; gap: 0.55rem; padding: 0.75rem; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.05); cursor: pointer; text-decoration: none; color: inherit; transition: background 0.2s, border-color 0.2s, transform 0.15s; }
+.port-operator-card:hover { background: rgba(96,165,250,0.12); border-color: var(--hover); transform: translateY(-2px); }
+.port-operator-top { display: grid; grid-template-columns: 36px 1fr; gap: 0.6rem; align-items: center; }
+.port-operator-logo { width: 36px; height: 36px; object-fit: contain; border-radius: 8px; background: rgba(255,255,255,0.12); }
+.port-operator-name { font-weight: 700; font-size: 0.95rem; }
+.port-operator-label { font-size: 0.78rem; opacity: 0.7; margin-top: 0.1rem; }
+.port-operator-pills { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+.port-operator-pills .pill { font-size: 0.75rem; padding: 0.18rem 0.45rem; }
+.port-operator-actions { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: auto; }
+.port-operator-link { color: var(--hover); text-decoration: none; font-size: 0.82rem; font-weight: 600; padding: 0.3rem 0.55rem; border-radius: 8px; border: 1px solid rgba(96,165,250,0.25); background: rgba(96,165,250,0.08); transition: background 0.2s; }
+.port-operator-link:hover { background: rgba(96,165,250,0.2); }
+:root.light .port-operator-card { background: rgba(15,23,42,0.03); }
+:root.light .port-operator-card:hover { background: rgba(59,130,246,0.08); }
+
+/* ── Port detail routes ── */
+.port-detail-routes { color: var(--text); opacity: 0.85; margin: 0.5rem 0 0; }
+
+/* ── Modals ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal-dialog { background: var(--panel); border-radius: 16px; padding: 1.5rem; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+.modal-close { position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; opacity: 0.6; }
+.modal-close:hover { opacity: 1; }
+.report-form { display: grid; gap: 0.85rem; }
+.report-form textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.75rem; background: rgba(255,255,255,0.08); color: var(--text); font: inherit; resize: vertical; min-height: 100px; }
+.form-error { color: #f87171; font-size: 0.85rem; display: none; }
+.form-success { display: none; text-align: center; }
+.form-success.show { display: block; }
+.submit-btn { padding: 0.7rem 1.2rem; border: none; border-radius: 999px; background: var(--active); color: #fff; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
+.submit-btn:hover { opacity: 0.9; }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Footer ── */
+.site-footer { text-align: center; padding: 1.5rem 1rem 2rem; border-top: 1px solid var(--border); margin-top: 2rem; opacity: 0.85; }
+.footer-link { color: var(--hover); text-decoration: none; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
+.footer-link:hover { text-decoration: underline; opacity: 1; }
+.footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
+.footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
+
+.mobile-only { display: none; }
+@media (max-width: 768px) {
+  .mobile-only { display: inline; }
+  .desktop-only { display: none; }
+  .site-footer { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="main-nav" aria-label="Main navigation" id="mainNav">
+    <a href="/">Map</a>
+    <a href="/explore" class="active">Explore</a>
+    <a href="/journey">Journey</a>
+    <a href="/about" class="desktop-only">About</a>
+    <a href="/more" class="mobile-only">More</a>
+  </nav>
+</header>
+
+<div class="tab-nav" id="tabNav">
+  <button class="tab-btn active" data-tab="operators">Operators</button>
+  <button class="tab-btn" data-tab="stations">Stations</button>
+  <button class="tab-btn" data-tab="ports">Ferry Ports</button>
+</div>
+
+<main>
+  <!-- ── OPERATORS TAB ── -->
+  <div class="tab-content active" id="tab-operators">
+    <div class="page-shell">
+      <aside class="filters">
+        <h1>Operators</h1>
+        <div class="field"><label for="opSearchInput">Search</label><input id="opSearchInput" type="search" placeholder="Name, description, country" /></div>
+        <div class="field"><label for="opCountryFilter">Country served</label><select id="opCountryFilter"></select></div>
+        <div class="field"><label for="opTypeFilter">Type</label><select id="opTypeFilter"><option value="">All types</option><option value="trains">Trains</option><option value="ferries">Ferries</option></select></div>
+        <label class="check-row"><input id="opWebsiteFilter" type="checkbox" /> Has website</label>
+        <label class="check-row"><input id="opAppFilter" type="checkbox" /> Has app link</label>
+        <div class="field"><label for="opSortFilter">Sort</label><select id="opSortFilter"><option value="name">Name</option><option value="country">Primary country</option><option value="type">Type</option></select></div>
+        <div class="stats">
+          <div class="stat"><strong id="opTotalStat">0</strong><span>Total</span></div>
+          <div class="stat"><strong id="opTrainStat">0</strong><span>Train</span></div>
+          <div class="stat"><strong id="opFerryStat">0</strong><span>Ferry</span></div>
+        </div>
+      </aside>
+      <section class="results-panel">
+        <div class="results-head"><h2 id="opResultTitle">Operators</h2><span id="opCountryCount"></span></div>
+        <div class="operator-grid" id="opOperatorGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ── STATIONS TAB ── -->
+  <div class="tab-content" id="tab-stations">
+    <div class="page-shell">
+      <aside class="filters">
+        <h1>Stations</h1>
+        <div class="field"><label for="stSearchInput">Search</label><input id="stSearchInput" type="search" placeholder="Station, operator, country" /></div>
+        <div class="field"><label for="stCountryFilter">Country</label><select id="stCountryFilter"></select></div>
+        <div class="field"><label for="stSourceFilter">Source</label><select id="stSourceFilter"><option value="">All sources</option><option value="wikidata">Wikidata</option><option value="osm">OpenStreetMap</option></select></div>
+        <div class="field"><label for="stOperatorFilter">Operator</label><select id="stOperatorFilter"></select></div>
+        <div class="field"><label for="stSortFilter">Sort</label><select id="stSortFilter"><option value="name">Name</option><option value="country">Country</option><option value="source">Source</option></select></div>
+        <div class="stats"><div class="stat"><strong id="stTotalStat">0</strong><span>Total</span></div></div>
+      </aside>
+      <section class="results-panel">
+        <div class="results-head"><h2 id="stResultTitle">Stations</h2><span id="stGeneratedAt"></span></div>
+        <div class="station-list" id="stStationList"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ── PORTS TAB ── -->
+  <div class="tab-content" id="tab-ports">
+    <div class="page-shell">
+      <aside class="filters">
+        <h1>Ferry Ports</h1>
+        <div class="field"><label for="fpSearchInput">Search</label><input id="fpSearchInput" type="search" placeholder="Port name, country, route" /></div>
+        <div class="field"><label for="fpCountryFilter">Country</label><select id="fpCountryFilter"></select></div>
+        <div class="field"><label for="fpSortFilter">Sort</label><select id="fpSortFilter"><option value="name">Name</option><option value="country">Country</option><option value="routes">Route count</option></select></div>
+        <label class="check-row" style="cursor:pointer"><input type="checkbox" id="fpOvernightFilter" /> Overnight routes only</label>
+        <div class="stats">
+          <div class="stat"><strong id="fpTotalStat">0</strong><span>Total</span></div>
+          <div class="stat"><strong id="fpRouteStat">0</strong><span>Routes</span></div>
+        </div>
+      </aside>
+      <section class="results-panel">
+        <div class="results-head"><h2 id="fpResultTitle">Ferry Ports</h2><span id="fpGeneratedAt"></span></div>
+        <div class="port-list" id="fpPortList"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-theme">
+    <span class="footer-theme-label" id="themeLabel">Light mode</span>
+    <label class="theme-switch" title="Toggle dark/light mode"><input type="checkbox" id="themeToggle" /><span class="theme-slider"></span></label>
+  </div>
+  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+</footer>
+
+<!-- ── Station tip modal ── -->
+<div class="modal-overlay" id="stTipModal" onclick="if(event.target===this)closeStationTipModal()">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeStationTipModal()" aria-label="Close">&times;</button>
+    <h2>Leave a comment</h2>
+    <p>Share useful info about <strong id="stTipName"></strong> — best entrance, platform tips, nearby amenities, etc.</p>
+    <form class="report-form" id="stTipForm">
+      <input type="hidden" id="stTipId" />
+      <div class="field"><label for="stTipAuthor">Your name</label><input type="text" id="stTipAuthor" placeholder="First name" required /></div>
+      <div class="field"><label for="stTipMessage">Your tip *</label><textarea id="stTipMessage" required placeholder="E.g. Platform 2 is a 5min walk from the main hall..."></textarea></div>
+      <div class="form-error" id="stTipError"></div>
+      <button type="submit" class="submit-btn">Send tip</button>
+    </form>
+    <div class="form-success" id="stTipSuccess"><h3>Thanks for the tip!</h3><p>Your tip is now visible to everyone.</p></div>
+  </div>
+</div>
+
+<!-- ── Port tip modal ── -->
+<div class="modal-overlay" id="fpTipModal" onclick="if(event.target===this)closePortTipModal()">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closePortTipModal()" aria-label="Close">&times;</button>
+    <h2>Leave a comment</h2>
+    <p>Share useful info about <strong id="fpTipName"></strong> — best terminal, how to get there, booking tricks, etc.</p>
+    <form class="report-form" id="fpTipForm">
+      <input type="hidden" id="fpTipEntityType" /><input type="hidden" id="fpTipEntityId" />
+      <div class="field"><label for="fpTipAuthor">Your name</label><input type="text" id="fpTipAuthor" placeholder="First name" required /></div>
+      <div class="field"><label for="fpTipMessage">Your tip *</label><textarea id="fpTipMessage" required placeholder="E.g. The DFDS terminal is a 10min walk from the station..."></textarea></div>
+      <div class="form-error" id="fpTipError"></div>
+      <button type="submit" class="submit-btn">Send tip</button>
+    </form>
+    <div class="form-success" id="fpTipSuccess"><h3>Thanks for the tip! 🌟</h3><p>Your tip has been submitted and will appear after review.</p></div>
+  </div>
+</div>
+
+<script src="report-modal.js"></script>
+<script src="bottom-nav.js"></script>
+
+<script>
+/* ================================================================
+   SHARED — theme, hamburger, utilities, Firebase
+   ================================================================ */
+const root = document.documentElement;
+const themeToggle = document.getElementById("themeToggle");
+const logo = document.getElementById("logo");
+
+function setTheme(mode) {
+  if (mode === "light") root.classList.add("light");
+  else root.classList.remove("light");
+  localStorage.setItem("trackandtide:theme", mode);
+  themeToggle.checked = (mode === "light");
+  const tl = document.getElementById("themeLabel");
+  if (tl) tl.textContent = mode === "light" ? "Light mode" : "Dark mode";
+  logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
+}
+function detectTheme() {
+  const saved = localStorage.getItem("trackandtide:theme");
+  if (saved) return saved;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+themeToggle.addEventListener('change', () => setTheme(themeToggle.checked ? "light" : "dark"));
+setTheme(detectTheme());
+
+// Hamburger
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const mainNav = document.getElementById("mainNav");
+hamburgerBtn.addEventListener("click", () => {
+  const open = !mainNav.classList.contains("open");
+  mainNav.classList.toggle("open", open);
+  hamburgerBtn.classList.toggle("open", open);
+  hamburgerBtn.setAttribute("aria-expanded", open);
+});
+mainNav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mainNav.classList.remove("open");
+    hamburgerBtn.classList.remove("open");
+    hamburgerBtn.setAttribute("aria-expanded", "false");
+  });
+});
+
+function escapeHTML(text) {
+  return String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function normalizeForSearch(text) {
+  return text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ø/g,'o').replace(/Ø/g,'O').replace(/ł/g,'l').replace(/Ł/g,'L').replace(/ð/g,'d').replace(/Ð/g,'D').replace(/þ/g,'th').replace(/Þ/g,'TH').replace(/æ/g,'ae').replace(/Æ/g,'AE').replace(/œ/g,'oe').replace(/Œ/g,'OE').replace(/ß/g,'ss').toLowerCase();
+}
+function unique(values) { return [...new Set(values.filter(Boolean))].sort((a,b) => a.localeCompare(b)); }
+
+// Firebase
+firebase.initializeApp({
+  apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
+  authDomain: "trackandtide-00.firebaseapp.com",
+  projectId: "trackandtide-00",
+  storageBucket: "trackandtide-00.firebasestorage.app",
+  appId: "1:157938380271:web:8b36389f334e3adefdda1a"
+});
+const db = firebase.firestore();
+
+/* ================================================================
+   TAB SWITCHING
+   ================================================================ */
+const tabNav = document.getElementById("tabNav");
+const tabBtns = tabNav.querySelectorAll(".tab-btn");
+const tabContents = document.querySelectorAll(".tab-content");
+
+function switchTab(tabName) {
+  tabBtns.forEach(b => b.classList.toggle("active", b.dataset.tab === tabName));
+  tabContents.forEach(c => c.classList.toggle("active", c.id === "tab-" + tabName));
+  // Update URL without reload
+  const url = new URL(window.location);
+  url.searchParams.set("tab", tabName);
+  window.history.replaceState({}, "", url);
+}
+
+tabBtns.forEach(btn => {
+  btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+});
+
+/* ================================================================
+   OPERATORS MODULE
+   ================================================================ */
+(function() {
+const searchInput = document.getElementById("opSearchInput");
+const countryFilter = document.getElementById("opCountryFilter");
+const typeFilter = document.getElementById("opTypeFilter");
+const websiteFilter = document.getElementById("opWebsiteFilter");
+const appFilter = document.getElementById("opAppFilter");
+const sortFilter = document.getElementById("opSortFilter");
+const operatorGrid = document.getElementById("opOperatorGrid");
+const resultTitle = document.getElementById("opResultTitle");
+const countryCount = document.getElementById("opCountryCount");
+const totalStat = document.getElementById("opTotalStat");
+const trainStat = document.getElementById("opTrainStat");
+const ferryStat = document.getElementById("opFerryStat");
+let operators = [];
+
+function operatorCountries(op) { return op.countries || [op.country].filter(Boolean); }
+function hasApp(op) { return Boolean(op.appLinks?.android || op.appLinks?.ios); }
+
+function buildFilters() {
+  const countries = unique(operators.flatMap(operatorCountries));
+  countryFilter.innerHTML = '<option value="">All countries</option>' + countries.map(c => '<option>' + escapeHTML(c) + '</option>').join("");
+}
+
+function getFiltered() {
+  const query = searchInput.value.trim().toLowerCase();
+  const country = countryFilter.value;
+  const type = typeFilter.value;
+  return operators.filter(op => {
+    const countries = operatorCountries(op);
+    const haystack = [op.name, op.operatorLabel, op.description, op.type, ...countries].join(" ").toLowerCase();
+    return (!query || haystack.includes(query)) && (!country || countries.includes(country)) && (!type || op.type === type) && (!websiteFilter.checked || Boolean(op.website)) && (!appFilter.checked || hasApp(op));
+  }).sort((a,b) => {
+    if (sortFilter.value === "country") return (a.country||"").localeCompare(b.country||"") || a.name.localeCompare(b.name);
+    if (sortFilter.value === "type") return (a.type||"").localeCompare(b.type||"") || a.name.localeCompare(b.name);
+    return a.name.localeCompare(b.name);
+  });
+}
+
+function render() {
+  const filtered = getFiltered();
+  const trainCount = filtered.filter(op => op.type === "trains").length;
+  const ferryCount = filtered.filter(op => op.type === "ferries").length;
+  const servedCountries = unique(filtered.flatMap(operatorCountries));
+  totalStat.textContent = filtered.length.toLocaleString();
+  trainStat.textContent = trainCount.toLocaleString();
+  ferryStat.textContent = ferryCount.toLocaleString();
+  resultTitle.textContent = filtered.length.toLocaleString() + " operators";
+  countryCount.textContent = servedCountries.length.toLocaleString() + " countries served";
+
+
+  operatorGrid.innerHTML = filtered.length ? filtered.map(op => {
+    const countries = operatorCountries(op);
+    const visible = countries.slice(0,6);
+    return '<article class="operator-card" data-operator-name="' + escapeHTML(op.name) + '">' +
+      '<div class="operator-top">' +
+        (op.logo ? '<img class="operator-logo" src="operator logos/' + escapeHTML(op.logo) + '" alt="' + escapeHTML(op.name) + ' logo" />' : '<div class="operator-logo"></div>') +
+        '<div><div class="operator-name">' + escapeHTML(op.name) + '</div><div class="operator-label">' + escapeHTML(op.operatorLabel || (op.type==="trains"?"Train operator":"Ferry operator")) + '</div></div>' +
+      '</div>' +
+      (op.description ? '<p class="operator-description">' + escapeHTML(op.description) + '</p>' : '') +
+      '<div class="pills"><span class="pill">' + (op.type==="trains"?"Trains":"Ferries") + '</span>' + visible.map(c => '<span class="pill">' + escapeHTML(c) + '</span>').join("") + (countries.length > visible.length ? '<span class="pill">+' + (countries.length - visible.length) + '</span>' : '') + '</div>' +
+      '<div class="actions">' +
+        (op.website ? '<a class="action-link primary" href="' + escapeHTML(op.website) + '" target="_blank" rel="noopener">Website</a>' : '') +
+        (op.appLinks?.android ? '<a class="action-link" href="' + escapeHTML(op.appLinks.android) + '" target="_blank" rel="noopener">Android</a>' : '') +
+        (op.appLinks?.ios ? '<a class="action-link" href="' + escapeHTML(op.appLinks.ios) + '" target="_blank" rel="noopener">iOS</a>' : '') +
+        '<a class="action-link clear-highlight" href="/explore?tab=operators">Clear highlight</a>' +
+      '</div></article>';
+  }).join("") : '<div class="empty">No operators match these filters.</div>';
+}
+
+fetch("./data.json?v=20260603").then(r => r.json()).then(data => {
+  operators = data.operators || [];
+  buildFilters(); render();
+
+  const opParam = new URLSearchParams(window.location.search).get("operator");
+  if (opParam) {
+    const norm = normalizeForSearch(opParam);
+    const match = operators.find(op => normalizeForSearch(op.name) === norm);
+    if (match) {
+      switchTab("operators");
+      searchInput.value = match.name; render();
+      requestAnimationFrame(() => {
+        const cards = operatorGrid.querySelectorAll(".operator-card");
+        for (const c of cards) { if (c.dataset.operatorName === match.name) { c.classList.add("highlighted"); c.scrollIntoView({block:"center",behavior:"smooth"}); break; } }
+      });
+    }
+  }
+});
+
+[searchInput, countryFilter, typeFilter, websiteFilter, appFilter, sortFilter].forEach(c => { c.addEventListener("input", render); c.addEventListener("change", render); });
+})();
+
+/* ================================================================
+   STATIONS MODULE
+   ================================================================ */
+(function() {
+const searchInput = document.getElementById("stSearchInput");
+const countryFilter = document.getElementById("stCountryFilter");
+const sourceFilter = document.getElementById("stSourceFilter");
+const operatorFilter = document.getElementById("stOperatorFilter");
+const sortFilter = document.getElementById("stSortFilter");
+const stationList = document.getElementById("stStationList");
+const resultTitle = document.getElementById("stResultTitle");
+const generatedAt = document.getElementById("stGeneratedAt");
+const totalStat = document.getElementById("stTotalStat");
+let stations = [];
+let selectedStationId = new URLSearchParams(window.location.search).get("stationId");
+const wikiCache = {};
+const WIKIDATA_UA = "TrackAndTide/1.0 (https://trackandtide.eu; contact@trackandtide.eu)";
+
+function displayStationName(name) {
+  return name.replace(/hauptbahnhof$/i,'').replace(/treinstation$/i,'').replace(/spoorwegstation$/i,'').replace(/turiststation$/i,'').replace(/jernbanestation$/i,'').replace(/bahnhof$/i,'').replace(/bergstation$/i,'').replace(/talstation$/i,'').replace(/haltepunkt$/i,'').replace(/\s+Railway\s+Station$/i,'').replace(/\s+Train\s+Station$/i,'').replace(/\s+Railway$/i,'').replace(/\s+Station$/i,'').replace(/\s+Halt$/i,'').replace(/\s+Gare$/i,'').replace(/\s+Estaci[oó]n$/i,'').replace(/\s+Stazione$/i,'').replace(/\s+Esta[cç][aã]o$/i,'').replace(/駅$/g,'').replace(/站$/g,'').replace(/火车站$/g,'').replace(/\s+/g,' ').trim();
+}
+function getStationById(id) { return stations.find(s => s.id === id) || null; }
+
+async function fetchWikidataInfo(wikidataId) {
+  if (!wikidataId) return null;
+  if (wikiCache[wikidataId] !== undefined) return wikiCache[wikidataId];
+  try {
+    const resp = await fetch("https://www.wikidata.org/wiki/Special:EntityData/" + encodeURIComponent(wikidataId) + ".json", {headers:{"User-Agent":WIKIDATA_UA}});
+    if (resp.status === 429) { await new Promise(r => setTimeout(r,2000)); return fetchWikidataInfo(wikidataId); }
+    if (!resp.ok) throw new Error("HTTP "+resp.status);
+    const data = await resp.json();
+    const entity = data.entities?.[wikidataId]; if (!entity) throw new Error("Entity not found");
+    const result = {};
+    const img = entity.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
+    if (img) result.image = "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(img.replace(/ /g,"_")) + "?width=600";
+    const intImg = entity.claims?.P5775?.[0]?.mainsnak?.datavalue?.value;
+    if (intImg) result.interiorImage = "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(intImg.replace(/ /g,"_")) + "?width=600";
+    const desc = entity.descriptions?.en?.value || Object.values(entity.descriptions||{})[0]?.value; if (desc) result.description = desc;
+    const inception = entity.claims?.P571?.[0]?.mainsnak?.datavalue?.value?.time;
+    if (inception) { const d = inception.replace(/^\+/,'').split('T')[0]; if (d && d!=='0000-00-00') result.inception = d; }
+    const website = entity.claims?.P856?.[0]?.mainsnak?.datavalue?.value; if (website) result.website = website;
+    const tracksClaim = entity.claims?.P1103?.[0]?.mainsnak?.datavalue?.value;
+    if (tracksClaim?.amount) { const t = parseInt(tracksClaim.amount,10); if (t>0) result.tracks = t; }
+    const tryPatronage = (claims) => { let best=null; for(const c of claims){const v=c.mainsnak?.datavalue?.value;const a=parseFloat(v?.amount);if(isNaN(a)||a<=0)continue;const yq=c.qualifiers?.P585?.[0]?.datavalue?.value?.time;const y=yq?yq.replace(/^\+/,'').split('-')[0]:null;if(!best||(y&&(!best.year||y>best.year)))best={value:a,year:y};} return best; };
+    const dp = tryPatronage(entity.claims?.P1373||[]);
+    if (dp) { result.patronage=dp; result.patronageIsDaily=true; }
+    else { const ap=tryPatronage(entity.claims?.P3872||[]); if(ap){result.patronage=ap;result.patronageIsDaily=false;} }
+    result.facilities=[];
+    if(entity.claims?.P2795?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Bicycle parking');
+    if(entity.claims?.P2856?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Toilet');
+    if(entity.claims?.P2846?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Waiting room');
+    if(entity.claims?.P2650?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Ticket office');
+    if(entity.claims?.P2829?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('WiFi');
+    wikiCache[wikidataId]=result; return result;
+  } catch(e) { console.warn("Wikidata fetch failed for "+wikidataId+":",e.message); wikiCache[wikidataId]=null; return null; }
+}
+
+async function renderStationCommentsHTML(stationId, stationName) {
+  let comments=[];
+  try {
+    const snap=await db.collection('comments').where('page','==','station').where('entityId','==',stationId).get();
+    comments=snap.docs.map(d=>({...d.data(),_id:d.id}));
+    comments.sort((a,b)=>(b.upvotes||0)-(a.upvotes||0)||(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  } catch(e){}
+  const myIds=JSON.parse(localStorage.getItem('trackandtide:myComments')||'[]');
+  const upvotedIds=JSON.parse(localStorage.getItem('trackandtide:upvoted')||'[]');
+  if(!comments.length) return '<div class="station-detail-comments"><div class="comments-title">Comments</div><div style="font-size:0.84rem;opacity:0.6">No comments yet. Be the first!</div><button class="leave-tip-btn" onclick="event.stopPropagation();openStationTipModal(\''+escapeHTML(stationId)+'\',\''+escapeHTML(stationName)+'\')">Leave a comment</button></div>';
+  return '<div class="station-detail-comments"><div class="comments-title">Comments ('+comments.length+')</div>'+comments.map(c=>{
+    const isMine=myIds.includes(c._id); const hasUp=upvotedIds.includes(c._id); const uv=c.upvotes||0;
+    const delBtn=isMine?'<button onclick="event.stopPropagation();deleteStationComment(\''+c._id+'\')" style="float:right;background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.9rem;color:var(--text)" title="Delete">Delete</button>':'';
+    const upBtn=hasUp?'<span style="color:var(--hover);font-weight:700;font-size:0.85rem">▲'+uv+'</span>':'<button onclick="event.stopPropagation();upvoteStationComment(\''+c._id+'\',\''+escapeHTML(stationId)+'\')" style="background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text);padding:0.15rem 0.4rem;font-size:0.8rem;margin-right:0.35rem" title="Upvote">▲ '+(uv||'')+'</button>';
+    return '<div class="comment-item"><div class="comment-meta">'+upBtn+'<span class="comment-author">'+escapeHTML(c.author)+'</span> · '+escapeHTML(c.date)+delBtn+'</div><div>'+escapeHTML(c.text)+'</div></div>';
+  }).join("")+'<button class="leave-tip-btn" onclick="event.stopPropagation();openStationTipModal(\''+escapeHTML(stationId)+'\',\''+escapeHTML(stationName)+'\')">Leave a comment</button></div>';
+}
+
+async function renderStationDetailHTML(station, wikiData) {
+  if(!station) return "";
+  const sourceUrl = escapeHTML(station.url || station.id || "https://www.openstreetmap.org");
+  let wikiBlock="";
+  if(wikiData){
+    const stats=[]; if(wikiData.tracks)stats.push('<div class="stat-badge"><span class="stat-num">'+wikiData.tracks+'</span><span class="stat-label">tracks</span></div>');
+    if(wikiData.patronage){const ps=wikiData.patronage.value.toLocaleString();const yr=wikiData.patronage.year?' ('+wikiData.patronage.year+')':'';stats.push('<div class="stat-badge"><span class="stat-num">'+ps+'</span><span class="stat-label">'+(wikiData.patronageIsDaily?'daily':'annual')+' passengers'+yr+'</span></div>');}
+    const metaChips=[]; if(wikiData.inception){const y=wikiData.inception.split('-')[0];if(y)metaChips.push('<span class="meta-chip">Opened '+escapeHTML(y)+'</span>');}
+    const images=[]; if(wikiData.image)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.image)+'" alt="'+escapeHTML(station.name)+'" loading="lazy" />'); if(wikiData.interiorImage)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.interiorImage)+'" alt="Interior of '+escapeHTML(station.name)+'" loading="lazy" />');
+    wikiBlock='<div class="detail-wiki">'+(images.length?'<div class="detail-images">'+images.join("")+'</div>':'')+(wikiData.description?'<p class="detail-wiki-desc">'+escapeHTML(wikiData.description)+'</p>':'')+(stats.length?'<div class="detail-stats">'+stats.join("")+'</div>':'')+(metaChips.length?'<div class="detail-meta-chips">'+metaChips.join("")+'</div>':'')+(wikiData.facilities?.length?'<div class="detail-facilities">'+wikiData.facilities.map(f=>'<span class="facility-chip">'+f+'</span>').join("")+'</div>':'')+'<div class="detail-links">'+(wikiData.website?'<a class="detail-link" href="'+escapeHTML(wikiData.website)+'" target="_blank" rel="noopener">Website</a>':'')+'<a class="detail-link" href="'+sourceUrl+'" target="_blank" rel="noopener">Source</a><button class="detail-link detail-link-map" data-open-map="'+escapeHTML(station.id)+'">Open on map</button></div></div>';
+  } else {
+    wikiBlock='<div class="detail-wiki"><div class="detail-links"><a class="detail-link" href="'+sourceUrl+'" target="_blank" rel="noopener">Source</a><button class="detail-link detail-link-map" data-open-map="'+escapeHTML(station.id)+'">Open on map</button></div></div>';
+  }
+  return '<div class="station-detail-inline" data-station-detail="'+escapeHTML(station.id)+'"><div class="detail-header"><h3>'+escapeHTML(displayStationName(station.name))+'</h3><div class="detail-pills"><span class="pill">'+escapeHTML(station.country)+'</span>'+(station.operators||[]).slice(0,3).map(op=>'<a class="pill" href="/explore?tab=operators&operator='+encodeURIComponent(op)+'">'+escapeHTML(op)+'</a>').join("")+'</div></div>'+wikiBlock+await renderStationCommentsHTML(station.id, displayStationName(station.name))+'</div>';
+}
+
+async function upvoteStationComment(docId, stationId) {
+  const upvoted=JSON.parse(localStorage.getItem('trackandtide:upvoted')||'[]'); if(upvoted.includes(docId))return; upvoted.push(docId); localStorage.setItem('trackandtide:upvoted',JSON.stringify(upvoted));
+  try{await db.collection('comments').doc(docId).update({upvotes:firebase.firestore.FieldValue.increment(1)});if(selectedStationId){removeInlineDetail();const s=getStationById(selectedStationId);const row=stationList.querySelector('.station-row.selected');if(s&&row)row.insertAdjacentHTML('afterend',await renderStationDetailHTML(s,null));}}catch(e){}
+}
+async function deleteStationComment(docId) {
+  try{await db.collection('comments').doc(docId).delete();const ids=JSON.parse(localStorage.getItem('trackandtide:myComments')||'[]').filter(id=>id!==docId);localStorage.setItem('trackandtide:myComments',JSON.stringify(ids));if(selectedStationId){removeInlineDetail();const s=getStationById(selectedStationId);const row=stationList.querySelector('.station-row.selected');if(s&&row)row.insertAdjacentHTML('afterend',await renderStationDetailHTML(s,null));}}catch(e){}
+}
+
+function removeInlineDetail() { const ex=stationList.querySelector('.station-detail-inline'); if(ex)ex.remove(); }
+async function showInlineDetail(stationId) {
+  removeInlineDetail(); const station=getStationById(stationId); if(!station)return;
+  const row=stationList.querySelector('.station-row[data-station-id="'+CSS.escape(stationId)+'"]'); if(!row)return;
+  row.insertAdjacentHTML('afterend','<div class="station-detail-inline station-detail-loading" data-station-detail="'+escapeHTML(stationId)+'"><div class="detail-header"><h3>'+escapeHTML(displayStationName(station.name))+'</h3></div><p style="opacity:0.6;margin:0">Loading Wikidata info…</p></div>');
+  let wikiData=null;
+  if(station.wikidataId||station.source==="wikidata"){let wdId=station.wikidataId||station.id;const m=wdId.match(/(Q\d+)$/);if(m)wdId=m[1];wikiData=await fetchWikidataInfo(wdId);}
+  removeInlineDetail(); const html=await renderStationDetailHTML(station,wikiData); row.insertAdjacentHTML('afterend',html);
+}
+function highlightStationRow(sid){stationList.querySelectorAll('.station-row').forEach(r=>r.classList.toggle('selected',r.dataset.stationId===sid));}
+
+stationList.addEventListener('click', event => {
+  const openMapBtn=event.target.closest('[data-open-map]'); if(openMapBtn){event.preventDefault();const sid=openMapBtn.dataset.openMap;if(sid)window.location.href='/index?stationId='+encodeURIComponent(sid);return;}
+  if(event.target.closest('a'))return;
+  const row=event.target.closest('.station-row'); if(!row)return; const sid=row.dataset.stationId; if(!sid)return;
+  if(selectedStationId===sid){selectedStationId=null;highlightStationRow(null);removeInlineDetail();const url=new URL(window.location);url.searchParams.delete('stationId');window.history.replaceState({},'',url);return;}
+  selectedStationId=sid;highlightStationRow(sid);showInlineDetail(sid);
+  const url=new URL(window.location);url.searchParams.set('stationId',sid);window.history.replaceState({},'',url);
+});
+
+function restoreSelectedStation(){if(!selectedStationId)return;const s=getStationById(selectedStationId);if(!s){selectedStationId=null;return;}searchInput.value=s.name;countryFilter.value="";sourceFilter.value="";operatorFilter.value="";updateOperatorFilter();renderAndRestoreDetail();requestAnimationFrame(()=>{const row=stationList.querySelector('.station-row.selected');if(row)row.scrollIntoView({block:'center',behavior:'smooth'});});}
+
+function buildFilters(){const countries=unique(stations.map(s=>s.country));countryFilter.innerHTML='<option value="">All countries</option>'+countries.map(c=>'<option>'+escapeHTML(c)+'</option>').join("");updateOperatorFilter();}
+function updateOperatorFilter(){const sel=operatorFilter.value;const country=countryFilter.value;const ops=unique(stations.filter(s=>!country||s.country===country).flatMap(s=>s.operators||[]));operatorFilter.innerHTML='<option value="">All operators</option>'+ops.map(o=>'<option>'+escapeHTML(o)+'</option>').join("");operatorFilter.value=ops.includes(sel)?sel:"";}
+
+function getFiltered(){const q=searchInput.value.trim().toLowerCase();const country=countryFilter.value;const source=sourceFilter.value;const op=operatorFilter.value;return stations.filter(s=>{const h=[s.name,s.country,s.source,...(s.operators||[])].join(" ");return(!q||normalizeForSearch(h).includes(normalizeForSearch(q)))&&(!country||s.country===country)&&(!source||s.source===source)&&(!op||s.operators?.includes(op));}).sort((a,b)=>{if(sortFilter.value==="country")return a.country.localeCompare(b.country)||a.name.localeCompare(b.name);if(sortFilter.value==="source")return a.source.localeCompare(b.source)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
+
+function render(){const filtered=getFiltered();const capped=filtered.slice(0,500);totalStat.textContent=filtered.length.toLocaleString();resultTitle.textContent=filtered.length.toLocaleString()+' stations';stationList.innerHTML=capped.length?capped.map(s=>'<article class="station-row" data-station-id="'+escapeHTML(s.id)+'"><div><div class="station-name">'+escapeHTML(displayStationName(s.name))+'</div><div class="station-meta"><span class="pill">'+escapeHTML(s.country)+'</span>'+(s.operators||[]).slice(0,3).map(o=>'<span class="pill">'+escapeHTML(o)+'</span>').join("")+'</div></div><a class="source-link" href="'+escapeHTML(s.url)+'" target="_blank" rel="noopener">Source</a></article>').join("")+(filtered.length>capped.length?'<div class="empty">Showing first '+capped.length.toLocaleString()+' results. Narrow the filters to see more.</div>':''):'<div class="empty">No stations match these filters.</div>';if(selectedStationId)highlightStationRow(selectedStationId);}
+function renderAndRestoreDetail(){render();if(selectedStationId)showInlineDetail(selectedStationId);}
+
+fetch("./stations.json?v=20260603").then(r=>r.json()).then(data=>{
+  stations=Object.values(data.countries||{}).flatMap(c=>(c.stations||[]).map(s=>({...s,country:c.country})));
+  generatedAt.textContent=data.generatedAt?'Last updated: '+new Date(data.generatedAt).toLocaleDateString():'';buildFilters();render();restoreSelectedStation();
+  if(selectedStationId)switchTab("stations");
+});
+
+[searchInput,countryFilter,sourceFilter,operatorFilter,sortFilter].forEach(c=>{c.addEventListener("input",renderAndRestoreDetail);});
+countryFilter.addEventListener("change",()=>{updateOperatorFilter();renderAndRestoreDetail();});
+
+// Expose station comment functions globally
+window.upvoteStationComment = upvoteStationComment;
+window.deleteStationComment = deleteStationComment;
+})();
+
+/* ================================================================
+   PORTS MODULE
+   ================================================================ */
+(function() {
+const searchInput = document.getElementById("fpSearchInput");
+const countryFilter = document.getElementById("fpCountryFilter");
+const sortFilter = document.getElementById("fpSortFilter");
+const overnightFilter = document.getElementById("fpOvernightFilter");
+const portList = document.getElementById("fpPortList");
+const resultTitle = document.getElementById("fpResultTitle");
+const generatedAt = document.getElementById("fpGeneratedAt");
+const totalStat = document.getElementById("fpTotalStat");
+const routeStat = document.getElementById("fpRouteStat");
+let ports=[], routes=[], allOperators=[];
+let selectedPortId = new URLSearchParams(window.location.search).get("portId");
+const wikiCache = {};
+const WIKIDATA_UA = "TrackAndTide/1.0 (https://trackandtide.eu; contact@trackandtide.eu)";
+
+function getPortById(id){return ports.find(p=>p.id===id)||null;}
+function getRoutesForPort(port){if(!port||!port.routeIds)return[];return routes.filter(r=>port.routeIds.includes(r.id));}
+function getRouteNamesForPort(port){return getRoutesForPort(port).map(r=>r.name);}
+function getOperatorsForPort(port){const ops=new Set();for(const r of getRoutesForPort(port)){if(r.operators&&r.operators.length)r.operators.forEach(o=>ops.add(o));else if(r.operator)ops.add(r.operator);}return[...ops].sort();}
+function getOperatorData(name){const n=normalizeForSearch(name);return allOperators.find(o=>normalizeForSearch(o.name)===n)||null;}
+
+function renderOperatorCardsHTML(operators){if(!operators.length)return"";return'<div class="port-detail-operators">'+operators.map(opName=>{const od=getOperatorData(opName);const lp=od?.logo?'operator logos/'+escapeHTML(od.logo):null;const nm=od?.name||opName;const lb=od?.operatorLabel||(od?.type==="ferries"?"Ferry operator":"Operator");const cs=od?.countries||[];const vc=cs.slice(0,4);const opUrl='/explore?tab=operators&operator='+encodeURIComponent(nm);return'<a class="port-operator-card" href="'+opUrl+'"><div class="port-operator-top">'+(lp?'<img class="port-operator-logo" src="'+lp+'" alt="'+escapeHTML(nm)+' logo" />':'<div class="port-operator-logo"></div>')+'<div><div class="port-operator-name">'+escapeHTML(nm)+'</div><div class="port-operator-label">'+escapeHTML(lb)+'</div></div></div>'+(cs.length?'<div class="port-operator-pills">'+vc.map(c=>'<span class="pill">'+escapeHTML(c)+'</span>').join("")+(cs.length>vc.length?'<span class="pill">+'+(cs.length-vc.length)+'</span>':'')+'</div>':'')+'<div class="port-operator-actions">'+(od?.website?'<span class="port-operator-link" onclick="event.stopPropagation();window.open(\''+escapeHTML(od.website)+'\',\'_blank\')">Website</span>':'')+'<span class="port-operator-link">View details →</span></div></a>';}).join("")+'</div>';}
+
+function getMyCommentIds(){try{return JSON.parse(localStorage.getItem('trackandtide:myComments')||'[]');}catch(e){return[];}}
+function saveMyCommentIds(ids){localStorage.setItem('trackandtide:myComments',JSON.stringify(ids));}
+function getUpvotedIds(){try{return JSON.parse(localStorage.getItem('trackandtide:upvoted')||'[]');}catch(e){return[];}}
+function saveUpvotedIds(ids){localStorage.setItem('trackandtide:upvoted',JSON.stringify(ids));}
+
+async function fetchWikidataInfo(wikidataId) {
+  if(!wikidataId)return null; if(wikiCache[wikidataId]!==undefined)return wikiCache[wikidataId];
+  try{
+    const resp=await fetch("https://www.wikidata.org/wiki/Special:EntityData/"+encodeURIComponent(wikidataId)+".json",{headers:{"User-Agent":WIKIDATA_UA}});
+    if(resp.status===429){await new Promise(r=>setTimeout(r,2000));return fetchWikidataInfo(wikidataId);}
+    if(!resp.ok)throw new Error("HTTP "+resp.status);
+    const data=await resp.json(); const entity=data.entities?.[wikidataId]; if(!entity)throw new Error("Entity not found");
+    const result={};
+    const img=entity.claims?.P18?.[0]?.mainsnak?.datavalue?.value; if(img)result.image="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(img.replace(/ /g,"_"))+"?width=600";
+    const intImg=entity.claims?.P5775?.[0]?.mainsnak?.datavalue?.value; if(intImg)result.interiorImage="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(intImg.replace(/ /g,"_"))+"?width=600";
+    const night=entity.claims?.P3451?.[0]?.mainsnak?.datavalue?.value; if(night)result.nightView="https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(night.replace(/ /g,"_"))+"?width=600";
+    const desc=entity.descriptions?.en?.value||Object.values(entity.descriptions||{})[0]?.value; if(desc)result.description=desc;
+    const inception=entity.claims?.P571?.[0]?.mainsnak?.datavalue?.value?.time; if(inception){const d=inception.replace(/^\+/,'').split('T')[0];if(d&&d!=='0000-00-00')result.inception=d;}
+    const website=entity.claims?.P856?.[0]?.mainsnak?.datavalue?.value; if(website)result.website=website;
+    const tryPatronage=(claims)=>{let best=null;for(const c of claims){const v=c.mainsnak?.datavalue?.value;const a=parseFloat(v?.amount);if(isNaN(a)||a<=0)continue;const yq=c.qualifiers?.P585?.[0]?.datavalue?.value?.time;const y=yq?yq.replace(/^\+/,'').split('-')[0]:null;if(!best||(y&&(!best.year||y>best.year)))best={value:a,year:y};}return best;};
+    const patron=tryPatronage(entity.claims?.P3872||[]); if(patron)result.patronage=patron;
+    result.facilities=[];
+    if(entity.claims?.P2795?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Bicycle parking');
+    if(entity.claims?.P2856?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Toilet');
+    if(entity.claims?.P2846?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Waiting room');
+    if(entity.claims?.P2650?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('Ticket office');
+    if(entity.claims?.P2829?.[0]?.mainsnak?.datavalue?.value?.id==='Q28830165')result.facilities.push('WiFi');
+    wikiCache[wikidataId]=result; return result;
+  }catch(e){console.warn("Wikidata fetch failed for "+wikidataId+":",e.message);wikiCache[wikidataId]=null;return null;}
+}
+
+async function renderCommentsHTML(entityType,entityId,entityName){
+  let comments=[]; try{const snap=await db.collection('comments').where('page','==',entityType).where('entityId','==',entityId).get();comments=snap.docs.map(d=>({...d.data(),_id:d.id}));comments.sort((a,b)=>(b.upvotes||0)-(a.upvotes||0)||(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));}catch(e){}
+  const myIds=getMyCommentIds(); const upvotedIds=getUpvotedIds();
+  if(!comments.length)return'<div class="port-detail-comments"><div class="comments-title">Comments</div><div style="font-size:0.84rem;opacity:0.6">No comments yet. Be the first!</div><button class="leave-tip-btn" onclick="event.stopPropagation();openPortTipModal(\''+entityType+'\',\''+escapeHTML(entityId)+'\',\''+escapeHTML(entityName)+'\')">Leave a comment</button></div>';
+  return'<div class="port-detail-comments"><div class="comments-title">Comments ('+comments.length+')</div>'+comments.map(c=>{const isMine=myIds.includes(c._id);const hasUp=upvotedIds.includes(c._id);const uv=c.upvotes||0;const delBtn=isMine?'<button onclick="event.stopPropagation();deletePortComment(\''+c._id+'\')" style="float:right;background:none;border:none;cursor:pointer;opacity:0.5;font-size:0.9rem;color:var(--text)" title="Delete">Delete</button>':'';const upBtn=hasUp?'<span style="color:var(--hover);font-weight:700;font-size:0.85rem">▲'+uv+'</span>':'<button onclick="event.stopPropagation();upvotePortComment(\''+c._id+'\',\''+entityType+'\',\''+escapeHTML(entityId)+'\')" style="background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text);padding:0.15rem 0.4rem;font-size:0.8rem;margin-right:0.35rem" title="Upvote">▲ '+(uv||'')+'</button>';return'<div class="comment-item"><div class="comment-meta">'+upBtn+'<span class="comment-author">'+escapeHTML(c.author)+'</span> · '+escapeHTML(c.date)+delBtn+'</div><div>'+escapeHTML(c.text)+'</div></div>';}).join("")+'<button class="leave-tip-btn" onclick="event.stopPropagation();openPortTipModal(\''+entityType+'\',\''+escapeHTML(entityId)+'\',\''+escapeHTML(entityName)+'\')">Leave a comment</button></div>';
+}
+
+async function upvotePortComment(docId,entityType,entityId){const upvoted=getUpvotedIds();if(upvoted.includes(docId))return;upvoted.push(docId);saveUpvotedIds(upvoted);try{await db.collection('comments').doc(docId).update({upvotes:firebase.firestore.FieldValue.increment(1)});if(selectedPortId){removeInlineDetail();const p=getPortById(selectedPortId);const row=portList.querySelector('.port-row.selected');if(p&&row)row.insertAdjacentHTML('afterend',await renderPortDetailHTML(p,null));}}catch(e){}}
+async function deletePortComment(docId){try{await db.collection('comments').doc(docId).delete();const ids=getMyCommentIds().filter(id=>id!==docId);saveMyCommentIds(ids);if(selectedPortId){removeInlineDetail();const p=getPortById(selectedPortId);const row=portList.querySelector('.port-row.selected');if(p&&row)row.insertAdjacentHTML('afterend',await renderPortDetailHTML(p,null));}}catch(e){}}
+
+async function renderPortDetailHTML(port,wikiData){
+  if(!port)return"";const portRoutes=getRoutesForPort(port);const operators=getOperatorsForPort(port);const rc=portRoutes.length;
+  let wikiBlock="";if(wikiData){const stats=[];if(wikiData.patronage){const ps=wikiData.patronage.value.toLocaleString();const yr=wikiData.patronage.year?' ('+wikiData.patronage.year+')':'';stats.push('<div class="stat-badge"><span class="stat-num">'+ps+'</span><span class="stat-label">annual passengers'+yr+'</span></div>');}stats.push('<div class="stat-badge"><span class="stat-num">'+rc+'</span><span class="stat-label">ferry route'+(rc!==1?'s':'')+'</span></div>');const metaChips=[];if(wikiData.inception){const y=wikiData.inception.split('-')[0];if(y)metaChips.push('<span class="meta-chip">Opened '+escapeHTML(y)+'</span>');}const images=[];if(wikiData.image)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.image)+'" alt="'+escapeHTML(port.name)+'" loading="lazy" />');if(wikiData.interiorImage)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.interiorImage)+'" alt="Interior of '+escapeHTML(port.name)+'" loading="lazy" />');if(wikiData.nightView)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.nightView)+'" alt="'+escapeHTML(port.name)+' at night" loading="lazy" />');wikiBlock='<div class="detail-wiki">'+(images.length?'<div class="detail-images">'+images.join("")+'</div>':'')+(wikiData.description?'<p class="detail-wiki-desc">'+escapeHTML(wikiData.description)+'</p>':'')+(stats.length?'<div class="detail-stats">'+stats.join("")+'</div>':'')+(metaChips.length?'<div class="detail-meta-chips">'+metaChips.join("")+'</div>':'')+(wikiData.facilities?.length?'<div class="detail-facilities">'+wikiData.facilities.map(f=>'<span class="facility-chip">'+f+'</span>').join("")+'</div>':'')+'<div class="detail-links">'+(wikiData.website?'<a class="detail-link" href="'+escapeHTML(wikiData.website)+'" target="_blank" rel="noopener">Website</a>':'')+'<button class="detail-link detail-link-map" data-open-map="'+escapeHTML(port.id)+'">Open on map</button></div></div>';}else{wikiBlock='<div class="detail-wiki"><div class="detail-stats"><div class="stat-badge"><span class="stat-num">'+rc+'</span><span class="stat-label">ferry route'+(rc!==1?'s':'')+'</span></div></div><div class="detail-links"><button class="detail-link detail-link-map" data-open-map="'+escapeHTML(port.id)+'">Open on map</button></div></div>';}
+  return'<div class="port-detail-inline" data-port-detail="'+escapeHTML(port.id)+'"><div class="detail-header"><h3>'+escapeHTML(port.name)+'</h3><div class="detail-pills">'+port.countries.map(c=>'<span class="pill">'+escapeHTML(c)+'</span>').join("")+operators.slice(0,3).map(op=>'<a class="pill" href="/explore?tab=operators&operator='+encodeURIComponent(op)+'">'+escapeHTML(op)+'</a>').join("")+'</div>'+(portRoutes.length?'<div class="port-detail-routes"><strong>Routes:</strong></div><div style="display:grid;gap:0.4rem;margin-top:0.3rem">'+portRoutes.map(r=>{const ops=r.operators&&r.operators.length>1?' <span style="opacity:0.65;font-size:0.82em">('+r.operators.map(o=>escapeHTML(o)).join(", ")+')</span>':'';const chips=[];if(r.seasonal)chips.push('<span class="pill" style="background:rgba(251,191,36,0.2);border-color:rgba(251,191,36,0.4);color:#fbbf24">Seasonal</span>');if(r.distanceKm)chips.push('<span class="pill" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.3)">'+r.distanceKm+' km</span>');if(r.duration)chips.push('<span class="pill" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.3)">~'+r.duration+'</span>');if(r.frequency)chips.push('<span class="pill" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.3)">'+escapeHTML(r.frequency)+'</span>');if(r.overnight)chips.push('<span class="pill" style="background:rgba(139,92,246,0.2);border-color:rgba(139,92,246,0.35);color:#a78bfa">Overnight</span>');return'<div style="font-size:0.92rem"><span style="font-weight:600">'+escapeHTML(r.name)+'</span>'+ops+(chips.length?'<div style="margin-top:0.2rem;display:flex;gap:0.3rem;flex-wrap:wrap">'+chips.join("")+'</div>':'')+'</div>';}).join("")+'</div>':'')+'</div>'+wikiBlock+renderOperatorCardsHTML(operators)+await renderCommentsHTML('port',port.id,port.name)+'</div>';
+}
+
+function removeInlineDetail(){const ex=portList.querySelector('.port-detail-inline');if(ex)ex.remove();}
+async function showInlineDetail(portId){removeInlineDetail();const port=getPortById(portId);if(!port)return;const row=portList.querySelector('.port-row[data-port-id="'+CSS.escape(portId)+'"]');if(!row)return;row.insertAdjacentHTML('afterend','<div class="port-detail-inline port-detail-loading" data-port-detail="'+escapeHTML(portId)+'"><div class="detail-header"><h3>'+escapeHTML(port.name)+'</h3></div><p style="opacity:0.6;margin:0">Loading info…</p></div>');let wikiData=null;if(port.image||port.website||port.nightView||port.wikidataLabel){wikiData={};if(port.image)wikiData.image=port.image;if(port.website)wikiData.website=port.website;if(port.nightView)wikiData.nightView=port.nightView;if(port.wikidataLabel)wikiData.wikidataLabel=port.wikidataLabel;}if(port.wikidataId){const ed=await fetchWikidataInfo(port.wikidataId);if(ed)wikiData={...wikiData,...ed};}if(!port.wikidataId&&!wikiData){try{const sr=await fetch("https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+encodeURIComponent(port.name+' port')+"&language=en&limit=1&format=json&origin=*",{headers:{"User-Agent":WIKIDATA_UA}});if(sr.ok){const sd=await sr.json();if(sd.search?.length){wikiData=await fetchWikidataInfo(sd.search[0].id);}}}catch(e){}}
+  removeInlineDetail();const html=await renderPortDetailHTML(port,wikiData);row.insertAdjacentHTML('afterend',html);}
+function highlightPortRow(pid){portList.querySelectorAll('.port-row').forEach(r=>r.classList.toggle('selected',r.dataset.portId===pid));}
+
+portList.addEventListener('click',event=>{
+  const openMapBtn=event.target.closest('[data-open-map]');if(openMapBtn){event.preventDefault();const pid=openMapBtn.dataset.openMap;if(pid)window.location.href='/index?portId='+encodeURIComponent(pid);return;}
+  if(event.target.closest('a'))return;
+  const row=event.target.closest('.port-row');if(!row)return;const pid=row.dataset.portId;if(!pid)return;
+  if(selectedPortId===pid){selectedPortId=null;highlightPortRow(null);removeInlineDetail();const url=new URL(window.location);url.searchParams.delete('portId');window.history.replaceState({},'',url);return;}
+  selectedPortId=pid;highlightPortRow(pid);showInlineDetail(pid);
+  const url=new URL(window.location);url.searchParams.set('portId',pid);window.history.replaceState({},'',url);
+});
+
+function restoreSelectedPort(){if(!selectedPortId)return;const p=getPortById(selectedPortId);if(!p){selectedPortId=null;return;}searchInput.value=p.name;countryFilter.value="";renderAndRestoreDetail();requestAnimationFrame(()=>{const row=portList.querySelector('.port-row.selected');if(row)row.scrollIntoView({block:'center',behavior:'smooth'});});}
+
+function buildFilters(){const countries=unique(ports.map(p=>p.country));countryFilter.innerHTML='<option value="">All countries</option>'+countries.map(c=>'<option>'+escapeHTML(c)+'</option>').join("");}
+function getFiltered(){const q=searchInput.value.trim().toLowerCase();const country=countryFilter.value;return ports.filter(p=>{const rn=getRouteNamesForPort(p).join(" ");const ops=getOperatorsForPort(p).join(" ");const h=[p.name,p.country,...(p.countries||[]),rn,ops].join(" ");return(!q||normalizeForSearch(h).includes(normalizeForSearch(q)))&&(!country||(p.countries||[]).includes(country)||p.country===country)&&(!overnightFilter.checked||getRoutesForPort(p).some(r=>r.overnight));}).sort((a,b)=>{if(sortFilter.value==="country")return(a.country||"").localeCompare(b.country||"")||a.name.localeCompare(b.name);if(sortFilter.value==="routes")return(b.routeIds?.length||0)-(a.routeIds?.length||0)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
+
+function render(){const filtered=getFiltered();const capped=filtered.slice(0,500);totalStat.textContent=filtered.length.toLocaleString();const tr=new Set(filtered.flatMap(p=>p.routeIds||[])).size;routeStat.textContent=tr.toLocaleString();resultTitle.textContent=filtered.length.toLocaleString()+' ports';portList.innerHTML=capped.length?capped.map(p=>{const rc=(p.routeIds||[]).length;const ops=getOperatorsForPort(p);return'<article class="port-row" data-port-id="'+escapeHTML(p.id)+'"><div><div class="port-name">'+escapeHTML(p.name)+'</div><div class="port-meta">'+p.countries.map(c=>'<span class="pill">'+escapeHTML(c)+'</span>').join("")+'<span class="pill">'+rc+' route'+(rc!==1?'s':'')+'</span>'+ops.slice(0,3).map(o=>'<span class="pill">'+escapeHTML(o)+'</span>').join("")+'</div></div><span class="source-link">'+rc+' routes</span></article>';}).join("")+(filtered.length>capped.length?'<div class="empty">Showing first '+capped.length.toLocaleString()+' results. Narrow the filters to see more.</div>':''):'<div class="empty">No ports match these filters.</div>';if(selectedPortId)highlightPortRow(selectedPortId);}
+async function renderAndRestoreDetail(){render();if(selectedPortId)await showInlineDetail(selectedPortId);}
+
+const DV='?v=20260603';
+Promise.all([fetch("./ferry_ports.json"+DV).then(r=>r.json()).catch(()=>({ports:[],routes:[]})),fetch("./ferries.json"+DV).then(r=>r.json()).catch(()=>({routes:[]})),fetch("./data.json"+DV).then(r=>r.json()).catch(()=>({operators:[]}))]).then(async([fpData,ferriesData,operatorsData])=>{ports=(fpData.ports||[]).map(p=>({...p,country:p.country||(p.countries?.[0]||"")}));routes=fpData.routes||ferriesData.routes||[];allOperators=operatorsData.operators||[];generatedAt.textContent=fpData.generatedAt?'Generated: '+new Date(fpData.generatedAt).toLocaleDateString():'';buildFilters();render();await restoreSelectedPort();if(selectedPortId)switchTab("ports");});
+
+[searchInput,countryFilter,sortFilter,overnightFilter].forEach(c=>{c.addEventListener("input",renderAndRestoreDetail);c.addEventListener("change",renderAndRestoreDetail);});
+
+window.upvotePortComment = upvotePortComment;
+window.deletePortComment = deletePortComment;
+})();
+
+/* ================================================================
+   STATION TIP MODAL
+   ================================================================ */
+function openStationTipModal(stationId, stationName) {
+  document.getElementById('stTipId').value = stationId;
+  document.getElementById('stTipName').textContent = stationName;
+  document.getElementById('stTipModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeStationTipModal() {
+  document.getElementById('stTipModal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('stTipForm').style.display = '';
+  document.getElementById('stTipSuccess').classList.remove('show');
+  document.getElementById('stTipError').style.display = 'none';
+  document.getElementById('stTipForm').reset();
+  const btn = document.querySelector('#stTipForm .submit-btn');
+  btn.textContent = 'Send tip'; btn.disabled = false;
+}
+document.getElementById('stTipForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = this; const btn = form.querySelector('.submit-btn');
+  const stationId = document.getElementById('stTipId').value;
+  const author = document.getElementById('stTipAuthor').value.trim();
+  const message = document.getElementById('stTipMessage').value.trim();
+  const error = document.getElementById('stTipError');
+  if (!author || !message) { error.style.display = 'block'; error.textContent = 'Please fill in all fields.'; return; }
+  error.style.display = 'none'; btn.textContent = 'Sending...'; btn.disabled = true;
+  const today = new Date().toISOString().split('T')[0];
+  db.collection('comments').add({page:'station',entityId:stationId,author:author,date:today,text:message,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(docRef){
+    const ids = JSON.parse(localStorage.getItem('trackandtide:myComments')||'[]'); ids.push(docRef.id); localStorage.setItem('trackandtide:myComments',JSON.stringify(ids));
+    form.style.display = 'none'; document.getElementById('stTipSuccess').classList.add('show');
+    setTimeout(closeStationTipModal, 4000);
+  }).catch(function(){error.style.display='block';error.textContent='Failed to send. Please try again.';btn.textContent='Send tip';btn.disabled=false;});
+});
+
+/* ================================================================
+   PORT TIP MODAL
+   ================================================================ */
+function openPortTipModal(entityType, entityId, entityName) {
+  document.getElementById('fpTipEntityType').value = entityType;
+  document.getElementById('fpTipEntityId').value = entityId;
+  document.getElementById('fpTipName').textContent = entityName;
+  document.getElementById('fpTipModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePortTipModal() {
+  document.getElementById('fpTipModal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('fpTipForm').style.display = '';
+  document.getElementById('fpTipSuccess').classList.remove('show');
+  document.getElementById('fpTipError').style.display = 'none';
+  document.getElementById('fpTipForm').reset();
+  const btn = document.querySelector('#fpTipForm .submit-btn');
+  btn.textContent = 'Send tip'; btn.disabled = false;
+}
+document.getElementById('fpTipForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = this; const btn = form.querySelector('.submit-btn');
+  const entityType = document.getElementById('fpTipEntityType').value;
+  const entityId = document.getElementById('fpTipEntityId').value;
+  const author = document.getElementById('fpTipAuthor').value.trim();
+  const message = document.getElementById('fpTipMessage').value.trim();
+  const error = document.getElementById('fpTipError');
+  if (!author || !message) { error.style.display = 'block'; error.textContent = 'Please fill in all fields.'; return; }
+  error.style.display = 'none'; btn.textContent = 'Sending...'; btn.disabled = true;
+  const today = new Date().toISOString().split('T')[0];
+  db.collection('comments').add({page:entityType,entityId:entityId,author:author,date:today,text:message,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(docRef){
+    const ids = getMyCommentIds(); ids.push(docRef.id); saveMyCommentIds(ids);
+    form.style.display = 'none'; document.getElementById('fpTipSuccess').classList.add('show');
+    setTimeout(closePortTipModal, 4000);
+  }).catch(function(){error.style.display='block';error.textContent='Failed to send tip. Please try again.';btn.textContent='Send tip';btn.disabled=false;});
+});
+
+/* ================================================================
+   INIT: handle URL params for tab selection
+   ================================================================ */
+(function initTabFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab");
+  if (tab && ["operators","stations","ports"].includes(tab)) {
+    switchTab(tab);
+  }
+})();
+</script>
+
+</body>
+</html>

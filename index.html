@@ -158,21 +158,134 @@ header img {
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Mobile nav */
+.mobile-only { display: none; }
+
+/* ── MOBILE (≤768px) ── */
 @media (max-width: 768px) {
-  .hamburger { display: flex; }
-  .main-nav { display: none; flex-direction: column; position: absolute; top: 68px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-  .main-nav.open { display: flex; }
-  .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
+  html, body { overflow: hidden; height: 100%; height: 100dvh; margin: 0; }
+
+  header, .hamburger, .main-nav, .site-footer { display: none !important; }
+  .mobile-only { display: inline !important; }
+  .desktop-only { display: none !important; }
+
+  .container { display: block; padding: 0; margin: 0; height: 100%; height: 100dvh; }
+
+  /* Full-screen map */
+  .map-column {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    z-index: 1;
+  }
+  #map {
+    width: 100% !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+    contain: none !important;
+    overflow: hidden !important;
+  }
+
+  /* Compact settings button top-right */
+  .map-controls {
+    position: absolute !important;
+    top: 10px; right: 10px; left: auto; bottom: auto;
+    z-index: 10; width: auto;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important; margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: block !important;
+    flex-wrap: nowrap;
+  }
+  .map-controls .map-options-toggle {
+    display: flex !important;
+    align-items: center; gap: 6px;
+    background: var(--panel); color: var(--text);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 8px 14px; font: inherit; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    width: auto;
+  }
+  .map-options-arrow { font-size: 0.7rem; }
+  .map-options-dropdown {
+    display: none !important;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; margin-top: 4px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    flex-direction: column; gap: 8px; min-width: 170px;
+  }
+  .map-options-dropdown.open { display: flex !important; }
+  .map-controls .station-toggle {
+    display: flex !important; align-items: center; gap: 8px;
+    margin: 0 !important; padding: 4px 0; font-size: 0.85rem; cursor: pointer;
+    width: auto;
+  }
+  .map-controls .station-toggle input { width: 16px; height: 16px; accent-color: var(--hover); margin: 0; }
+  .station-toggle-title { font-weight: 600; }
+
+  /* Bottom sheet — no backdrop, map stays interactive */
+  .sidebar {
+    position: fixed !important;
+    bottom: var(--bnav-h, 64px); left: 0; right: 0;
+    z-index: 20; max-height: 90vh;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.35);
+    transform: translateY(100%);
+    transition: none;
+    overflow-y: auto; padding: 0;
+    background: var(--panel);
+    border: 1px solid var(--border); border-bottom: none;
+  }
+  .sidebar.open { transform: translateY(50%); }
+  .sidebar.full { transform: translateY(0); }
+  .sidebar-handle {
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px 14px 8px;
+    position: sticky; top: 0;
+    background: var(--panel); z-index: 2;
+    border-radius: 20px 20px 0 0;
+    cursor: grab;
+    touch-action: none;
+  }
+  .sidebar-handle:active { cursor: grabbing; }
+  .sidebar-handle-bar {
+    width: 36px; height: 5px;
+    background: var(--text-secondary);
+    border-radius: 999px; opacity: 0.4;
+  }
+  .sidebar-scroll { padding: 0 1rem 1rem; }
+
+  .maplibregl-ctrl-attrib { font-size: 9px !important; }
+  body.has-bottom-nav { padding-bottom: 0 !important; }
 }
 
-/* Header collapsed when station detail is showing */
-.header-collapsed .main-nav a:nth-child(n+3) { display: none; }
-@media (max-width: 768px) {
-  .header-collapsed .main-nav { display: none !important; }
-  .header-collapsed .main-nav.open { display: flex !important; }
-  .header-collapsed .main-nav a:nth-child(n+3) { display: block; }
+/* ── Floating icon buttons (both desktop & mobile) ── */
+.map-float-btns {
+  position: absolute;
+  top: 10px; left: 10px;
+  z-index: 10;
+  display: flex; flex-direction: column; gap: 8px;
 }
+.map-float-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0;
+}
+.map-float-btn img { width: 20px; height: 20px; object-fit: contain; }
+:root.light .map-float-btn img { filter: none; }
+:root:not(.light) .map-float-btn img { filter: invert(1); }
+
+/* Header collapsed — desktop only */
+.header-collapsed .main-nav a:nth-child(n+3) { display: none; }
 
 /* LAYOUT */
 .container {
@@ -246,7 +359,7 @@ header img {
 .maplibregl-popup-content { background: var(--panel) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; padding: 0.5rem 0.75rem !important; font-size: 0.82rem !important; }
 .maplibregl-popup-tip { border-top-color: var(--panel) !important; }
 
-/* SIDEBAR */
+/* SIDEBAR — desktop */
 .sidebar {
   background: var(--panel);
   padding: 1rem;
@@ -256,65 +369,6 @@ header img {
   overflow-y: auto;
   transition: max-height 0.25s ease;
   box-shadow: 0 14px 35px rgba(0,0,0,0.12);
-}
-
-/* MOBILE */
-@media (max-width: 900px) {
-  .container {
-    grid-template-columns: 1fr;
-    gap: 0;
-    padding: 0;
-  }
-  .map-column {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    height: auto;
-    align-self: auto;
-    display: flex;
-    flex-direction: column;
-  }
-  #map {
-    height: 46vh;
-    border-radius: 0;
-  }
-  .map-controls {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    border-top: none;
-    padding: 0.55rem 0.75rem;
-    gap: 0.7rem;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .map-options-toggle {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-  .map-options-dropdown {
-    display: none;
-    flex-direction: column;
-    gap: 0.55rem;
-  }
-  .map-options-dropdown.open {
-    display: flex;
-  }
-  .station-toggle {
-    margin: 0;
-  }
-  .sidebar {
-    position: relative;
-    z-index: 5;
-    max-height: calc(100vh - 46vh - 3.2rem);
-    overflow-y: auto;
-    border-radius: 20px 20px 0 0;
-    border-bottom: none;
-    margin-top: -10px;
-    box-shadow: 0 -8px 30px rgba(0,0,0,0.25);
-  }
 }
 
 /* SEARCH */
@@ -1011,11 +1065,10 @@ a.pill:hover {
   </button>
   <nav class="main-nav" aria-label="Main navigation" id="mainNav">
     <a href="/" class="active">Map</a>
-    <a href="/stations">Stations</a>
-    <a href="/ports">Ports</a>
-    <a href="/operators">Operators</a>
+    <a href="/explore">Explore</a>
     <a href="/journey">Journey</a>
-    <a href="/about">About</a>
+    <a href="/about" class="desktop-only">About</a>
+    <a href="/more" class="mobile-only">More</a>
   </nav>
 </header>
 
@@ -1034,7 +1087,7 @@ a.pill:hover {
           </span>
         </label>
         <label class="station-toggle" id="ferryToggleLabel">
-          <input type="checkbox" id="ferryPortsToggle" />
+          <input type="checkbox" id="ferryPortsToggle" checked />
           <span class="station-toggle-text">
             <span class="station-toggle-title">Show ferry ports</span>
           </span>
@@ -1042,25 +1095,23 @@ a.pill:hover {
       </div>
     </div>
     <div id="map"></div>
+
+    <div class="map-float-btns">
+      <button class="map-float-btn" id="geoBtn" title="Locate me" onclick="geoLocate()">
+        <img src="webapp icons/locate.png" alt="Locate" width="20" height="20" />
+      </button>
+      <button class="map-float-btn" id="surpriseBtn" title="Surprise me" onclick="openSurpriseModal()">
+        <img src="webapp icons/dice.png" alt="Surprise" width="20" height="20" />
+      </button>
+    </div>
   </div>
 
   <div class="sidebar" id="sidebar">
+    <div class="sidebar-handle" id="sidebarHandle">
+      <span class="sidebar-handle-bar"></span>
+    </div>
+    <div class="sidebar-scroll">
     <div class="sidebar-content" id="sidebarContent">
-      <div id="sidebarHeader">
-        <input type="search" id="mapSearch" class="map-search" placeholder="Search stations, ports... (press /)" autocomplete="off" />
-        <div id="searchResults" class="search-results" style="display:none"></div>
-        <button class="geo-btn" id="geoBtn">+ Locate me</button>
-        <div id="surpriseWrap" style="position:relative">
-          <button class="geo-btn" id="surpriseBtn" style="background:rgba(167,139,250,0.12)" onclick="openSurpriseModal()">
-            <span id="surpriseLabel">Surprise me</span>
-          </button>
-        </div>
-        <div class="count-badge" id="countBadge" style="display:none"></div>
-        <div class="map-legend" id="mapLegend" style="display:none">
-          <span><span class="legend-dot" style="background:#22D3EE"></span> Station</span>
-          <span><span class="legend-dot" style="background:#3B82F6"></span> Ferry port</span>
-        </div>
-      </div>
       <div id="sidebarBody">
         <div id="stationDetailPanel"></div>
         <h2>Track & Tide</h2>
@@ -1069,6 +1120,7 @@ a.pill:hover {
       <div id="favoritesPanel" class="favorites-panel" style="display:none"></div>
       <div id="statsBar" class="stats-bar" style="display:none"></div>
   </div>
+    </div><!-- .sidebar-scroll -->
 </div>
 
 <footer class="site-footer">
@@ -1095,6 +1147,7 @@ const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebarContent");
 const stationToggle = document.getElementById("stationToggle");
 const ferryPortsToggle = document.getElementById("ferryPortsToggle");
+let trackMap;
 
 // Toggle event listeners
 stationToggle.addEventListener("change", () => setStationsVisible(stationToggle.checked));
@@ -1116,91 +1169,59 @@ try {
   console.warn("Firebase init failed:", e.message);
 }
 
-// ── Search ──
-const mapSearch = document.getElementById("mapSearch");
-const searchResults = document.getElementById("searchResults");
-const countBadge = document.getElementById("countBadge");
-let searchIndex = [];
-
-function buildSearchIndex() {
-  searchIndex = [];
-  stationsData.forEach(s => {
-    searchIndex.push({ name: s.name, country: s.country, type: 'station', lat: s.lat, lng: s.lng, id: s.id });
-  });
-  ferryPortsData.forEach(port => {
-    searchIndex.push({ name: port.name, country: (port.countries || [port.country])[0] || '', type: 'port', lat: port.lat, lng: port.lng, id: port.id });
-  });
-}
-
-function updateCountBadge() {
-  const stationCount = stationsData.length;
-  const portCount = ferryPortsData.length;
-  if (stationCount || portCount) {
-    countBadge.style.display = '';
-    countBadge.textContent = stationCount.toLocaleString() + ' stations — ' + portCount + ' ports';
-    document.getElementById('mapLegend').style.display = '';
+// ── Search (guarded — element may not exist) ──
+var mapSearch = document.getElementById("mapSearch");
+var searchResults = document.getElementById("searchResults");
+if (mapSearch && searchResults) {
+  let searchIndex = [];
+  function buildSearchIndex() {
+    searchIndex = [];
+    stationsData.forEach(s => { searchIndex.push({ name: s.name, country: s.country, type: 'station', lat: s.lat, lng: s.lng, id: s.id }); });
+    ferryPortsData.forEach(port => { searchIndex.push({ name: port.name, country: (port.countries || [port.country])[0] || '', type: 'port', lat: port.lat, lng: port.lng, id: port.id }); });
   }
-}
-
-mapSearch.addEventListener("input", () => {
-  const q = mapSearch.value.trim().toLowerCase();
-  if (!q || q.length < 2) { searchResults.style.display = 'none'; return; }
-  if (!searchIndex.length) buildSearchIndex();
-  const matches = searchIndex.filter(item => item.name.toLowerCase().includes(q)).slice(0, 8);
-  if (!matches.length) { searchResults.style.display = 'none'; return; }
-  searchResults.innerHTML = matches.map(m =>
-    `<div class="search-result-item" data-type="${m.type}" data-id="${m.id}" data-lat="${m.lat}" data-lng="${m.lng}">
-      <span class="search-result-icon">${m.type === 'station' ? '|--' : '~'}</span>
-      <span class="search-result-name">${escapeHTML(m.name)}<br><span class="search-result-sub">${escapeHTML(m.country)}</span></span>
-    </div>`
-  ).join('');
-  searchResults.style.display = '';
-  searchResults.querySelectorAll('.search-result-item').forEach(el => {
-    el.addEventListener('click', () => {
-      const lat = parseFloat(el.dataset.lat);
-      const lng = parseFloat(el.dataset.lng);
-      if (Number.isFinite(lat) && Number.isFinite(lng)) {
-        trackMap.flyTo({ center: [lng, lat], zoom: 13, duration: 1400 });
-        if (el.dataset.type === 'station') {
-          const station = stationsData.find(s => s.id === el.dataset.id);
-          if (station) selectStation(station);
-        } else {
-          const port = ferryPortsData.find(p => p.id === el.dataset.id);
-          if (port) showPortRoutes(port);
+  mapSearch.addEventListener("input", function() {
+    var q = mapSearch.value.trim().toLowerCase();
+    if (!q || q.length < 2) { searchResults.style.display = 'none'; return; }
+    if (!searchIndex.length) buildSearchIndex();
+    var matches = searchIndex.filter(function(item) { return item.name.toLowerCase().includes(q); }).slice(0, 8);
+    if (!matches.length) { searchResults.style.display = 'none'; return; }
+    searchResults.innerHTML = matches.map(function(m) {
+      return '<div class="search-result-item" data-type="' + m.type + '" data-id="' + m.id + '" data-lat="' + m.lat + '" data-lng="' + m.lng + '"><span class="search-result-icon">' + (m.type === 'station' ? '|--' : '~') + '</span><span class="search-result-name">' + escapeHTML(m.name) + '<br><span class="search-result-sub">' + escapeHTML(m.country) + '</span></span></div>';
+    }).join('');
+    searchResults.style.display = '';
+    searchResults.querySelectorAll('.search-result-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var lat = parseFloat(el.dataset.lat), lng = parseFloat(el.dataset.lng);
+        if (Number.isFinite(lat) && Number.isFinite(lng)) {
+          trackMap.flyTo({ center: [lng, lat], zoom: 13, duration: 1400 });
+          if (el.dataset.type === 'station') { var st = stationsData.find(function(s) { return s.id === el.dataset.id; }); if (st) selectStation(st); }
+          else { var pt = ferryPortsData.find(function(p) { return p.id === el.dataset.id; }); if (pt) showPortRoutes(pt); }
         }
-      }
-      searchResults.style.display = 'none';
-      mapSearch.value = '';
+        searchResults.style.display = 'none'; mapSearch.value = '';
+      });
     });
   });
-});
-mapSearch.addEventListener("keydown", (e) => { if (e.key === 'Escape') { searchResults.style.display = 'none'; mapSearch.blur(); } });
-document.addEventListener('click', (e) => {
-  if (!mapSearch.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none';
-});
-
-// ── Keyboard shortcut / for search ──
-document.addEventListener('keydown', (e) => {
-  if (e.key === '/' && document.activeElement !== mapSearch && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-    e.preventDefault();
-    mapSearch.focus();
-  }
-});
+  mapSearch.addEventListener("keydown", function(e) { if (e.key === 'Escape') { searchResults.style.display = 'none'; mapSearch.blur(); } });
+  document.addEventListener('click', function(e) { if (!mapSearch.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none'; });
+  document.addEventListener('keydown', function(e) { if (e.key === '/' && document.activeElement !== mapSearch && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') { e.preventDefault(); mapSearch.focus(); } });
+}
 
 // ── Geolocation ──
-document.getElementById('geoBtn').addEventListener('click', () => {
+function geoLocate() {
   if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
-  document.getElementById('geoBtn').textContent = 'Locating...';
-  navigator.geolocation.getCurrentPosition(pos => {
-    const { latitude, longitude } = pos.coords;
-    trackMap.flyTo({ center: [longitude, latitude], zoom: 13, duration: 1600 });
-    new maplibregl.Marker({ color: '#EF4444' }).setLngLat([longitude, latitude]).setPopup(new maplibregl.Popup().setText('You are here')).addTo(trackMap).togglePopup();
-    document.getElementById('geoBtn').textContent = 'Find nearest station';
-  }, () => {
-    document.getElementById('geoBtn').textContent = 'Find nearest station';
+  var btn = document.getElementById('geoBtn');
+  var img = btn.querySelector('img');
+  img.style.opacity = '0.4';
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    var lat = pos.coords.latitude, lng = pos.coords.longitude;
+    trackMap.flyTo({ center: [lng, lat], zoom: 13, duration: 1600 });
+    new maplibregl.Marker({ color: '#EF4444' }).setLngLat([lng, lat]).setPopup(new maplibregl.Popup().setText('You are here')).addTo(trackMap).togglePopup();
+    img.style.opacity = '';
+  }, function() {
+    img.style.opacity = '';
     alert('Could not get location');
   });
-});
+}
 
 // ── Route distance helper ──
 function haversineKm(a, b) {
@@ -1256,16 +1277,16 @@ function doSurprise() {
   if (!stations.length) { alert('No stations found in selected countries. Pick at least one country with stations.'); return; }
   closeSurpriseModal();
   const item = stations[Math.floor(Math.random() * stations.length)];
-  const label = document.getElementById('surpriseLabel');
-  if (label) label.textContent = 'Spinning...';
+  var img = document.querySelector('#surpriseBtn img');
+  if (img) img.style.opacity = '0.4';
   let count = 0;
   const spin = setInterval(() => {
     const r = stations[Math.floor(Math.random() * stations.length)];
     trackMap.flyTo({ center: [r.lng, r.lat], zoom: 11, duration: 500 });
     if (++count > 6) {
       clearInterval(spin);
+      if (img) img.style.opacity = '';
       trackMap.flyTo({ center: [item.lng, item.lat], zoom: 13, duration: 1600 });
-      if (label) label.textContent = 'Surprise me';
       selectStation(item);
     }
   }, 200);
@@ -1458,9 +1479,87 @@ mainNav.querySelectorAll('a').forEach(link => {
 });
 
 /* =========================
+   BOTTOM SHEET — mobile
+========================= */
+const sidebarHandle = document.getElementById("sidebarHandle");
+let justOpenedSheet = false;
+
+function isMobile() { return window.matchMedia("(max-width: 768px)").matches; }
+
+function openBottomSheet() {
+  sidebar.classList.add("open");
+  sidebar.classList.remove("full");
+  justOpenedSheet = true;
+  setTimeout(function() { justOpenedSheet = false; }, 200);
+  if (trackMap) setTimeout(function() { trackMap.resize(); }, 50);
+}
+
+function closeBottomSheet() {
+  sidebar.classList.remove("open", "full");
+  sidebar.style.transform = "";
+  clearStationSelection();
+  clearSelectedPort();
+  if (trackMap) setTimeout(function() { trackMap.resize(); }, 50);
+}
+
+// ── Swipe-to-resize sheet ──
+var dragY = 0, dragStartPct = 50, dragging = false;
+
+sidebarHandle.addEventListener("touchstart", function(e) {
+  if (!isMobile()) return;
+  dragging = true;
+  dragY = e.touches[0].clientY;
+  dragStartPct = parseFloat(sidebar.style.transform.replace("translateY(","").replace("%)","")) || (sidebar.classList.contains("full") ? 0 : sidebar.classList.contains("open") ? 50 : 100);
+  sidebar.style.transition = "none";
+}, { passive: true });
+
+sidebarHandle.addEventListener("touchmove", function(e) {
+  if (!dragging) return;
+  e.preventDefault();
+  var dy = e.touches[0].clientY - dragY;
+  var dpct = (dy / window.innerHeight) * 140;
+  var pct = Math.max(0, Math.min(100, dragStartPct + dpct));
+  sidebar.style.transform = "translateY(" + pct + "%)";
+}, { passive: false });
+
+sidebarHandle.addEventListener("touchend", function() {
+  if (!dragging) return;
+  dragging = false;
+  sidebar.style.transition = "";
+  snapSheet();
+});
+
+function snapSheet() {
+  var pct = parseFloat(sidebar.style.transform.replace("translateY(","").replace("%)","")) || (sidebar.classList.contains("full") ? 0 : sidebar.classList.contains("open") ? 50 : 100);
+  if (pct > 60) {
+    // Close
+    closeBottomSheet();
+  } else if (pct < 30) {
+    // Full
+    sidebar.classList.add("open", "full");
+    sidebar.style.transform = "";
+  } else {
+    // Half
+    sidebar.classList.add("open");
+    sidebar.classList.remove("full");
+    sidebar.style.transform = "";
+  }
+}
+
+// Tap map background to close
+var mapColumn = document.querySelector(".map-column");
+if (mapColumn) {
+  mapColumn.addEventListener("click", function(e) {
+    if (!isMobile()) return;
+    if (justOpenedSheet) return;
+    if (e.target.closest(".map-controls") || e.target.closest(".maplibregl-popup") || e.target.closest(".sidebar")) return;
+    closeBottomSheet();
+  });
+}
+
+/* =========================
    MAP — Maplibre GL JS
 ========================= */
-let trackMap;
 let currentMapTheme = 'light';
 
 function initMap() {
@@ -1472,8 +1571,8 @@ function initMap() {
   trackMap = new maplibregl.Map({
     container: 'map',
     style: styleUrl,
-    center: [5.3, 52.1],
-    zoom: 7,
+    center: [7, 48],
+    zoom: 4,
     attributionControl: false
   });
   trackMap.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
@@ -1493,7 +1592,6 @@ function initMap() {
       });
     }
 
-    addCountryLayer();
     addFerryRouteLayers();
 
     const DV = '?v=20260626';
@@ -1520,41 +1618,29 @@ function initMap() {
       // Register per-layer click handlers after layers & data are ready
       if (!trackMap._handlersRegistered) {
         trackMap._handlersRegistered = true;
-        trackMap.on('click', 'station-circles', (e) => {
+        trackMap.on('click', 'station-hitarea', (e) => {
           if (!e.features || !e.features.length) return;
           window._clickHandled = true;
           const props = e.features[0].properties;
           const station = stationsData.find(s => s.id === props.id);
           if (station) { selectedPort = null; trackMap.setFilter('ferry-port-circles-selected', ['==',['get','id'], '']); trackMap.setFilter('ferry-port-glow', ['==',['get','id'], '']); selectStation(station); }
         });
-        trackMap.on('click', 'ferry-port-circles', (e) => {
+        trackMap.on('click', 'ferry-port-hitarea', (e) => {
           if (!e.features || !e.features.length) return;
           window._clickHandled = true;
           const props = e.features[0].properties;
           const pt = ferryPortsData.find(p => p.id === props.id);
           if (pt) showPortRoutes(pt);
         });
-        trackMap.on('click', 'country-fill', (e) => {
-          if (!e.features || !e.features.length) return;
-          // Skip if a station or ferry port already handled this click
-          if (window._clickHandled) { window._clickHandled = false; return; }
-          const geoName = e.features[0].properties.ADMIN || e.features[0].properties.NAME || e.features[0].properties.name || 'Unknown';
-          // Skip re-selecting the same country
-          if (geoName === currentSelectedCountry) return;
-          lastSelectedCountry = geoName; currentSelectedCountry = geoName;
-          selectCountryOnMap(geoName); clearFerryRouteLines(); clearStationSelection(); selectedPort = null;
-          setVisibleFerryRoutes((allFerryRoutes||[]).filter(r => r.countries?.some(c => norm(c)===norm(geoName)) && !r.suspended));
-          renderCountrySidebar(geoName); scrollMapToTop();
-        });
       }
 
-      buildSearchIndex(); updateCountBadge(); renderFavoritesPanel(); updateStatsBar();
+      renderFavoritesPanel(); updateStatsBar();
       updateMapColors(currentMapTheme === 'light');
       trackMap._initialSetupDone = true;
 
       if (pendingStationId) {
         const match = findStationById(pendingStationId);
-        if (match) { currentSelectedCountry = match.countryName; stationToggle.checked = true; setStationsVisible(true); selectCountryOnMap(match.countryName);
+        if (match) { stationToggle.checked = true; setStationsVisible(true);
           setTimeout(() => { selectStation(match.station); trackMap.flyTo({ center: [match.station.lng, match.station.lat], zoom: 13, duration: 1500 }); }, 500); }
       }
       if (pendingPortId) { const port = ferryPortsData.find(p => p.id===pendingPortId); if(port){ ferryPortsToggle.checked = true; setFerryPortsVisible(true); showPortRoutes(port); } }
@@ -1610,14 +1696,20 @@ const countryZoomConfig = {
 function norm(s) { return (s||"").toLowerCase().replace("kingdom of","").replace("republic of","").replace("the","").trim(); }
 function escapeHTML(text) { return String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 
-function isMobileViewport() { return window.matchMedia("(max-width: 900px)").matches; }
+function isMobileViewport() { return window.matchMedia("(max-width: 768px)").matches; }
 function scrollMapToTop() {
   if (!isMobileViewport()) return;
   const mc = document.querySelector(".map-column");
   if (mc) mc.scrollIntoView({ behavior: "smooth", block: "start" });
   setTimeout(() => trackMap.resize(), 300);
 }
-function scrollSidebarIntoView() { sidebar.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+function scrollSidebarIntoView() {
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    openBottomSheet();
+  } else {
+    sidebar.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
 
 function cleanStationName(name) {
   return String(name||"").replace(/\s+/g," ").replace(/^Bahnhof\s+/i,"").replace(/^(Gare de|Gare du|Gare d'|Stazione di|Stazione|Estaci\u00f3n de|Estaci\u00f3n|Estacao de|Estacao)\s+/i,"").replace(/\s+(railway station|railway|train station|central station|bus station|metro station|airport|aeroport|a\u00e9roport|flughafen|hauptbahnhof|hbf|bahnhof|station|gare|stazione|estaci\u00f3n|estacao)$/i,"").trim();
@@ -1642,14 +1734,17 @@ function updateMapColors(isLight) {
   const stationGlow = isLight ? '#06B6D4' : '#67E8F9';
   const stationBorder = isLight ? '#FFFFFF' : '#E0F7FF';
   const portColor = isLight ? '#1D4ED8' : '#3B82F6';
+  const portGlow = isLight ? '#3B82F6' : '#60A5FA';
   const portBorder = isLight ? '#DBEAFE' : '#BFDBFE';
   const railColor = isLight ? '#D97706' : '#F59E0B';
+  if (trackMap.getLayer('station-ambient-glow')) trackMap.setPaintProperty('station-ambient-glow', 'circle-color', stationGlow);
   if (trackMap.getLayer('station-circles')) trackMap.setPaintProperty('station-circles', 'circle-color', stationColor);
   if (trackMap.getLayer('station-circles-selected')) {
     trackMap.setPaintProperty('station-circles-selected', 'circle-color', stationColor);
     trackMap.setPaintProperty('station-circles-selected', 'circle-stroke-color', stationBorder);
   }
   if (trackMap.getLayer('station-glow')) trackMap.setPaintProperty('station-glow', 'circle-color', stationGlow);
+  if (trackMap.getLayer('ferry-port-ambient-glow')) trackMap.setPaintProperty('ferry-port-ambient-glow', 'circle-color', portGlow);
   if (trackMap.getLayer('ferry-port-circles')) trackMap.setPaintProperty('ferry-port-circles', 'circle-color', portColor);
   if (trackMap.getLayer('ferry-port-circles-selected')) {
     trackMap.setPaintProperty('ferry-port-circles-selected', 'circle-color', portColor);
@@ -1684,8 +1779,17 @@ function ferryRouteToFeature(route) {
 function addStationLayer() {
   if (trackMap.getSource('stations')) trackMap.removeSource('stations');
   trackMap.addSource('stations', { type: 'geojson', data: buildStationsGeoJSON() });
+  // Invisible touch target — large hit area
+  trackMap.addLayer({ id: 'station-hitarea', type: 'circle', source: 'stations',
+    paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,18, 5,20, 7,22, 9,24, 11,26, 13,28], 'circle-color': '#22D3EE', 'circle-opacity': 0, 'circle-stroke-width': 0 }
+  });
+  // Ambient glow — all stations
+  trackMap.addLayer({ id: 'station-ambient-glow', type: 'circle', source: 'stations',
+    paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,4, 5,8, 7,12, 9,16, 11,20, 13,26], 'circle-color': '#67E8F9', 'circle-opacity': ['interpolate',['linear'],['zoom'], 3,0.08, 6,0.13, 9,0.16, 13,0.2], 'circle-stroke-width': 0, 'circle-blur': 1 }
+  });
+  // Visible small dot
   trackMap.addLayer({ id: 'station-circles', type: 'circle', source: 'stations',
-    paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,0.5, 5,1.5, 7,3, 9,5, 11,7, 13,9], 'circle-color': '#22D3EE', 'circle-opacity': 0.55, 'circle-stroke-width': 0 }
+    paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,0.5, 5,1.5, 7,3, 9,5, 11,7, 13,9], 'circle-color': '#22D3EE', 'circle-opacity': 0.7, 'circle-stroke-width': 0 }
   });
   trackMap.addLayer({ id: 'station-circles-selected', type: 'circle', source: 'stations', filter: ['==',['get','id'],''],
     paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,3.5, 5,4.5, 7,6, 9,8, 11,10, 13,12], 'circle-color': '#22D3EE', 'circle-opacity': 1, 'circle-stroke-width': 3, 'circle-stroke-color': '#E0F7FF' }
@@ -1699,6 +1803,15 @@ function addStationLayer() {
 function addFerryPortLayer() {
   if (trackMap.getSource('ferry-ports')) trackMap.removeSource('ferry-ports');
   trackMap.addSource('ferry-ports', { type: 'geojson', data: buildFerryPortsGeoJSON() });
+  // Invisible touch target
+  trackMap.addLayer({ id: 'ferry-port-hitarea', type: 'circle', source: 'ferry-ports',
+    paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,20, 5,22, 7,24, 9,26, 11,28, 13,30], 'circle-color': '#3B82F6', 'circle-opacity': 0, 'circle-stroke-width': 0 }
+  });
+  // Ambient glow — all ports
+  trackMap.addLayer({ id: 'ferry-port-ambient-glow', type: 'circle', source: 'ferry-ports',
+    paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,5, 5,9, 7,13, 9,17, 11,21, 13,27], 'circle-color': '#60A5FA', 'circle-opacity': ['interpolate',['linear'],['zoom'], 3,0.08, 6,0.13, 9,0.16, 13,0.2], 'circle-stroke-width': 0, 'circle-blur': 1 }
+  });
+  // Visible dot
   trackMap.addLayer({ id: 'ferry-port-circles', type: 'circle', source: 'ferry-ports',
     paint: { 'circle-radius': ['interpolate',['linear'],['zoom'], 3,2.5, 5,4, 7,6, 9,8, 11,10, 13,12], 'circle-color': '#3B82F6', 'circle-opacity': 0.7, 'circle-stroke-width': 0 }
   });
@@ -1735,14 +1848,14 @@ function addCountryLayer() {
 
 function setStationsVisible(v) {
   if (!stationsBuilt) addStationLayer();
-  ['station-circles','station-circles-selected','station-glow'].forEach(id => {
+  ['station-hitarea','station-ambient-glow','station-circles','station-circles-selected','station-glow'].forEach(id => {
     if (trackMap.getLayer(id)) trackMap.setLayoutProperty(id, 'visibility', v ? 'visible' : 'none');
   });
 }
 
 function setFerryPortsVisible(v) {
   if (!ferryPortsBuilt) addFerryPortLayer();
-  ['ferry-port-circles','ferry-port-circles-selected','ferry-port-glow'].forEach(function(id) {
+  ['ferry-port-hitarea','ferry-port-ambient-glow','ferry-port-circles','ferry-port-circles-selected','ferry-port-glow'].forEach(function(id) {
     if (trackMap.getLayer(id)) trackMap.setLayoutProperty(id, 'visibility', v ? 'visible' : 'none');
   });
   if (!v) { clearFerryRouteLines(); clearFerryLines(); visibleFerryRoutes = []; clearSelectedPort(); }
@@ -1808,12 +1921,12 @@ function showPortRoutes(port) {
   if (trackMap.getSource('ferry-route-highlight')) trackMap.getSource('ferry-route-highlight').setData({ type:'FeatureCollection', features: routes.map(ferryRouteToFeature) });
   trackMap.flyTo({ center: [port.lng, port.lat], zoom: 10, duration: 1500 });
   const uniqueOperators = Array.from(new Set(routes.map(function(r) { return r.operator||'Unknown'; })));
-  const operatorPills = uniqueOperators.map(function(op) { return '<a class="pill" href="/operators?operator='+encodeURIComponent(op)+'" target="_self" rel="noopener">'+escapeHTML(op)+'</a>'; }).join('');
+  const operatorPills = uniqueOperators.map(function(op) { return '<a class="pill" href="/explore?tab=operators&operator='+encodeURIComponent(op)+'" target="_self" rel="noopener">'+escapeHTML(op)+'</a>'; }).join('');
   const routeList = routes.map(function(route) {
     const dist = route.coords&&route.coords.length>=2 ? haversineKm(route.coords[0], route.coords[route.coords.length-1]) : null;
     return '<button type="button" class="route-item" data-route-name="'+escapeHTML(route.name)+'">'+escapeHTML(route.name)+(dist?'<span class="route-dist">'+dist+' km \u00b7 ~'+estimateCrossingTime(dist)+'</span>':'')+'<span class="route-tag">'+escapeHTML(route.operator||'')+'</span></button>';
   }).join('');
-  const portsUrl = '/ports?portId='+encodeURIComponent(port.id);
+  const portsUrl = '/explore?tab=ports&portId='+encodeURIComponent(port.id);
   document.getElementById('sidebarBody').innerHTML = '<div id="stationDetailPanel"></div><h2>'+escapeHTML(port.name)+'</h2><p class="country-description">'+(port.countries&&port.countries.length?port.countries.join(', '):'')+' \u00b7 '+routes.length+' ferry route'+(routes.length>1?'s':'')+'</p>'+(operatorPills?'<div class="detail-pills-map">'+operatorPills+'</div>':'')+'<div class="ferry-route-panel"><p class="route-help">Select a route to highlight it:</p><div class="route-list">'+routeList+'</div></div><div class="detail-links" style="margin-top:0.75rem;"><a class="detail-link" href="'+portsUrl+'" target="_self" rel="noopener">Full details</a></div><div id="mapComments_port"></div><button id="mapComments_portTipBtn" class="detail-link" style="margin-top:0.35rem;cursor:pointer;display:none" onclick="openMapTipModal(\'port\',\''+escapeHTML(port.id)+'\',\''+escapeHTML(port.name)+'\')">Leave a comment</button>';
   loadMapComments('port', port.id, 'mapComments_port');
   updateURL({ portId: port.id });
@@ -1839,7 +1952,7 @@ function clearSelectedPort() {
     renderCountrySidebar(currentSelectedCountry);
   } else {
     clearFerryLines(); visibleFerryRoutes = [];
-    document.getElementById('sidebarBody').innerHTML = '<div id="stationDetailPanel"></div><div class="count-badge" id="countBadge">'+stationsData.length.toLocaleString()+' stations \u00b7 '+ferryPortsData.length+' ports</div><h2>Track & Tide</h2><p>Select a country or ferry route.</p>';
+    document.getElementById('sidebarBody').innerHTML = '<div id="stationDetailPanel"></div><h2>Track & Tide</h2><p>Select a station or ferry port.</p>';
   }
 }
 
@@ -1889,7 +2002,7 @@ function clearStationSelection() {
 function renderStationDetailHTML(station) {
   if (!station) return '';
   const cleanName = cleanStationName(station.name);
-  const stationsUrl = '/stations?stationId='+encodeURIComponent(station.id);
+  const stationsUrl = '/explore?tab=stations&stationId='+encodeURIComponent(station.id);
   return '<div class="station-detail"><h3>'+escapeHTML(cleanName)+'</h3><div class="detail-links" style="display:flex;gap:0.4rem;margin-bottom:0.5rem"><a class="detail-link" href="'+stationsUrl+'" target="_self">Full details</a><a class="detail-link" href="javascript:void(0)" onclick="event.preventDefault();goToStation(\''+station.id+'\')">View on map</a></div><div id="departuresPanel_'+escapeHTML(station.id)+'" class="departures-panel"></div></div>';
 }
 
@@ -2098,14 +2211,14 @@ function renderDepartureList(panel) {
     var platformHtml = (platform?'Pl. '+escapeHTML(platform):'');
     if (opMatch) {
       var opLogoHtml = opMatch.logo ? '<img src="operator logos/'+opMatch.logo+'" style="height:14px;width:auto;vertical-align:middle;border-radius:3px;margin-right:3px;object-fit:contain" alt="">' : '';
-      platformHtml += (platformHtml?' ':'')+'<a class="dep-operator" href="/operators?operator='+encodeURIComponent(opMatch.name)+'" target="_self" title="'+escapeHTML(opMatch.name)+'">'+opLogoHtml+escapeHTML(opMatch.name)+'</a>';
+      platformHtml += (platformHtml?' ':'')+'<a class="dep-operator" href="/explore?tab=operators&operator='+encodeURIComponent(opMatch.name)+'" target="_self" title="'+escapeHTML(opMatch.name)+'">'+opLogoHtml+escapeHTML(opMatch.name)+'</a>';
     }
     html+='<div class="dep-row"><div>'+timeHtml+'</div><div class="dep-direction">'+iconHtml+(lineName?'<span class="dep-line '+(mode==='INTERCITY'?'dep-line-ic':mode==='REGIONAL'?'dep-line-r':'')+'">'+escapeHTML(lineName)+'</span>':'')+escapeHTML(direction)+'</div><div class="dep-platform">'+platformHtml+'</div></div>';
   }
   html+='</div>';
   if(hasMore) html+='<div class="dep-more" onclick="var p=document.getElementById(\'departuresPanel_'+escapeHTML(stationId)+'\');p._showCount=(p._showCount||10)+10;renderDepartureList(p)">Load 10 more \u2193</div>';
   html+='<div class="dep-refresh" onclick="refreshDepartures(\''+escapeHTML(stationId)+'\')">Refresh \u21bb</div>';
-  html+='<a class="dep-detail-link" href="/stations?stationId='+encodeURIComponent(stationId)+'" target="_self">Full station details \u2192</a>';
+  html+='<a class="dep-detail-link" href="/explore?tab=stations&stationId='+encodeURIComponent(stationId)+'" target="_self">Full station details \u2192</a>';
   html+='<a class="dep-detail-link" href="https://www.vagonweb.cz/razeni/" target="_blank" rel="noopener" style="opacity:0.4">Train compositions: VagonWeb</a>';
   panel.innerHTML=html;
 }
@@ -2356,6 +2469,7 @@ function showShareToast() {
 <div class="share-toast" id="shareToast">Link copied!</div>
 
 <script src="report-modal.js"></script>
+<script src="bottom-nav.js"></script>
 
 </body>
 </html>
