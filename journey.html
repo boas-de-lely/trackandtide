@@ -17,7 +17,7 @@
   <meta property="og:site_name" content="Track & Tide" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Journey Planner — Track & Tide" />
-  <meta name="twitter:description" content="Plan your train journey in the Netherlands using open transit data." />
+  <meta name="twitter:description" content="Plan your train journey across Europe using open transit data." />
   <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
   <link rel="canonical" href="https://trackandtide.com/journey" />
   <link rel="icon" href="icon.png" />
@@ -30,7 +30,7 @@
     "@type": "WebApplication",
     "name": "Track & Tide Journey Planner",
     "url": "https://trackandtide.com/journey",
-    "description": "Plan your train journey in the Netherlands using open transit data.",
+    "description": "Plan your train journey across Europe using open transit data.",
     "applicationCategory": "TravelApplication",
     "operatingSystem": "Web",
     "isPartOf": {
@@ -62,7 +62,7 @@
     }
     :root.light body::before { opacity: 0.08; }
 
-    header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; row-gap: 0.5rem; padding: 8px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    header { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 1rem; row-gap: 0.5rem; padding: 8px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
     header img { width: 200px; }
     .main-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
     .main-nav a { color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem; border-radius: 999px; opacity: 0.78; border: 1px solid transparent; }
@@ -305,6 +305,7 @@
   </footer>
 
   <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+  <script src="search-utils.js"></script>
 
   <script>
     var fromStation = null, toStation = null;
@@ -435,8 +436,21 @@
         var q = input.value.trim();
         if (q.length < 2) { suggest.classList.remove('open'); return; }
         searchTimeout = setTimeout(function() {
-          var qLower = q.toLowerCase();
-          var matches = allStations.filter(function(s) { return s.name.toLowerCase().indexOf(qLower) !== -1; }).slice(0, 8);
+          var qLower = normalizeForSearch(q);
+          // Exact/diacritic matches first
+          var matches = allStations.filter(function(s) {
+            return normalizeForSearch(s.name).indexOf(qLower) !== -1;
+          });
+          // Fill remaining slots with fuzzy matches
+          if (matches.length < 8) {
+            var seen = {};
+            matches.forEach(function(s) { seen[s.name] = true; });
+            var fuzzy = allStations.filter(function(s) {
+              return !seen[s.name] && fuzzyMatchScore(qLower, normalizeForSearch(s.name)) > 0;
+            });
+            matches = matches.concat(fuzzy);
+          }
+          matches = matches.slice(0, 8);
           if (!matches.length) { suggest.classList.remove('open'); return; }
           suggest.innerHTML = matches.map(function(s) {
             var flag = isoToFlag(s.country);
@@ -456,6 +470,27 @@
     }
     setupSearch('fromInput', 'fromSuggestions', function(s) { fromStation = s; });
     setupSearch('toInput', 'toSuggestions', function(s) { toStation = s; });
+
+    // Pre-fill station from URL parameters (?from=... or ?to=...)
+    function prefillFromURL() {
+      var params = new URLSearchParams(window.location.search);
+      var fromName = params.get('from');
+      var toName = params.get('to');
+      if (fromName) {
+        document.getElementById('fromInput').value = fromName;
+        var match = allStations.find(function(s) { return normalizeForSearch(s.name) === normalizeForSearch(fromName); });
+        if (match) fromStation = { lat: match.lat, lng: match.lng, name: match.name };
+      }
+      if (toName) {
+        document.getElementById('toInput').value = toName;
+        var match = allStations.find(function(s) { return normalizeForSearch(s.name) === normalizeForSearch(toName); });
+        if (match) toStation = { lat: match.lat, lng: match.lng, name: match.name };
+      }
+    }
+    // Wait for allStations to load, then prefill
+    var stationLoadCheck = setInterval(function() {
+      if (allStations.length > 0) { clearInterval(stationLoadCheck); prefillFromURL(); }
+    }, 200);
 
     function swapStations() {
       var fi = document.getElementById('fromInput'), ti = document.getElementById('toInput');

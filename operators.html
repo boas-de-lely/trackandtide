@@ -548,19 +548,6 @@ function escapeHTML(text) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
-function normalizeForSearch(text) {
-  return text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ø/g, 'o').replace(/Ø/g, 'O')
-    .replace(/ł/g, 'l').replace(/Ł/g, 'L')
-    .replace(/ð/g, 'd').replace(/Ð/g, 'D')
-    .replace(/þ/g, 'th').replace(/Þ/g, 'TH')
-    .replace(/æ/g, 'ae').replace(/Æ/g, 'AE')
-    .replace(/œ/g, 'oe').replace(/Œ/g, 'OE')
-    .replace(/ß/g, 'ss')
-    .toLowerCase();
-}
 function unique(values) {
   return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
@@ -579,22 +566,23 @@ function buildFilters() {
 }
 
 function getFilteredOperators() {
-  const query = searchInput.value.trim().toLowerCase();
+  const rawQuery = searchInput.value.trim();
+  const query = normalizeForSearch(rawQuery);
   const country = countryFilter.value;
   const type = typeFilter.value;
 
   return operators
     .filter(operator => {
       const countries = operatorCountries(operator);
-      const haystack = [
+      const haystack = normalizeForSearch([
         operator.name,
         operator.operatorLabel,
         operator.description,
         operator.type,
         ...countries
-      ].join(" ").toLowerCase();
+      ].join(" "));
 
-      return (!query || haystack.includes(query)) &&
+      return (!rawQuery || (haystack.indexOf(query) !== -1 || fuzzyMatchScore(query, normalizeForSearch(operator.name)) > 30)) &&
         (!country || countries.includes(country)) &&
         (!type || operator.type === type) &&
         (!websiteFilter.checked || Boolean(operator.website)) &&
@@ -686,6 +674,7 @@ fetch("./data.json?v=20260603")
 
 <script src="report-modal.js"></script>
 <script src="bottom-nav.js"></script>
+<script src="search-utils.js"></script>
 
 </body>
 </html>

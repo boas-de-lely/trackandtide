@@ -767,20 +767,6 @@ function escapeHTML(text) {
     .replace(/'/g, "&#39;");
 }
 
-function normalizeForSearch(text) {
-  return text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ø/g, 'o').replace(/Ø/g, 'O')
-    .replace(/ł/g, 'l').replace(/Ł/g, 'L')
-    .replace(/ð/g, 'd').replace(/Ð/g, 'D')
-    .replace(/þ/g, 'th').replace(/Þ/g, 'TH')
-    .replace(/æ/g, 'ae').replace(/Æ/g, 'AE')
-    .replace(/œ/g, 'oe').replace(/Œ/g, 'OE')
-    .replace(/ß/g, 'ss')
-    .toLowerCase();
-}
-
 function displayStationName(name) {
   return name
     .replace(/hauptbahnhof$/i, '')
@@ -1221,21 +1207,22 @@ function updateOperatorFilter() {
 }
 
 function getFilteredStations() {
-  const query = searchInput.value.trim().toLowerCase();
+  const rawQuery = searchInput.value.trim();
+  const query = normalizeForSearch(rawQuery);
   const country = countryFilter.value;
   const source = sourceFilter.value;
   const operator = operatorFilter.value;
 
   return stations
     .filter(station => {
-      const haystack = [
+      const haystack = normalizeForSearch([
         station.name,
         station.country,
         station.source,
         ...(station.operators || [])
-      ].join(" ");
+      ].join(" "));
 
-      return (!query || normalizeForSearch(haystack).includes(normalizeForSearch(query))) &&
+      return (!rawQuery || (haystack.indexOf(query) !== -1 || fuzzyMatchScore(query, normalizeForSearch(station.name)) > 30)) &&
         (!country || station.country === country) &&
         (!source || station.source === source) &&
         (!operator || station.operators?.includes(operator));
@@ -1334,6 +1321,7 @@ countryFilter.addEventListener("change", () => {
 
 <script src="report-modal.js"></script>
 <script src="bottom-nav.js"></script>
+<script src="search-utils.js"></script>
 
 // ── Station tip modal ──
 function openStationTipModal(stationId, stationName) {

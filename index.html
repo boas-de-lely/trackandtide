@@ -673,6 +673,21 @@ header img {
 .dep-load-btn:hover { opacity: 1; background: rgba(56,189,248,0.08); }
 .dep-load-btn:disabled { opacity: 0.4; cursor: default; }
 
+.journey-actions {
+  display: flex; gap: 0.5rem; margin-bottom: 0.75rem;
+}
+.journey-btn {
+  flex: 1; padding: 0.5rem 0.75rem;
+  border: 1px solid var(--active);
+  border-radius: 10px;
+  background: rgba(14,165,233,0.1);
+  color: var(--active);
+  font: inherit; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; text-align: center; text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.journey-btn:hover { background: var(--active); color: #fff; }
+
 .station-detail p {
   margin: 0.25rem 0;
   color: var(--text);
@@ -1169,6 +1184,7 @@ a.pill:hover {
 </footer>
 
 <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+<script src="search-utils.js"></script>
 
 <script>
 
@@ -1214,10 +1230,24 @@ if (mapSearch && searchResults) {
     ferryPortsData.forEach(port => { searchIndex.push({ name: port.name, country: (port.countries || [port.country])[0] || '', type: 'port', lat: port.lat, lng: port.lng, id: port.id }); });
   }
   mapSearch.addEventListener("input", function() {
-    var q = mapSearch.value.trim().toLowerCase();
+    var q = mapSearch.value.trim();
     if (!q || q.length < 2) { searchResults.style.display = 'none'; return; }
     if (!searchIndex.length) buildSearchIndex();
-    var matches = searchIndex.filter(function(item) { return item.name.toLowerCase().includes(q); }).slice(0, 8);
+    var qNorm = normalizeForSearch(q);
+    // Exact/diacritic matches first
+    var matches = searchIndex.filter(function(item) {
+      return normalizeForSearch(item.name).indexOf(qNorm) !== -1;
+    });
+    // Fill remaining slots with fuzzy matches
+    if (matches.length < 8) {
+      var seen = {};
+      matches.forEach(function(item) { seen[item.name] = true; });
+      var fuzzy = searchIndex.filter(function(item) {
+        return !seen[item.name] && fuzzyMatchScore(qNorm, normalizeForSearch(item.name)) > 0;
+      });
+      matches = matches.concat(fuzzy);
+    }
+    matches = matches.slice(0, 8);
     if (!matches.length) { searchResults.style.display = 'none'; return; }
     searchResults.innerHTML = matches.map(function(m) {
       return '<div class="search-result-item" data-type="' + m.type + '" data-id="' + m.id + '" data-lat="' + m.lat + '" data-lng="' + m.lng + '"><span class="search-result-icon">' + (m.type === 'station' ? '|--' : '~') + '</span><span class="search-result-name">' + escapeHTML(m.name) + '<br><span class="search-result-sub">' + escapeHTML(m.country) + '</span></span></div>';
@@ -1293,9 +1323,9 @@ function buildSurpriseCountryList() {
   ).join('');
 }
 function filterSurpriseCountries() {
-  const q = (document.getElementById('surpriseCountrySearch').value || '').toLowerCase();
+  const q = normalizeForSearch(document.getElementById('surpriseCountrySearch').value || '');
   document.querySelectorAll('#surpriseCountryList label').forEach(l => {
-    l.style.display = q ? (l.textContent.toLowerCase().includes(q) ? '' : 'none') : '';
+    l.style.display = q ? (normalizeForSearch(l.textContent).indexOf(q) !== -1 ? '' : 'none') : '';
   });
 }
 function selectAllSurpriseCountries() {
@@ -2090,6 +2120,10 @@ function renderStationDetailHTML(station) {
       '<button class="info-act" title="Share" onclick="event.stopPropagation();shareStation({id:\''+escapeHTML(sid)+'\'})"><img src="webapp icons/share.png" width="18" height="18" alt="Share" /></button>' +
       '<a class="info-act" title="Full details" href="/explore?tab=stations&stationId='+encodeURIComponent(sid)+'" target="_self"><img src="webapp icons/info.png" width="18" height="18" alt="Details" /></a>' +
       '<button class="info-act" title="View on map" onclick="event.preventDefault();goToStation(\''+escapeHTML(sid)+'\')"><img src="webapp icons/locate.png" width="18" height="18" alt="Map" /></button>' +
+    '</div>' +
+    '<div class="journey-actions">' +
+      '<a class="journey-btn" href="/journey?from='+encodeURIComponent(name)+'" title="Plan a journey from this station">Plan from here</a>' +
+      '<a class="journey-btn" href="/journey?to='+encodeURIComponent(name)+'" title="Plan a journey to this station">Plan to here</a>' +
     '</div>' +
     '<button class="dep-load-btn" id="depLoadBtn_'+escapeHTML(sid)+'" onclick="loadDeparturesForStation(\''+escapeHTML(sid)+'\')">Show live departures</button>' +
     '<div id="departuresPanel_'+escapeHTML(sid)+'" class="departures-panel" style="display:none"></div>' +

@@ -867,20 +867,6 @@ function escapeHTML(text) {
     .replace(/'/g, "&#39;");
 }
 
-function normalizeForSearch(text) {
-  return text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ø/g, 'o').replace(/Ø/g, 'O')
-    .replace(/ł/g, 'l').replace(/Ł/g, 'L')
-    .replace(/ð/g, 'd').replace(/Ð/g, 'D')
-    .replace(/þ/g, 'th').replace(/Þ/g, 'TH')
-    .replace(/æ/g, 'ae').replace(/Æ/g, 'AE')
-    .replace(/œ/g, 'oe').replace(/Œ/g, 'OE')
-    .replace(/ß/g, 'ss')
-    .toLowerCase();
-}
-
 function getPortById(portId) {
   return ports.find(p => p.id === portId) || null;
 }
@@ -1399,16 +1385,17 @@ function buildFilters() {
 }
 
 function getFilteredPorts() {
-  const query = searchInput.value.trim().toLowerCase();
+  const rawQuery = searchInput.value.trim();
+  const query = normalizeForSearch(rawQuery);
   const country = countryFilter.value;
 
   return ports
     .filter(port => {
       const routeNames = getRouteNamesForPort(port).join(" ");
       const operators = getOperatorsForPort(port).join(" ");
-      const haystack = [port.name, port.country, ...(port.countries || []), routeNames, operators].join(" ");
+      const haystack = normalizeForSearch([port.name, port.country, ...(port.countries || []), routeNames, operators].join(" "));
 
-      return (!query || normalizeForSearch(haystack).includes(normalizeForSearch(query))) &&
+      return (!rawQuery || (haystack.indexOf(query) !== -1 || fuzzyMatchScore(query, normalizeForSearch(port.name)) > 30)) &&
         (!country || (port.countries || []).includes(country) || port.country === country) &&
         (!overnightFilter.checked || getRoutesForPort(port).some(r => r.overnight));
     })
@@ -1524,6 +1511,7 @@ Promise.all([
 
 <script src="report-modal.js"></script>
 <script src="bottom-nav.js"></script>
+<script src="search-utils.js"></script>
 
 // ── Tip modal ──
 function openTipModal(entityType, entityId, entityName) {

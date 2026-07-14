@@ -411,6 +411,7 @@ a.pill:hover { background: var(--hover); color: #fff; }
 
 <script src="report-modal.js"></script>
 <script src="bottom-nav.js"></script>
+<script src="search-utils.js"></script>
 
 <script>
 /* ================================================================
@@ -456,9 +457,6 @@ mainNav.querySelectorAll('a').forEach(link => {
 
 function escapeHTML(text) {
   return String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-}
-function normalizeForSearch(text) {
-  return text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ø/g,'o').replace(/Ø/g,'O').replace(/ł/g,'l').replace(/Ł/g,'L').replace(/ð/g,'d').replace(/Ð/g,'D').replace(/þ/g,'th').replace(/Þ/g,'TH').replace(/æ/g,'ae').replace(/Æ/g,'AE').replace(/œ/g,'oe').replace(/Œ/g,'OE').replace(/ß/g,'ss').toLowerCase();
 }
 function unique(values) { return [...new Set(values.filter(Boolean))].sort((a,b) => a.localeCompare(b)); }
 
@@ -519,13 +517,14 @@ function buildFilters() {
 }
 
 function getFiltered() {
-  const query = searchInput.value.trim().toLowerCase();
+  const rawQuery = searchInput.value.trim();
+  const query = normalizeForSearch(rawQuery);
   const country = countryFilter.value;
   const type = typeFilter.value;
   return operators.filter(op => {
     const countries = operatorCountries(op);
-    const haystack = [op.name, op.operatorLabel, op.description, op.type, ...countries].join(" ").toLowerCase();
-    return (!query || haystack.includes(query)) && (!country || countries.includes(country)) && (!type || op.type === type) && (!websiteFilter.checked || Boolean(op.website)) && (!appFilter.checked || hasApp(op));
+    const haystack = normalizeForSearch([op.name, op.operatorLabel, op.description, op.type, ...countries].join(" "));
+    return (!rawQuery || (haystack.indexOf(query) !== -1 || fuzzyMatchScore(query, normalizeForSearch(op.name)) > 30)) && (!country || countries.includes(country)) && (!type || op.type === type) && (!websiteFilter.checked || Boolean(op.website)) && (!appFilter.checked || hasApp(op));
   }).sort((a,b) => {
     if (sortFilter.value === "country") return (a.country||"").localeCompare(b.country||"") || a.name.localeCompare(b.name);
     if (sortFilter.value === "type") return (a.type||"").localeCompare(b.type||"") || a.name.localeCompare(b.name);
@@ -710,7 +709,7 @@ function restoreSelectedStation(){if(!selectedStationId)return;const s=getStatio
 function buildFilters(){const countries=unique(stations.map(s=>s.country));countryFilter.innerHTML='<option value="">All countries</option>'+countries.map(c=>'<option>'+escapeHTML(c)+'</option>').join("");updateOperatorFilter();}
 function updateOperatorFilter(){const sel=operatorFilter.value;const country=countryFilter.value;const ops=unique(stations.filter(s=>!country||s.country===country).flatMap(s=>s.operators||[]));operatorFilter.innerHTML='<option value="">All operators</option>'+ops.map(o=>'<option>'+escapeHTML(o)+'</option>').join("");operatorFilter.value=ops.includes(sel)?sel:"";}
 
-function getFiltered(){const q=searchInput.value.trim().toLowerCase();const country=countryFilter.value;const source=sourceFilter.value;const op=operatorFilter.value;return stations.filter(s=>{const h=[s.name,s.country,s.source,...(s.operators||[])].join(" ");return(!q||normalizeForSearch(h).includes(normalizeForSearch(q)))&&(!country||s.country===country)&&(!source||s.source===source)&&(!op||s.operators?.includes(op));}).sort((a,b)=>{if(sortFilter.value==="country")return a.country.localeCompare(b.country)||a.name.localeCompare(b.name);if(sortFilter.value==="source")return a.source.localeCompare(b.source)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
+function getFiltered(){const rawQ=searchInput.value.trim();const q=normalizeForSearch(rawQ);const country=countryFilter.value;const source=sourceFilter.value;const op=operatorFilter.value;return stations.filter(s=>{const h=normalizeForSearch([s.name,s.country,s.source,...(s.operators||[])].join(" "));return(!rawQ||(h.indexOf(q)!==-1||fuzzyMatchScore(q,normalizeForSearch(s.name))>30))&&(!country||s.country===country)&&(!source||s.source===source)&&(!op||s.operators?.includes(op));}).sort((a,b)=>{if(sortFilter.value==="country")return a.country.localeCompare(b.country)||a.name.localeCompare(b.name);if(sortFilter.value==="source")return a.source.localeCompare(b.source)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
 
 function render(){const filtered=getFiltered();const capped=filtered.slice(0,500);totalStat.textContent=filtered.length.toLocaleString();resultTitle.textContent=filtered.length.toLocaleString()+' stations';stationList.innerHTML=capped.length?capped.map(s=>'<article class="station-row" data-station-id="'+escapeHTML(s.id)+'"><div><div class="station-name">'+escapeHTML(displayStationName(s.name))+'</div><div class="station-meta"><span class="pill">'+escapeHTML(s.country)+'</span>'+(s.operators||[]).slice(0,3).map(o=>'<span class="pill">'+escapeHTML(o)+'</span>').join("")+'</div></div><a class="source-link" href="'+escapeHTML(s.url)+'" target="_blank" rel="noopener">Source</a></article>').join("")+(filtered.length>capped.length?'<div class="empty">Showing first '+capped.length.toLocaleString()+' results. Narrow the filters to see more.</div>':''):'<div class="empty">No stations match these filters.</div>';if(selectedStationId)highlightStationRow(selectedStationId);}
 function renderAndRestoreDetail(){render();if(selectedStationId)showInlineDetail(selectedStationId);}
@@ -819,7 +818,7 @@ portList.addEventListener('click',event=>{
 function restoreSelectedPort(){if(!selectedPortId)return;const p=getPortById(selectedPortId);if(!p){selectedPortId=null;return;}searchInput.value=p.name;countryFilter.value="";renderAndRestoreDetail();requestAnimationFrame(()=>{const row=portList.querySelector('.port-row.selected');if(row)row.scrollIntoView({block:'center',behavior:'smooth'});});}
 
 function buildFilters(){const countries=unique(ports.map(p=>p.country));countryFilter.innerHTML='<option value="">All countries</option>'+countries.map(c=>'<option>'+escapeHTML(c)+'</option>').join("");}
-function getFiltered(){const q=searchInput.value.trim().toLowerCase();const country=countryFilter.value;return ports.filter(p=>{const rn=getRouteNamesForPort(p).join(" ");const ops=getOperatorsForPort(p).join(" ");const h=[p.name,p.country,...(p.countries||[]),rn,ops].join(" ");return(!q||normalizeForSearch(h).includes(normalizeForSearch(q)))&&(!country||(p.countries||[]).includes(country)||p.country===country)&&(!overnightFilter.checked||getRoutesForPort(p).some(r=>r.overnight));}).sort((a,b)=>{if(sortFilter.value==="country")return(a.country||"").localeCompare(b.country||"")||a.name.localeCompare(b.name);if(sortFilter.value==="routes")return(b.routeIds?.length||0)-(a.routeIds?.length||0)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
+function getFiltered(){const rawQ=searchInput.value.trim();const q=normalizeForSearch(rawQ);const country=countryFilter.value;return ports.filter(p=>{const rn=getRouteNamesForPort(p).join(" ");const ops=getOperatorsForPort(p).join(" ");const h=normalizeForSearch([p.name,p.country,...(p.countries||[]),rn,ops].join(" "));return(!rawQ||(h.indexOf(q)!==-1||fuzzyMatchScore(q,normalizeForSearch(p.name))>30))&&(!country||(p.countries||[]).includes(country)||p.country===country)&&(!overnightFilter.checked||getRoutesForPort(p).some(r=>r.overnight));}).sort((a,b)=>{if(sortFilter.value==="country")return(a.country||"").localeCompare(b.country||"")||a.name.localeCompare(b.name);if(sortFilter.value==="routes")return(b.routeIds?.length||0)-(a.routeIds?.length||0)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
 
 function render(){const filtered=getFiltered();const capped=filtered.slice(0,500);totalStat.textContent=filtered.length.toLocaleString();const tr=new Set(filtered.flatMap(p=>p.routeIds||[])).size;routeStat.textContent=tr.toLocaleString();resultTitle.textContent=filtered.length.toLocaleString()+' ports';portList.innerHTML=capped.length?capped.map(p=>{const rc=(p.routeIds||[]).length;const ops=getOperatorsForPort(p);return'<article class="port-row" data-port-id="'+escapeHTML(p.id)+'"><div><div class="port-name">'+escapeHTML(p.name)+'</div><div class="port-meta">'+p.countries.map(c=>'<span class="pill">'+escapeHTML(c)+'</span>').join("")+'<span class="pill">'+rc+' route'+(rc!==1?'s':'')+'</span>'+ops.slice(0,3).map(o=>'<span class="pill">'+escapeHTML(o)+'</span>').join("")+'</div></div><span class="source-link">'+rc+' routes</span></article>';}).join("")+(filtered.length>capped.length?'<div class="empty">Showing first '+capped.length.toLocaleString()+' results. Narrow the filters to see more.</div>':''):'<div class="empty">No ports match these filters.</div>';if(selectedPortId)highlightPortRow(selectedPortId);}
 async function renderAndRestoreDetail(){render();if(selectedPortId)await showInlineDetail(selectedPortId);}
