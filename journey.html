@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Journey Planner — Track & Tide</title>
-  <meta name="description" content="Plan your train journey in the Netherlands using open transit data." />
-  <meta property="og:title" content="Journey Planner — Track & Tide" />
-  <meta property="og:description" content="Plan your train journey in the Netherlands using open transit data." />
+  <title>Track & Tide — Journey Planner</title>
+  <meta name="description" content="Plan your train journey across Europe using open transit data. Search stations, compare routes, and discover rail connections." />
+  <meta property="og:title" content="Track & Tide — Journey Planner" />
+  <meta property="og:description" content="Plan your train journey across Europe using open transit data." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://trackandtide.com/journey" />
+  <meta property="og:url" content="https://trackandtide.com/" />
   <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -16,10 +16,10 @@
   <meta property="og:locale" content="en_GB" />
   <meta property="og:site_name" content="Track & Tide" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Journey Planner — Track & Tide" />
+  <meta name="twitter:title" content="Track & Tide — Journey Planner" />
   <meta name="twitter:description" content="Plan your train journey across Europe using open transit data." />
   <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
-  <link rel="canonical" href="https://trackandtide.com/journey" />
+  <link rel="canonical" href="https://trackandtide.com/" />
   <link rel="icon" href="icon.png" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#1F2937" />
@@ -245,8 +245,7 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/">Map</a><a href="/explore">Explore</a>
-      <a href="/journey" class="active">Journey</a><a href="/about" class="desktop-only">About</a><a href="/more" class="mobile-only">More</a>
+      <a href="/journey" class="active">Journey</a><a href="/map">Map</a><a href="/explore">Explore</a><a href="/about" class="desktop-only">About</a><a href="/more" class="mobile-only">More</a>
     </nav>
   </header>
 
@@ -306,8 +305,25 @@
 
   <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
   <script src="search-utils.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <script>
+    // ── Firebase ──
+    var db = null;
+    try {
+      firebase.initializeApp({
+        apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
+        authDomain: "trackandtide-00.firebaseapp.com",
+        projectId: "trackandtide-00",
+        storageBucket: "trackandtide-00.firebasestorage.app",
+        appId: "1:157938380271:web:8b36389f334e3adefdda1a"
+      });
+      db = firebase.firestore();
+    } catch(e) {
+      console.warn("Firebase init failed:", e.message);
+    }
+
     var fromStation = null, toStation = null;
     var journeyMap = null;
     var currentJourneys = [];
@@ -616,6 +632,13 @@
         '&walkSpeed=1.4';
       fetch(url).then(function(r) { return r.json(); }).then(function(data) {
         btn.disabled = false; btn.textContent = 'Search';
+        // Increment global journeys counter in Firestore
+        if (db) {
+          db.collection('stats').doc('journeys').set(
+            { count: firebase.firestore.FieldValue.increment(1), updatedAt: firebase.firestore.FieldValue.serverTimestamp() },
+            { merge: true }
+          ).catch(function(err) { console.warn('Journey counter update failed:', err.message); });
+        }
         if (data.error) {
           errEl.textContent = 'Search failed: ' + data.error;
           errEl.style.display = ''; resultsEl.innerHTML = ''; return;
@@ -955,7 +978,7 @@
   </script>
 
 <script src="report-modal.js"></script>
-<script src="bottom-nav.js"></script>
+<script src="bottom-nav.js?v=2"></script>
 
 </body>
 </html>

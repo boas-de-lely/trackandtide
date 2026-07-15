@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Track & Tide</title>
+  <meta name="description" content="Privacy policy for Track & Tide — we collect no personal data and use no tracking cookies." />
+  <meta property="og:title" content="Privacy Policy — Track & Tide" />
+  <meta property="og:description" content="Track & Tide collects no personal data and uses no tracking cookies." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackandtide.com/privacy" />
+  <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Track & Tide logo" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Track & Tide" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Privacy Policy — Track & Tide" />
+  <meta name="twitter:description" content="Track & Tide collects no personal data and uses no tracking cookies." />
+  <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <link rel="canonical" href="https://trackandtide.com/privacy" />
+  <link rel="icon" href="icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1F2937" />
+
+  <style>
+    :root {
+      --bg: #1F2937;
+      --panel: #1F2937;
+      --card: #273549;
+      --text: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --border: #3B4A5F;
+      --hover: #38BDF8;
+      --active: #0EA5E9;
+    }
+
+    :root.light {
+      --bg: #F1F5F9;
+      --panel: #FFFFFF;
+      --card: #F8FAFC;
+      --text: #111827;
+      --text-secondary: #6B7280;
+      --border: #D1D5DB;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      row-gap: 0.5rem;
+      padding: 8px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    header img { width: 200px; }
+
+    .main-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
+    .main-nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.55rem 0.75rem;
+      border-radius: 999px;
+      opacity: 0.78;
+      border: 1px solid transparent;
+    }
+    .main-nav a:hover, .main-nav a.active {
+      opacity: 1;
+      background: var(--card);
+      border-color: var(--border);
+    }
+
+    .theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
+    .theme-switch input { opacity: 0; width: 0; height: 0; }
+    .theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
+    .theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
+    .theme-switch input:checked + .theme-slider { background: var(--hover); }
+    .theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 1000px) {
+      header img { width: 120px; }
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
+      color: var(--hover);
+    }
+
+    p, li {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+    }
+
+    ul { padding-left: 1.5rem; margin-bottom: 1.2rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    .site-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      background: var(--panel);
+    }
+
+    .footer-theme { display: flex; align-items: center; gap: 0.5rem; }
+    .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); }
+    .footer-link { color: var(--hover); text-decoration: none; font-size: 0.9rem; cursor: pointer; }
+    .footer-link:hover { text-decoration: underline; }
+
+    .desktop-only { display: inline; }
+    .mobile-only { display: none; }
+
+    .last-updated {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      header, .hamburger, .main-nav { display: none !important; }
+      .mobile-only { display: inline; }
+      .desktop-only { display: none; }
+      .site-footer { display: none !important; }
+      .container { padding: 2rem 1rem; }
+      h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" aria-label="Main navigation" id="mainNav">
+      <a href="/journey">Journey</a>
+      <a href="/map">Map</a>
+      <a href="/explore">Explore</a>
+      <a href="/about" class="desktop-only">About</a>
+      <a href="/more" class="mobile-only">More</a>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <h1>Privacy Policy</h1>
+
+    <p>
+      Track &amp; Tide is built with privacy in mind. This page explains what data we handle
+      and how we handle it — which is to say, very little.
+    </p>
+
+    <div class="card">
+      <h3>&#128274; No personal data collection</h3>
+      <p>Track &amp; Tide does not collect, store, or share any personal data. There are no
+      user accounts, no sign-ups, and no forms that ask for personal information.</p>
+    </div>
+
+    <h2>What we store locally</h2>
+
+    <ul>
+      <li><strong>Theme preference</strong> (light/dark mode) — saved in your browser's
+      localStorage so the site remembers your choice on return visits.</li>
+      <li><strong>Satellite view preference</strong> — also saved locally so your
+      map view choice persists.</li>
+    </ul>
+
+    <p>
+      All of this data stays on your device. It never leaves your browser and is
+      not accessible to us or any third party.
+    </p>
+
+    <h2>Third-party services</h2>
+
+    <p>The site loads map tiles and data from these providers to function:</p>
+
+    <ul>
+      <li><strong>CARTO</strong> — provides the default map style (Positron / Dark Matter)</li>
+      <li><strong>Esri</strong> — provides satellite imagery when you enable satellite view</li>
+      <li><strong>OpenStreetMap</strong> / <strong>OpenRailwayMap</strong> — rail infrastructure data</li>
+      <li><strong>GitHub</strong> (raw.githubusercontent.com) — country boundary GeoJSON</li>
+      <li><strong>Open-Meteo</strong> — weather data</li>
+      <li><strong>Firebase</strong> (Firestore) — stores user-submitted comments on stations and ports</li>
+    </ul>
+
+    <p>
+      These services may see your IP address as part of standard web requests,
+      which is necessary for the map to function. None of these services are
+      used for tracking or advertising purposes.
+    </p>
+
+    <h2>Geolocation</h2>
+
+    <p>
+      If you tap the "Locate me" button, your browser will ask for permission
+      to access your location. This is handled entirely by your browser — the
+      coordinates are used only to centre the map and are never stored or
+      transmitted anywhere.
+    </p>
+
+    <h2>Cookies</h2>
+
+    <p>
+      Track &amp; Tide does not set any cookies. Not for tracking, not for
+      analytics, not for anything. Your preferences are stored in localStorage,
+      which is not the same as cookies and cannot be read by third parties.
+    </p>
+
+    <h2>Contact</h2>
+
+    <p>
+      If you have questions about this privacy policy, you can reach out via the
+      <a href="#" onclick="openReportModal()" style="color:var(--hover);">report form</a>
+      on any page.
+    </p>
+
+    <p class="last-updated">Last updated: 15 July 2026</p>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-theme">
+      <span class="footer-theme-label" id="themeLabel">Light mode</span>
+      <label class="theme-switch" title="Toggle dark/light mode">
+        <input type="checkbox" id="themeToggle" />
+        <span class="theme-slider"></span>
+      </label>
+    </div>
+    <a class="footer-link" href="/privacy">Privacy Policy</a>
+  </footer>
+
+  <script src="report-modal.js"></script>
+  <script src="bottom-nav.js?v=2"></script>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById("themeToggle");
+    const logo = document.getElementById("logo");
+
+    function applyTheme() {
+      const saved = localStorage.getItem("trackandtide:theme");
+      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+      const mode = saved || (prefersLight ? "light" : "dark");
+      if (mode === "light") root.classList.add("light");
+      else root.classList.remove("light");
+      toggle.checked = (mode === "light");
+      const label = document.getElementById("themeLabel");
+      if (label) label.textContent = mode === "light" ? "Light mode" : "Dark mode";
+      logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
+    }
+
+    toggle.addEventListener("change", function() {
+      const mode = toggle.checked ? "light" : "dark";
+      localStorage.setItem("trackandtide:theme", mode);
+      applyTheme();
+    });
+
+    applyTheme();
+
+    // Hamburger menu
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const mainNav = document.getElementById("mainNav");
+    hamburgerBtn.addEventListener("click", function() {
+      const open = !mainNav.classList.contains("open");
+      mainNav.classList.toggle("open", open);
+      hamburgerBtn.classList.toggle("open", open);
+      hamburgerBtn.setAttribute("aria-expanded", open);
+    });
+    mainNav.querySelectorAll("a").forEach(function(link) {
+      link.addEventListener("click", function() {
+        mainNav.classList.remove("open");
+        hamburgerBtn.classList.remove("open");
+        hamburgerBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+  </script>
+
+</body>
+</html>

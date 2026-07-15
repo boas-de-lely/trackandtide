@@ -223,9 +223,9 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/">Map</a>
-      <a href="/explore">Explore</a>
       <a href="/journey">Journey</a>
+      <a href="/map">Map</a>
+      <a href="/explore">Explore</a>
       <a href="/about" class="active">About</a>
       <a href="/more" class="mobile-only">More</a>
     </nav>
@@ -243,20 +243,24 @@
 
     <div class="stats">
       <div class="stat">
-        <div class="stat-value">40,000+</div>
+        <div class="stat-value" id="statStations">...</div>
         <div class="stat-label">Train stations</div>
       </div>
       <div class="stat">
-        <div class="stat-value">48</div>
+        <div class="stat-value" id="statPorts">...</div>
         <div class="stat-label">Ferry ports</div>
       </div>
       <div class="stat">
-        <div class="stat-value">200+</div>
+        <div class="stat-value" id="statRoutes">...</div>
         <div class="stat-label">Ferry routes</div>
       </div>
       <div class="stat">
-        <div class="stat-value">40+</div>
+        <div class="stat-value" id="statCountries">...</div>
         <div class="stat-label">Countries</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statJourneys">0</div>
+        <div class="stat-label">Journeys planned</div>
       </div>
     </div>
 
@@ -367,6 +371,7 @@
         </label>
       </div>
       <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
+      <a class="footer-link" href="/privacy">Privacy Policy</a>
     </footer>
 
   </div>
@@ -430,7 +435,75 @@
   </script>
 
 <script src="report-modal.js"></script>
-<script src="bottom-nav.js"></script>
+<script src="bottom-nav.js?v=2"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script>
+// ── Firebase ──
+var db = null;
+try {
+  firebase.initializeApp({
+    apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
+    authDomain: "trackandtide-00.firebaseapp.com",
+    projectId: "trackandtide-00",
+    storageBucket: "trackandtide-00.firebasestorage.app",
+    appId: "1:157938380271:web:8b36389f334e3adefdda1a"
+  });
+  db = firebase.firestore();
+} catch(e) {
+  console.warn("Firebase init failed:", e.message);
+}
+
+// ── Live stats ──
+(function() {
+  var jel = document.getElementById('statJourneys');
+  // Read global journeys count from Firestore
+  if (db && jel) {
+    db.collection('stats').doc('journeys').get().then(function(doc) {
+      if (doc.exists && typeof doc.data().count === 'number') {
+        jel.textContent = doc.data().count.toLocaleString();
+      } else {
+        jel.textContent = '0';
+      }
+    }).catch(function() {
+      jel.textContent = '…';
+    });
+  }
+
+  // Load real station/port/route counts from data files
+  var dv = '?v=20260603';
+
+  // Station count
+  fetch('./stations.json' + dv).then(function(r) { return r.json(); }).then(function(data) {
+    var count = 0;
+    var countries = new Set();
+    for (var c in data.countries) {
+      countries.add(data.countries[c].country || c);
+      count += (data.countries[c].stations || []).length;
+    }
+    var el = document.getElementById('statStations');
+    if (el) el.textContent = count.toLocaleString();
+    var cel = document.getElementById('statCountries');
+    if (cel) cel.textContent = countries.size;
+  }).catch(function() {});
+
+  // Ferry ports & routes
+  Promise.all([
+    fetch('./ferry_ports.json' + dv).then(function(r) { return r.json(); }).catch(function() { return {ports:[],routes:[]}; }),
+    fetch('./ferries.json' + dv).then(function(r) { return r.json(); }).catch(function() { return {routes:[]}; })
+  ]).then(function(results) {
+    var fpData = results[0];
+    var ferriesData = results[1];
+    var ports = fpData.ports || [];
+    var routes = fpData.routes || ferriesData.routes || [];
+    var pel = document.getElementById('statPorts');
+    if (pel) pel.textContent = ports.length.toLocaleString();
+    var rel = document.getElementById('statRoutes');
+    if (rel) rel.textContent = routes.length.toLocaleString();
+  });
+})();
+</script>
 
 </body>
 </html>

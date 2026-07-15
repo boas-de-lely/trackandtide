@@ -109,6 +109,8 @@
     a.menu-item:hover, .menu-item.clickable:hover { background: rgba(96,165,250,0.06); }
 
     .menu-item-icon { font-size: 1.25rem; flex-shrink: 0; opacity: 0.7; width: 1.5rem; text-align: center; }
+    .menu-item-icon-img { width: 20px; height: 20px; flex-shrink: 0; opacity: 0.7; object-fit: contain; margin: 0 2px; }
+    :root:not(.light) .menu-item-icon-img { filter: invert(1); }
     .menu-item-label { flex: 1; font-size: 0.95rem; font-weight: 600; }
     .menu-item-sub { font-size: 0.78rem; opacity: 0.5; font-weight: 400; }
     .menu-item-arrow { opacity: 0.3; font-size: 0.9rem; flex-shrink: 0; }
@@ -141,9 +143,9 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/">Map</a>
-      <a href="/explore">Explore</a>
       <a href="/journey">Journey</a>
+      <a href="/map">Map</a>
+      <a href="/explore">Explore</a>
       <a href="/about" class="desktop-only">About</a>
       <a href="/more" class="active">More</a>
     </nav>
@@ -185,6 +187,13 @@
         <span class="menu-item-arrow">&#8250;</span>
       </a>
 
+      <!-- Privacy -->
+      <a class="menu-item" href="/privacy">
+        <img class="menu-item-icon-img" src="webapp icons/privacy.png" alt="" width="20" height="20" />
+        <span class="menu-item-label">Privacy Policy<span class="menu-item-sub"> — How we handle your data</span></span>
+        <span class="menu-item-arrow">&#8250;</span>
+      </a>
+
     </div>
   </div>
 
@@ -193,7 +202,7 @@
   </footer>
 
   <script src="report-modal.js"></script>
-  <script src="bottom-nav.js"></script>
+  <script src="bottom-nav.js?v=2"></script>
 
   <script>
     const root = document.documentElement;

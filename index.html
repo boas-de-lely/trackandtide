@@ -6,9 +6,9 @@
 <title>Track & Tide - European Rail & Ferry Map</title>
 <meta name="description" content="Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan intermodal journeys across Europe." />
 <meta property="og:title" content="Track & Tide — European Rail & Ferry Map" />
-<meta property="og:description" content="Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan intermodal journeys across Europe." />
+<meta property="og:description" content="Interactive map of European train stations, ferry ports, and routes." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://trackandtide.com/" />
+<meta property="og:url" content="https://trackandtide.com/map" />
 <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -17,9 +17,9 @@
 <meta property="og:site_name" content="Track & Tide" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Track & Tide — European Rail & Ferry Map" />
-<meta name="twitter:description" content="Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan intermodal journeys across Europe." />
+<meta name="twitter:description" content="Interactive map of European train stations, ferry ports, and routes." />
 <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
-<link rel="canonical" href="https://trackandtide.com/" />
+<link rel="canonical" href="https://trackandtide.com/map" />
 <link rel="icon" href="icon.png" />
 <link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#1F2937" />
@@ -218,6 +218,7 @@ header img {
     padding: 10px 14px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     flex-direction: column; gap: 8px; min-width: 170px;
+    max-height: 60vh; overflow-y: auto;
   }
   .map-options-dropdown.open { display: flex !important; }
   .map-controls .station-toggle {
@@ -283,6 +284,33 @@ header img {
 .map-float-btn img { width: 20px; height: 20px; object-fit: contain; }
 :root.light .map-float-btn img { filter: none; }
 :root:not(.light) .map-float-btn img { filter: invert(1); }
+
+/* ── User location dot (pulsing) ── */
+.user-location-dot {
+  width: 22px; height: 22px;
+  position: relative;
+}
+.user-location-dot::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.25);
+  animation: location-pulse 2s ease-out infinite;
+}
+.user-location-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #3B82F6;
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+@keyframes location-pulse {
+  0%   { transform: scale(0.5); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
 
 /* Header collapsed — desktop only */
 .header-collapsed .main-nav a:nth-child(n+3) { display: none; }
@@ -1113,9 +1141,9 @@ a.pill:hover {
     <span></span><span></span><span></span>
   </button>
   <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-    <a href="/" class="active">Map</a>
-    <a href="/explore">Explore</a>
     <a href="/journey">Journey</a>
+    <a href="/map" class="active">Map</a>
+    <a href="/explore">Explore</a>
     <a href="/about" class="desktop-only">About</a>
     <a href="/more" class="mobile-only">More</a>
   </nav>
@@ -1139,6 +1167,12 @@ a.pill:hover {
           <input type="checkbox" id="ferryPortsToggle" checked />
           <span class="station-toggle-text">
             <span class="station-toggle-title">Show ferry ports</span>
+          </span>
+        </label>
+        <label class="station-toggle" id="satelliteToggleLabel">
+          <input type="checkbox" id="satelliteToggle" />
+          <span class="station-toggle-text">
+            <span class="station-toggle-title">Satellite view</span>
           </span>
         </label>
       </div>
@@ -1197,7 +1231,9 @@ const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebarContent");
 const stationToggle = document.getElementById("stationToggle");
 const ferryPortsToggle = document.getElementById("ferryPortsToggle");
+const satelliteToggle = document.getElementById("satelliteToggle");
 let trackMap;
+let userLocationMarker = null;
 
 // Toggle event listeners
 stationToggle.addEventListener("change", () => setStationsVisible(stationToggle.checked));
@@ -1279,7 +1315,16 @@ function geoLocate() {
   navigator.geolocation.getCurrentPosition(function(pos) {
     var lat = pos.coords.latitude, lng = pos.coords.longitude;
     trackMap.flyTo({ center: [lng, lat], zoom: 13, duration: 1600 });
-    new maplibregl.Marker({ color: '#EF4444' }).setLngLat([lng, lat]).setPopup(new maplibregl.Popup().setText('You are here')).addTo(trackMap).togglePopup();
+    // Remove old marker
+    if (userLocationMarker) userLocationMarker.remove();
+    // Create modern pulsing dot
+    var el = document.createElement('div');
+    el.className = 'user-location-dot';
+    userLocationMarker = new maplibregl.Marker({ element: el, anchor: 'center' })
+      .setLngLat([lng, lat])
+      .setPopup(new maplibregl.Popup({ offset: 18 }).setText('You are here'))
+      .addTo(trackMap);
+    userLocationMarker.togglePopup();
     img.style.opacity = '';
   }, function() {
     img.style.opacity = '';
@@ -1450,6 +1495,105 @@ mapOptionsToggle.addEventListener("click", () => {
   mapOptionsDropdown.classList.toggle("open", !expanded);
 });
 
+// Satellite view toggle
+satelliteToggle.addEventListener("change", () => {
+  setSatelliteMode(satelliteToggle.checked);
+});
+
+function setSatelliteMode(enabled) {
+  satelliteMode = enabled;
+  satelliteToggle.checked = enabled;
+  localStorage.setItem("trackandtide:satellite", enabled ? "1" : "0");
+
+  if (!trackMap || !trackMap._initialSetupDone) return;
+
+  if (enabled) {
+    enableSatellite();
+  } else {
+    disableSatellite();
+  }
+}
+
+function enableSatellite() {
+  // Add satellite raster source if not already present
+  if (!trackMap.getSource('esri-satellite')) {
+    trackMap.addSource('esri-satellite', {
+      type: 'raster',
+      tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+      tileSize: 256,
+      attribution: 'Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+    });
+  }
+  // Add satellite raster layer at the very bottom of the layer stack
+  if (!trackMap.getLayer('satellite-raster')) {
+    var firstLayerId = trackMap.getStyle().layers[0]?.id;
+    trackMap.addLayer(
+      { id: 'satellite-raster', type: 'raster', source: 'esri-satellite' },
+      firstLayerId
+    );
+  }
+  // Hide CartoDB layers — keep only city/place name labels
+  var allLayers = trackMap.getStyle().layers;
+  for (var i = 0; i < allLayers.length; i++) {
+    var layer = allLayers[i];
+    // Skip our own layers
+    if (layer.id.indexOf('station') === 0 || layer.id.indexOf('ferry') === 0 ||
+        layer.id === 'rail-tracks' || layer.id === 'satellite-raster' ||
+        layer.id.indexOf('country') === 0) continue;
+    // Keep symbol layers (place/city labels), hide everything else
+    if (layer.type === 'symbol') continue;
+    trackMap.setLayoutProperty(layer.id, 'visibility', 'none');
+  }
+  // Make rail tracks more visible against satellite
+  if (trackMap.getLayer('rail-tracks')) {
+    trackMap.setPaintProperty('rail-tracks', 'line-opacity', 0.9);
+    trackMap.setPaintProperty('rail-tracks', 'line-width', ['interpolate',['linear'],['zoom'], 3,1.0, 6,1.5, 10,2.2, 14,4.0]);
+  }
+  // Slightly increase station opacity for better satellite contrast
+  if (trackMap.getLayer('station-circles')) {
+    trackMap.setPaintProperty('station-circles', 'circle-opacity', 0.9);
+    trackMap.setPaintProperty('station-circles', 'circle-stroke-width', 1.5);
+    trackMap.setPaintProperty('station-circles', 'circle-stroke-color', '#000');
+  }
+  if (trackMap.getLayer('ferry-port-circles')) {
+    trackMap.setPaintProperty('ferry-port-circles', 'circle-opacity', 0.9);
+    trackMap.setPaintProperty('ferry-port-circles', 'circle-stroke-width', 1.5);
+    trackMap.setPaintProperty('ferry-port-circles', 'circle-stroke-color', '#000');
+  }
+}
+
+function disableSatellite() {
+  if (trackMap.getLayer('satellite-raster')) {
+    trackMap.removeLayer('satellite-raster');
+  }
+  if (trackMap.getSource('esri-satellite')) {
+    trackMap.removeSource('esri-satellite');
+  }
+  // Restore ALL CartoDB layer visibility
+  var allLayers = trackMap.getStyle().layers;
+  for (var i = 0; i < allLayers.length; i++) {
+    var layer = allLayers[i];
+    if (layer.id.indexOf('station') === 0 || layer.id.indexOf('ferry') === 0 ||
+        layer.id === 'rail-tracks' || layer.id === 'satellite-raster' ||
+        layer.id.indexOf('country') === 0) continue;
+    trackMap.setLayoutProperty(layer.id, 'visibility', 'visible');
+  }
+  // Restore rail track defaults
+  if (trackMap.getLayer('rail-tracks')) {
+    trackMap.setPaintProperty('rail-tracks', 'line-opacity', 0.8);
+    trackMap.setPaintProperty('rail-tracks', 'line-width', ['interpolate',['linear'],['zoom'], 3,0.7, 6,1.0, 10,1.6, 14,3.0]);
+  }
+  // Restore station opacity defaults
+  if (trackMap.getLayer('station-circles')) {
+    trackMap.setPaintProperty('station-circles', 'circle-opacity', 0.7);
+    trackMap.setPaintProperty('station-circles', 'circle-stroke-width', 0);
+  }
+  if (trackMap.getLayer('ferry-port-circles')) {
+    trackMap.setPaintProperty('ferry-port-circles', 'circle-opacity', 0.7);
+    trackMap.setPaintProperty('ferry-port-circles', 'circle-stroke-width', 0);
+  }
+}
+
 function setTheme(mode) {
   if (mode === "light") root.classList.add("light");
   else root.classList.remove("light");
@@ -1468,6 +1612,11 @@ function setTheme(mode) {
     const isLight = mode === 'light';
     if (isLight !== (currentMapTheme === 'light')) {
       currentMapTheme = mode;
+      // If satellite mode is on, just update colors — don't switch style
+      if (satelliteMode) {
+        updateMapColors(isLight);
+        return;
+      }
       const styleUrl = isLight
         ? 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
         : 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
@@ -1670,7 +1819,10 @@ let currentMapTheme = 'light';
 
 function initMap() {
   currentMapTheme = detectTheme();
-  const styleUrl = currentMapTheme === 'light'
+  satelliteMode = localStorage.getItem("trackandtide:satellite") === "1";
+  satelliteToggle.checked = satelliteMode;
+
+  var styleUrl = currentMapTheme === 'light'
     ? 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
     : 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
@@ -1744,6 +1896,21 @@ function initMap() {
       updateMapColors(currentMapTheme === 'light');
       trackMap._initialSetupDone = true;
 
+      // Apply satellite mode if it was saved
+      if (satelliteMode) enableSatellite();
+
+      // Save map position on move (debounced via once-per-second guard)
+      var moveTimeout;
+      trackMap.on('moveend', function() {
+        clearTimeout(moveTimeout);
+        moveTimeout = setTimeout(saveMapState, 500);
+      });
+
+      // Restore saved map state (URL params take priority)
+      if (!pendingStationId && !pendingPortId) {
+        restoreMapState();
+      }
+
       if (pendingStationId) {
         const match = findStationById(pendingStationId);
         if (match) { stationToggle.checked = true; setStationsVisible(true);
@@ -1762,6 +1929,37 @@ if (document.readyState === 'loading') {
 
 // Sync CSS theme with detected preference on initial load
 setTheme(detectTheme());
+
+// ── Map state persistence ──
+function saveMapState() {
+  if (!trackMap || !trackMap._initialSetupDone) return;
+  var state = {
+    center: [trackMap.getCenter().lng, trackMap.getCenter().lat],
+    zoom: trackMap.getZoom(),
+    stationId: selectedStationId,
+    portId: selectedPort ? selectedPort.id : null
+  };
+  localStorage.setItem('trackandtide:mapState', JSON.stringify(state));
+}
+
+function restoreMapState() {
+  try {
+    var raw = localStorage.getItem('trackandtide:mapState');
+    if (!raw) return;
+    var state = JSON.parse(raw);
+    if (state.center && typeof state.zoom === 'number') {
+      trackMap.jumpTo({ center: state.center, zoom: state.zoom });
+    }
+    if (state.stationId) {
+      var st = stationsData.find(function(s) { return s.id === state.stationId; });
+      if (st) { selectStation(st); renderStationDetail(st); }
+    }
+    if (state.portId) {
+      var pt = ferryPortsData.find(function(p) { return p.id === state.portId; });
+      if (pt) showPortRoutes(pt);
+    }
+  } catch(e) {}
+}
 
 
 /* =========================
@@ -1782,6 +1980,7 @@ let selectedPort = null;
 let selectedFerryRouteName = null;
 let visibleFerryRoutes = [];
 let selectedCountryId = null;
+let satelliteMode = false;
 
 const pendingStationId = new URLSearchParams(window.location.search).get("stationId");
 const pendingPortId = new URLSearchParams(window.location.search).get("portId");
@@ -2036,6 +2235,7 @@ function showPortRoutes(port) {
   document.getElementById('sidebarBody').innerHTML = '<div id="stationDetailPanel"></div><h2>'+escapeHTML(port.name)+'</h2><p class="country-description">'+(port.countries&&port.countries.length?port.countries.join(', '):'')+' \u00b7 '+routes.length+' ferry route'+(routes.length>1?'s':'')+'</p>'+(operatorPills?'<div class="detail-pills-map">'+operatorPills+'</div>':'')+'<div class="ferry-route-panel"><p class="route-help">Select a route to highlight it:</p><div class="route-list">'+routeList+'</div></div><div class="detail-links" style="margin-top:0.75rem;"><a class="detail-link" href="'+portsUrl+'" target="_self" rel="noopener">Full details</a></div><div id="mapComments_port"></div><button id="mapComments_portTipBtn" class="detail-link" style="margin-top:0.35rem;cursor:pointer;display:none" onclick="openMapTipModal(\'port\',\''+escapeHTML(port.id)+'\',\''+escapeHTML(port.name)+'\')">Leave a comment</button>';
   loadMapComments('port', port.id, 'mapComments_port');
   updateURL({ portId: port.id });
+  saveMapState();
   document.querySelectorAll('#sidebarContent .route-item').forEach(function(button) {
     button.addEventListener('click', function() {
       const rn = button.dataset.routeName;
@@ -2048,6 +2248,7 @@ function showPortRoutes(port) {
 
 function clearSelectedPort() {
   clearFerryRouteLines(); selectedPort = null; updateURL({ portId: null });
+  saveMapState();
   trackMap.setFilter('ferry-port-circles-selected', ['==',['get','id'], '']);
   trackMap.setFilter('ferry-port-glow', ['==',['get','id'], '']);
   if (trackMap.getSource('ferry-route-highlight')) trackMap.getSource('ferry-route-highlight').setData({ type:'FeatureCollection', features:[] });
@@ -2091,6 +2292,7 @@ function selectStation(station) {
   trackMap.setFilter('station-glow', ['==',['get','id'], station.id]);
   renderStationDetail(station);
   updateURL({ stationId: station.id });
+  saveMapState();
   scrollSidebarIntoView();
 }
 
@@ -2100,6 +2302,7 @@ function clearStationSelection() {
   trackMap.setFilter('station-glow', ['==',['get','id'], '']);
   const panel = document.getElementById("stationDetailPanel");
   if (panel) panel.innerHTML = "";
+  saveMapState();
 }
 
 /* =========================
@@ -2602,7 +2805,7 @@ function showShareToast() {
 <div class="share-toast" id="shareToast">Link copied!</div>
 
 <script src="report-modal.js"></script>
-<script src="bottom-nav.js"></script>
+<script src="bottom-nav.js?v=2"></script>
 
 </body>
 </html>

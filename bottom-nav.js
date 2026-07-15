@@ -22,15 +22,16 @@
   // ── Determine current page ──
   var path = window.location.pathname.replace(/\/$/, '') || '/';
   var isActive = function(href) {
-    if (href === '/') return path === '/' || path === '/index' || path === '/index.html';
+    if (href === '/journey') return path === '/' || path === '/journey' || path === '/journey.html';
+    if (href === '/map') return path === '/map' || path === '/map.html';
     return path.startsWith(href);
   };
 
   // ── Nav items ──
   var items = [
-    { href: '/',         icon: 'webapp icons/world-map.png',      label: 'Map',     alt: 'Map' },
-    { href: '/explore',  icon: 'webapp icons/trainferry.png',     label: 'Explore', alt: 'Explore' },
     { href: '/journey',  icon: 'webapp icons/navigator.png',      label: 'Journey', alt: 'Journey' },
+    { href: '/map',      icon: 'webapp icons/world-map.png',      label: 'Map',     alt: 'Map' },
+    { href: '/explore',  icon: 'webapp icons/trainferry.png',     label: 'Explore', alt: 'Explore' },
     { href: '/more',     icon: 'webapp icons/more.png',           label: 'More',    alt: 'More' }
   ];
 
