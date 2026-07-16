@@ -1,0 +1,15 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+gnv_gen_pal,gnv,GOA-PMO,Genoa - Palermo (GNV),4
+gnv_pal_gen,gnv,PMO-GOA,Palermo - Genoa (GNV),4
+gnv_gen_pto,gnv,GOA-PTO,Genoa - Porto Torres (GNV),4
+gnv_pto_gen,gnv,PTO-GOA,Porto Torres - Genoa (GNV),4
+gnv_gen_olb,gnv,GOA-OLB,Genoa - Olbia (GNV),4
+gnv_olb_gen,gnv,OLB-GOA,Olbia - Genoa (GNV),4
+gnv_liv_pal,gnv,LIV-PMO,Livorno - Palermo (GNV),4
+gnv_pal_liv,gnv,PMO-LIV,Palermo - Livorno (GNV),4
+gnv_civ_pal,gnv,CIV-PMO,Civitavecchia - Palermo (GNV),4
+gnv_pal_civ,gnv,PMO-CIV,Palermo - Civitavecchia (GNV),4
+gnv_gen_bar,gnv,GOA-BCN,Genoa - Barcelona (GNV),4
+gnv_bar_gen,gnv,BCN-GOA,Barcelona - Genoa (GNV),4
+gnv_set_tan,gnv,SET-TNG,Sète - Tangier (GNV),4
+gnv_tan_set,gnv,TNG-SET,Tangier - Sète (GNV),4

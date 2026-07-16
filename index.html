@@ -102,13 +102,16 @@ body {
 
 /* HEADER */
 header {
+  position: relative;
+  z-index: 50;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   row-gap: 0.5rem;
   padding: 8px 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: none;
   flex-wrap: wrap;
 }
 
@@ -191,7 +194,7 @@ header img {
   /* Compact settings button top-right */
   .map-controls {
     position: absolute !important;
-    top: 10px; right: 10px; left: auto; bottom: auto;
+    top: 10px !important; right: 10px !important; left: auto !important; bottom: auto !important;
     z-index: 10; width: auto;
     background: none !important;
     border: none !important;
@@ -263,12 +266,17 @@ header img {
 
   .maplibregl-ctrl-attrib { font-size: 9px !important; }
   body.has-bottom-nav { padding-bottom: 0 !important; }
+
+  /* Float buttons top-left on mobile */
+  .map-float-btns {
+    top: 10px !important; left: 10px !important; bottom: auto !important;
+  }
 }
 
 /* ── Floating icon buttons (both desktop & mobile) ── */
 .map-float-btns {
   position: absolute;
-  top: 10px; left: 10px;
+  bottom: 80px; left: 20px;
   z-index: 10;
   display: flex; flex-direction: column; gap: 8px;
 }
@@ -315,25 +323,26 @@ header img {
 /* Header collapsed — desktop only */
 .header-collapsed .main-nav a:nth-child(n+3) { display: none; }
 
-/* LAYOUT */
+/* LAYOUT — desktop: fullscreen map behind header, sidebar overlays */
 .container {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  align-items: start;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  height: 0;
 }
 
-/* MAP */
+/* MAP — fullscreen behind header */
 .map-column {
-  position: sticky;
-  top: 1rem;
-  align-self: start;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%; height: 100dvh;
+  z-index: 1;
 }
 
 #map {
-  height: 75vh;
-  border-radius: 0 0 16px 16px;
+  width: 100%;
+  height: 100%; height: 100dvh;
+  border-radius: 0;
   overflow: hidden;
   will-change: transform;
   transform: translateZ(0);
@@ -343,14 +352,18 @@ header img {
   -moz-osx-font-smoothing: grayscale;
 }
 .map-controls {
+  position: absolute;
+  top: auto; right: auto;
+  bottom: 20px; left: 20px;
+  z-index: 10;
   display: flex;
   gap: 1.25rem;
   align-items: center;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-bottom: none;
-  border-radius: 16px 16px 0 0;
-  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   flex-wrap: wrap;
 }
 
@@ -387,16 +400,19 @@ header img {
 .maplibregl-popup-content { background: var(--panel) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; padding: 0.5rem 0.75rem !important; font-size: 0.82rem !important; }
 .maplibregl-popup-tip { border-top-color: var(--panel) !important; }
 
-/* SIDEBAR — desktop */
+/* SIDEBAR — desktop: floating overlay bottom-right */
 .sidebar {
+  position: fixed;
+  bottom: 1rem; right: 1rem;
+  z-index: 60;
+  width: 380px;
+  max-height: calc(100dvh - 80px);
   background: var(--panel);
   padding: 1rem;
   border-radius: 16px;
   border: 1px solid var(--border);
-  max-height: calc(100vh - 140px);
   overflow-y: auto;
-  transition: max-height 0.25s ease;
-  box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
 }
 
 /* SEARCH */
@@ -488,6 +504,65 @@ header img {
   background: rgba(255,255,255,0.05); color: var(--text); font: inherit; font-size: 0.8rem; outline: none;
 }
 .country-drop-search::placeholder { opacity: 0.5; }
+
+/* ── Surprise me modal ── */
+.surprise-search {
+  width: 100%; box-sizing: border-box;
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;
+  background: var(--card); color: var(--text);
+  font: inherit; font-size: 0.9rem; outline: none;
+  transition: border-color 0.2s;
+}
+.surprise-search:focus { border-color: var(--hover); }
+.surprise-search::placeholder { opacity: 0.45; }
+
+.surprise-actions {
+  display: flex; gap: 0.25rem; align-items: center;
+  margin-bottom: 0.65rem; font-size: 0.82rem;
+}
+.surprise-actions a {
+  color: var(--hover); text-decoration: none;
+  padding: 0.3rem 0.7rem; border-radius: 999px;
+  transition: background 0.15s;
+}
+.surprise-actions a:hover { background: rgba(56,189,248,0.12); }
+.surprise-actions .surprise-actions-sep { opacity: 0.35; }
+
+.surprise-country-list {
+  max-height: 240px; overflow-y: auto;
+  padding: 0.35rem 0; margin-bottom: 1rem;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+}
+.surprise-country-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem 0.7rem; cursor: pointer;
+  font-size: 0.88rem; border-radius: 6px; margin: 0 0.25rem;
+  transition: background 0.12s;
+  user-select: none;
+}
+.surprise-country-item:hover { background: rgba(56,189,248,0.08); }
+.surprise-country-item input[type="checkbox"] {
+  accent-color: var(--hover); width: 16px; height: 16px;
+  cursor: pointer; flex-shrink: 0;
+}
+
+.surprise-go-btn {
+  width: 100%; padding: 0.75rem 1.5rem;
+  border: none; border-radius: 999px;
+  background: var(--hover); color: #fff;
+  font: inherit; font-weight: 700; font-size: 1rem;
+  cursor: pointer; transition: background 0.2s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+.surprise-go-btn:hover { background: var(--active); }
+.surprise-go-btn:active { transform: scale(0.97); }
+.surprise-go-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+@media (max-width: 768px) {
+  #surpriseModal { align-items: flex-start; padding-top: 1rem; }
+}
 .route-dist { font-size: 0.78rem; opacity: 0.6; margin-left: 0.35rem; }
 
 /* cards */
@@ -982,13 +1057,9 @@ a.pill:hover {
   transform: translateY(-1px);
 }
 
-/* Footer */
+/* Footer — hidden on map page */
 .site-footer {
-  text-align: center;
-  padding: 1.5rem 1rem 2rem;
-  border-top: 1px solid var(--border);
-  margin-top: 2rem;
-  opacity: 0.85;
+  display: none;
 }
 
 .footer-link {
@@ -1364,7 +1435,7 @@ function buildSurpriseCountryList() {
   const countries = [...new Set(Object.keys(stationDataset.countries || {}))].sort();
   if (!countries.length) return;
   list.innerHTML = countries.map(c =>
-    `<label style="display:flex;align-items:center;gap:0.4rem;padding:0.2rem 0.3rem;cursor:pointer;font-size:0.85rem;border-radius:6px" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background=''"><input type="checkbox" value="${escapeHTML(c)}"> ${escapeHTML(c)}</label>`
+    `<label class="surprise-country-item"><input type="checkbox" value="${escapeHTML(c)}"> ${escapeHTML(c)}</label>`
   ).join('');
 }
 function filterSurpriseCountries() {
@@ -1503,7 +1574,7 @@ satelliteToggle.addEventListener("change", () => {
 function setSatelliteMode(enabled) {
   satelliteMode = enabled;
   satelliteToggle.checked = enabled;
-  localStorage.setItem("trackandtide:satellite", enabled ? "1" : "0");
+  sessionStorage.setItem("trackandtide:satellite", enabled ? "1" : "0");
 
   if (!trackMap || !trackMap._initialSetupDone) return;
 
@@ -1801,7 +1872,7 @@ function snapSheet() {
   }
 }
 
-// Tap map background to close
+// Tap map background to close / deselect
 var mapColumn = document.querySelector(".map-column");
 if (mapColumn) {
   mapColumn.addEventListener("click", function(e) {
@@ -1812,6 +1883,12 @@ if (mapColumn) {
   });
 }
 
+// Desktop: click empty map area to deselect station/port
+function deselectAll() {
+  clearStationSelection();
+  if (typeof clearSelectedPort === 'function') clearSelectedPort();
+}
+
 /* =========================
    MAP — Maplibre GL JS
 ========================= */
@@ -1819,7 +1896,7 @@ let currentMapTheme = 'light';
 
 function initMap() {
   currentMapTheme = detectTheme();
-  satelliteMode = localStorage.getItem("trackandtide:satellite") === "1";
+  satelliteMode = sessionStorage.getItem("trackandtide:satellite") === "1";
   satelliteToggle.checked = satelliteMode;
 
   var styleUrl = currentMapTheme === 'light'
@@ -1890,6 +1967,11 @@ function initMap() {
           const pt = ferryPortsData.find(p => p.id === props.id);
           if (pt) showPortRoutes(pt);
         });
+        // Desktop: click empty map area to deselect
+        trackMap.on('click', (e) => {
+          if (window._clickHandled) { window._clickHandled = false; return; }
+          deselectAll();
+        });
       }
 
       renderFavoritesPanel(); updateStatsBar();
@@ -1939,12 +2021,12 @@ function saveMapState() {
     stationId: selectedStationId,
     portId: selectedPort ? selectedPort.id : null
   };
-  localStorage.setItem('trackandtide:mapState', JSON.stringify(state));
+  sessionStorage.setItem('trackandtide:mapState', JSON.stringify(state));
 }
 
 function restoreMapState() {
   try {
-    var raw = localStorage.getItem('trackandtide:mapState');
+    var raw = sessionStorage.getItem('trackandtide:mapState');
     if (!raw) return;
     var state = JSON.parse(raw);
     if (state.center && typeof state.zoom === 'number') {
@@ -2793,12 +2875,14 @@ function showShareToast() {
     <button class="modal-close" onclick="closeSurpriseModal()" aria-label="Close">&times;</button>
     <h2>Surprise me!</h2>
     <p style="margin-bottom:0.8rem">Pick countries and we'll fly you to a random station.</p>
-    <input type="text" class="country-drop-search" id="surpriseCountrySearch" placeholder="Filter countries..." oninput="filterSurpriseCountries()" style="width:100%;margin-bottom:0.5rem;border:1px solid var(--border);border-radius:10px;padding:0.6rem 0.75rem;background:rgba(255,255,255,0.08);color:var(--text);font:inherit;box-sizing:border-box" />
-    <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem;font-size:0.8rem">
-      <a href="#" onclick="selectAllSurpriseCountries();return false">All</a> — <a href="#" onclick="deselectAllSurpriseCountries();return false">None</a>
+    <input type="text" class="surprise-search" id="surpriseCountrySearch" placeholder="Filter countries..." oninput="filterSurpriseCountries()" />
+    <div class="surprise-actions">
+      <a href="#" onclick="selectAllSurpriseCountries();return false">Select all</a>
+      <span class="surprise-actions-sep">·</span>
+      <a href="#" onclick="deselectAllSurpriseCountries();return false">Clear</a>
     </div>
-    <div id="surpriseCountryList" style="max-height:220px;overflow-y:auto;padding:0.25rem 0;margin-bottom:1rem"></div>
-    <button class="submit-btn" id="surpriseGoBtn" onclick="doSurprise()" style="width:100%">Go!</button>
+    <div class="surprise-country-list" id="surpriseCountryList"></div>
+    <button class="surprise-go-btn" id="surpriseGoBtn" onclick="doSurprise()">Go!</button>
   </div>
 </div>
 

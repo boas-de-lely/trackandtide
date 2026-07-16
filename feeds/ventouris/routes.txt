@@ -1,0 +1,5 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+ve_bar_dur,ventouris,BRI-DUR,Bari - Durrës (Ventouris),4
+ve_dur_bar,ventouris,DUR-BRI,Durrës - Bari (Ventouris),4
+ve_bar_igo,ventouris,BRI-IGO,Bari - Igoumenitsa (Ventouris),4
+ve_igo_bar,ventouris,IGO-BRI,Igoumenitsa - Bari (Ventouris),4

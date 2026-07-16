@@ -1,0 +1,4 @@
+stop_id,stop_name,stop_lat,stop_lon
+piraeus,Piraeus,37.94,23.64
+chania,Chania,35.52,24.02
+heraklion,Heraklion,35.34,25.14

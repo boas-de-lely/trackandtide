@@ -1,0 +1,13 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+dfds_dov_cal,dfds,DOV-CAL,Dover - Calais (DFDS),4
+dfds_cal_dov,dfds,CAL-DOV,Calais - Dover (DFDS),4
+dfds_dov_dun,dfds,DOV-DUN,Dover - Dunkirk (DFDS),4
+dfds_dun_dov,dfds,DUN-DOV,Dunkirk - Dover (DFDS),4
+dfds_new_ijm,dfds,NCL-IJM,Newcastle - IJmuiden (DFDS),4
+dfds_ijm_new,dfds,IJM-NCL,IJmuiden - Newcastle (DFDS),4
+dfds_cph_osl,dfds,CPH-OSL,Copenhagen - Oslo (DFDS),4
+dfds_osl_cph,dfds,OSL-CPH,Oslo - Copenhagen (DFDS),4
+dfds_fre_osl,dfds,FDH-OSL,Frederikshavn - Oslo (DFDS),4
+dfds_osl_fre,dfds,OSL-FDH,Oslo - Frederikshavn (DFDS),4
+dfds_new_die,dfds,NHV-DPE,Newhaven - Dieppe (DFDS),4
+dfds_die_new,dfds,DPE-NHV,Dieppe - Newhaven (DFDS),4

@@ -1,0 +1,53 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+dfds_dov_cal,daily,dfds_dov_cal_1,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_2,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_3,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_4,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_5,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_6,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_7,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_8,Calais,0,Côte des Dunes
+dfds_dov_cal,daily,dfds_dov_cal_9,Calais,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_1,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_2,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_3,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_4,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_5,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_6,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_7,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_8,Dover,0,Côte des Dunes
+dfds_cal_dov,daily,dfds_cal_dov_9,Dover,0,Côte des Dunes
+dfds_dov_dun,daily,dfds_dov_dun_1,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_2,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_3,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_4,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_5,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_6,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_7,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_8,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_9,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_10,Dunkirk,0,Dover Seaways
+dfds_dov_dun,daily,dfds_dov_dun_11,Dunkirk,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_1,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_2,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_3,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_4,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_5,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_6,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_7,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_8,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_9,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_10,Dover,0,Dover Seaways
+dfds_dun_dov,daily,dfds_dun_dov_11,Dover,0,Dover Seaways
+dfds_new_ijm,daily,dfds_new_ijm_1,IJmuiden (Amsterdam),0,King Seaways
+dfds_ijm_new,daily,dfds_ijm_new_1,Newcastle,0,Princess Seaways
+dfds_cph_osl,daily,dfds_cph_osl_1,Oslo,0,Pearl Seaways
+dfds_osl_cph,daily,dfds_osl_cph_1,Copenhagen,0,Crown Seaways
+dfds_fre_osl,daily,dfds_fre_osl_1,Oslo,0,Bergensfjord
+dfds_osl_fre,daily,dfds_osl_fre_1,Frederikshavn,0,Bergensfjord
+dfds_new_die,daily,dfds_new_die_1,Dieppe,0,Seven Sisters
+dfds_new_die,daily,dfds_new_die_2,Dieppe,0,Seven Sisters
+dfds_new_die,daily,dfds_new_die_3,Dieppe,0,Seven Sisters
+dfds_die_new,daily,dfds_die_new_1,Newhaven,0,Seven Sisters
+dfds_die_new,daily,dfds_die_new_2,Newhaven,0,Seven Sisters
+dfds_die_new,daily,dfds_die_new_3,Newhaven,0,Seven Sisters

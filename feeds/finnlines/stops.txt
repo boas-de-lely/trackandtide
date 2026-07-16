@@ -1,0 +1,7 @@
+stop_id,stop_name,stop_lat,stop_lon
+helsinki,Helsinki,60.17,24.94
+travemunde,Travemünde,53.96,10.87
+naantali,Naantali,60.47,22.03
+kapellskar,Kapellskär,59.72,19.06
+malmo,Malmö,55.61,13
+swinoujscie,Świnoujście,53.91,14.25

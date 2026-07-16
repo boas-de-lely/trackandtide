@@ -1,0 +1,19 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+cf_nic_bas,daily,cf_nic_bas_1,Bastia,0,Mega Express
+cf_bas_nic,daily,cf_bas_nic_1,Nice,0,Mega Express
+cf_nic_bas,daily,cf_nic_bas_2,Bastia,0,Mega Express
+cf_bas_nic,daily,cf_bas_nic_2,Nice,0,Mega Express
+cf_nic_iro,daily,cf_nic_iro_1,L'Île-Rousse,0,Mega Express Two
+cf_iro_nic,daily,cf_iro_nic_1,Nice,0,Mega Express Two
+cf_tou_aja,daily,cf_tou_aja_1,Ajaccio,0,Mega Smeralda
+cf_aja_tou,daily,cf_aja_tou_1,Toulon,0,Mega Smeralda
+cf_tou_bas,daily,cf_tou_bas_1,Bastia,0,Pascal Lota
+cf_bas_tou,daily,cf_bas_tou_1,Toulon,0,Pascal Lota
+cf_tou_iro,daily,cf_tou_iro_1,L'Île-Rousse,0,Mega Andrea
+cf_iro_tou,daily,cf_iro_tou_1,Toulon,0,Mega Andrea
+cf_liv_bas,daily,cf_liv_bas_1,Bastia,0,Mega Regina
+cf_bas_liv,daily,cf_bas_liv_1,Livorno,0,Mega Regina
+cf_sav_bas,daily,cf_sav_bas_1,Bastia,0,Mega Victoria
+cf_bas_sav,daily,cf_bas_sav_1,Savona,0,Mega Victoria
+cf_liv_gol,daily,cf_liv_gol_1,Golfo Aranci,0,Mega Express Four
+cf_gol_liv,daily,cf_gol_liv_1,Livorno,0,Mega Express Four

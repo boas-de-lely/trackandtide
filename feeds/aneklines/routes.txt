@@ -1,0 +1,5 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+ak_pir_cha,anek_lines,PIR-CHQ,Piraeus - Chania (ANEK),4
+ak_cha_pir,anek_lines,CHQ-PIR,Chania - Piraeus (ANEK),4
+ak_pir_her,anek_lines,PIR-HER,Piraeus - Heraklion (ANEK),4
+ak_her_pir,anek_lines,HER-PIR,Heraklion - Piraeus (ANEK),4

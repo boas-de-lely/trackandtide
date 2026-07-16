@@ -1,0 +1,9 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+gr_civ_bar,grimaldi_lines,CIV-BCN,Civitavecchia - Barcelona (Grimaldi),4
+gr_bar_civ,grimaldi_lines,BCN-CIV,Barcelona - Civitavecchia (Grimaldi),4
+gr_liv_bar,grimaldi_lines,LIV-BCN,Livorno - Barcelona (Grimaldi),4
+gr_bar_liv,grimaldi_lines,BCN-LIV,Barcelona - Livorno (Grimaldi),4
+gr_civ_pto,grimaldi_lines,CIV-PTO,Civitavecchia - Porto Torres (Grimaldi),4
+gr_pto_civ,grimaldi_lines,PTO-CIV,Porto Torres - Civitavecchia (Grimaldi),4
+gr_liv_pal,grimaldi_lines,LIV-PMO,Livorno - Palermo (Grimaldi),4
+gr_pal_liv,grimaldi_lines,PMO-LIV,Palermo - Livorno (Grimaldi),4

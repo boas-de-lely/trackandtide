@@ -1,0 +1,15 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+gnv_gen_pal,daily,gnv_gen_pal_1,Palermo,0,La Suprema
+gnv_pal_gen,daily,gnv_pal_gen_1,Genoa,0,La Suprema
+gnv_gen_pto,daily,gnv_gen_pto_1,Porto Torres,0,La Superba
+gnv_pto_gen,daily,gnv_pto_gen_1,Genoa,0,La Superba
+gnv_gen_olb,daily,gnv_gen_olb_1,Olbia,0,Excelsior
+gnv_olb_gen,daily,gnv_olb_gen_1,Genoa,0,Excelsior
+gnv_liv_pal,daily,gnv_liv_pal_1,Palermo,0,Splendid
+gnv_pal_liv,daily,gnv_pal_liv_1,Livorno,0,Splendid
+gnv_civ_pal,daily,gnv_civ_pal_1,Palermo,0,Majestic
+gnv_pal_civ,daily,gnv_pal_civ_1,Civitavecchia,0,Majestic
+gnv_gen_bar,daily,gnv_gen_bar_1,Barcelona,0,Fantastic
+gnv_bar_gen,daily,gnv_bar_gen_1,Genoa,0,Fantastic
+gnv_set_tan,daily,gnv_set_tan_1,Tangier,0,SNAV Sardegna
+gnv_tan_set,daily,gnv_tan_set_1,Sète,0,SNAV Sardegna

@@ -1,0 +1,5 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+fl_ber_hir,fjord_line,BGO-HIR,Bergen - Hirtshals (Fjord Line),4
+fl_hir_ber,fjord_line,HIR-BGO,Hirtshals - Bergen (Fjord Line),4
+fl_sta_ber,fjord_line,SVG-BGO,Stavanger - Bergen (Fjord Line),4
+fl_ber_sta,fjord_line,BGO-SVG,Bergen - Stavanger (Fjord Line),4

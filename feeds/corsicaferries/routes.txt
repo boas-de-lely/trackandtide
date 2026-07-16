@@ -1,0 +1,17 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+cf_nic_bas,corsica_ferries,NCE-BAS,Nice - Bastia (Corsica Ferries),4
+cf_bas_nic,corsica_ferries,BAS-NCE,Bastia - Nice (Corsica Ferries),4
+cf_nic_iro,corsica_ferries,NCE-IRO,Nice - L'Île-Rousse (Corsica Ferries),4
+cf_iro_nic,corsica_ferries,IRO-NCE,L'Île-Rousse - Nice (Corsica Ferries),4
+cf_tou_aja,corsica_ferries,TLN-AJA,Toulon - Ajaccio (Corsica Ferries),4
+cf_aja_tou,corsica_ferries,AJA-TLN,Ajaccio - Toulon (Corsica Ferries),4
+cf_tou_bas,corsica_ferries,TLN-BAS,Toulon - Bastia (Corsica Ferries),4
+cf_bas_tou,corsica_ferries,BAS-TLN,Bastia - Toulon (Corsica Ferries),4
+cf_tou_iro,corsica_ferries,TLN-IRO,Toulon - L'Île-Rousse (Corsica Ferries),4
+cf_iro_tou,corsica_ferries,IRO-TLN,L'Île-Rousse - Toulon (Corsica Ferries),4
+cf_liv_bas,corsica_ferries,LIV-BAS,Livorno - Bastia (Corsica Ferries),4
+cf_bas_liv,corsica_ferries,BAS-LIV,Bastia - Livorno (Corsica Ferries),4
+cf_sav_bas,corsica_ferries,SAV-BAS,Savona - Bastia (Corsica Ferries),4
+cf_bas_sav,corsica_ferries,BAS-SAV,Bastia - Savona (Corsica Ferries),4
+cf_liv_gol,corsica_ferries,LIV-GOL,Livorno - Golfo Aranci (Corsica Ferries),4
+cf_gol_liv,corsica_ferries,GOL-LIV,Golfo Aranci - Livorno (Corsica Ferries),4

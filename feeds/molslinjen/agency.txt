@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+molslinjen,Molslinjen,https://www.molslinjen.com,Europe/Copenhagen,en,+45 70 10 14 15

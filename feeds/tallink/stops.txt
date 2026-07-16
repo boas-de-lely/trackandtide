@@ -1,0 +1,5 @@
+stop_id,stop_name,stop_lat,stop_lon
+helsinki,Helsinki,60.17,24.94
+tallinn,Tallinn,59.44,24.75
+stockholm,Stockholm,59.33,18.07
+mariehamn,Mariehamn,60.08,19.92

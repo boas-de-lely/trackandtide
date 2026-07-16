@@ -1,0 +1,7 @@
+stop_id,stop_name,stop_lat,stop_lon
+dover,Dover,51.13,1.31
+calais,Calais,50.97,1.86
+hull,Hull,53.74,-0.33
+rotterdam,Rotterdam,51.95,4.14
+cairnryan,Cairnryan,54.97,-5.02
+larne,Larne,54.85,-5.81

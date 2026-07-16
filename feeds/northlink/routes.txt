@@ -1,0 +1,7 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+nl_abe_ler,northlink,ABZ-LWK,Aberdeen - Lerwick (NorthLink),4
+nl_ler_abe,northlink,LWK-ABZ,Lerwick - Aberdeen (NorthLink),4
+nl_abe_kir,northlink,ABZ-KWL,Aberdeen - Kirkwall (NorthLink),4
+nl_kir_abe,northlink,KWL-ABZ,Kirkwall - Aberdeen (NorthLink),4
+nl_scr_str,northlink,SCR-STN,Scrabster - Stromness (NorthLink),4
+nl_str_scr,northlink,STN-SCR,Stromness - Scrabster (NorthLink),4

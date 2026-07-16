@@ -1,0 +1,4 @@
+stop_id,stop_name,stop_lat,stop_lon
+visby,Visby,57.64,18.3
+nynashamn,Nynäshamn,58.9,17.95
+oskarshamn,Oskarshamn,57.26,16.45

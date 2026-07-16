@@ -13,41 +13,33 @@ function get(host, port, path) {
   });
 }
 
-// Server-side itinerary filter: only allow train & ferry legs
-function filterItineraries(data, modeStr) {
-  var itineraries = (data && data.plan && data.plan.itineraries) || (data && data.itineraries);
-  if (!itineraries || !Array.isArray(itineraries)) { console.log('[filter] WARNING: no itineraries found in response'); return; }
-  var before = itineraries.length;
-
-  // Collect all unique modes for debugging
-  var allModes = {};
-  itineraries.forEach(function(it) {
-    (it.legs||[]).forEach(function(leg) {
-      allModes[(leg.mode||'UNKNOWN')] = (leg.routeShortName||leg.route||'');
-    });
-  });
-  console.log('[filter] all modes in response:', JSON.stringify(allModes));
-
-  // Blocklist: anything containing these words is excluded
-  var blocked = ['BUS', 'COACH', 'TRAM', 'SUBWAY', 'METRO', 'GONDOLA', 'CABLE_CAR', 'FUNICULAR', 'TRANSIT'];
-
-  var filtered = itineraries.filter(function(it) {
-    return (it.legs||[]).every(function(leg) {
-      var m = (leg.mode||'').toUpperCase();
-      for (var i = 0; i < blocked.length; i++) {
-        if (m.indexOf(blocked[i]) >= 0) {
-          console.log('[filter] DROPPED itinerary — leg mode: ' + leg.mode + ' route: ' + (leg.routeShortName||leg.route||'') + ' agency: ' + (leg.agencyName||''));
-          return false;
-        }
+function post(host, port, path, body) {
+  return new Promise((ok, fail) => {
+    const data = JSON.stringify(body);
+    const opts = {
+      hostname: host, port: port, path: path, method: 'POST',
+      timeout: 15000,
+      headers: {
+        'User-Agent': 'trackandtide/5.0',
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(data)
       }
-      return true;
+    };
+    const req = http.request(opts, r => {
+      let d = ''; r.on('data', c => d += c);
+      r.on('end', () => {
+        if (r.statusCode !== 200) { fail(new Error('HTTP ' + r.statusCode)); return; }
+        try { ok(JSON.parse(d)) } catch (e) { fail(new Error('Invalid JSON')); }
+      });
     });
+    req.on('error', fail);
+    req.write(data);
+    req.end();
   });
-
-  if (data.plan) { data.plan.itineraries = filtered; }
-  else { data.itineraries = filtered; }
-  console.log('[filter] ' + before + ' → ' + filtered.length + ' itineraries');
 }
+
+// Rail & ferry modes sent to MOTIS for server-side filtering
+const RAIL_MODES = ['HIGHSPEED_RAIL', 'LONG_DISTANCE', 'NIGHT_RAIL', 'REGIONAL_RAIL', 'SUBURBAN', 'FERRY'];
 
 function delayMin(scheduled, actual) {
   if (!scheduled || !actual) return null;
@@ -118,16 +110,49 @@ require('http').createServer(async (req, res) => {
         let params = new URLSearchParams();
         params.set('fromPlace', u.searchParams.get('fromPlace') || '');
         params.set('toPlace', u.searchParams.get('toPlace') || '');
-        params.set('departureTime', u.searchParams.get('departureTime') || u.searchParams.get('time') || '');
-        params.set('mode', u.searchParams.get('mode') || 'RAIL');
+        // MOTIS expects 'time', not 'departureTime'
+        params.set('time', u.searchParams.get('departureTime') || u.searchParams.get('time') || '');
+        if (u.searchParams.get('arriveBy') === 'true') params.set('arriveBy', 'true');
+        if (u.searchParams.get('minTransferTime')) params.set('minTransferTime', u.searchParams.get('minTransferTime'));
+        if (u.searchParams.get('pageCursor')) {
+          params.set('pageCursor', u.searchParams.get('pageCursor'));
+          console.log('[plan via departures] pageCursor:', u.searchParams.get('pageCursor').substring(0, 60) + '...');
+        }
+        // Resolve via coordinates to MOTIS stop IDs via reverse-geocode
+        var viaCoords = u.searchParams.getAll('via');
+        for (var i = 0; i < viaCoords.length; i++) {
+          var coords = viaCoords[i];
+          if (!coords) continue;
+          try {
+            var geo = await get('192.168.188.170', 8080, '/api/v1/reverse-geocode?place=' + encodeURIComponent(coords) + '&type=STOP&numResults=1');
+            if (Array.isArray(geo) && geo.length > 0 && geo[0].id) {
+              params.append('via', geo[0].id);
+              console.log('[plan via] reverse-geocode: ' + coords + ' → ' + geo[0].id + ' (' + geo[0].name + ')');
+            } else {
+              console.warn('[plan via] no STOP found for coords: ' + coords);
+            }
+          } catch (e) {
+            console.warn('[plan via] reverse-geocode error for ' + coords + ': ' + e.message);
+          }
+        }
         params.set('numItineraries', u.searchParams.get('numItineraries') || '6');
         params.set('maxWalkDistance', u.searchParams.get('maxWalkDistance') || '1000');
         params.set('walkSpeed', u.searchParams.get('walkSpeed') || '1.4');
-        const motisPath = '/api/v1/plan?' + params.toString();
-        console.log('[plan via departures] proxying to MOTIS:', motisPath);
+        params.set('transitModes', RAIL_MODES.join(','));
+        params.set('pedestrianProfile', 'FOOT');
+        params.set('useRoutedTransfers', 'false');
+        const motisPath = '/api/v6/plan?' + params.toString();
+        console.log('[plan via departures] GET MOTIS:', motisPath.substring(0, 200) + '...');
         const data = await get('192.168.188.170', 8080, motisPath);
-        // Server-side filter: exclude bus/coach/tram/metro — only train & ferry
-        filterItineraries(data, params.get('mode') || 'RAIL');
+        if (data) {
+          console.log('[plan via departures] response keys:', Object.keys(data).join(', '));
+          if (data.previousPageCursor) console.log('[plan via departures] top prevCursor:', data.previousPageCursor.substring(0, 60) + '...');
+          if (data.nextPageCursor) console.log('[plan via departures] top nextCursor:', data.nextPageCursor.substring(0, 60) + '...');
+          if (data.metadata) console.log('[plan via departures] metadata keys:', Object.keys(data.metadata).join(', '));
+          if (data.plan) {
+            console.log('[plan via departures] plan keys:', Object.keys(data.plan).join(', '));
+          }
+        }
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(data));
       } catch (e) {
@@ -162,17 +187,18 @@ require('http').createServer(async (req, res) => {
   // Proxy /plan to MOTIS for journey planning
   if (u.pathname === '/plan') {
     try {
-      // MOTIS expects 'departureTime', not 'time' — transform if needed
       let params = new URLSearchParams(u.search);
-      if (params.has('time') && !params.has('departureTime')) {
-        params.set('departureTime', params.get('time'));
-        params.delete('time');
+      // MOTIS expects 'time', client may send 'departureTime' — normalize to 'time'
+      if (params.has('departureTime') && !params.has('time')) {
+        params.set('time', params.get('departureTime'));
+        params.delete('departureTime');
       }
-      const motisPath = '/api/v1/plan?' + params.toString();
-      console.log('[plan] proxying to MOTIS:', motisPath);
+      params.set('transitModes', RAIL_MODES.join(','));
+      params.set('pedestrianProfile', 'FOOT');
+      params.set('useRoutedTransfers', 'false');
+      const motisPath = '/api/v6/plan?' + params.toString();
+      console.log('[plan] GET MOTIS:', motisPath);
       const data = await get('192.168.188.170', 8080, motisPath);
-      // Server-side filter: exclude bus/coach/tram/metro — only train & ferry
-      filterItineraries(data, params.get('mode') || 'RAIL');
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(data));
     } catch (e) {

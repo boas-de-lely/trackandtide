@@ -1,0 +1,5 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+dg_vis_nyn,dest_gotland,VBY-NYN,Visby - Nynäshamn (Dest. Gotland),4
+dg_nyn_vis,dest_gotland,NYN-VBY,Nynäshamn - Visby (Dest. Gotland),4
+dg_vis_osk,dest_gotland,VBY-OSK,Visby - Oskarshamn (Dest. Gotland),4
+dg_osk_vis,dest_gotland,OSK-VBY,Oskarshamn - Visby (Dest. Gotland),4

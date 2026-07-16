@@ -1,0 +1,8 @@
+stop_id,stop_name,stop_lat,stop_lon
+split,Split,43.51,16.44
+ancona,Ancona,43.62,13.51
+dubrovnik,Dubrovnik,42.65,18.08
+bari,Bari,41.13,16.87
+zadar,Zadar,44.12,15.23
+supetar,Supetar (Brač),43.38,16.55
+starigrad,Stari Grad,43.18,16.6

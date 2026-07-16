@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+anek_lines,ANEK Lines,https://www.anek.gr,Europe/Athens,en,+30 210 419 7400

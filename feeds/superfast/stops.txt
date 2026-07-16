@@ -1,0 +1,6 @@
+stop_id,stop_name,stop_lat,stop_lon
+patras,Patras,38.25,21.73
+igoumenitsa,Igoumenitsa,39.51,20.21
+ancona,Ancona,43.62,13.51
+bari,Bari,41.13,16.87
+venice,Venice,45.44,12.32

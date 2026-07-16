@@ -1,0 +1,5 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+sc_rod_put,scandlines,ROD-PUT,Rødby - Puttgarden (Scandlines),4
+sc_put_rod,scandlines,PUT-ROD,Puttgarden - Rødby (Scandlines),4
+sc_ged_ros,scandlines,GED-RSK,Gedser - Rostock (Scandlines),4
+sc_ros_ged,scandlines,RSK-GED,Rostock - Gedser (Scandlines),4

@@ -1,0 +1,15 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+nl_abe_ler,daily,nl_abe_ler_1,Lerwick,0,Hjaltland
+nl_ler_abe,daily,nl_ler_abe_1,Aberdeen,0,Hrossey
+nl_abe_kir,daily,nl_abe_kir_1,Kirkwall,0,Hrossey
+nl_kir_abe,daily,nl_kir_abe_1,Aberdeen,0,Hjaltland
+nl_scr_str,daily,nl_scr_str_1,Stromness,0,Hamnavoe
+nl_str_scr,daily,nl_str_scr_1,Scrabster,0,Hamnavoe
+nl_scr_str,daily,nl_scr_str_2,Stromness,0,Hamnavoe
+nl_str_scr,daily,nl_str_scr_2,Scrabster,0,Hamnavoe
+nl_scr_str,daily,nl_scr_str_3,Stromness,0,Hamnavoe
+nl_str_scr,daily,nl_str_scr_3,Scrabster,0,Hamnavoe
+nl_scr_str,daily,nl_scr_str_4,Stromness,0,Hamnavoe
+nl_str_scr,daily,nl_str_scr_4,Scrabster,0,Hamnavoe
+nl_scr_str,daily,nl_scr_str_5,Stromness,0,Hamnavoe
+nl_str_scr,daily,nl_str_scr_5,Scrabster,0,Hamnavoe

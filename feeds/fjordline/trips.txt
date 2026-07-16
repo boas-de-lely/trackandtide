@@ -1,0 +1,5 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+fl_ber_hir,daily,fl_ber_hir_1,Hirtshals,0,Stavangerfjord
+fl_hir_ber,daily,fl_hir_ber_1,Bergen,0,Bergensfjord
+fl_sta_ber,daily,fl_sta_ber_1,Bergen,0,Fjord Norway
+fl_ber_sta,daily,fl_ber_sta_1,Stavanger,0,Fjord Norway

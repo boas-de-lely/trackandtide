@@ -1,0 +1,7 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+sf_pat_anc,superfast,PAT-AOI,Patras - Ancona (Superfast),4
+sf_anc_pat,superfast,AOI-PAT,Ancona - Patras (Superfast),4
+sf_pat_bar,superfast,PAT-BRI,Patras - Bari (Superfast),4
+sf_bar_pat,superfast,BRI-PAT,Bari - Patras (Superfast),4
+sf_pat_ven,superfast,PAT-VCE,Patras - Venice (Superfast),4
+sf_ven_pat,superfast,VCE-PAT,Venice - Patras (Superfast),4

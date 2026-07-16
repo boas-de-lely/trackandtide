@@ -1,0 +1,25 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+cl_osl_kie,daily,cl_osl_kie_1,Kiel,0,Color Fantasy
+cl_kie_osl,daily,cl_kie_osl_1,Oslo,0,Color Magic
+cl_krs_hir,daily,cl_krs_hir_1,Hirtshals,0,SuperSpeed
+cl_hir_krs,daily,cl_hir_krs_1,Kristiansand,0,SuperSpeed
+cl_krs_hir,daily,cl_krs_hir_2,Hirtshals,0,SuperSpeed
+cl_hir_krs,daily,cl_hir_krs_2,Kristiansand,0,SuperSpeed
+cl_krs_hir,daily,cl_krs_hir_3,Hirtshals,0,SuperSpeed
+cl_hir_krs,daily,cl_hir_krs_3,Kristiansand,0,SuperSpeed
+cl_krs_hir,daily,cl_krs_hir_4,Hirtshals,0,SuperSpeed
+cl_hir_krs,daily,cl_hir_krs_4,Kristiansand,0,SuperSpeed
+cl_krs_hir,daily,cl_krs_hir_5,Hirtshals,0,SuperSpeed
+cl_hir_krs,daily,cl_hir_krs_5,Kristiansand,0,SuperSpeed
+cl_lar_hir,daily,cl_lar_hir_1,Hirtshals,0,SuperSpeed 2
+cl_hir_lar,daily,cl_hir_lar_1,Larvik,0,SuperSpeed 2
+cl_lar_hir,daily,cl_lar_hir_2,Hirtshals,0,SuperSpeed 2
+cl_hir_lar,daily,cl_hir_lar_2,Larvik,0,SuperSpeed 2
+cl_san_str,daily,cl_san_str_1,Strömstad,0,Color Hybrid
+cl_str_san,daily,cl_str_san_1,Sandefjord,0,Color Hybrid
+cl_san_str,daily,cl_san_str_2,Strömstad,0,Color Hybrid
+cl_str_san,daily,cl_str_san_2,Sandefjord,0,Color Hybrid
+cl_san_str,daily,cl_san_str_3,Strömstad,0,Color Hybrid
+cl_str_san,daily,cl_str_san_3,Sandefjord,0,Color Hybrid
+cl_san_str,daily,cl_san_str_4,Strömstad,0,Color Hybrid
+cl_str_san,daily,cl_str_san_4,Sandefjord,0,Color Hybrid

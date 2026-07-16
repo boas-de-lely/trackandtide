@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+irish_ferries,Irish Ferries,https://www.irishferries.com,Europe/Dublin,en,+353 1 607 5700

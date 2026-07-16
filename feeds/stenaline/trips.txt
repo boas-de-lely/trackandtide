@@ -1,0 +1,67 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+ste_bel_cai,daily,ste_bel_cai_1,Cairnryan,0,Stena Superfast VII
+ste_bel_cai,daily,ste_bel_cai_2,Cairnryan,0,Stena Superfast VII
+ste_bel_cai,daily,ste_bel_cai_3,Cairnryan,0,Stena Superfast VII
+ste_bel_cai,daily,ste_bel_cai_4,Cairnryan,0,Stena Superfast VII
+ste_bel_cai,daily,ste_bel_cai_5,Cairnryan,0,Stena Superfast VII
+ste_bel_cai,daily,ste_bel_cai_6,Cairnryan,0,Stena Superfast VII
+ste_cai_bel,daily,ste_cai_bel_1,Belfast,0,Stena Superfast VII
+ste_cai_bel,daily,ste_cai_bel_2,Belfast,0,Stena Superfast VII
+ste_cai_bel,daily,ste_cai_bel_3,Belfast,0,Stena Superfast VII
+ste_cai_bel,daily,ste_cai_bel_4,Belfast,0,Stena Superfast VII
+ste_cai_bel,daily,ste_cai_bel_5,Belfast,0,Stena Superfast VII
+ste_cai_bel,daily,ste_cai_bel_6,Belfast,0,Stena Superfast VII
+ste_bel_bir,daily,ste_bel_bir_1,Birkenhead (Liverpool),0,Stena Edda
+ste_bel_bir,daily,ste_bel_bir_2,Birkenhead (Liverpool),0,Stena Embla
+ste_bir_bel,daily,ste_bir_bel_1,Belfast,0,Stena Edda
+ste_bir_bel,daily,ste_bir_bel_2,Belfast,0,Stena Embla
+ste_hol_dub,daily,ste_hol_dub_1,Dublin,0,Stena Adventurer
+ste_hol_dub,daily,ste_hol_dub_2,Dublin,0,Stena Adventurer
+ste_hol_dub,daily,ste_hol_dub_3,Dublin,0,Stena Adventurer
+ste_hol_dub,daily,ste_hol_dub_4,Dublin,0,Stena Adventurer
+ste_dub_hol,daily,ste_dub_hol_1,Holyhead,0,Stena Adventurer
+ste_dub_hol,daily,ste_dub_hol_2,Holyhead,0,Stena Adventurer
+ste_dub_hol,daily,ste_dub_hol_3,Holyhead,0,Stena Adventurer
+ste_dub_hol,daily,ste_dub_hol_4,Holyhead,0,Stena Adventurer
+ste_fis_ros,daily,ste_fis_ros_1,Rosslare,0,Stena Nordica
+ste_fis_ros,daily,ste_fis_ros_2,Rosslare,0,Stena Nordica
+ste_ros_fis,daily,ste_ros_fis_1,Fishguard,0,Stena Nordica
+ste_ros_fis,daily,ste_ros_fis_2,Fishguard,0,Stena Nordica
+ste_hoh_har,daily,ste_hoh_har_1,Harwich,0,Stena Britannica
+ste_hoh_har,daily,ste_hoh_har_2,Harwich,0,Stena Hollandica
+ste_har_hoh,daily,ste_har_hoh_1,Hook of Holland,0,Stena Britannica
+ste_har_hoh,daily,ste_har_hoh_2,Hook of Holland,0,Stena Hollandica
+ste_got_fre,daily,ste_got_fre_1,Frederikshavn,0,Stena Danica
+ste_got_fre,daily,ste_got_fre_2,Frederikshavn,0,Stena Danica
+ste_got_fre,daily,ste_got_fre_3,Frederikshavn,0,Stena Danica
+ste_got_fre,daily,ste_got_fre_4,Frederikshavn,0,Stena Danica
+ste_got_fre,daily,ste_got_fre_5,Frederikshavn,0,Stena Danica
+ste_got_fre,daily,ste_got_fre_6,Frederikshavn,0,Stena Danica
+ste_fre_got,daily,ste_fre_got_1,Gothenburg,0,Stena Danica
+ste_fre_got,daily,ste_fre_got_2,Gothenburg,0,Stena Danica
+ste_fre_got,daily,ste_fre_got_3,Gothenburg,0,Stena Danica
+ste_fre_got,daily,ste_fre_got_4,Gothenburg,0,Stena Danica
+ste_fre_got,daily,ste_fre_got_5,Gothenburg,0,Stena Danica
+ste_fre_got,daily,ste_fre_got_6,Gothenburg,0,Stena Danica
+ste_got_kie,daily,ste_got_kie_1,Kiel,0,Stena Germanica
+ste_kie_got,daily,ste_kie_got_1,Gothenburg,0,Stena Scandinavica
+ste_tre_ros,daily,ste_tre_ros_1,Rostock,0,Skåne
+ste_tre_ros,daily,ste_tre_ros_2,Rostock,0,Skåne
+ste_tre_ros,daily,ste_tre_ros_3,Rostock,0,Skåne
+ste_ros_tre,daily,ste_ros_tre_1,Trelleborg,0,Skåne
+ste_ros_tre,daily,ste_ros_tre_2,Trelleborg,0,Skåne
+ste_ros_tre,daily,ste_ros_tre_3,Trelleborg,0,Skåne
+ste_kar_gdy,daily,ste_kar_gdy_1,Gdynia,0,Stena Estelle
+ste_kar_gdy,daily,ste_kar_gdy_2,Gdynia,0,Stena Ebba
+ste_gdy_kar,daily,ste_gdy_kar_1,Karlskrona,0,Stena Estelle
+ste_gdy_kar,daily,ste_gdy_kar_2,Karlskrona,0,Stena Ebba
+ste_nyn_ven,daily,ste_nyn_ven_1,Ventspils,0,Stena Baltica
+ste_nyn_ven,daily,ste_nyn_ven_2,Ventspils,0,Stena Scandica
+ste_ven_nyn,daily,ste_ven_nyn_1,Nynäshamn,0,Stena Baltica
+ste_ven_nyn,daily,ste_ven_nyn_2,Nynäshamn,0,Stena Scandica
+ste_tra_lie,daily,ste_tra_lie_1,Liepāja,0,Stena Flavia
+ste_lie_tra,daily,ste_lie_tra_1,Travemünde,0,Stena Horizon
+ste_vaa_ume,daily,ste_vaa_ume_1,Umeå,0,Aurora Botnia
+ste_vaa_ume,daily,ste_vaa_ume_2,Umeå,0,Aurora Botnia
+ste_ume_vaa,daily,ste_ume_vaa_1,Vaasa,0,Aurora Botnia
+ste_ume_vaa,daily,ste_ume_vaa_2,Vaasa,0,Aurora Botnia

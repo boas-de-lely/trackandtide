@@ -1,0 +1,17 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+dg_vis_nyn,daily,dg_vis_nyn_1,Nynäshamn,0,Gotland
+dg_nyn_vis,daily,dg_nyn_vis_1,Visby,0,Gotland
+dg_vis_nyn,daily,dg_vis_nyn_2,Nynäshamn,0,Gotland
+dg_nyn_vis,daily,dg_nyn_vis_2,Visby,0,Gotland
+dg_vis_nyn,daily,dg_vis_nyn_3,Nynäshamn,0,Gotland
+dg_nyn_vis,daily,dg_nyn_vis_3,Visby,0,Gotland
+dg_vis_nyn,daily,dg_vis_nyn_4,Nynäshamn,0,Gotland
+dg_nyn_vis,daily,dg_nyn_vis_4,Visby,0,Gotland
+dg_vis_nyn,daily,dg_vis_nyn_5,Nynäshamn,0,Gotland
+dg_nyn_vis,daily,dg_nyn_vis_5,Visby,0,Gotland
+dg_vis_osk,daily,dg_vis_osk_1,Oskarshamn,0,Visby
+dg_osk_vis,daily,dg_osk_vis_1,Visby,0,Visby
+dg_vis_osk,daily,dg_vis_osk_2,Oskarshamn,0,Visby
+dg_osk_vis,daily,dg_osk_vis_2,Visby,0,Visby
+dg_vis_osk,daily,dg_vis_osk_3,Oskarshamn,0,Visby
+dg_osk_vis,daily,dg_osk_vis_3,Visby,0,Visby

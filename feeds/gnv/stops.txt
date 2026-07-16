@@ -1,0 +1,10 @@
+stop_id,stop_name,stop_lat,stop_lon
+genoa,Genoa,44.41,8.93
+palermo,Palermo,38.12,13.36
+portoTorres,Porto Torres,40.84,8.4
+olbia,Olbia,40.92,9.5
+barcelona,Barcelona,41.38,2.17
+livorno,Livorno,43.55,10.3
+civitavecchia,Civitavecchia,42.1,11.79
+sete,Sète,43.41,3.7
+tangier,Tangier,35.79,-5.81

@@ -1,0 +1,123 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+ml_odd_ebe,daily,ml_odd_ebe_1,Ebeltoft,0,Express 5
+ml_ebe_odd,daily,ml_ebe_odd_1,Odden,0,Express 5
+ml_odd_ebe,daily,ml_odd_ebe_2,Ebeltoft,0,Express 5
+ml_ebe_odd,daily,ml_ebe_odd_2,Odden,0,Express 5
+ml_odd_ebe,daily,ml_odd_ebe_3,Ebeltoft,0,Express 5
+ml_ebe_odd,daily,ml_ebe_odd_3,Odden,0,Express 5
+ml_odd_ebe,daily,ml_odd_ebe_4,Ebeltoft,0,Express 5
+ml_ebe_odd,daily,ml_ebe_odd_4,Odden,0,Express 5
+ml_odd_ebe,daily,ml_odd_ebe_5,Ebeltoft,0,Express 5
+ml_ebe_odd,daily,ml_ebe_odd_5,Odden,0,Express 5
+ml_odd_ebe,daily,ml_odd_ebe_6,Ebeltoft,0,Express 5
+ml_ebe_odd,daily,ml_ebe_odd_6,Odden,0,Express 5
+ml_odd_ebe,daily,ml_odd_ebe_7,Ebeltoft,0,Express 5
+ml_ebe_odd,daily,ml_ebe_odd_7,Odden,0,Express 5
+ml_odd_aar,daily,ml_odd_aar_1,Aarhus,0,Express 4
+ml_aar_odd,daily,ml_aar_odd_1,Odden,0,Express 4
+ml_odd_aar,daily,ml_odd_aar_2,Aarhus,0,Express 4
+ml_aar_odd,daily,ml_aar_odd_2,Odden,0,Express 4
+ml_odd_aar,daily,ml_odd_aar_3,Aarhus,0,Express 4
+ml_aar_odd,daily,ml_aar_odd_3,Odden,0,Express 4
+ml_odd_aar,daily,ml_odd_aar_4,Aarhus,0,Express 4
+ml_aar_odd,daily,ml_aar_odd_4,Odden,0,Express 4
+ml_odd_aar,daily,ml_odd_aar_5,Aarhus,0,Express 4
+ml_aar_odd,daily,ml_aar_odd_5,Odden,0,Express 4
+ml_odd_aar,daily,ml_odd_aar_6,Aarhus,0,Express 4
+ml_aar_odd,daily,ml_aar_odd_6,Odden,0,Express 4
+ml_ron_yst,daily,ml_ron_yst_1,Ystad,0,Hammershus
+ml_yst_ron,daily,ml_yst_ron_1,Rønne,0,Hammershus
+ml_ron_yst,daily,ml_ron_yst_2,Ystad,0,Hammershus
+ml_yst_ron,daily,ml_yst_ron_2,Rønne,0,Hammershus
+ml_ron_yst,daily,ml_ron_yst_3,Ystad,0,Hammershus
+ml_yst_ron,daily,ml_yst_ron_3,Rønne,0,Hammershus
+ml_ron_yst,daily,ml_ron_yst_4,Ystad,0,Hammershus
+ml_yst_ron,daily,ml_yst_ron_4,Rønne,0,Hammershus
+ml_ron_sas,daily,ml_ron_sas_1,Sassnitz,0,Povl Anker
+ml_sas_ron,daily,ml_sas_ron_1,Rønne,0,Povl Anker
+ml_ron_kog,daily,ml_ron_kog_1,Køge,0,Hammershus
+ml_kog_ron,daily,ml_kog_ron_1,Rønne,0,Hammershus
+ml_hel_hel,daily,ml_hel_hel_1,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_1,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_2,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_2,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_3,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_3,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_4,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_4,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_5,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_5,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_6,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_6,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_7,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_7,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_8,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_8,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_9,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_9,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_10,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_10,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_11,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_11,Helsingør,0,Tycho Brahe
+ml_hel_hel,daily,ml_hel_hel_12,Helsingborg,0,Tycho Brahe
+ml_hel_hel_r,daily,ml_hel_hel_r_12,Helsingør,0,Tycho Brahe
+ml_kal_bal,daily,ml_kal_bal_1,Ballen (Samsø),0,Samsø
+ml_bal_kal,daily,ml_bal_kal_1,Kalundborg,0,Samsø
+ml_kal_bal,daily,ml_kal_bal_2,Ballen (Samsø),0,Samsø
+ml_bal_kal,daily,ml_bal_kal_2,Kalundborg,0,Samsø
+ml_kal_bal,daily,ml_kal_bal_3,Ballen (Samsø),0,Samsø
+ml_bal_kal,daily,ml_bal_kal_3,Kalundborg,0,Samsø
+ml_boj_fyn,daily,ml_boj_fyn_1,Fynshav,0,Fynshav
+ml_fyn_boj,daily,ml_fyn_boj_1,Bøjden,0,Fynshav
+ml_boj_fyn,daily,ml_boj_fyn_2,Fynshav,0,Fynshav
+ml_fyn_boj,daily,ml_fyn_boj_2,Bøjden,0,Fynshav
+ml_boj_fyn,daily,ml_boj_fyn_3,Fynshav,0,Fynshav
+ml_fyn_boj,daily,ml_fyn_boj_3,Bøjden,0,Fynshav
+ml_boj_fyn,daily,ml_boj_fyn_4,Fynshav,0,Fynshav
+ml_fyn_boj,daily,ml_fyn_boj_4,Bøjden,0,Fynshav
+ml_boj_fyn,daily,ml_boj_fyn_5,Fynshav,0,Fynshav
+ml_fyn_boj,daily,ml_fyn_boj_5,Bøjden,0,Fynshav
+ml_boj_fyn,daily,ml_boj_fyn_6,Fynshav,0,Fynshav
+ml_fyn_boj,daily,ml_fyn_boj_6,Bøjden,0,Fynshav
+ml_boj_fyn,daily,ml_boj_fyn_7,Fynshav,0,Fynshav
+ml_fyn_boj,daily,ml_fyn_boj_7,Bøjden,0,Fynshav
+ml_spo_tar,daily,ml_spo_tar_1,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_1,Spodsbjerg,0,Langeland
+ml_spo_tar,daily,ml_spo_tar_2,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_2,Spodsbjerg,0,Langeland
+ml_spo_tar,daily,ml_spo_tar_3,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_3,Spodsbjerg,0,Langeland
+ml_spo_tar,daily,ml_spo_tar_4,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_4,Spodsbjerg,0,Langeland
+ml_spo_tar,daily,ml_spo_tar_5,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_5,Spodsbjerg,0,Langeland
+ml_spo_tar,daily,ml_spo_tar_6,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_6,Spodsbjerg,0,Langeland
+ml_spo_tar,daily,ml_spo_tar_7,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_7,Spodsbjerg,0,Langeland
+ml_spo_tar,daily,ml_spo_tar_8,Tårs,0,Langeland
+ml_tar_spo,daily,ml_tar_spo_8,Spodsbjerg,0,Langeland
+ml_esb_nor,daily,ml_esb_nor_1,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_1,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_2,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_2,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_3,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_3,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_4,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_4,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_5,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_5,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_6,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_6,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_7,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_7,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_8,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_8,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_9,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_9,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_10,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_10,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_11,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_11,Esbjerg,0,Fenja
+ml_esb_nor,daily,ml_esb_nor_12,Nordby (Fanø),0,Fenja
+ml_nor_esb,daily,ml_nor_esb_12,Esbjerg,0,Fenja

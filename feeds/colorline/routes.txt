@@ -1,0 +1,9 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+cl_osl_kie,color_line,OSL-KEL,Oslo - Kiel (Color Line),4
+cl_kie_osl,color_line,KEL-OSL,Kiel - Oslo (Color Line),4
+cl_krs_hir,color_line,KRS-HIR,Kristiansand - Hirtshals (Color Line),4
+cl_hir_krs,color_line,HIR-KRS,Hirtshals - Kristiansand (Color Line),4
+cl_lar_hir,color_line,LAR-HIR,Larvik - Hirtshals (Color Line),4
+cl_hir_lar,color_line,HIR-LAR,Hirtshals - Larvik (Color Line),4
+cl_san_str,color_line,SDF-STD,Sandefjord - Strömstad (Color Line),4
+cl_str_san,color_line,STD-SDF,Strömstad - Sandefjord (Color Line),4

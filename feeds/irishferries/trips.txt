@@ -1,0 +1,27 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+if_dub_hol,daily,if_dub_hol_1,Holyhead,0,Ulysses
+if_hol_dub,daily,if_hol_dub_1,Dublin,0,Ulysses
+if_dub_hol,daily,if_dub_hol_2,Holyhead,0,Ulysses
+if_hol_dub,daily,if_hol_dub_2,Dublin,0,Ulysses
+if_dub_hol,daily,if_dub_hol_3,Holyhead,0,Ulysses
+if_hol_dub,daily,if_hol_dub_3,Dublin,0,Ulysses
+if_dub_hol,daily,if_dub_hol_4,Holyhead,0,Ulysses
+if_hol_dub,daily,if_hol_dub_4,Dublin,0,Ulysses
+if_dub_che,daily,if_dub_che_1,Cherbourg,0,W.B. Yeats
+if_che_dub,daily,if_che_dub_1,Dublin,0,W.B. Yeats
+if_ros_pem,daily,if_ros_pem_1,Pembroke,0,Isle of Inishmore
+if_pem_ros,daily,if_pem_ros_1,Rosslare,0,Isle of Inishmore
+if_ros_pem,daily,if_ros_pem_2,Pembroke,0,Isle of Inishmore
+if_pem_ros,daily,if_pem_ros_2,Rosslare,0,Isle of Inishmore
+if_dov_cal,daily,if_dov_cal_1,Calais,0,Isle of Inisheer
+if_cal_dov,daily,if_cal_dov_1,Dover,0,Isle of Inisheer
+if_dov_cal,daily,if_dov_cal_2,Calais,0,Isle of Inisheer
+if_cal_dov,daily,if_cal_dov_2,Dover,0,Isle of Inisheer
+if_dov_cal,daily,if_dov_cal_3,Calais,0,Isle of Inisheer
+if_cal_dov,daily,if_cal_dov_3,Dover,0,Isle of Inisheer
+if_dov_cal,daily,if_dov_cal_4,Calais,0,Isle of Inisheer
+if_cal_dov,daily,if_cal_dov_4,Dover,0,Isle of Inisheer
+if_dov_cal,daily,if_dov_cal_5,Calais,0,Isle of Inisheer
+if_cal_dov,daily,if_cal_dov_5,Dover,0,Isle of Inisheer
+if_dov_cal,daily,if_dov_cal_6,Calais,0,Isle of Inisheer
+if_cal_dov,daily,if_cal_dov_6,Dover,0,Isle of Inisheer

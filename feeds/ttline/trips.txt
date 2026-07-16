@@ -1,0 +1,19 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+tt_tre_tra,daily,tt_tre_tra_1,Travemünde,0,Nils Holgersson
+tt_tra_tre,daily,tt_tra_tre_1,Trelleborg,0,Nils Holgersson
+tt_tre_tra,daily,tt_tre_tra_2,Travemünde,0,Nils Holgersson
+tt_tra_tre,daily,tt_tra_tre_2,Trelleborg,0,Nils Holgersson
+tt_tre_tra,daily,tt_tre_tra_3,Travemünde,0,Nils Holgersson
+tt_tra_tre,daily,tt_tra_tre_3,Trelleborg,0,Nils Holgersson
+tt_tre_ros,daily,tt_tre_ros_1,Rostock,0,Peter Pan
+tt_ros_tre,daily,tt_ros_tre_1,Trelleborg,0,Peter Pan
+tt_tre_ros,daily,tt_tre_ros_2,Rostock,0,Peter Pan
+tt_ros_tre,daily,tt_ros_tre_2,Trelleborg,0,Peter Pan
+tt_tre_ros,daily,tt_tre_ros_3,Rostock,0,Peter Pan
+tt_ros_tre,daily,tt_ros_tre_3,Trelleborg,0,Peter Pan
+tt_tre_swi,daily,tt_tre_swi_1,Świnoujście,0,Tom Sawyer
+tt_swi_tre,daily,tt_swi_tre_1,Trelleborg,0,Tom Sawyer
+tt_tre_swi,daily,tt_tre_swi_2,Świnoujście,0,Tom Sawyer
+tt_swi_tre,daily,tt_swi_tre_2,Trelleborg,0,Tom Sawyer
+tt_tre_kla,daily,tt_tre_kla_1,Klaipėda,0,Marco Polo
+tt_kla_tre,daily,tt_kla_tre_1,Trelleborg,0,Marco Polo

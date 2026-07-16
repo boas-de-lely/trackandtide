@@ -1,0 +1,15 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+fn_hel_tra,daily,fn_hel_tra_1,Travemünde,0,Finnstar
+fn_tra_hel,daily,fn_tra_hel_1,Helsinki,0,Finnmaid
+fn_naa_kap,daily,fn_naa_kap_1,Kapellskär,0,Finnswan
+fn_kap_naa,daily,fn_kap_naa_1,Naantali,0,Finnswan
+fn_naa_kap,daily,fn_naa_kap_2,Kapellskär,0,Finnswan
+fn_kap_naa,daily,fn_kap_naa_2,Naantali,0,Finnswan
+fn_mal_tra,daily,fn_mal_tra_1,Travemünde,0,Finnpartner
+fn_tra_mal,daily,fn_tra_mal_1,Malmö,0,Finnpartner
+fn_mal_tra,daily,fn_mal_tra_2,Travemünde,0,Finnpartner
+fn_tra_mal,daily,fn_tra_mal_2,Malmö,0,Finnpartner
+fn_mal_swi,daily,fn_mal_swi_1,Świnoujście,0,Finntrader
+fn_swi_mal,daily,fn_swi_mal_1,Malmö,0,Finntrader
+fn_mal_swi,daily,fn_mal_swi_2,Świnoujście,0,Finntrader
+fn_swi_mal,daily,fn_swi_mal_2,Malmö,0,Finntrader

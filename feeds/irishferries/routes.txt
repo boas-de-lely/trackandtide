@@ -1,0 +1,9 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+if_dub_hol,irish_ferries,DUB-HLY,Dublin - Holyhead (Irish Ferries),4
+if_hol_dub,irish_ferries,HLY-DUB,Holyhead - Dublin (Irish Ferries),4
+if_dub_che,irish_ferries,DUB-CHG,Dublin - Cherbourg (Irish Ferries),4
+if_che_dub,irish_ferries,CHG-DUB,Cherbourg - Dublin (Irish Ferries),4
+if_ros_pem,irish_ferries,ROS-PEM,Rosslare - Pembroke (Irish Ferries),4
+if_pem_ros,irish_ferries,PEM-ROS,Pembroke - Rosslare (Irish Ferries),4
+if_dov_cal,irish_ferries,DOV-CAL,Dover - Calais (Irish Ferries),4
+if_cal_dov,irish_ferries,CAL-DOV,Calais - Dover (Irish Ferries),4

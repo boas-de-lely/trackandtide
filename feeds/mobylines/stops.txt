@@ -1,0 +1,10 @@
+stop_id,stop_name,stop_lat,stop_lon
+livorno,Livorno,43.55,10.3
+olbia,Olbia,40.92,9.5
+bastia,Bastia,42.7,9.45
+genoa,Genoa,44.41,8.93
+piombino,Piombino,42.93,10.53
+portoferraio,Portoferraio,42.81,10.33
+palermo,Palermo,38.12,13.36
+staTeresa,S.Teresa Gallura,41.24,9.19
+bonifacio,Bonifacio,41.39,9.16

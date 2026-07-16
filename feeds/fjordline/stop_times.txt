@@ -1,0 +1,9 @@
+trip_id,arrival_time,departure_time,stop_id,stop_sequence
+fl_ber_hir_1,,13:30:00,bergen,1
+fl_ber_hir_1,08:00:00,,hirtshals,2
+fl_hir_ber_1,,20:00:00,hirtshals,1
+fl_hir_ber_1,14:30:00,,bergen,2
+fl_sta_ber_1,,07:00:00,stavanger,1
+fl_sta_ber_1,12:00:00,,bergen,2
+fl_ber_sta_1,,13:00:00,bergen,1
+fl_ber_sta_1,18:00:00,,stavanger,2

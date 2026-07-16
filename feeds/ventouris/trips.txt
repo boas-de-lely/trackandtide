@@ -1,0 +1,7 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
+ve_bar_dur,daily,ve_bar_dur_1,Durrës,0,Rigel II
+ve_dur_bar,daily,ve_dur_bar_1,Bari,0,Rigel II
+ve_bar_dur,daily,ve_bar_dur_2,Durrës,0,Rigel II
+ve_dur_bar,daily,ve_dur_bar_2,Bari,0,Rigel II
+ve_bar_igo,daily,ve_bar_igo_1,Igoumenitsa,0,Rigel V
+ve_igo_bar,daily,ve_igo_bar_1,Bari,0,Rigel V
