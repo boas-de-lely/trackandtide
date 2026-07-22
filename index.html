@@ -1659,7 +1659,7 @@ function haversineKm(a, b) {
   return Math.round(R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x)));
 }
 
-// -- Surprise me --
+// Surprise me
 function openSurpriseModal() {
   const modal = document.getElementById('surpriseModal');
   if (!modal) return;
@@ -2704,7 +2704,7 @@ function renderDepartureList(panel) {
   const deps=filtered.slice(0,showCount), hasMore=filtered.length>showCount;
   if (!deps.length) { panel.innerHTML='<div class="dep-empty">No upcoming departures found</div>'; return; }
   var modeIcon = function(m) { if(['INTERCITY','HIGHSPEED_RAIL','LONG_DISTANCE','NIGHT_RAIL'].indexOf(m)>=0) return 'high_speed_train.png'; if(['REGIONAL','REGIONAL_RAIL','SUBURBAN'].indexOf(m)>=0) return 'train.png'; if(m==='TRAM') return 'tram.png'; if(m==='BUS'||m==='COACH') return 'bus.png'; if(m==='METRO'||m==='SUBWAY') return 'metro.png'; return null; };
-  // Map common API agency names ? operator IDs from our database
+  // Map API agency names to operator IDs from the database
   var AGENCY_MAP = {
     'db regio ag':'db','db fernverkehr ag':'db','db fernverkehr':'db','db regio':'db','deutsche bahn':'db','deutsche bahn ag':'db','db ag':'db',
     'sncf voyageurs':'sncf','sncf':'sncf','sncf reseau':'sncf',

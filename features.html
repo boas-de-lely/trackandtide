@@ -107,9 +107,7 @@
       color: var(--text-secondary); font-size: 0.9rem; margin: 0 0 1rem; text-align: center;
     }
 
-    /* ═══════════════════════════════════════════ */
-    /*  PHONE MOCKUP                              */
-    /* ═══════════════════════════════════════════ */
+    /* Phone mockup */
     .phone-mockup-section {
       text-align: center; margin-bottom: 0;
     }
@@ -124,9 +122,8 @@
       aspect-ratio: 300 / 610;
     }
 
-    /* Screenshot behind the frame, filling the screen cutout.
-       Slightly taller and shifted up so the phone status bar
-       (time/battery) and bottom nav bar hide behind the bezel. */
+    /* Screenshot behind the frame. Shifted up and taller so the
+       phone status bar and bottom nav hide behind the bezel. */
     .phone-screenshot {
       position: absolute;
       top: 7.5%; left: 6.5%;
@@ -138,7 +135,7 @@
     }
     :root.light .phone-screenshot { background: #e5e7eb; }
 
-    /* Transparent phone frame sits on top */
+    /* Phone frame overlay */
     .phone-frame {
       position: absolute; top: 0; left: 0;
       width: 100%; height: 100%;
@@ -158,7 +155,7 @@
       color: var(--accent); margin-bottom: 0.5rem;
     }
 
-    /* ── Selected feature info panel (directly under phone) ── */
+    /* Selected feature info panel — sits directly under the phone */
     .feature-info-panel {
       margin-top: 0; padding: 0.85rem 1rem 0.7rem;
       background: var(--card); border: 1px solid var(--border);
@@ -208,9 +205,7 @@
       .phone-arrow.next { right: -4px; }
     }
 
-    /* ═══════════════════════════════════════════ */
-    /*  FEATURE CARDS                             */
-    /* ═══════════════════════════════════════════ */
+    /* Feature cards */
     .feature-cards-section {
       margin-top: 1.5rem;
     }
@@ -315,9 +310,7 @@
     <h1 class="page-title">Discover Track &amp; Tide</h1>
     <p class="page-subtitle">Swipe through the screenshots to see what the app can do</p>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!--  PHONE MOCKUP CAROUSEL                     -->
-    <!-- ═══════════════════════════════════════════ -->
+    <!-- Phone mockup carousel -->
     <section class="phone-mockup-section" aria-label="Feature screenshots">
 
       <!-- Dots and title above the phone -->
@@ -346,9 +339,7 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!--  FEATURE CARDS                             -->
-    <!-- ═══════════════════════════════════════════ -->
+    <!-- Feature cards -->
     <div class="feature-cards-section">
       <div class="section-divider">All Features</div>
       <div class="feature-cards" id="featureCards"></div>
@@ -359,7 +350,7 @@
   <script src="footer.js?v=5"></script>
 
   <script>
-    // ── All 11 features with dark + light screenshots ──
+    // Feature screenshots — dark and light mode variants
     var features = [
       {
         id: 'journey',
@@ -517,7 +508,7 @@
       }
     ];
 
-    // ── State ──
+    // Carousel state
     var currentSlide = 0;
     var currentTheme = document.documentElement.classList.contains('light') ? 'light' : 'dark';
 
@@ -528,7 +519,7 @@
     var infoHowto = document.getElementById('infoHowto');
     var cardsContainer = document.getElementById('featureCards');
 
-    // ── Build dots ──
+    // Build dot indicators
     features.forEach(function(_, i) {
       var dot = document.createElement('button');
       dot.className = 'phone-dot' + (i === 0 ? ' active' : '');
@@ -538,7 +529,7 @@
       dotsContainer.appendChild(dot);
     });
 
-    // ── Build feature cards ──
+    // Build feature cards below
     features.forEach(function(f, i) {
       var card = document.createElement('div');
       card.className = 'feature-card';
@@ -560,7 +551,7 @@
       cardsContainer.appendChild(card);
     });
 
-    // ── Helpers ──
+    // Slide navigation
     function getTheme() {
       return document.documentElement.classList.contains('light') ? 'light' : 'dark';
     }
@@ -587,11 +578,11 @@
       updateScreenshot();
     }
 
-    // ── Arrow buttons ──
+    // Arrow buttons
     document.getElementById('phonePrev').addEventListener('click', function() { goToSlide(currentSlide - 1); });
     document.getElementById('phoneNext').addEventListener('click', function() { goToSlide(currentSlide + 1); });
 
-    // ── Swipe support ──
+    // Touch swipe
     (function() {
       var wrapper = document.getElementById('phoneWrapper');
       var startX = 0;
@@ -602,7 +593,7 @@
       });
     })();
 
-    // ── Theme change detection ──
+    // Watch for theme changes
     var observer = new MutationObserver(function() {
       var newTheme = getTheme();
       if (currentTheme !== newTheme) {
@@ -612,10 +603,10 @@
     });
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    // ── Initial ──
+    // First render
     updateScreenshot();
 
-    // ── Theme + logo ──
+    // Theme and logo
     var root = document.documentElement;
     var logo = document.getElementById('logo');
 
@@ -634,7 +625,7 @@
       updateScreenshot();
     })();
 
-    // ── Hamburger ──
+    // Hamburger menu
     var hamburgerBtn = document.getElementById('hamburgerBtn');
     var mainNav = document.getElementById('mainNav');
     if (hamburgerBtn && mainNav) {

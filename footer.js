@@ -3,7 +3,7 @@
 // Handles theme toggling; delegates to page's setTheme() if it exists.
 
 (function() {
-  // -- CSS --
+  // CSS
   var style = document.createElement('style');
   style.textContent =
     '.site-footer{text-align:center;padding:1.5rem 1rem 2rem;border-top:1px solid var(--border,rgba(255,255,255,0.08));margin-top:2rem;opacity:0.85}' +
@@ -21,7 +21,7 @@
     '@media (max-width:768px){.site-footer{display:none}}';
   document.head.appendChild(style);
 
-  // -- HTML --
+  // HTML
   var html =
     '<footer class="site-footer">' +
       '<div class="footer-theme">' +
@@ -40,7 +40,7 @@
       '</div>' +
     '</footer>';
 
-  // -- Wait for body, then inject --
+  // Wait for body, then inject
   function inject() {
     if (!document.body) { requestAnimationFrame(inject); return; }
     document.body.insertAdjacentHTML('beforeend', html);
@@ -50,7 +50,7 @@
     var label = document.getElementById('ttFooterLabel');
     var logo = document.getElementById('logo');
 
-    // -- Theme logic --
+    // Theme logic
     function getSavedMode() {
       var saved = localStorage.getItem('trackandtide:theme');
       if (saved) return saved;
@@ -64,12 +64,12 @@
       if (logo) logo.src = isLight ? 'trackandtide logo full.png' : 'logo full light.png';
     }
 
-    // If the page has its own setTheme (e.g. index.html with map), delegate to it.
-    // Otherwise apply theme directly.
+    // Delegate to the page's setTheme if it exists (e.g. index.html),
+    // otherwise apply the theme directly.
     var mode = getSavedMode();
 
     if (typeof window.setTheme === 'function') {
-      // Page handles theme -- just sync the toggle
+      // Page handles theme, just sync the toggle
       updateUI(mode);
       if (toggle) {
         toggle.addEventListener('change', function() {
@@ -77,7 +77,7 @@
         });
       }
     } else {
-      // Simple theme: just toggle .light class + logo
+      // No page-level setTheme, apply directly
       if (mode === 'light') root.classList.add('light');
       else root.classList.remove('light');
       updateUI(mode);

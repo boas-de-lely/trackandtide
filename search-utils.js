@@ -98,13 +98,13 @@ function fuzzyMatchScore(normQuery, normTarget) {
 }
 
 
-// Dummy escapeHTML (pages that define their own will keep theirs)
+// Fallback escapeHTML — pages with their own definition will override
 if (typeof escapeHTML === 'undefined') {
   escapeHTML = function(text) {
     return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   };
 }
-// Dummy cleanStationName (pages that define their own will override this)
+// Fallback cleanStationName — pages with their own definition will override
 if (typeof cleanStationName === 'undefined') {
   cleanStationName = function(name) {
     return String(name)
