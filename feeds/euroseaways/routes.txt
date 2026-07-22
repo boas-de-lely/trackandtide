@@ -1,5 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-eu_bar_igo,euro_seaways,BRI-IGO,Bari - Igoumenitsa (Eur.Seaways),4
-eu_igo_bar,euro_seaways,IGO-BRI,Igoumenitsa - Bari (Eur.Seaways),4
-eu_bri_cor,euro_seaways,BRI-CFU,Bari - Corfu (Eur.Seaways),4
-eu_cor_bri,euro_seaways,CFU-BRI,Corfu - Bari (Eur.Seaways),4

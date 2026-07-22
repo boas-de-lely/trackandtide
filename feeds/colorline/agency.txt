@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-color_line,Color Line,https://www.colorline.com,Europe/Oslo,en,+47 22 94 44 44

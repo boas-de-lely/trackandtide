@@ -1,9 +1,0 @@
-trip_id,arrival_time,departure_time,stop_id,stop_sequence
-sm_hir_tor_1,,18:00:00,hirtshals,1
-sm_hir_tor_1,00:00:00,,torshavn,2
-sm_tor_sey_1,,04:00:00,torshavn,1
-sm_tor_sey_1,19:00:00,,seydisfjordur,2
-sm_sey_tor_1,,20:00:00,seydisfjordur,1
-sm_sey_tor_1,11:00:00,,torshavn,2
-sm_tor_hir_1,,16:00:00,torshavn,1
-sm_tor_hir_1,22:00:00,,hirtshals,2

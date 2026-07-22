@@ -45,8 +45,8 @@
       --text: #111827;
       --text-secondary: #6B7280;
       --border: #D1D5DB;
-      --hover: #38BDF8;
-      --active: #0284C7;
+      --hover: #0284C7;
+      --active: #0369A1;
       --rail: #D97706;
       --station: #0E7490;
     }
@@ -59,9 +59,24 @@
       color: var(--text);
       min-height: 100vh;
       transition: background 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 60% 40% at 50% 40%, var(--hover) 0%, transparent 60%),
+                  radial-gradient(ellipse 40% 30% at 80% 80%, var(--rail) 0%, transparent 50%);
+      opacity: 0.05;
     }
 
-    .container { text-align: center; max-width: 600px; }
+    .container {
+      text-align: center;
+      max-width: 600px;
+      margin: auto;
+      padding: 3rem 1.5rem;
+      position: relative; z-index: 1;
+    }
 
     .badge {
       display: inline-block;
@@ -179,20 +194,29 @@
       padding: 14px 32px;
       border-radius: 12px;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1rem;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .btn-primary {
-      background: var(--active);
+      background: var(--hover);
       color: #fff;
+      box-shadow: 0 4px 14px rgba(56,189,248,0.25);
     }
     .btn-primary:hover {
-      background: var(--hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(14,165,233,0.3);
+      background: var(--active);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(56,189,248,0.35);
     }
+
+    .btn-ghost {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text);
+      margin-left: 0.6rem;
+    }
+    .btn-ghost:hover { border-color: var(--hover); color: var(--hover); transform: translateY(-2px); }
 
     header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; row-gap: 0.5rem; padding: 8px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
     header img { width: 200px; }
@@ -220,12 +244,6 @@
       .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
     }
 
-    .site-footer { text-align: center; padding: 1.5rem 1rem 2rem; border-top: 1px solid var(--border); margin-top: 2rem; opacity: 0.85; }
-    .footer-link { color: var(--hover); cursor: pointer; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
-    .footer-link:hover { text-decoration: underline; opacity: 1; }
-    .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
-    .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
-
   </style>
 </head>
 <body>
@@ -236,12 +254,10 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/journey">Journey</a>
+      <a href="/journey?v=3">Journey</a>
       <a href="/map">Map</a>
-      <a href="/stations">Stations</a>
-      <a href="/ports">Ports</a>
-      <a href="/operators">Operators</a>
-      <a href="/about">About</a>
+      <a href="/explore">Explore</a>
+      <a href="/more">More</a>
     </nav>
   </header>
 
@@ -272,57 +288,10 @@
     </p>
 
     <a href="/" class="btn btn-primary">Back to Home</a>
+    <a href="/journey?v=3" class="btn btn-ghost">Plan a journey</a>
   </div>
 
-  <footer class="site-footer">
-    <div class="footer-theme">
-      <span class="footer-theme-label" id="themeLabel">Light mode</span>
-      <label class="theme-switch" title="Toggle dark/light mode">
-        <input type="checkbox" id="themeToggle" />
-        <span class="theme-slider"></span>
-      </label>
-    </div>
-    <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
-  </footer>
-
   <script>
-    const root = document.documentElement;
-    const toggle = document.getElementById("themeToggle");
-    const logo = document.getElementById("logo");
-
-    function applyTheme() {
-      const saved = localStorage.getItem("trackandtide:theme");
-      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-      const isLight = saved ? saved === "light" : prefersLight;
-      if (isLight) root.classList.add("light");
-      else root.classList.remove("light");
-      updateUI();
-    }
-
-    function toggleTheme() {
-      root.classList.toggle("light");
-      localStorage.setItem("trackandtide:theme", root.classList.contains("light") ? "light" : "dark");
-      updateUI();
-    }
-
-    function updateUI() {
-      const isLight = root.classList.contains("light");
-      toggle.checked = isLight;
-      const themeLabel = document.getElementById("themeLabel");
-      if (themeLabel) themeLabel.textContent = isLight ? "Light mode" : "Dark mode";
-          logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
-    }
-
-    applyTheme();
-
-    toggle.addEventListener('change', () => {
-      const isLight = toggle.checked;
-      if (isLight) root.classList.add("light");
-      else root.classList.remove("light");
-      localStorage.setItem("trackandtide:theme", isLight ? "light" : "dark");
-      updateUI();
-    });
-
     // Hamburger menu
     const hamburgerBtn = document.getElementById("hamburgerBtn");
     const mainNav = document.getElementById("mainNav");
@@ -344,6 +313,8 @@
   </script>
 
 <script src="report-modal.js"></script>
+<script src="footer.js?v=4"></script>
+<script src="bottom-nav.js?v=2"></script>
 
 </body>
 </html>

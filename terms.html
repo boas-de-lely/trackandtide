@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Track & Tide</title>
+  <meta name="description" content="Terms of service for Track & Tide." />
+  <meta property="og:title" content="Terms of Service — Track & Tide" />
+  <meta property="og:description" content="Terms of service for Track & Tide." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackandtide.com/terms" />
+  <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Track & Tide logo" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Track & Tide" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Terms of Service — Track & Tide" />
+  <meta name="twitter:description" content="Terms of service for Track & Tide." />
+  <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <link rel="canonical" href="https://trackandtide.com/terms" />
+  <link rel="icon" href="icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1F2937" />
+
+  <style>
+    :root {
+      --bg: #1F2937;
+      --panel: #1F2937;
+      --card: #273549;
+      --text: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --border: #3B4A5F;
+      --hover: #38BDF8;
+      --active: #0EA5E9;
+    }
+
+    :root.light {
+      --bg: #F1F5F9;
+      --panel: #FFFFFF;
+      --card: #F8FAFC;
+      --text: #111827;
+      --text-secondary: #6B7280;
+      --border: #D1D5DB;
+      --hover: #0284C7;
+      --active: #0369A1;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hover) 0%, transparent 50%);
+      opacity: 0.03;
+    }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; row-gap: 0.5rem; padding: 8px 20px;
+      border-bottom: 1px solid var(--border); flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+    header img { width: 200px; }
+
+    .main-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
+    .main-nav a {
+      color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem;
+      border-radius: 999px; opacity: 0.78; border: 1px solid transparent;
+    }
+    .main-nav a:hover, .main-nav a.active { opacity: 1; background: var(--card); border-color: var(--border); }
+
+    .container {
+      max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem 4rem;
+      position: relative; z-index: 1;
+    }
+
+    .hero { text-align: center; padding: 1.5rem 0 2rem; }
+    .hero-badge {
+      display: inline-block; padding: 4px 14px; border-radius: 999px;
+      background: var(--hover); color: #fff; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900;
+      letter-spacing: -0.04em; margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.2rem; font-weight: 800; margin: 2.2rem 0 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    h2 .tn { 
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--hover); color: #fff; font-size: 0.78rem; font-weight: 800;
+      flex-shrink: 0;
+    }
+    h2::after { content: ''; flex: 1; height: 1px; background: var(--border); border-radius: 1px; }
+
+    p { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1rem; }
+
+    .last-updated {
+      font-size: 0.82rem; color: var(--text-secondary); opacity: 0.6;
+      margin-top: 3rem; text-align: center;
+    }
+
+    a { color: var(--hover); text-decoration: underline; }
+    a:hover { color: var(--active); }
+
+    .mobile-only { display: none; }
+    @media (max-width: 768px) {
+      header, .hamburger, .main-nav { display: none !important; }
+      .mobile-only { display: inline; }
+      .desktop-only { display: none; }
+      .container { padding: 2rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="/journey?v=3">Journey</a>
+      <a href="/map">Map</a>
+      <a href="/explore">Explore</a>
+      <a href="/more">More</a>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <div class="hero">
+      <div class="hero-badge">Legal</div>
+      <h1>Terms of Service</h1>
+      <p style="color:var(--text-secondary);max-width:500px;margin:0 auto;">
+        The short version: this is a free, open-data project provided as-is.
+      </p>
+    </div>
+
+    <h2><span class="tn">1</span> Service provided as-is</h2>
+    <p>
+      Track &amp; Tide is provided free of charge, on an "as-is" basis. While we strive
+      to keep the data accurate and the service available, we make no guarantees about
+      the correctness, completeness, or availability of the information displayed.
+      Train times, ferry routes, and station data are sourced from third-party open
+      data and may contain errors or be out of date.
+    </p>
+
+    <h2><span class="tn">2</span> No liability</h2>
+    <p>
+      Track &amp; Tide and its creator are not liable for any loss, damage, or
+      inconvenience caused by relying on the information provided by this service.
+      Always check official sources (departure boards, operator websites) for
+      critical travel information.
+    </p>
+
+    <h2><span class="tn">3</span> Fair use</h2>
+    <p>
+      You agree not to abuse the service through excessive automated requests,
+      scraping, or any activity that degrades the experience for other users.
+      We reserve the right to block access to users or systems that place
+      unreasonable load on the service.
+    </p>
+
+    <h2><span class="tn">4</span> Third-party services</h2>
+    <p>
+      Track &amp; Tide relies on third-party services including OpenStreetMap,
+      Wikidata, MOTIS, Open-Meteo, and Carto. We are not responsible for the
+      availability or accuracy of data provided by these services.
+    </p>
+
+    <h2><span class="tn">5</span> Changes</h2>
+    <p>
+      These terms may be updated at any time. Continued use of the service
+      after changes constitutes acceptance of the new terms.
+    </p>
+
+    <p class="last-updated">Last updated: 20 July 2026</p>
+
+  </div>
+
+  <script src="report-modal.js"></script>
+  <script src="bottom-nav.js?v=2"></script>
+  <script src="footer.js?v=4"></script>
+
+  <script>
+    const root = document.documentElement;
+    const logo = document.getElementById("logo");
+    (function() {
+      var saved = localStorage.getItem("trackandtide:theme");
+      var isLight = saved ? saved === "light" : window.matchMedia("(prefers-color-scheme: light)").matches;
+      if (isLight) root.classList.add("light");
+      else root.classList.remove("light");
+      logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,7 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-civitavecchia,Civitavecchia,42.1,11.79
-olbia,Olbia,40.92,9.5
-napoli,Naples,40.84,14.27
-cagliari,Cagliari,39.22,9.11
-genoa,Genoa,44.41,8.93
-portoTorres,Porto Torres,40.84,8.4

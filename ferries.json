@@ -5091,10 +5091,6 @@
           -6.016628
         ],
         [
-          50.4096,
-          -5.8714
-        ],
-        [
           51.690603,
           -5.129927
         ],
@@ -5991,7 +5987,7 @@
         "United Kingdom",
         "Netherlands"
       ],
-      "operator": "Stena",
+      "operator": "Stena Line",
       "id": "fr107",
       "distanceKm": 195,
       "duration": "6.6h",

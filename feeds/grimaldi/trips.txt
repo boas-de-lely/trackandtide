@@ -1,9 +1,0 @@
-route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
-gr_civ_bar,daily,gr_civ_bar_1,Barcelona,0,Cruise Roma
-gr_bar_civ,daily,gr_bar_civ_1,Civitavecchia,0,Cruise Roma
-gr_liv_bar,daily,gr_liv_bar_1,Barcelona,0,Cruise Barcelona
-gr_bar_liv,daily,gr_bar_liv_1,Livorno,0,Cruise Barcelona
-gr_civ_pto,daily,gr_civ_pto_1,Porto Torres,0,Eurocargo Roma
-gr_pto_civ,daily,gr_pto_civ_1,Civitavecchia,0,Eurocargo Roma
-gr_liv_pal,daily,gr_liv_pal_1,Palermo,0,Eurocargo Valencia
-gr_pal_liv,daily,gr_pal_liv_1,Livorno,0,Eurocargo Valencia

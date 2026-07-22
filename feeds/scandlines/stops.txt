@@ -1,5 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-rodby,Rødby,54.65,11.35
-puttgarden,Puttgarden,54.5,11.2
-gedser,Gedser,54.58,11.93
-rostock,Rostock,54.18,12.08

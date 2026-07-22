@@ -50,8 +50,8 @@
     }
     :root.light {
       --bg: #F1F5F9; --panel: #FFFFFF; --card: #F8FAFC;
-      --text: #111827; --text-secondary: #6B7280; --border: #D1D5DB;
-      --hover: #38BDF8; --active: #0284C7; --rail: #D97706;
+      --text: #000; --text-secondary: #4B5563; --border: #D1D5DB;
+      --hover: #0369A1; --active: #0284C7; --rail: #D97706;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
@@ -90,12 +90,6 @@
     @media (max-width: 1000px) {
       header img { width: 120px; }
     }
-
-    .site-footer { text-align: center; padding: 1.5rem 1rem 2rem; border-top: 1px solid var(--border); margin-top: 2rem; opacity: 0.85; }
-    .footer-link { color: var(--hover); cursor: pointer; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
-    .footer-link:hover { text-decoration: underline; opacity: 1; }
-    .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
-    .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 
     .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem; position: relative; z-index: 1; }
 
@@ -147,7 +141,7 @@
 
     /* Stop row: time · dot · station + platform */
     .tl-stop { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.15rem 0.5rem; position: relative; }
-    .tl-stop-time-col { min-width: 48px; text-align: right; line-height: 1.2; }
+    .tl-stop-time-col { width: 68px; text-align: right; line-height: 1.2; flex-shrink: 0; white-space: nowrap; }
     .tl-stop-time { font-size: 1.05rem; font-weight: 800; color: var(--text); line-height: 1.4; font-variant-numeric: tabular-nums; }
     .tl-stop-dot { width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid var(--rail); background: var(--card); flex-shrink: 0; margin-top: 5px; position: relative; z-index: 1; }
     .tl-stop:first-child .tl-stop-dot { border-color: #22D3EE; background: #22D3EE; }
@@ -156,9 +150,15 @@
     .tl-stop-station { font-weight: 700; font-size: 0.9rem; color: var(--text); }
     .tl-stop-platform { font-size: 0.68rem; color: var(--text-secondary); background: rgba(128,128,128,0.12); padding: 1px 6px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
 
+    /* ── Light mode overrides ── */
+    :root.light .tl-stop-time { color: #000 !important; }
+    :root.light .tl-stop-station { color: #000 !important; }
+    :root.light .journey-summary .times { color: #000 !important; }
+
     /* ── Delay display ── */
     .tl-delayed { color: #f87171 !important; }
-    .tl-planned { font-size: 0.65rem; color: var(--text-secondary); opacity: 0.6; display: block; line-height: 1; }
+    .tl-planned { font-size: 0.65rem; color: var(--text-secondary); opacity: 0.6; display: block; line-height: 1; text-decoration: line-through; }
+    .tl-delay-inline { color: #f87171; font-size: 0.72rem; font-weight: 600; margin-left: 2px; }
     .tl-delay-badge { display: inline-block; font-size: 0.62rem; font-weight: 700; color: #f87171; background: rgba(239,68,68,0.15); padding: 1px 5px; border-radius: 4px; white-space: nowrap; margin-left: 4px; vertical-align: middle; }
     .tl-cancelled { opacity: 0.35; }
     .tl-cancelled-badge { display: inline-block; font-size: 0.62rem; font-weight: 700; color: #f87171; background: rgba(239,68,68,0.2); padding: 1px 5px; border-radius: 4px; white-space: nowrap; margin-left: 4px; vertical-align: middle; }
@@ -168,11 +168,12 @@
 
     /* ── Train info between stops ── */
     .tl-train { display: flex; align-items: stretch; gap: 1rem; padding: 0 0.5rem; }
-    .tl-train-gutter { width: calc(48px + 0.65rem + 6px); flex-shrink: 0; position: relative; }
+    .tl-train-gutter { width: calc(68px + 0.65rem + 6px); flex-shrink: 0; position: relative; }
     .tl-train-line-wrap { position: absolute; right: 0; top: 0; bottom: 0; width: 3px; }
     .tl-train-line-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--rail); border-radius: 2px; }
     .tl-train-line-fill { position: absolute; bottom: 0; left: 0; right: 0; background: #D97706; border-radius: 2px; transition: height 0.3s; }
     .tl-dur-label { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 0.62rem; font-weight: 700; color: #fff; white-space: nowrap; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.35); }
+    :root.light .tl-dur-label { color: #000; text-shadow: none; }
     .tl-train-body { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; padding: 0.1rem 0 0.3rem; min-width: 0; justify-content: center; }
     .tl-train-info { display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; font-size: 0.78rem; cursor: pointer; user-select: none; align-self: flex-start; }
     .tl-train-info .tl-op { font-weight: 700; color: var(--rail); cursor: pointer; text-decoration: none; white-space: nowrap; }
@@ -186,7 +187,7 @@
 
     /* ── Leg divider (between legs) ── */
     .tl-leg-divider { display: flex; align-items: center; gap: 0.65rem; padding: 0.1rem 0.5rem; }
-    .tl-leg-divider-gutter { min-width: 48px; }
+    .tl-leg-divider-gutter { width: calc(68px + 0.65rem); flex-shrink: 0; }
     .tl-leg-divider-line { flex: 1; border-top: 1px solid var(--border); opacity: 0.8; }
 
     /* ── Intermediate stops foldout ── */
@@ -201,7 +202,7 @@
 
     /* ── Transfer ── */
     .tl-xfer { display: flex; align-items: center; gap: 0.65rem; padding: 0.15rem 0.5rem 0.35rem; }
-    .tl-xfer-gutter { min-width: 48px; display: flex; justify-content: center; }
+    .tl-xfer-gutter { width: calc(68px + 0.65rem); display: flex; justify-content: flex-end; align-items: center; flex-shrink: 0; }
     .tl-xfer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-secondary); flex-shrink: 0; opacity: 0.45; }
     .tl-xfer-text { font-size: 0.75rem; color: var(--text-secondary); }
 
@@ -229,7 +230,7 @@
     .suggestions.open { display: block; }
     .suggestion-item { padding: 0.5rem 0.8rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.4rem; }
     .suggestion-item:hover { background: rgba(56,189,248,0.1); }
-    .suggestion-item .flag { font-size: 1.1rem; flex-shrink: 0; }
+    .suggestion-item .flag { flex-shrink: 0; display:inline-flex; align-items:center; }
     .field-wrapper { position: relative; }
 
     /* Via stops */
@@ -265,8 +266,20 @@
       header, .hamburger, .main-nav { display: none !important; }
       .mobile-only { display: inline; }
       .desktop-only { display: none; }
-      .site-footer { display: none; }
     }
+
+    /* Saved journeys */
+    .saved-section { margin-top: 1.5rem; }
+    .saved-section h3 { font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-secondary); }
+    .saved-card-remove { background: none; border: none; color: #f87171; font-size: 1.1rem; cursor: pointer; padding: 0; opacity: 0.7; line-height: 1; flex-shrink: 0; margin-right: 0.35rem; }
+    .saved-card-remove:hover { opacity: 1; }
+    .save-btn { background: none; border: 1px solid var(--border); color: var(--text-secondary); font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 6px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .save-btn:hover { border-color: var(--hover); color: var(--hover); }
+    .save-btn.saved { background: var(--hover); color: #fff; border-color: var(--hover); }
+    .journey-progress { height: 5px; background: var(--border); border-radius: 0 0 10px 10px; overflow: hidden; position: relative; }
+    .journey-progress-bar { height: 100%; background: var(--hover); transition: width 60s linear; border-radius: 0 0 0 10px; }
+    .journey-progress-marker { position: absolute; top: 0; height: 100%; background: #f87171; opacity: 0.7; min-width: 2px; }
+    .journey.expanded .journey-progress { display: none; }
 
   </style>
 </head>
@@ -278,7 +291,7 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/journey" class="active">Journey</a><a href="/map">Map</a><a href="/explore">Explore</a><a href="/about" class="desktop-only">About</a><a href="/more" class="mobile-only">More</a>
+      <a href="/journey?v=3" class="active">Journey</a><a href="/map">Map</a><a href="/explore">Explore</a><a href="/more">More</a>
     </nav>
   </header>
 
@@ -356,18 +369,8 @@
     </div><!-- .search-card -->
 
     <div id="results"></div>
+    <div id="savedSection" class="saved-section" style="display:none"></div>
   </div>
-
-  <footer class="site-footer">
-    <div class="footer-theme">
-      <span class="footer-theme-label" id="themeLabel">Light mode</span>
-      <label class="theme-switch" title="Toggle dark/light mode">
-        <input type="checkbox" id="themeToggle" />
-        <span class="theme-slider"></span>
-      </label>
-    </div>
-    <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
-  </footer>
 
   <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
   <script src="search-utils.js"></script>
@@ -412,10 +415,10 @@
       }
     });
 
-    // Convert ISO country code to flag emoji
+    // Convert ISO country code to flag image
     function isoToFlag(iso) {
       if (!iso || iso.length !== 2) return '';
-      return String.fromCodePoint(0x1F1E6 + iso.charCodeAt(0) - 65) + String.fromCodePoint(0x1F1E6 + iso.charCodeAt(1) - 65);
+      return '<img src="/flags/' + iso.toLowerCase() + '.png" width="20" height="13" alt="' + iso + '" style="vertical-align:middle;border-radius:1px" />';
     }
 
     // Decode Google-encoded polyline (precision 6 = 1e6 scaling, as used by MOTIS nigiri)
@@ -470,13 +473,14 @@
       mapMarkers = [];
     }
 
-    function initMapInCard(journey) {
+    function initMapInCard(journey, containerId) {
       destroyMap();
-      var container = document.getElementById('journeyMap');
+      var cid = containerId || 'journeyMap';
+      var container = document.getElementById(cid);
       if (!container) return;
       var isLight = document.documentElement.classList.contains('light');
       journeyMap = new maplibregl.Map({
-        container: 'journeyMap',
+        container: cid,
         style: isLight ? 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json' : 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
         center: [10, 50], zoom: 4, attributionControl: false
       });
@@ -710,8 +714,8 @@
         '&fromPlace=' + fromStation.lat + ',' + fromStation.lng +
         '&toPlace=' + toStation.lat + ',' + toStation.lng +
         (arriveBy ? '&arriveBy=true&departureTime=' : '&departureTime=') + encodeURIComponent(dateTime) +
-        '&numItineraries=10' +
-        '&mode=RAIL,FERRY' +
+        '&numItineraries=12' +
+        '&mode=RAIL' +
         '&maxWalkDistance=1000' +
         '&walkSpeed=1.4' +
         '&minTransferTime=' + document.getElementById('minTransferSelect').value;
@@ -766,17 +770,17 @@
         if (data.metadata) console.log('[page] metadata keys:', Object.keys(data.metadata).join(', '));
         if (data.plan) console.log('[page] plan keys:', Object.keys(data.plan).join(', '));
         console.log('[page] prev:', prevPageCursor ? prevPageCursor.substring(0, 40)+'...' : null, 'next:', nextPageCursor ? nextPageCursor.substring(0, 40)+'...' : null);
-        // Only keep train & ferry — no bus, coach, tram, metro
-        var blocked = ['BUS','COACH','TRAM','SUBWAY','METRO','GONDOLA','CABLE_CAR','FUNICULAR'];
+        // Only keep train & rail replacement buses — no coach, tram, metro
+        var blocked = ['COACH','TRAM','SUBWAY','METRO','GONDOLA','CABLE_CAR','FUNICULAR'];
         var filtered = raw.filter(function(j) {
           return (j.legs||[]).every(function(l) {
             var m = (l.mode||'').toUpperCase();
             return !blocked.some(function(b) { return m.indexOf(b) >= 0; });
           });
         });
-        currentJourneys = filtered.slice(0, 4);
+        currentJourneys = filtered.slice(0, 8);
         activeJourney = -1;
-        if (!currentJourneys.length) { resultsEl.innerHTML = '<div class="no-results">No train or ferry journeys found.</div>'; return; }
+        if (!currentJourneys.length) { resultsEl.innerHTML = '<div class="no-results">No train journeys found.</div>'; return; }
         renderJourneys();
       }).catch(function(e) {
         btn.disabled = false; btn.textContent = 'Search';
@@ -787,6 +791,8 @@
 
     function loadEarlier() {
       if (!prevPageCursor) return;
+      var btn = document.querySelector('.page-nav-btn.earlier-btn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Loading earlier trips…'; }
       var oldJourneys = currentJourneys.slice();
       fetch(lastSearchParams + '&pageCursor=' + encodeURIComponent(prevPageCursor))
         .then(function(r) { return r.json(); }).then(function(data) {
@@ -796,14 +802,14 @@
             || (data.plan && data.plan.previousPageCursor)
             || null;
           console.log('[page earlier] prev:', prevPageCursor ? prevPageCursor.substring(0,40)+'...' : null);
-          var blocked = ['BUS','COACH','TRAM','SUBWAY','METRO','GONDOLA','CABLE_CAR','FUNICULAR'];
+          var blocked = ['COACH','TRAM','SUBWAY','METRO','GONDOLA','CABLE_CAR','FUNICULAR'];
           var filtered = raw.filter(function(j) {
             return (j.legs||[]).every(function(l) {
               var m = (l.mode||'').toUpperCase();
               return !blocked.some(function(b) { return m.indexOf(b) >= 0; });
             });
           });
-          var fresh = filtered.slice(0, 4);
+          var fresh = filtered.slice(0, 8);
           if (!fresh.length && !oldJourneys.length) { document.getElementById('results').innerHTML = '<div class="no-results">No earlier journeys found.</div>'; return; }
           currentJourneys = fresh.concat(oldJourneys);
           activeJourney = -1;
@@ -813,6 +819,8 @@
 
     function loadLater() {
       if (!nextPageCursor) return;
+      var btn = document.querySelector('.page-nav-btn.later-btn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Loading later trips…'; }
       var oldJourneys = currentJourneys.slice();
       fetch(lastSearchParams + '&pageCursor=' + encodeURIComponent(nextPageCursor))
         .then(function(r) { return r.json(); }).then(function(data) {
@@ -822,14 +830,14 @@
             || (data.plan && data.plan.nextPageCursor)
             || null;
           console.log('[page later] next:', nextPageCursor ? nextPageCursor.substring(0,40)+'...' : null);
-          var blocked = ['BUS','COACH','TRAM','SUBWAY','METRO','GONDOLA','CABLE_CAR','FUNICULAR'];
+          var blocked = ['COACH','TRAM','SUBWAY','METRO','GONDOLA','CABLE_CAR','FUNICULAR'];
           var filtered = raw.filter(function(j) {
             return (j.legs||[]).every(function(l) {
               var m = (l.mode||'').toUpperCase();
               return !blocked.some(function(b) { return m.indexOf(b) >= 0; });
             });
           });
-          var fresh = filtered.slice(0, 4);
+          var fresh = filtered.slice(0, 8);
           if (!fresh.length && !oldJourneys.length) { document.getElementById('results').innerHTML = '<div class="no-results">No later journeys found.</div>'; return; }
           currentJourneys = oldJourneys.concat(fresh);
           activeJourney = -1;
@@ -865,7 +873,7 @@
       var key = (agencyName||'').toLowerCase();
       var slug = OPERATOR_SLUGS[key] || '';
       if (slug) {
-        return '<a href="/operators#'+slug+'" class="tl-op" onclick="event.stopPropagation()" title="View '+agencyName+'">'+agencyName+'</a>';
+        return '<a href="/explore?operator='+slug+'" class="tl-op" onclick="event.stopPropagation()" title="View '+agencyName+'">'+agencyName+'</a>';
       }
       return '<span class="tl-op" style="cursor:default">'+agencyName+'</span>';
     }
@@ -927,176 +935,88 @@
       return motisName || '';
     }
 
-    function renderJourneys() {
-      var resultsEl = document.getElementById('results');
-      _legUid = 0;
-      resultsEl.innerHTML = (prevPageCursor ? '<div class="page-nav"><button class="page-nav-btn" onclick="loadEarlier();event.stopPropagation()">← Earlier</button></div>' : '') +
-        currentJourneys.map(function(j, ji) {
+    function renderJourneyCard(j, ji, isExpanded, removeId) {
         var legs = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
         var durMin = transitDurMin(j);
-        var isExpanded = ji === activeJourney;
         var firstFrom = legs[0]&&legs[0].from;
         var fromName = lookupDbStation(firstFrom?firstFrom.name:'', firstFrom?firstFrom.lat:null, firstFrom?firstFrom.lon:null);
         var lastLeg = legs[legs.length-1];
         var lastTo = lastLeg&&lastLeg.to;
         var toName = lookupDbStation(lastTo?lastTo.name:'', lastTo?lastTo.lat:null, lastTo?lastTo.lon:null);
-        // Transit-only times (exclude walking)
         var transitStart = legs[0] && (legs[0].from.departure || legs[0].startTime);
         var transitEnd = lastLeg && lastLeg.to && lastLeg.to.arrival;
-
-        // Day-difference badge (+1d, +2d)
+        var schedStart = legs[0] && (legs[0].from.scheduledDeparture || legs[0].from.departure || legs[0].startTime);
+        var schedEnd = lastLeg && lastLeg.to && (lastLeg.to.scheduledArrival || lastLeg.to.arrival);
+        var startDelay = delayMin(schedStart, transitStart);
+        var endDelay = lastLeg && lastLeg.to && lastLeg.to.arrival ? delayMin(schedEnd, transitEnd) : 0;
         var dayDiff = 0;
         if (transitStart && transitEnd) {
           var sd = new Date(transitStart), ed = new Date(transitEnd);
           dayDiff = Math.round((new Date(ed.getFullYear(),ed.getMonth(),ed.getDate()) - new Date(sd.getFullYear(),sd.getMonth(),sd.getDate())) / 864e5);
         }
-        // Night train check
         var hasNightTrain = (j.legs||[]).some(function(l) { return l.mode === 'NIGHT_RAIL'; });
-
-        var timelineHtml = '';
-        for (var li = 0; li < legs.length; li++) {
-          var leg = legs[li];
-          var uid = ++_legUid;
-
-          var depActual = leg.from.departure||leg.startTime;
-          var depScheduled = leg.from.scheduledDeparture || depActual;
-          var arrActual = leg.to&&leg.to.arrival ? leg.to.arrival : null;
-          var arrScheduled = leg.to&&leg.to.scheduledArrival ? leg.to.scheduledArrival : arrActual;
-
-          var depTime = fmtTime(depActual);
-          var arrTime = fmtTime(arrActual);
-          var fromNameL = lookupDbStation((leg.from&&leg.from.name)||'', leg.from?leg.from.lat:null, leg.from?leg.from.lon:null);
-          var toNameL = lookupDbStation((leg.to&&leg.to.name)||'', leg.to?leg.to.lat:null, leg.to?leg.to.lon:null);
-          var routeName = leg.routeShortName||leg.route||'';
-          var direction = leg.headsign||'';
-          var agency = leg.agencyName||'';
-          var depTrack = leg.from.track||'';
-          var arrTrack = leg.to&&leg.to.track ? leg.to.track : '';
-          var stops = leg.intermediateStops || [];
-          var stopCount = stops.length;
-          var type = trainType(routeName);
-          var cancelled = (leg.from&&leg.from.cancelled) || (leg.to&&leg.to.cancelled) || false;
-
-          var depDelay = delayMin(depScheduled, depActual);
-          var arrDelay = arrActual ? delayMin(arrScheduled, arrActual) : 0;
-
-          var trainLabel = agency;
-          if (agency && type && type !== routeName) {
-            trainLabel = agency + ' ' + type;
-          }
-
-          // Progress for this leg
-          var pct = legProgressPct(leg);
-
-          // ── Departure stop ──
-          var depTimeHtml = '';
-          if (cancelled) {
-            depTimeHtml = '<div class="tl-stop-time tl-cancelled">'+fmtTime(depScheduled)+'</div><span class="tl-cancelled-badge">Cancelled</span>';
-          } else if (depDelay > 0) {
-            depTimeHtml = '<div class="tl-stop-time tl-delayed">'+depTime+'</div>' +
-              '<div class="tl-planned">'+fmtTime(depScheduled)+'</div>' +
-              '<span class="tl-delay-badge">+'+depDelay+'m</span>';
-          } else {
-            depTimeHtml = '<div class="tl-stop-time">'+depTime+'</div>';
-          }
-
-          timelineHtml += '<div class="tl-stop">' +
-            '<div class="tl-stop-time-col">'+depTimeHtml+'</div>' +
-            '<div class="tl-stop-dot"></div>' +
-            '<div class="tl-stop-info">' +
-              '<span class="tl-stop-station">'+fromNameL+'</span>' +
-              (depTrack ? '<span class="tl-stop-platform">Pl. '+depTrack+'</span>' : '') +
-            '</div>' +
-          '</div>';
-
-          // ── Train info row with progress bar ──
-          var shortDur = Math.round((leg.duration||0)/60);
-          var durLabel = shortDur >= 60 ? Math.floor(shortDur/60)+'h'+(shortDur%60)+'m' : shortDur+'m';
-          timelineHtml += '<div class="tl-train">' +
-            '<div class="tl-train-gutter">' +
-              '<div class="tl-train-line-wrap">' +
-                '<span class="tl-dur-label">'+durLabel+'</span>' +
-                '<div class="tl-train-line-bg"></div>' +
-                '<div class="tl-train-line-fill" style="height:'+pct+'%"></div>' +
-              '</div>' +
-            '</div>' +
-            '<div class="tl-train-body">' +
-              '<div class="tl-train-info" id="tlinfo_'+uid+'" onclick="toggleLegStops('+uid+',event)">' +
-                (agency ? opLink(trainLabel) : '') +
-                (routeName ? '<span class="tl-nr">'+routeName+'</span>' : '') +
-                (direction ? '<span class="tl-dir">→ '+direction+'</span>' : '') +
-                (stopCount > 0 ? '<span class="tl-stops">'+stopCount+' stop'+(stopCount!==1?'s':'')+' <span class="tl-stops-arrow">▼</span></span>' : '') +
-              '</div>';
-
-          // Intermediate stops foldout
-          if (stopCount > 0) {
-            timelineHtml += '<div class="tl-stops-list" id="tlstops_'+uid+'">' +
-              '<div class="tl-stops-list-inner">';
-            for (var si = 0; si < stops.length; si++) {
-              var s = stops[si];
-              var sTime = s.arrival||s.departure||'';
-              timelineHtml += '<div class="tl-stop-item">' +
-                '<span class="tl-stop-item-time">'+(sTime?fmtTime(sTime):'')+'</span>' +
-                '<span class="tl-stop-item-dot"></span>' +
-                '<span class="tl-stop-item-name">'+lookupDbStation(s.name||'', s.lat, s.lon)+'</span>' +
-                (s.track?'<span class="tl-stop-item-track">Pl. '+s.track+'</span>':'') +
-              '</div>';
-            }
-            timelineHtml += '</div></div>';
-          }
-
-          timelineHtml += '</div></div>';
-
-          // ── Arrival stop ──
-          var arrTimeHtml = '';
-          if (cancelled) {
-            arrTimeHtml = '<div class="tl-stop-time tl-cancelled">'+fmtTime(arrScheduled)+'</div>';
-          } else if (arrDelay > 0) {
-            arrTimeHtml = '<div class="tl-stop-time tl-delayed">'+arrTime+'</div>' +
-              '<div class="tl-planned">'+fmtTime(arrScheduled)+'</div>' +
-              '<span class="tl-delay-badge">+'+arrDelay+'m</span>';
-          } else {
-            arrTimeHtml = '<div class="tl-stop-time">'+arrTime+'</div>';
-          }
-
-          timelineHtml += '<div class="tl-stop">' +
-            '<div class="tl-stop-time-col">'+arrTimeHtml+'</div>' +
-            '<div class="tl-stop-dot"></div>' +
-            '<div class="tl-stop-info">' +
-              '<span class="tl-stop-station">'+toNameL+'</span>' +
-              (arrTrack ? '<span class="tl-stop-platform">Pl. '+arrTrack+'</span>' : '') +
-            '</div>' +
-          '</div>';
-
-          // ── Transfer ──
-          if (li < legs.length - 1) {
-            timelineHtml += '<div class="tl-leg-divider">' +
-              '<div class="tl-leg-divider-gutter"></div>' +
-              '<div class="tl-leg-divider-line"></div>' +
-            '</div>';
-            var nextLeg = legs[li+1];
-            var nextDep = new Date(nextLeg.from.departure||nextLeg.startTime);
-            var thisArr = leg.to&&leg.to.arrival ? new Date(leg.to.arrival) : null;
-            if (thisArr && nextDep) {
-              var xferMin = Math.round((nextDep - thisArr) / 60000);
-              if (xferMin > 0) {
-                timelineHtml += '<div class="tl-xfer">' +
-                  '<div class="tl-xfer-gutter"><div class="tl-xfer-dot"></div></div>' +
-                  '<div class="tl-xfer-text">'+xferMin+' min transfer</div>' +
-                '</div>';
+        // Compute delay/cancellation status for header badge
+        var allLegs = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
+        var hasCancelledLeg = allLegs.some(function(l) { return (l.from&&l.from.cancelled) || (l.to&&l.to.cancelled); });
+        var maxDelay = 0;
+        allLegs.forEach(function(l) {
+          var depSched = l.from&&l.from.scheduledDeparture, depAct = l.from&&(l.from.departure||l.startTime);
+          var arrSched = l.to&&l.to.scheduledArrival, arrAct = l.to&&l.to.arrival;
+          if (depSched && depAct) maxDelay = Math.max(maxDelay, delayMin(depSched, depAct));
+          if (arrSched && arrAct) maxDelay = Math.max(maxDelay, delayMin(arrSched, arrAct));
+        });
+        var timelineHtml = buildTimeline(j);
+        var headerBtn = '';
+        if (removeId != null) {
+          headerBtn = '<button class="saved-card-remove" onclick="event.stopPropagation();removeSavedJourney('+removeId+')" title="Remove">\u00D7</button>';
+        }
+        var bodyBtn = '';
+        if (ji != null && isExpanded) {
+          bodyBtn = '<button class="save-btn" style="display:block;margin:0.5rem auto 0.5rem" onclick="event.stopPropagation();saveJourney('+ji+')">Save journey</button><button id="mapBtn" class="tl-map-btn" onclick="event.stopPropagation();showJourneyMap('+ji+')">Show on map</button><div id="journeyMap" class="journey-map"></div>';
+        }
+        if (removeId != null && isExpanded) {
+          bodyBtn = '<button id="mapBtn" class="tl-map-btn" onclick="event.stopPropagation();showSavedJourneyMap('+removeId+')">Show on map</button><div id="savedJourneyMap" class="journey-map"></div>';
+        }
+        var clickHandler = (ji != null || removeId != null) ? ' onclick="'+(removeId!=null?'toggleSavedJourney('+removeId+')':'toggleJourney('+ji+')')+'"' : '';
+        var progressHtml = '';
+        if (transitStart && transitEnd) {
+          var now = Date.now(), start = new Date(transitStart).getTime(), end = new Date(transitEnd).getTime();
+          var pct = Math.max(0, Math.min(100, Math.round((now - start) / (end - start) * 100)));
+          if (pct > 0 || j.transfers > 0) {
+            var markers = '';
+            var nonWalk = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
+            for (var mi = 0; mi < nonWalk.length - 1; mi++) {
+              var legEnd = nonWalk[mi].to && nonWalk[mi].to.arrival;
+              var nextStart = nonWalk[mi+1].from && nonWalk[mi+1].from.departure;
+              if (legEnd && nextStart) {
+                var mp = Math.max(0, Math.round((new Date(legEnd).getTime() - start) / (end - start) * 100));
+                var mw = Math.max(2, Math.round((new Date(nextStart).getTime() - new Date(legEnd).getTime()) / (end - start) * 100));
+                markers += '<div class="journey-progress-marker" style="left:'+mp+'%;width:'+mw+'%"></div>';
               }
             }
-            timelineHtml += '<div class="tl-leg-divider">' +
-              '<div class="tl-leg-divider-gutter"></div>' +
-              '<div class="tl-leg-divider-line"></div>' +
-            '</div>';
+            progressHtml = '<div class="journey-progress"><div class="journey-progress-bar" style="width:'+pct+'%"></div>'+markers+'</div>';
           }
         }
-
-        return '<div class="journey'+(isExpanded?' expanded':'')+'" onclick="toggleJourney('+ji+')">' +
+        var timesHtml = '';
+        if (transitStart && transitEnd) {
+          var startPart = '', endPart = '';
+          if (hasCancelledLeg) {
+            startPart = '<span class="tl-cancelled">'+fmtTime(schedStart)+'</span>';
+            endPart = '<span class="tl-cancelled">'+fmtTime(schedEnd)+'</span>';
+          } else if (maxDelay > 0) {
+            startPart = (startDelay>0?'<span class="tl-planned" style="display:inline">'+fmtTime(schedStart)+'</span> ':'')+'<span'+(startDelay>0?' class="tl-delayed"':'')+'>'+fmtTime(transitStart)+'</span>';
+            endPart = (endDelay>0?'<span class="tl-planned" style="display:inline">'+fmtTime(schedEnd)+'</span> ':'')+'<span'+(endDelay>0?' class="tl-delayed"':'')+'>'+fmtTime(transitEnd)+'</span>';
+          } else {
+            startPart = fmtTime(transitStart);
+            endPart = fmtTime(transitEnd);
+          }
+          timesHtml = startPart+' – '+endPart;
+        }
+        return '<div class="journey'+(isExpanded?' expanded':'')+'"'+clickHandler+'>' +
           '<div class="journey-header">' +
+            headerBtn +
             '<div class="journey-summary">' +
-              '<div class="times">'+(transitStart?fmtTime(transitStart):'')+' – '+(transitEnd?fmtTime(transitEnd):'')+(dayDiff > 0 ? ' <span class="tl-day-badge">+'+dayDiff+'d</span>' : '')+(hasNightTrain ? ' <img src="webapp icons/moon.png" class="night-icon" alt="night train" title="Night train">' : '')+'</div>' +
+              '<div class="times">'+timesHtml+(dayDiff > 0 ? ' <span class="tl-day-badge">+'+dayDiff+'d</span>' : '')+(hasNightTrain ? ' <img src="webapp icons/moon.png" class="night-icon" alt="night train" title="Night train">' : '')+'</div>' +
               '<div class="stations">'+fromName+' → '+toName+'</div>' +
             '</div>' +
             '<div>' +
@@ -1105,52 +1025,218 @@
             '</div>' +
             '<span class="expand-icon">▼</span>' +
           '</div>' +
+          progressHtml +
           '<div class="journey-body">' +
             '<div class="timeline">'+timelineHtml+'</div>' +
-            (isExpanded ? '<button id="mapBtn" class="tl-map-btn" onclick="showJourneyMap('+ji+');event.stopPropagation()">Show on map</button><div id="journeyMap" class="journey-map"></div>' : '') +
+            bodyBtn +
           '</div>' +
         '</div>';
-      }).join('') +
-      (nextPageCursor ? '<div class="page-nav"><button class="page-nav-btn" onclick="loadLater();event.stopPropagation()">Later →</button></div>' : '');
     }
 
-    var root = document.documentElement;
-    var toggle = document.getElementById('themeToggle');
-    var logo = document.getElementById('logo');
-    function updateUI() {
-      var isLight = root.classList.contains('light');
-      toggle.checked = isLight;
-      var themeLabel = document.getElementById('themeLabel');
-      if (themeLabel) themeLabel.textContent = isLight ? 'Light mode' : 'Dark mode';
-      logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
+    function buildTimeline(j) {
+      var legs = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
+      var html = '';
+      for (var li = 0; li < legs.length; li++) {
+        var leg = legs[li];
+        var uid = ++_legUid;
+        var depActual = leg.from.departure||leg.startTime;
+        var depScheduled = leg.from.scheduledDeparture || depActual;
+        var arrActual = leg.to&&leg.to.arrival ? leg.to.arrival : null;
+        var arrScheduled = leg.to&&leg.to.scheduledArrival ? leg.to.scheduledArrival : arrActual;
+        var depTime = fmtTime(depActual);
+        var arrTime = fmtTime(arrActual);
+        var fromNameL = lookupDbStation((leg.from&&leg.from.name)||'', leg.from?leg.from.lat:null, leg.from?leg.from.lon:null);
+        var toNameL = lookupDbStation((leg.to&&leg.to.name)||'', leg.to?leg.to.lat:null, leg.to?leg.to.lon:null);
+        var routeName = leg.routeShortName||leg.route||'';
+        var direction = leg.headsign||'';
+        var agency = leg.agencyName||'';
+        var depTrack = leg.from.track||'';
+        var arrTrack = leg.to&&leg.to.track ? leg.to.track : '';
+        var stops = leg.intermediateStops || [];
+        var stopCount = stops.length;
+        var type = trainType(routeName);
+        var cancelled = (leg.from&&leg.from.cancelled) || (leg.to&&leg.to.cancelled) || false;
+        var depDelay = delayMin(depScheduled, depActual);
+        var arrDelay = arrActual ? delayMin(arrScheduled, arrActual) : 0;
+        var trainLabel = agency;
+        if (agency && type && type !== routeName) { trainLabel = agency + ' ' + type; }
+        var pct = legProgressPct(leg);
+
+        var depTimeHtml = '';
+        if (cancelled) {
+          depTimeHtml = '<div class="tl-stop-time tl-cancelled">'+fmtTime(depScheduled)+'</div>';
+        } else if (depDelay > 0) {
+          depTimeHtml = '<div class="tl-stop-time">'+fmtTime(depScheduled)+' <span class="tl-delay-inline">+'+depDelay+'</span></div>';
+        } else {
+          depTimeHtml = '<div class="tl-stop-time">'+depTime+'</div>';
+        }
+        html += '<div class="tl-stop"><div class="tl-stop-time-col">'+depTimeHtml+'</div><div class="tl-stop-dot"></div><div class="tl-stop-info"><span class="tl-stop-station">'+fromNameL+'</span>'+(depTrack?'<span class="tl-stop-platform">Pl. '+depTrack+'</span>':'')+'</div></div>';
+
+        var shortDur = Math.round((leg.duration||0)/60);
+        var durLabel = shortDur >= 60 ? Math.floor(shortDur/60)+'h'+(shortDur%60)+'m' : shortDur+'m';
+        html += '<div class="tl-train"><div class="tl-train-gutter"><div class="tl-train-line-wrap"><span class="tl-dur-label">'+durLabel+'</span><div class="tl-train-line-bg"></div><div class="tl-train-line-fill" style="height:'+pct+'%"></div></div></div><div class="tl-train-body"><div class="tl-train-info" id="tlinfo_'+uid+'" onclick="toggleLegStops('+uid+',event)">'+(agency?opLink(trainLabel):'')+(routeName?'<span class="tl-nr">'+routeName+'</span>':'')+(direction?'<span class="tl-dir">'+direction+'</span>':'')+(stopCount>0?'<span class="tl-stops">'+stopCount+' stop'+(stopCount!==1?'s':'')+' <span class="tl-stops-arrow">\u25BC</span></span>':'')+'</div>';
+        if (stopCount > 0) {
+          html += '<div class="tl-stops-list" id="tlstops_'+uid+'"><div class="tl-stops-list-inner">';
+          for (var si = 0; si < stops.length; si++) {
+            var s = stops[si];
+            var sTime = s.arrival||s.departure||'';
+            html += '<div class="tl-stop-item"><span class="tl-stop-item-time">'+(sTime?fmtTime(sTime):'')+'</span><span class="tl-stop-item-dot"></span><span class="tl-stop-item-name">'+lookupDbStation(s.name||'', s.lat, s.lon)+'</span>'+(s.track?'<span class="tl-stop-item-track">Pl. '+s.track+'</span>':'')+'</div>';
+          }
+          html += '</div></div>';
+        }
+        html += '</div></div>';
+
+        var arrTimeHtml = '';
+        if (cancelled) {
+          arrTimeHtml = '<div class="tl-stop-time tl-cancelled">'+fmtTime(arrScheduled)+'</div>';
+        } else if (arrDelay > 0) {
+          arrTimeHtml = '<div class="tl-stop-time">'+fmtTime(arrScheduled)+' <span class="tl-delay-inline">+'+arrDelay+'</span></div>';
+        } else {
+          arrTimeHtml = '<div class="tl-stop-time">'+arrTime+'</div>';
+        }
+        html += '<div class="tl-stop"><div class="tl-stop-time-col">'+arrTimeHtml+'</div><div class="tl-stop-dot"></div><div class="tl-stop-info"><span class="tl-stop-station">'+toNameL+'</span>'+(arrTrack?'<span class="tl-stop-platform">Pl. '+arrTrack+'</span>':'')+'</div></div>';
+
+        if (li < legs.length - 1) {
+          var nextLeg = legs[li+1];
+          var nextDep = new Date(nextLeg.from.departure||nextLeg.startTime);
+          var thisArr = leg.to&&leg.to.arrival ? new Date(leg.to.arrival) : null;
+          if (thisArr && nextDep) {
+            var xferMin = Math.round((nextDep - thisArr) / 60000);
+            if (xferMin > 0) {
+              html += '<div class="tl-xfer"><div class="tl-xfer-gutter"><div class="tl-xfer-dot"></div></div><div class="tl-xfer-text">'+xferMin+' min transfer</div></div>';
+            }
+          }
+          html += '<div class="tl-leg-divider"><div class="tl-leg-divider-gutter"></div><div class="tl-leg-divider-line"></div></div>';
+        }
+      }
+      return html;
     }
+
+    function renderJourneys() {
+      var resultsEl = document.getElementById('results');
+      _legUid = 0;
+      resultsEl.innerHTML = (prevPageCursor ? '<div class="page-nav"><button class="page-nav-btn earlier-btn" onclick="loadEarlier();event.stopPropagation()">Earlier</button></div>' : '') +
+        currentJourneys.map(function(j, ji) {
+          return renderJourneyCard(j, ji, ji === activeJourney);
+        }).join('') +
+        (nextPageCursor ? '<div class="page-nav"><button class="page-nav-btn later-btn" onclick="loadLater();event.stopPropagation()">Later</button></div>' : '');
+    }
+
+    // ── Save journeys ──
+    var STORAGE_KEY = 'trackandtide:savedJourneys';
+
+    function loadSavedJourneys() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch(e) { return []; }
+    }
+
+    function saveSavedJourneys(list) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    var savedExpandedId = null;
+
+    function saveJourney(idx) {
+      var j = currentJourneys[idx];
+      if (!j) return;
+      var legs = (j.legs||[]).filter(function(l) { return l.mode !== 'WALK'; });
+      var firstFrom = legs[0]&&legs[0].from;
+      var fromName = lookupDbStation(firstFrom?firstFrom.name:'', firstFrom?firstFrom.lat:null, firstFrom?firstFrom.lon:null);
+      var lastLeg = legs[legs.length-1];
+      var lastTo = lastLeg&&lastLeg.to;
+      var toName = lookupDbStation(lastTo?lastTo.name:'', lastTo?lastTo.lat:null, lastTo?lastTo.lon:null);
+      var transitStart = legs[0] && (legs[0].from.departure || legs[0].startTime);
+      var transitEnd = lastLeg && lastLeg.to && lastLeg.to.arrival;
+      if (!transitEnd) return;
+      // Deduplicate: don't save the same trip twice
+      var saved = loadSavedJourneys();
+      var dup = saved.find(function(s) {
+        return s.fromTime === transitStart && s.toTime === transitEnd &&
+          (s.fromStation&&s.fromStation.name) === (fromStation&&fromStation.name) &&
+          (s.toStation&&s.toStation.name) === (toStation&&toStation.name);
+      });
+      if (dup) return; // already saved
+      var durMin = transitDurMin(j);
+      var entry = {
+        id: Date.now(),
+        fromName: fromName,
+        toName: toName,
+        fromTime: transitStart,
+        toTime: transitEnd,
+        fromStation: fromStation,
+        toStation: toStation,
+        duration: Math.floor(durMin/60)+'h '+(durMin%60)+'min',
+        transfers: j.transfers||0,
+        journey: j,
+        savedAt: Date.now()
+      };
+      saved.unshift(entry);
+      if (saved.length > 10) saved = saved.slice(0, 10);
+      saveSavedJourneys(saved);
+      renderSavedJourneys();
+      // Highlight save button
+      var btn = document.querySelector('.journey.expanded .save-btn');
+      if (btn) { btn.classList.add('saved'); btn.textContent = 'Saved'; }
+    }
+
+    function removeSavedJourney(id) {
+      if (!confirm('Remove this saved trip?')) return;
+      var saved = loadSavedJourneys().filter(function(s) { return s.id !== id; });
+      saveSavedJourneys(saved);
+      renderSavedJourneys();
+    }
+
+    function renderSavedJourneys() {
+      var el = document.getElementById('savedSection');
+      if (!el) return;
+      var now = Date.now();
+      var saved = loadSavedJourneys().filter(function(s) {
+        return new Date(s.toTime).getTime() > now;
+      });
+      if (saved.length !== loadSavedJourneys().length) saveSavedJourneys(saved);
+      if (!saved.length) { el.style.display = 'none'; el.innerHTML = ''; savedExpandedId = null; return; }
+      el.style.display = '';
+      el.innerHTML = '<h3>Saved trips</h3>' + saved.map(function(s) {
+        return renderJourneyCard(s.journey, null, savedExpandedId === s.id, s.id);
+      }).join('');
+    }
+
+    function toggleSavedJourney(id) {
+      savedExpandedId = savedExpandedId === id ? null : id;
+      renderSavedJourneys();
+    }
+
+    function showSavedJourneyMap(id) {
+      var saved = loadSavedJourneys().find(function(s) { return s.id === id; });
+      if (!saved || !saved.journey) return;
+      destroyMap();
+      var mapDiv = document.getElementById('savedJourneyMap');
+      if (!mapDiv) return;
+      mapDiv.style.display = 'block';
+      currentJourneys = [saved.journey];
+      initMapInCard(saved.journey, 'savedJourneyMap');
+      var btn = document.getElementById('mapBtn');
+      if (btn) btn.style.display = 'none';
+    }
+
+    renderSavedJourneys();
+
+    var root = document.documentElement;
+    var logo = document.getElementById('logo');
+
     function applyTheme() {
       var saved = localStorage.getItem('trackandtide:theme');
       var isLight = saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
       if (isLight) root.classList.add('light'); else root.classList.remove('light');
-      updateUI();
-    }
-    function toggleTheme() {
-      root.classList.toggle('light');
-      localStorage.setItem('trackandtide:theme', root.classList.contains('light') ? 'light' : 'dark');
-      updateUI();
-      if (journeyMap) {
-        destroyMap();
-        if (activeJourney >= 0 && currentJourneys[activeJourney]) {
-          // Re-render to recreate #journeyMap in the card, then re-init
-          renderJourneys();
-          setTimeout(function() { initMapInCard(currentJourneys[activeJourney]); }, 200);
-        }
-      }
+      if (logo) logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
     }
     applyTheme();
 
-    toggle.addEventListener('change', function() {
-      var isLight = toggle.checked;
-      if (isLight) root.classList.add('light');
+    // Expose for footer.js — handles map re-creation on theme switch
+    window.setTheme = function(mode) {
+      if (mode === 'light') root.classList.add('light');
       else root.classList.remove('light');
-      localStorage.setItem('trackandtide:theme', isLight ? 'light' : 'dark');
-      updateUI();
+      localStorage.setItem('trackandtide:theme', mode);
+      if (logo) logo.src = mode === 'light' ? "trackandtide logo full.png" : "logo full light.png";
       if (journeyMap) {
         destroyMap();
         if (activeJourney >= 0 && currentJourneys[activeJourney]) {
@@ -1158,7 +1244,7 @@
           setTimeout(function() { initMapInCard(currentJourneys[activeJourney]); }, 200);
         }
       }
-    });
+    };
 
     // Hamburger menu
     var hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1181,7 +1267,9 @@
   </script>
 
 <script src="report-modal.js"></script>
+
 <script src="bottom-nav.js?v=2"></script>
+<script src="footer.js?v=4"></script>
 
 </body>
 </html>

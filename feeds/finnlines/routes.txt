@@ -1,9 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-fn_hel_tra,finnlines,HEL-TRV,Helsinki - Travemünde (Finnlines),4
-fn_tra_hel,finnlines,TRV-HEL,Travemünde - Helsinki (Finnlines),4
-fn_naa_kap,finnlines,NAA-KAP,Naantali - Kapellskär (Finnlines),4
-fn_kap_naa,finnlines,KAP-NAA,Kapellskär - Naantali (Finnlines),4
-fn_mal_tra,finnlines,MAL-TRV,Malmö - Travemünde (Finnlines),4
-fn_tra_mal,finnlines,TRV-MAL,Travemünde - Malmö (Finnlines),4
-fn_mal_swi,finnlines,MAL-SWI,Malmö - Świnoujście (Finnlines),4
-fn_swi_mal,finnlines,SWI-MAL,Świnoujście - Malmö (Finnlines),4

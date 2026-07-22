@@ -43,6 +43,8 @@
       --text: #111827;
       --text-secondary: #6B7280;
       --border: #D1D5DB;
+      --hover: #0284C7;
+      --active: #0369A1;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -54,41 +56,27 @@
       min-height: 100vh;
       line-height: 1.7;
     }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      row-gap: 0.5rem;
-      padding: 8px 20px;
-      border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hover) 0%, transparent 50%);
+      opacity: 0.03;
     }
 
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; row-gap: 0.5rem; padding: 8px 20px;
+      border-bottom: 1px solid var(--border); flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
     header img { width: 200px; }
 
     .main-nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
     .main-nav a {
-      color: var(--text);
-      text-decoration: none;
-      padding: 0.55rem 0.75rem;
-      border-radius: 999px;
-      opacity: 0.78;
-      border: 1px solid transparent;
+      color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem;
+      border-radius: 999px; opacity: 0.78; border: 1px solid transparent;
     }
-    .main-nav a:hover, .main-nav a.active {
-      opacity: 1;
-      background: var(--card);
-      border-color: var(--border);
-    }
-
-    .theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
-    .theme-switch input { opacity: 0; width: 0; height: 0; }
-    .theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
-    .theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
-    .theme-switch input:checked + .theme-slider { background: var(--hover); }
-    .theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
+    .main-nav a:hover, .main-nav a.active { opacity: 1; background: var(--card); border-color: var(--border); }
 
     .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
@@ -96,89 +84,67 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    @media (max-width: 1000px) {
-      header img { width: 120px; }
-    }
+    @media (max-width: 1000px) { header img { width: 120px; } }
 
     .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem;
+      max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem 4rem;
+      position: relative; z-index: 1;
     }
 
+    .hero { text-align: center; padding: 1.5rem 0 2rem; }
+    .hero-badge {
+      display: inline-block; padding: 4px 14px; border-radius: 999px;
+      background: var(--hover); color: #fff; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
     h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      letter-spacing: -0.03em;
+      font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900;
+      letter-spacing: -0.04em; margin-bottom: 1rem;
     }
 
     h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 2.5rem 0 1rem;
-      color: var(--hover);
+      font-size: 1.25rem; font-weight: 800; margin: 2.5rem 0 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
     }
+    h2::after { content: ''; flex: 1; height: 1px; background: var(--border); border-radius: 1px; }
+    .sec-icon { width: 20px; height: 20px; flex-shrink: 0; opacity: 0.7; }
+    :root:not(.light) .sec-icon { filter: invert(1); }
 
     p, li {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.8rem;
+      font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.8rem;
     }
 
     ul { padding-left: 1.5rem; margin-bottom: 1.2rem; }
+    ul li { margin-bottom: 0.5rem; }
+    ul li::marker { color: var(--hover); }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
+    .privacy-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid #10B981; border-radius: 12px;
+      padding: 1.35rem 1.5rem; margin: 1rem 0;
+    }
+    .privacy-card h3 {
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .privacy-card p { font-size: 0.9rem; margin: 0; }
+
+    .last-updated {
+      font-size: 0.82rem; color: var(--text-secondary); opacity: 0.6;
+      margin-top: 3rem; text-align: center;
     }
 
-    .card h3 {
-      font-size: 1.15rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .card p {
-      font-size: 0.95rem;
-      margin-bottom: 0;
-    }
-
-    .site-footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      padding: 2rem 1.5rem;
-      border-top: 1px solid var(--border);
-      flex-wrap: wrap;
-      background: var(--panel);
-    }
-
-    .footer-theme { display: flex; align-items: center; gap: 0.5rem; }
-    .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); }
-    .footer-link { color: var(--hover); text-decoration: none; font-size: 0.9rem; cursor: pointer; }
-    .footer-link:hover { text-decoration: underline; }
+    a { color: var(--hover); text-decoration: underline; }
+    a:hover { color: var(--active); }
 
     .desktop-only { display: inline; }
     .mobile-only { display: none; }
-
-    .last-updated {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      opacity: 0.7;
-      margin-top: 2rem;
-    }
 
     @media (max-width: 768px) {
       header, .hamburger, .main-nav { display: none !important; }
       .mobile-only { display: inline; }
       .desktop-only { display: none; }
-      .site-footer { display: none !important; }
-      .container { padding: 2rem 1rem; }
-      h1 { font-size: 1.8rem; }
+      .container { padding: 2rem 1rem 3rem; }
     }
   </style>
 </head>
@@ -190,36 +156,36 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/journey">Journey</a>
+      <a href="/journey?v=3">Journey</a>
       <a href="/map">Map</a>
       <a href="/explore">Explore</a>
-      <a href="/about" class="desktop-only">About</a>
-      <a href="/more" class="mobile-only">More</a>
+      <a href="/more">More</a>
     </nav>
   </header>
 
   <div class="container">
 
-    <h1>Privacy Policy</h1>
+    <div class="hero">
+      <div class="hero-badge">Privacy</div>
+      <h1>Privacy Policy</h1>
+      <p style="color:var(--text-secondary);max-width:540px;margin:0 auto;">
+        Track &amp; Tide is built with privacy in mind. Here is what data we handle
+        &mdash; which is to say, very little.
+      </p>
+    </div>
 
-    <p>
-      Track &amp; Tide is built with privacy in mind. This page explains what data we handle
-      and how we handle it — which is to say, very little.
-    </p>
-
-    <div class="card">
-      <h3>&#128274; No personal data collection</h3>
+    <div class="privacy-card">
+      <h3>No personal data collection</h3>
       <p>Track &amp; Tide does not collect, store, or share any personal data. There are no
       user accounts, no sign-ups, and no forms that ask for personal information.</p>
     </div>
 
-    <h2>What we store locally</h2>
+    <h2><img class="sec-icon" src="webapp icons/info.png" alt="" style="width:20px;height:20px;flex-shrink:0;opacity:0.7" /> What we store locally</h2>
 
     <ul>
-      <li><strong>Theme preference</strong> (light/dark mode) — saved in your browser's
-      localStorage so the site remembers your choice on return visits.</li>
-      <li><strong>Satellite view preference</strong> — also saved locally so your
-      map view choice persists.</li>
+      <li><strong>Theme preference</strong> (light/dark mode) &mdash; saved in your browser's localStorage.</li>
+      <li><strong>Satellite view preference</strong> &mdash; saved locally so your map view persists.</li>
+      <li><strong>Map position and station selection</strong> &mdash; saved locally during your session.</li>
     </ul>
 
     <p>
@@ -227,93 +193,54 @@
       not accessible to us or any third party.
     </p>
 
-    <h2>Third-party services</h2>
+    <h2><img class="sec-icon" src="webapp icons/servers.png" alt="" style="width:20px;height:20px;flex-shrink:0;opacity:0.7" /> Third-party services</h2>
 
     <p>The site loads map tiles and data from these providers to function:</p>
 
     <ul>
-      <li><strong>CARTO</strong> — provides the default map style (Positron / Dark Matter)</li>
-      <li><strong>Esri</strong> — provides satellite imagery when you enable satellite view</li>
-      <li><strong>OpenStreetMap</strong> / <strong>OpenRailwayMap</strong> — rail infrastructure data</li>
-      <li><strong>GitHub</strong> (raw.githubusercontent.com) — country boundary GeoJSON</li>
-      <li><strong>Open-Meteo</strong> — weather data</li>
-      <li><strong>Firebase</strong> (Firestore) — stores user-submitted comments on stations and ports</li>
+      <li><strong>CARTO</strong> &mdash; default map style (Positron / Dark Matter)</li>
+      <li><strong>Esri</strong> &mdash; satellite imagery</li>
+      <li><strong>OpenStreetMap</strong> / <strong>OpenRailwayMap</strong> &mdash; rail infrastructure</li>
+      <li><strong>Open-Meteo</strong> &mdash; weather data</li>
+      <li><strong>Firebase</strong> (Firestore) &mdash; user-submitted comments on stations and ports</li>
     </ul>
 
     <p>
-      These services may see your IP address as part of standard web requests,
-      which is necessary for the map to function. None of these services are
-      used for tracking or advertising purposes.
+      These services may see your IP address as part of standard web requests.
+      None are used for tracking or advertising.
     </p>
 
-    <h2>Geolocation</h2>
+    <h2><img class="sec-icon" src="webapp icons/locate.png" alt="" style="width:20px;height:20px;flex-shrink:0;opacity:0.7" /> Geolocation</h2>
 
     <p>
-      If you tap the "Locate me" button, your browser will ask for permission
-      to access your location. This is handled entirely by your browser — the
-      coordinates are used only to centre the map and are never stored or
-      transmitted anywhere.
+      If you tap "Locate me", your browser will ask for location permission.
+      Coordinates are used only to centre the map and are never stored or transmitted.
     </p>
 
-    <h2>Cookies</h2>
+    <h2><img class="sec-icon" src="webapp icons/info.png" alt="" style="width:20px;height:20px;flex-shrink:0;opacity:0.7" /> Cookies</h2>
 
     <p>
       Track &amp; Tide does not set any cookies. Not for tracking, not for
-      analytics, not for anything. Your preferences are stored in localStorage,
-      which is not the same as cookies and cannot be read by third parties.
+      analytics, not for anything. Preferences are stored in localStorage,
+      which cannot be read by third parties.
     </p>
 
-    <h2>Contact</h2>
+    <h2><img class="sec-icon" src="webapp icons/comment.png" alt="" style="width:20px;height:20px;flex-shrink:0;opacity:0.7" /> Contact</h2>
 
     <p>
-      If you have questions about this privacy policy, you can reach out via the
-      <a href="#" onclick="openReportModal()" style="color:var(--hover);">report form</a>
-      on any page.
+      Questions about this policy? Reach out via the
+      <a href="#" onclick="openReportModal()">report form</a>.
     </p>
 
     <p class="last-updated">Last updated: 15 July 2026</p>
 
   </div>
 
-  <footer class="site-footer">
-    <div class="footer-theme">
-      <span class="footer-theme-label" id="themeLabel">Light mode</span>
-      <label class="theme-switch" title="Toggle dark/light mode">
-        <input type="checkbox" id="themeToggle" />
-        <span class="theme-slider"></span>
-      </label>
-    </div>
-    <a class="footer-link" href="/privacy">Privacy Policy</a>
-  </footer>
-
   <script src="report-modal.js"></script>
+  <script src="footer.js?v=4"></script>
   <script src="bottom-nav.js?v=2"></script>
 
   <script>
-    const root = document.documentElement;
-    const toggle = document.getElementById("themeToggle");
-    const logo = document.getElementById("logo");
-
-    function applyTheme() {
-      const saved = localStorage.getItem("trackandtide:theme");
-      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-      const mode = saved || (prefersLight ? "light" : "dark");
-      if (mode === "light") root.classList.add("light");
-      else root.classList.remove("light");
-      toggle.checked = (mode === "light");
-      const label = document.getElementById("themeLabel");
-      if (label) label.textContent = mode === "light" ? "Light mode" : "Dark mode";
-      logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
-    }
-
-    toggle.addEventListener("change", function() {
-      const mode = toggle.checked ? "light" : "dark";
-      localStorage.setItem("trackandtide:theme", mode);
-      applyTheme();
-    });
-
-    applyTheme();
-
     // Hamburger menu
     const hamburgerBtn = document.getElementById("hamburgerBtn");
     const mainNav = document.getElementById("mainNav");

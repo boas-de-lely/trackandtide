@@ -123,14 +123,11 @@
     .theme-switch input:checked + .theme-slider { background: var(--hover); }
     .theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
 
-    .site-footer { text-align: center; padding: 1.5rem 1rem 2rem; opacity: 0.6; }
-
     .mobile-only { display: none; }
     @media (max-width: 768px) {
       header, .hamburger, .main-nav { display: none !important; }
       .mobile-only { display: inline; }
       .desktop-only { display: none; }
-      .site-footer { display: none; }
     }
 
   </style>
@@ -143,10 +140,9 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/journey">Journey</a>
+      <a href="/journey?v=3">Journey</a>
       <a href="/map">Map</a>
       <a href="/explore">Explore</a>
-      <a href="/about" class="desktop-only">About</a>
       <a href="/more" class="active">More</a>
     </nav>
   </header>
@@ -180,6 +176,13 @@
         <span class="menu-item-arrow">&#8250;</span>
       </a>
 
+      <!-- Features -->
+      <a class="menu-item" href="/features">
+        <span class="menu-item-icon">&#9733;</span>
+        <span class="menu-item-label">Features<span class="menu-item-sub"> — See what Track &amp; Tide can do</span></span>
+        <span class="menu-item-arrow">&#8250;</span>
+      </a>
+
       <!-- About -->
       <a class="menu-item" href="/about">
         <span class="menu-item-icon">&#8505;</span>
@@ -201,30 +204,41 @@
         <span class="menu-item-arrow">&#8250;</span>
       </a>
 
+      <!-- Terms -->
+      <a class="menu-item" href="/terms">
+        <img class="menu-item-icon-img" src="webapp icons/terms-and-conditions.png" alt="" width="20" height="20" />
+        <span class="menu-item-label">Terms of Service<span class="menu-item-sub"> — Rules for using Track &amp; Tide</span></span>
+        <span class="menu-item-arrow">&#8250;</span>
+      </a>
+
+      <!-- System Status -->
+      <a class="menu-item" href="/status">
+        <img class="menu-item-icon-img" src="webapp icons/servers.png" alt="" width="20" height="20" />
+        <span class="menu-item-label">System Status<span class="menu-item-sub"> — Check if all services are online</span></span>
+        <span class="menu-item-arrow">&#8250;</span>
+      </a>
+
     </div>
   </div>
 
-  <footer class="site-footer">
-    <span>Track &amp; Tide</span>
-  </footer>
-
   <script src="report-modal.js"></script>
-  <script src="bottom-nav.js?v=2"></script>
+
+<script src="bottom-nav.js?v=2"></script>
 
   <script>
     const root = document.documentElement;
     const themeToggle = document.getElementById("themeToggle");
     const logo = document.getElementById("logo");
 
-    function setTheme(mode) {
+    window.setTheme = function(mode) {
       if (mode === "light") root.classList.add("light");
       else root.classList.remove("light");
       localStorage.setItem("trackandtide:theme", mode);
       themeToggle.checked = (mode === "light");
       const label = document.querySelector("#themeRow .menu-item-label");
-      if (label) label.textContent = mode === "light" ? "Light mode" : "Dark mode";
+      if (label) label.textContent = mode === "dark" ? "Switch to light mode" : "Switch to dark mode";
       logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
-    }
+    };
 
     function detectTheme() {
       const saved = localStorage.getItem("trackandtide:theme");
@@ -232,8 +246,8 @@
       return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
     }
 
-    themeToggle.addEventListener("change", () => setTheme(themeToggle.checked ? "light" : "dark"));
-    setTheme(detectTheme());
+    themeToggle.addEventListener("change", () => window.setTheme(themeToggle.checked ? "light" : "dark"));
+    window.setTheme(detectTheme());
 
     // Hamburger
     const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -255,7 +269,7 @@
     // Make the whole theme row clickable
     document.getElementById("themeRow").addEventListener("click", () => {
       themeToggle.checked = !themeToggle.checked;
-      setTheme(themeToggle.checked ? "light" : "dark");
+      window.setTheme(themeToggle.checked ? "light" : "dark");
     });
 
     // ── PWA Install ──
@@ -279,6 +293,8 @@
       document.getElementById("installRow").style.display = "none";
     }
   </script>
+
+<script src="footer.js?v=4"></script>
 
 </body>
 </html>

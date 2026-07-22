@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-euro_seaways,European Seaways,https://www.europeanseaways.com,Europe/Athens,en,+30 210 411 2678

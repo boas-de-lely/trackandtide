@@ -54,12 +54,14 @@
 }
 
 :root.light {
-  --bg: #d5d9e2;
+  --bg: #F1F5F9;
   --panel: #ffffff;
   --card: #f8fafc;
   --text: #111827;
   --text-secondary: #6B7280;
-  --border: rgba(15,23,42,0.16);
+  --border: rgba(15,23,42,0.12);
+  --hover: #0284C7;
+  --active: #0369A1;
 }
 
 * { box-sizing: border-box; }
@@ -263,19 +265,11 @@ a.pill:hover { background: var(--hover); color: #fff; }
 .submit-btn:hover { opacity: 0.9; }
 .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* ── Footer ── */
-.site-footer { text-align: center; padding: 1.5rem 1rem 2rem; border-top: 1px solid var(--border); margin-top: 2rem; opacity: 0.85; }
-.footer-link { color: var(--hover); text-decoration: none; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
-.footer-link:hover { text-decoration: underline; opacity: 1; }
-.footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
-.footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
-
 .mobile-only { display: none; }
 @media (max-width: 768px) {
   header, .hamburger, .main-nav { display: none !important; }
   .mobile-only { display: inline; }
   .desktop-only { display: none; }
-  .site-footer { display: none; }
 }
 </style>
 </head>
@@ -287,11 +281,10 @@ a.pill:hover { background: var(--hover); color: #fff; }
     <span></span><span></span><span></span>
   </button>
   <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-    <a href="/journey">Journey</a>
+    <a href="/journey?v=3">Journey</a>
     <a href="/map">Map</a>
     <a href="/explore" class="active">Explore</a>
-    <a href="/about" class="desktop-only">About</a>
-    <a href="/more" class="mobile-only">More</a>
+    <a href="/more">More</a>
   </nav>
 </header>
 
@@ -353,7 +346,6 @@ a.pill:hover { background: var(--hover); color: #fff; }
         <div class="field"><label for="fpSearchInput">Search</label><input id="fpSearchInput" type="search" placeholder="Port name, country, route" /></div>
         <div class="field"><label for="fpCountryFilter">Country</label><select id="fpCountryFilter"></select></div>
         <div class="field"><label for="fpSortFilter">Sort</label><select id="fpSortFilter"><option value="name">Name</option><option value="country">Country</option><option value="routes">Route count</option></select></div>
-        <label class="check-row" style="cursor:pointer"><input type="checkbox" id="fpOvernightFilter" /> Overnight routes only</label>
         <div class="stats">
           <div class="stat"><strong id="fpTotalStat">0</strong><span>Total</span></div>
           <div class="stat"><strong id="fpRouteStat">0</strong><span>Routes</span></div>
@@ -367,13 +359,6 @@ a.pill:hover { background: var(--hover); color: #fff; }
   </div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-theme">
-    <span class="footer-theme-label" id="themeLabel">Light mode</span>
-    <label class="theme-switch" title="Toggle dark/light mode"><input type="checkbox" id="themeToggle" /><span class="theme-slider"></span></label>
-  </div>
-  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
-</footer>
 
 <!-- ── Station tip modal ── -->
 <div class="modal-overlay" id="stTipModal" onclick="if(event.target===this)closeStationTipModal()">
@@ -410,33 +395,30 @@ a.pill:hover { background: var(--hover); color: #fff; }
 </div>
 
 <script src="report-modal.js"></script>
+
 <script src="bottom-nav.js?v=2"></script>
 <script src="search-utils.js"></script>
+<script src="footer.js?v=4"></script>
 
 <script>
 /* ================================================================
    SHARED — theme, hamburger, utilities, Firebase
    ================================================================ */
 const root = document.documentElement;
-const themeToggle = document.getElementById("themeToggle");
 const logo = document.getElementById("logo");
 
-function setTheme(mode) {
+window.setTheme = function(mode) {
   if (mode === "light") root.classList.add("light");
   else root.classList.remove("light");
   localStorage.setItem("trackandtide:theme", mode);
-  themeToggle.checked = (mode === "light");
-  const tl = document.getElementById("themeLabel");
-  if (tl) tl.textContent = mode === "light" ? "Light mode" : "Dark mode";
   logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
-}
+};
 function detectTheme() {
   const saved = localStorage.getItem("trackandtide:theme");
   if (saved) return saved;
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
-themeToggle.addEventListener('change', () => setTheme(themeToggle.checked ? "light" : "dark"));
-setTheme(detectTheme());
+window.setTheme(detectTheme());
 
 // Hamburger
 const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -735,7 +717,6 @@ window.deleteStationComment = deleteStationComment;
 const searchInput = document.getElementById("fpSearchInput");
 const countryFilter = document.getElementById("fpCountryFilter");
 const sortFilter = document.getElementById("fpSortFilter");
-const overnightFilter = document.getElementById("fpOvernightFilter");
 const portList = document.getElementById("fpPortList");
 const resultTitle = document.getElementById("fpResultTitle");
 const generatedAt = document.getElementById("fpGeneratedAt");
@@ -798,7 +779,7 @@ async function deletePortComment(docId){try{await db.collection('comments').doc(
 async function renderPortDetailHTML(port,wikiData){
   if(!port)return"";const portRoutes=getRoutesForPort(port);const operators=getOperatorsForPort(port);const rc=portRoutes.length;
   let wikiBlock="";if(wikiData){const stats=[];if(wikiData.patronage){const ps=wikiData.patronage.value.toLocaleString();const yr=wikiData.patronage.year?' ('+wikiData.patronage.year+')':'';stats.push('<div class="stat-badge"><span class="stat-num">'+ps+'</span><span class="stat-label">annual passengers'+yr+'</span></div>');}stats.push('<div class="stat-badge"><span class="stat-num">'+rc+'</span><span class="stat-label">ferry route'+(rc!==1?'s':'')+'</span></div>');const metaChips=[];if(wikiData.inception){const y=wikiData.inception.split('-')[0];if(y)metaChips.push('<span class="meta-chip">Opened '+escapeHTML(y)+'</span>');}const images=[];if(wikiData.image)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.image)+'" alt="'+escapeHTML(port.name)+'" loading="lazy" />');if(wikiData.interiorImage)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.interiorImage)+'" alt="Interior of '+escapeHTML(port.name)+'" loading="lazy" />');if(wikiData.nightView)images.push('<img class="detail-wiki-img" src="'+escapeHTML(wikiData.nightView)+'" alt="'+escapeHTML(port.name)+' at night" loading="lazy" />');wikiBlock='<div class="detail-wiki">'+(images.length?'<div class="detail-images">'+images.join("")+'</div>':'')+(wikiData.description?'<p class="detail-wiki-desc">'+escapeHTML(wikiData.description)+'</p>':'')+(stats.length?'<div class="detail-stats">'+stats.join("")+'</div>':'')+(metaChips.length?'<div class="detail-meta-chips">'+metaChips.join("")+'</div>':'')+(wikiData.facilities?.length?'<div class="detail-facilities">'+wikiData.facilities.map(f=>'<span class="facility-chip">'+f+'</span>').join("")+'</div>':'')+'<div class="detail-links">'+(wikiData.website?'<a class="detail-link" href="'+escapeHTML(wikiData.website)+'" target="_blank" rel="noopener">Website</a>':'')+'<button class="detail-link detail-link-map" data-open-map="'+escapeHTML(port.id)+'">Open on map</button></div></div>';}else{wikiBlock='<div class="detail-wiki"><div class="detail-stats"><div class="stat-badge"><span class="stat-num">'+rc+'</span><span class="stat-label">ferry route'+(rc!==1?'s':'')+'</span></div></div><div class="detail-links"><button class="detail-link detail-link-map" data-open-map="'+escapeHTML(port.id)+'">Open on map</button></div></div>';}
-  return'<div class="port-detail-inline" data-port-detail="'+escapeHTML(port.id)+'"><div class="detail-header"><h3>'+escapeHTML(port.name)+'</h3><div class="detail-pills">'+port.countries.map(c=>'<span class="pill">'+escapeHTML(c)+'</span>').join("")+operators.slice(0,3).map(op=>'<a class="pill" href="/explore?tab=operators&operator='+encodeURIComponent(op)+'">'+escapeHTML(op)+'</a>').join("")+'</div>'+(portRoutes.length?'<div class="port-detail-routes"><strong>Routes:</strong></div><div style="display:grid;gap:0.4rem;margin-top:0.3rem">'+portRoutes.map(r=>{const ops=r.operators&&r.operators.length>1?' <span style="opacity:0.65;font-size:0.82em">('+r.operators.map(o=>escapeHTML(o)).join(", ")+')</span>':'';const chips=[];if(r.seasonal)chips.push('<span class="pill" style="background:rgba(251,191,36,0.2);border-color:rgba(251,191,36,0.4);color:#fbbf24">Seasonal</span>');if(r.distanceKm)chips.push('<span class="pill" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.3)">'+r.distanceKm+' km</span>');if(r.duration)chips.push('<span class="pill" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.3)">~'+r.duration+'</span>');if(r.frequency)chips.push('<span class="pill" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.3)">'+escapeHTML(r.frequency)+'</span>');if(r.overnight)chips.push('<span class="pill" style="background:rgba(139,92,246,0.2);border-color:rgba(139,92,246,0.35);color:#a78bfa">Overnight</span>');return'<div style="font-size:0.92rem"><span style="font-weight:600">'+escapeHTML(r.name)+'</span>'+ops+(chips.length?'<div style="margin-top:0.2rem;display:flex;gap:0.3rem;flex-wrap:wrap">'+chips.join("")+'</div>':'')+'</div>';}).join("")+'</div>':'')+'</div>'+wikiBlock+renderOperatorCardsHTML(operators)+await renderCommentsHTML('port',port.id,port.name)+'</div>';
+  return'<div class="port-detail-inline" data-port-detail="'+escapeHTML(port.id)+'"><div class="detail-header"><h3>'+escapeHTML(port.name)+'</h3><div class="detail-pills">'+port.countries.map(c=>'<span class="pill">'+escapeHTML(c)+'</span>').join("")+operators.slice(0,3).map(op=>'<a class="pill" href="/explore?tab=operators&operator='+encodeURIComponent(op)+'">'+escapeHTML(op)+'</a>').join("")+'</div>'+(portRoutes.length?'<div class="port-detail-routes"><strong>Routes:</strong></div><div style="display:grid;gap:0.4rem;margin-top:0.3rem">'+portRoutes.map(r=>{const ops=r.operators&&r.operators.length>1?' <span style="opacity:0.65;font-size:0.82em">('+r.operators.map(o=>escapeHTML(o)).join(", ")+')</span>':'';const chips=[];if(r.seasonal)chips.push('<span class="pill" style="background:rgba(251,191,36,0.2);border-color:rgba(251,191,36,0.4);color:#fbbf24">Seasonal</span>');if(r.distanceKm)chips.push('<span class="pill" style="background:rgba(56,189,248,0.15);border-color:rgba(56,189,248,0.3)">'+r.distanceKm+' km</span>');return'<div style="font-size:0.92rem"><span style="font-weight:600">'+escapeHTML(r.name)+'</span>'+ops+(chips.length?'<div style="margin-top:0.2rem;display:flex;gap:0.3rem;flex-wrap:wrap">'+chips.join("")+'</div>':'')+'</div>';}).join("")+'</div>':'')+'</div>'+wikiBlock+renderOperatorCardsHTML(operators)+await renderCommentsHTML('port',port.id,port.name)+'</div>';
 }
 
 function removeInlineDetail(){const ex=portList.querySelector('.port-detail-inline');if(ex)ex.remove();}
@@ -818,7 +799,7 @@ portList.addEventListener('click',event=>{
 function restoreSelectedPort(){if(!selectedPortId)return;const p=getPortById(selectedPortId);if(!p){selectedPortId=null;return;}searchInput.value=p.name;countryFilter.value="";renderAndRestoreDetail();requestAnimationFrame(()=>{const row=portList.querySelector('.port-row.selected');if(row)row.scrollIntoView({block:'center',behavior:'smooth'});});}
 
 function buildFilters(){const countries=unique(ports.map(p=>p.country));countryFilter.innerHTML='<option value="">All countries</option>'+countries.map(c=>'<option>'+escapeHTML(c)+'</option>').join("");}
-function getFiltered(){const rawQ=searchInput.value.trim();const q=normalizeForSearch(rawQ);const country=countryFilter.value;return ports.filter(p=>{const rn=getRouteNamesForPort(p).join(" ");const ops=getOperatorsForPort(p).join(" ");const h=normalizeForSearch([p.name,p.country,...(p.countries||[]),rn,ops].join(" "));return(!rawQ||(h.indexOf(q)!==-1||fuzzyMatchScore(q,normalizeForSearch(p.name))>30))&&(!country||(p.countries||[]).includes(country)||p.country===country)&&(!overnightFilter.checked||getRoutesForPort(p).some(r=>r.overnight));}).sort((a,b)=>{if(sortFilter.value==="country")return(a.country||"").localeCompare(b.country||"")||a.name.localeCompare(b.name);if(sortFilter.value==="routes")return(b.routeIds?.length||0)-(a.routeIds?.length||0)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
+function getFiltered(){const rawQ=searchInput.value.trim();const q=normalizeForSearch(rawQ);const country=countryFilter.value;return ports.filter(p=>{const rn=getRouteNamesForPort(p).join(" ");const ops=getOperatorsForPort(p).join(" ");const h=normalizeForSearch([p.name,p.country,...(p.countries||[]),rn,ops].join(" "));return(!rawQ||(h.indexOf(q)!==-1||fuzzyMatchScore(q,normalizeForSearch(p.name))>30))&&(!country||(p.countries||[]).includes(country)||p.country===country);}).sort((a,b)=>{if(sortFilter.value==="country")return(a.country||"").localeCompare(b.country||"")||a.name.localeCompare(b.name);if(sortFilter.value==="routes")return(b.routeIds?.length||0)-(a.routeIds?.length||0)||a.name.localeCompare(b.name);return a.name.localeCompare(b.name);});}
 
 function render(){const filtered=getFiltered();const capped=filtered.slice(0,500);totalStat.textContent=filtered.length.toLocaleString();const tr=new Set(filtered.flatMap(p=>p.routeIds||[])).size;routeStat.textContent=tr.toLocaleString();resultTitle.textContent=filtered.length.toLocaleString()+' ports';portList.innerHTML=capped.length?capped.map(p=>{const rc=(p.routeIds||[]).length;const ops=getOperatorsForPort(p);return'<article class="port-row" data-port-id="'+escapeHTML(p.id)+'"><div><div class="port-name">'+escapeHTML(p.name)+'</div><div class="port-meta">'+p.countries.map(c=>'<span class="pill">'+escapeHTML(c)+'</span>').join("")+'<span class="pill">'+rc+' route'+(rc!==1?'s':'')+'</span>'+ops.slice(0,3).map(o=>'<span class="pill">'+escapeHTML(o)+'</span>').join("")+'</div></div><span class="source-link">'+rc+' routes</span></article>';}).join("")+(filtered.length>capped.length?'<div class="empty">Showing first '+capped.length.toLocaleString()+' results. Narrow the filters to see more.</div>':''):'<div class="empty">No ports match these filters.</div>';if(selectedPortId)highlightPortRow(selectedPortId);}
 async function renderAndRestoreDetail(){render();if(selectedPortId)await showInlineDetail(selectedPortId);}
@@ -826,7 +807,7 @@ async function renderAndRestoreDetail(){render();if(selectedPortId)await showInl
 const DV='?v=20260603';
 Promise.all([fetch("./ferry_ports.json"+DV).then(r=>r.json()).catch(()=>({ports:[],routes:[]})),fetch("./ferries.json"+DV).then(r=>r.json()).catch(()=>({routes:[]})),fetch("./data.json"+DV).then(r=>r.json()).catch(()=>({operators:[]}))]).then(async([fpData,ferriesData,operatorsData])=>{ports=(fpData.ports||[]).map(p=>({...p,country:p.country||(p.countries?.[0]||"")}));routes=fpData.routes||ferriesData.routes||[];allOperators=operatorsData.operators||[];generatedAt.textContent=fpData.generatedAt?'Generated: '+new Date(fpData.generatedAt).toLocaleDateString():'';buildFilters();render();await restoreSelectedPort();if(selectedPortId)switchTab("ports");});
 
-[searchInput,countryFilter,sortFilter,overnightFilter].forEach(c=>{c.addEventListener("input",renderAndRestoreDetail);c.addEventListener("change",renderAndRestoreDetail);});
+[searchInput,countryFilter,sortFilter].forEach(c=>{c.addEventListener("input",renderAndRestoreDetail);c.addEventListener("change",renderAndRestoreDetail);});
 
 window.upvotePortComment = upvotePortComment;
 window.deletePortComment = deletePortComment;

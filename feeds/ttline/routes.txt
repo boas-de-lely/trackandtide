@@ -1,9 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-tt_tre_tra,tt_line,TRG-TRV,Trelleborg - Travemünde (TT-Line),4
-tt_tra_tre,tt_line,TRV-TRG,Travemünde - Trelleborg (TT-Line),4
-tt_tre_ros,tt_line,TRG-RSK,Trelleborg - Rostock (TT-Line),4
-tt_ros_tre,tt_line,RSK-TRG,Rostock - Trelleborg (TT-Line),4
-tt_tre_swi,tt_line,TRG-SWI,Trelleborg - Świnoujście (TT-Line),4
-tt_swi_tre,tt_line,SWI-TRG,Świnoujście - Trelleborg (TT-Line),4
-tt_tre_kla,tt_line,TRG-KLA,Trelleborg - Klaipėda (TT-Line),4
-tt_kla_tre,tt_line,KLA-TRG,Klaipėda - Trelleborg (TT-Line),4

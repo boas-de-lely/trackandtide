@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-tallink_silja,Tallink Silja,https://www.tallinksilja.com,Europe/Helsinki,en,+372 640 9800

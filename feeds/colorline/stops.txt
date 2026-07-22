@@ -1,8 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-oslo,Oslo,59.91,10.73
-kiel,Kiel,54.33,10.15
-kristiansand,Kristiansand,58.14,7.99
-hirtshals,Hirtshals,57.59,9.96
-larvik,Larvik,59.05,10.03
-sandefjord,Sandefjord,59.13,10.23
-stromstad,Strömstad,58.93,11.17

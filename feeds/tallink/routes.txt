@@ -1,7 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-tal_hel_tal,tallink_silja,HKI-TLL,Helsinki - Tallinn (Tallink),4
-tal_tal_hel,tallink_silja,TLL-HKI,Tallinn - Helsinki (Tallink),4
-tal_hel_sto,tallink_silja,HKI-STO,Helsinki - Stockholm (Tallink),4
-tal_sto_hel,tallink_silja,STO-HKI,Stockholm - Helsinki (Tallink),4
-tal_tal_sto,tallink_silja,TLL-STO,Tallinn - Stockholm (Tallink),4
-tal_sto_tal,tallink_silja,STO-TLL,Stockholm - Tallinn (Tallink),4

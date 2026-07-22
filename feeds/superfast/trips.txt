@@ -1,7 +1,0 @@
-route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
-sf_pat_anc,daily,sf_pat_anc_1,Ancona,0,Superfast XI
-sf_anc_pat,daily,sf_anc_pat_1,Patras,0,Superfast XI
-sf_pat_bar,daily,sf_pat_bar_1,Bari,0,Superfast I
-sf_bar_pat,daily,sf_bar_pat_1,Patras,0,Superfast I
-sf_pat_ven,daily,sf_pat_ven_1,Venice,0,Superfast V
-sf_ven_pat,daily,sf_ven_pat_1,Patras,0,Superfast V

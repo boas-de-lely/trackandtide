@@ -37,8 +37,8 @@
       "url": "https://trackandtide.com/",
       "applicationCategory": "TravelApplication",
       "operatingSystem": "Web"
-    },
-    "author": { "@type": "Person", "name": "Boas" }
+    }
+  }
   }
   </script>
 
@@ -52,6 +52,8 @@
       --border: #3B4A5F;
       --hover: #38BDF8;
       --active: #0EA5E9;
+      --accent: #F59E0B;
+      --accent2: #22D3EE;
     }
 
     :root.light {
@@ -61,6 +63,10 @@
       --text: #111827;
       --text-secondary: #6B7280;
       --border: #D1D5DB;
+      --hover: #0284C7;
+      --active: #0369A1;
+      --accent: #D97706;
+      --accent2: #0E7490;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -72,6 +78,13 @@
       min-height: 100vh;
       line-height: 1.7;
     }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hover) 0%, transparent 50%),
+                  radial-gradient(ellipse 60% 50% at 100% 100%, var(--accent) 0%, transparent 40%);
+      opacity: 0.04;
+    }
 
     header {
       display: flex;
@@ -82,6 +95,8 @@
       padding: 8px 20px;
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
+      position: relative; z-index: 1;
+      backdrop-filter: blur(8px);
     }
 
     header img { width: 200px; }
@@ -101,13 +116,6 @@
       border-color: var(--border);
     }
 
-    .theme-switch { position: relative; display: inline-flex; align-items: center; width: 50px; height: 28px; flex-shrink: 0; }
-    .theme-switch input { opacity: 0; width: 0; height: 0; }
-    .theme-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--border); border-radius: 28px; transition: 0.3s; }
-    .theme-slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; bottom: 3px; background: var(--text); border-radius: 50%; transition: 0.3s; }
-    .theme-switch input:checked + .theme-slider { background: var(--hover); }
-    .theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
-
     .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
     .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -121,96 +129,189 @@
       .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
     }
 
-    @media (max-width: 1000px) {
-      header img { width: 120px; }
-    }
+    @media (max-width: 1000px) { header img { width: 120px; } }
 
     .container {
-      max-width: 800px;
+      max-width: 840px;
       margin: 0 auto;
-      padding: 3rem 1.5rem;
+      padding: 3rem 1.5rem 4rem;
+      position: relative; z-index: 1;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      letter-spacing: -0.03em;
-    }
-
-    h2 {
-      font-size: 1.5rem;
+    /* ── Hero ── */
+    .hero { text-align: center; padding: 2rem 0 2.5rem; }
+    .hero-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: var(--hover);
+      color: #fff;
+      font-size: 0.78rem;
       font-weight: 700;
-      margin: 2.5rem 0 1rem;
-      color: var(--hover);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
     }
-
-    p {
-      font-size: 1.05rem;
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--hover); }
+    .hero p {
+      font-size: 1.1rem;
       color: var(--text-secondary);
-      margin-bottom: 1.2rem;
+      max-width: 560px;
+      margin: 0 auto;
     }
 
-    .card {
+    /* ── Section headings ── */
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 3rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      border-radius: 1px;
+    }
+    h2 .sec-icon { width: 20px; height: 20px; flex-shrink: 0; opacity: 0.7; }
+    :root:not(.light) .sec-icon,
+    :root:not(.light) .fi,
+    :root:not(.light) .si,
+    :root:not(.light) .stat-icon { filter: invert(1); }
+
+    /* ── Feature cards ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0.85rem;
+    }
+    .feat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--hover);
+      border-radius: 12px;
+      padding: 1.35rem 1.4rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .feat-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .feat-card h3 .fi { width: 22px; height: 22px; flex-shrink: 0; }
+    .feat-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── Stats ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.7rem;
+      margin: 1.25rem 0;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 0.75rem;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .stat-card:hover {
+      transform: scale(1.04);
+      border-color: var(--hover);
+    }
+    .stat-card .stat-icon { width: 22px; height: 22px; margin: 0 auto 0.35rem; opacity: 0.65; }
+    .stat-card .stat-number {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--hover);
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-card .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+      font-weight: 500;
+    }
+
+    /* ── Data source cards ── */
+    .source-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 1.5rem;
-      margin: 1.5rem 0;
+      margin: 0.85rem 0;
+      transition: border-color 0.2s;
     }
-
-    .card h3 {
-      font-size: 1.15rem;
+    .source-card:hover { border-color: var(--hover); }
+    .source-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
       margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .source-card h3 .si { width: 20px; height: 20px; flex-shrink: 0; opacity: 0.7; }
+    .source-card p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.65;
     }
 
-    .card p {
-      font-size: 0.95rem;
-      margin-bottom: 0;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .stat {
+    /* ── Highlight box ── */
+    .highlight-box {
       background: var(--card);
       border: 1px solid var(--border);
+      border-left: 3px solid var(--hover);
       border-radius: 14px;
-      padding: 1.25rem;
-      text-align: center;
+      padding: 1.75rem 2rem;
+      margin: 2rem 0;
     }
+    .highlight-box h2 { margin-top: 0; }
+    .highlight-box p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
 
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--hover);
-    }
-
-    .stat-label {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-top: 0.25rem;
-    }
-
+    p { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 1rem; }
     a { color: var(--hover); text-decoration: underline; }
     a:hover { color: var(--active); }
-
-    .site-footer { text-align: center; padding: 1.5rem 1rem 2rem; border-top: 1px solid var(--border); margin-top: 2rem; opacity: 0.85; }
-    .footer-link { color: var(--hover); cursor: pointer; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
-    .footer-link:hover { text-decoration: underline; opacity: 1; }
-    .footer-theme { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.85rem; }
-    .footer-theme-label { font-size: 0.85rem; color: var(--text-secondary); user-select: none; }
 
     .mobile-only { display: none; }
     @media (max-width: 768px) {
       header, .hamburger, .main-nav { display: none !important; }
       .mobile-only { display: inline; }
       .desktop-only { display: none; }
-      .site-footer { display: none; }
+      .container { padding: 1.5rem 1rem 3rem; }
+      .hero { padding: 1rem 0 1.5rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .highlight-box { padding: 1.25rem 1.25rem; }
+    }
+    @media (max-width: 400px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
   </style>
@@ -223,197 +324,157 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-      <a href="/journey">Journey</a>
+      <a href="/journey?v=3">Journey</a>
       <a href="/map">Map</a>
       <a href="/explore">Explore</a>
-      <a href="/about" class="active">About</a>
-      <a href="/more" class="mobile-only">More</a>
+      <a href="/more">More</a>
     </nav>
   </header>
 
   <div class="container">
 
-    <h1>About Track &amp; Tide</h1>
+    <div class="hero">
+      <div class="hero-badge">About</div>
+      <h1>About <span>Track &amp; Tide</span></h1>
+      <p>
+        An interactive map of European train stations and ferry ports.
+        Browse operators, plan cross-border journeys, check live departures, and explore how far you can travel from any station &mdash; all powered by open data.
+      </p>
+    </div>
 
-    <p>
-      Track &amp; Tide is an interactive map of every train station and ferry port in Europe.
-      It helps you discover which operators serve a station, explore ferry routes between ports,
-      and see live departure times — all in one place.
-    </p>
+    <h2><img class="sec-icon" src="webapp icons/world-map.png" alt="" /> Features</h2>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-value" id="statStations">...</div>
-        <div class="stat-label">Train stations</div>
+    <div class="feature-grid">
+      <div class="feat-card">
+        <h3><img class="fi" src="webapp icons/world-map.png" alt="" /> Interactive map</h3>
+        <p>Zoom across Europe and tap any station or ferry port to see operators, routes, and live departure times. Toggle satellite view, filter by type, or hit &ldquo;Surprise me&rdquo; for a random discovery.</p>
       </div>
-      <div class="stat">
-        <div class="stat-value" id="statPorts">...</div>
-        <div class="stat-label">Ferry ports</div>
+      <div class="feat-card">
+        <h3><img class="fi" src="transport icons/train.png" alt="" /> Journey planner</h3>
+        <p>Search connections between any two stations across Europe. Combines train and ferry legs into a single itinerary &mdash; London to Amsterdam by rail, or Barcelona to Palma by ferry.</p>
       </div>
-      <div class="stat">
-        <div class="stat-value" id="statRoutes">...</div>
-        <div class="stat-label">Ferry routes</div>
+      <div class="feat-card">
+        <h3><img class="fi" src="webapp icons/train-operator.png" alt="" /> Operator explorer</h3>
+        <p>Browse hundreds of train and ferry operators with logos, descriptions, app links, and country coverage. Filter by type or country to find exactly who runs where.</p>
       </div>
-      <div class="stat">
-        <div class="stat-value" id="statCountries">...</div>
-        <div class="stat-label">Countries</div>
+      <div class="feat-card">
+        <h3><img class="fi" src="webapp icons/radar.png" alt="" /> Travel time reach</h3>
+        <p>Tap the radar button, then select any station to see which other stations you can reach within a given time. Choose a duration from 30 minutes up to 12 hours, set a departure date and time, and the map highlights every station within reach &mdash; perfect for planning day trips or exploring how far you can get.</p>
       </div>
-      <div class="stat">
-        <div class="stat-value" id="statJourneys">0</div>
-        <div class="stat-label">Journeys planned</div>
-      </div>
+    </div>
+
+    <h2><img class="sec-icon" src="webapp icons/info.png" alt="" /> By the numbers</h2>
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card"><img class="stat-icon" src="transport icons/train.png" alt="" /><div class="stat-number" id="statStations">&mdash;</div><div class="stat-label">Train stations</div></div>
+      <div class="stat-card"><img class="stat-icon" src="webapp icons/train-operator.png" alt="" /><div class="stat-number" id="statOperators">&mdash;</div><div class="stat-label">Operators</div></div>
+      <div class="stat-card"><img class="stat-icon" src="webapp icons/boat.png" alt="" /><div class="stat-number" id="statPorts">&mdash;</div><div class="stat-label">Ferry ports</div></div>
+      <div class="stat-card"><img class="stat-icon" src="webapp icons/boat.png" alt="" /><div class="stat-number" id="statRoutes">&mdash;</div><div class="stat-label">Ferry routes</div></div>
+      <div class="stat-card"><img class="stat-icon" src="webapp icons/world-map.png" alt="" /><div class="stat-number" id="statCountries">&mdash;</div><div class="stat-label">Countries</div></div>
+      <div class="stat-card"><img class="stat-icon" src="webapp icons/navigator.png" alt="" /><div class="stat-number" id="statJourneys">&mdash;</div><div class="stat-label">Journeys searched</div></div>
     </div>
 
     <h2>How it started</h2>
 
     <p>
-      My name is Boas, and I am a solo developer with a deep love for train travel.
+      Track &amp; Tide was born from a deep love for train travel.
       There is something about standing on a platform somewhere in Europe, looking at
       a departure board, and knowing you can be in another country within hours
       &mdash; no airports, no check-ins, just rails.
     </p>
 
     <p>
-      I built Track &amp; Tide because I wanted a single map where I could see
-      <em>all</em> European train stations and ferry routes at once. Existing tools
-      either focus on one country, one operator, or are overloaded with ads and
-      booking links. I wanted something cleaner: just the map, the stations,
-      the operators, and the routes. No noise.
+      It started with a simple idea: a single map where you could see
+      <em>all</em> European train stations and ferry routes at once. What began
+      as a simple map has grown into something bigger: a journey planner, an
+      operator directory and live departure boards.
     </p>
 
     <p>
-      The name comes from the two things that move people across Europe:
-      <strong>tracks</strong> on land and <strong>tides</strong> at sea.
-      Whether you are taking an Intercity across Germany or a ferry from
-      Barcelona to Palma, Track &amp; Tide has you covered.
+      Most mapping tools focus on one country, one operator, or push booking links.
+      Track &amp; Tide keeps it simple: just the data, the connections, and the map.
     </p>
 
-    <h2>Where the data comes from</h2>
+    <h2><img class="sec-icon" src="webapp icons/info.png" alt="" /> Where the data comes from</h2>
 
-    <div class="card">
-      <h3>Wikidata</h3>
+    <div class="source-card">
+      <h3><img class="si" src="webapp icons/info.png" alt="" /> Wikidata</h3>
       <p>
         Station and port information is sourced from Wikidata, the free knowledge
         graph behind Wikipedia. Wikidata contains structured data about millions
         of places, including railway stations and ferry terminals &mdash;
         their coordinates, operators, number of tracks, passenger statistics,
-        and even photos. Every station page on Track &amp; Tide links back to
-        its Wikidata entry so you can explore the raw data or contribute corrections.
+        and even photos. Every station links back to its Wikidata entry.
       </p>
     </div>
 
-    <div class="card">
-      <h3>OpenStreetMap</h3>
+    <div class="source-card">
+      <h3><img class="si" src="webapp icons/world-map.png" alt="" /> OpenStreetMap</h3>
       <p>
-        For stations and ports not yet in Wikidata, we pull coordinates and names
-        from OpenStreetMap, the community-maintained map of the world.
-        OSM is updated daily by thousands of volunteers, making it the most
-        comprehensive geographic dataset available. If you notice a missing
-        station or incorrect location, you can fix it directly on OpenStreetMap
-        and the change will appear on Track &amp; Tide.
+        For stations and ports not yet in Wikidata, coordinates and names come
+        from OpenStreetMap, maintained daily by thousands of volunteers.
+        If you spot a missing station or wrong location, you can fix it directly
+        on OpenStreetMap and the change will appear here.
       </p>
     </div>
 
-    <div class="card">
-      <h3>Live departures</h3>
+    <div class="source-card">
+      <h3><img class="si" src="transport icons/train.png" alt="" /> Live departures &amp; journey planner</h3>
       <p>
         Real-time departure data is powered by a self-hosted
         <strong>MOTIS</strong> server, providing transit schedules
-        for the most countries in europe. When you click on a station,
-        you see actual upcoming trains and their real-time delay information &mdash;
-        no proprietary data, no commercial feeds, just open data at work. 
-        I do advise to check the departure boards on the stations for the most accurate information.
+        across Europe. No proprietary data, no commercial feeds &mdash; just open
+        transit data at work. Always check departure boards for the most accurate info.
       </p>
     </div>
 
-    <div class="card">
-      <h3>Operators</h3>
+    <div class="source-card">
+      <h3><img class="si" src="webapp icons/train-operator.png" alt="" /> Operators</h3>
       <p>
         The operator database is manually curated. Each railway and ferry
-        company &mdash; from Deutsche Bahn to Greenland Ferry Lines &mdash;
+        company &mdash; from major lines to small regional operators &mdash;
         has been researched, verified, and linked to the correct stations and
-        routes. This is the most labour-intensive part of the project, and also
-        what makes Track &amp; Tide unique: knowing <em>who</em> runs the trains
-        at each station, not just where the station is.
+        routes. It is the most labour-intensive part of the project, but it
+        means you can see <em>who</em> runs the trains at each station.
       </p>
     </div>
 
-    <h2>Why open data matters</h2>
-
-    <p>
-      Everything on Track &amp; Tide comes from open, freely-licensed sources.
-      This means the data is transparent, verifiable, and anyone can contribute
-      improvements. If you find a mistake &mdash; a wrong operator, a missing
-      route, an outdated station name &mdash; you can fix it at the source
-      (Wikidata or OpenStreetMap) and the correction will flow through to
-      Track &amp; Tide automatically. No walled gardens, no proprietary silos.
-    </p>
-
-    <p>
-      This also means Track &amp; Tide will never charge for access or hide
-      data behind a paywall. The trains belong to everyone. So should the map.
-    </p>
-
-    <p>
-      If you enjoy using Track &amp; Tide, the best way to support it is to
-      <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">contribute to OpenStreetMap</a>,
-      <a href="https://www.wikidata.org" target="_blank" rel="noopener">improve station data on Wikidata</a>,
-      or <a href="https://donate.stripe.com/dRm8wO8sv4K78TR04w5AQ00" target="_blank" rel="noopener">donate</a>
-      to help keep the servers running.
-      Every edit and contribution makes the map better for everyone.
-    </p>
-
-    <footer class="site-footer">
-      <div class="footer-theme">
-        <span class="footer-theme-label" id="themeLabel">Light mode</span>
-        <label class="theme-switch" title="Toggle dark/light mode">
-          <input type="checkbox" id="themeToggle" />
-          <span class="theme-slider"></span>
-        </label>
-      </div>
-      <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
-      <a class="footer-link" href="/privacy">Privacy Policy</a>
-    </footer>
+    <div class="highlight-box">
+      <h2>Why open data matters</h2>
+      <p>
+        Everything on Track &amp; Tide comes from open, freely-licensed sources.
+        The data is transparent, verifiable, and anyone can contribute improvements.
+        No walled gardens, no proprietary silos.
+      </p>
+      <p>
+        Track &amp; Tide does not charge for access or hide data behind a paywall.
+        If you find it useful, help by
+        <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">contributing to OpenStreetMap</a>,
+        <a href="https://www.wikidata.org" target="_blank" rel="noopener">improving Wikidata</a>,
+        or <a href="https://donate.stripe.com/dRm8wO8sv4K78TR04w5AQ00" target="_blank" rel="noopener">donating</a>
+        towards server costs.
+      </p>
+    </div>
 
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
   <script>
-    const root = document.documentElement;
-    const toggle = document.getElementById("themeToggle");
-    const logo = document.getElementById("logo");
-
-    function applyTheme() {
-      const saved = localStorage.getItem("trackandtide:theme");
-      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-      const isLight = saved ? saved === "light" : prefersLight;
-      if (isLight) root.classList.add("light");
-      else root.classList.remove("light");
-      updateUI();
+    // Firebase
+    var db = null;
+    try {
+      firebase.initializeApp({
+        apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
+        authDomain: "trackandtide-00.firebaseapp.com",
+        projectId: "trackandtide-00",
+        storageBucket: "trackandtide-00.firebasestorage.app",
+        appId: "1:157938380271:web:8b36389f334e3adefdda1a"
+      });
+      db = firebase.firestore();
+    } catch(e) {
+      console.warn("Firebase init failed:", e.message);
     }
-
-    function toggleTheme() {
-      root.classList.toggle("light");
-      localStorage.setItem("trackandtide:theme", root.classList.contains("light") ? "light" : "dark");
-      updateUI();
-    }
-
-    function updateUI() {
-      const isLight = root.classList.contains("light");
-      toggle.checked = isLight;
-      const themeLabel = document.getElementById("themeLabel");
-      if (themeLabel) themeLabel.textContent = isLight ? "Light mode" : "Dark mode";
-      logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
-    }
-
-    applyTheme();
-
-    toggle.addEventListener('change', () => {
-      const isLight = toggle.checked;
-      if (isLight) root.classList.add("light");
-      else root.classList.remove("light");
-      localStorage.setItem("trackandtide:theme", isLight ? "light" : "dark");
-      updateUI();
-    });
 
     // Hamburger menu
     const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -433,78 +494,50 @@
         hamburgerBtn.setAttribute("aria-expanded", "false");
       });
     });
+
+    // Load statistics
+    (async function loadStats() {
+      const V = '?v=20260603';
+      const fmt = n => n.toLocaleString();
+      try {
+        const [stationsRes, dataRes, portsRes, ferriesRes] = await Promise.all([
+          fetch('./stations.json' + V).then(r => r.json()),
+          fetch('./data.json' + V).then(r => r.json()),
+          fetch('./ferry_ports.json' + V).then(r => r.json()),
+          fetch('./ferries.json' + V).then(r => r.json())
+        ]);
+        const totalStations = Object.values(stationsRes.countries || {}).reduce((sum, c) => sum + (c.counts?.total || 0), 0);
+        const totalCountries = Object.keys(stationsRes.countries || {}).length;
+        const totalOperators = (dataRes.operators || []).length;
+        const totalPorts = (portsRes.ports || []).length;
+        const totalRoutes = (ferriesRes.routes || []).length;
+        document.getElementById('statStations').textContent = fmt(totalStations);
+        document.getElementById('statOperators').textContent = fmt(totalOperators);
+        document.getElementById('statPorts').textContent = fmt(totalPorts);
+        document.getElementById('statRoutes').textContent = fmt(totalRoutes);
+        document.getElementById('statCountries').textContent = totalCountries;
+
+        // Fetch journeys count from Firebase
+        if (db) {
+          try {
+            const snap = await db.collection('stats').doc('journeys').get();
+            if (snap.exists) {
+              const data = snap.data();
+              document.getElementById('statJourneys').textContent = fmt(data.count || 0);
+            }
+          } catch (fe) {
+            console.warn('Failed to load journeys count:', fe);
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to load stats:', e);
+      }
+    })();
   </script>
 
 <script src="report-modal.js"></script>
 <script src="bottom-nav.js?v=2"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-<script>
-// ── Firebase ──
-var db = null;
-try {
-  firebase.initializeApp({
-    apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
-    authDomain: "trackandtide-00.firebaseapp.com",
-    projectId: "trackandtide-00",
-    storageBucket: "trackandtide-00.firebasestorage.app",
-    appId: "1:157938380271:web:8b36389f334e3adefdda1a"
-  });
-  db = firebase.firestore();
-} catch(e) {
-  console.warn("Firebase init failed:", e.message);
-}
-
-// ── Live stats ──
-(function() {
-  var jel = document.getElementById('statJourneys');
-  // Read global journeys count from Firestore
-  if (db && jel) {
-    db.collection('stats').doc('journeys').get().then(function(doc) {
-      if (doc.exists && typeof doc.data().count === 'number') {
-        jel.textContent = doc.data().count.toLocaleString();
-      } else {
-        jel.textContent = '0';
-      }
-    }).catch(function() {
-      jel.textContent = '…';
-    });
-  }
-
-  // Load real station/port/route counts from data files
-  var dv = '?v=20260603';
-
-  // Station count
-  fetch('./stations.json' + dv).then(function(r) { return r.json(); }).then(function(data) {
-    var count = 0;
-    var countries = new Set();
-    for (var c in data.countries) {
-      countries.add(data.countries[c].country || c);
-      count += (data.countries[c].stations || []).length;
-    }
-    var el = document.getElementById('statStations');
-    if (el) el.textContent = count.toLocaleString();
-    var cel = document.getElementById('statCountries');
-    if (cel) cel.textContent = countries.size;
-  }).catch(function() {});
-
-  // Ferry ports & routes
-  Promise.all([
-    fetch('./ferry_ports.json' + dv).then(function(r) { return r.json(); }).catch(function() { return {ports:[],routes:[]}; }),
-    fetch('./ferries.json' + dv).then(function(r) { return r.json(); }).catch(function() { return {routes:[]}; })
-  ]).then(function(results) {
-    var fpData = results[0];
-    var ferriesData = results[1];
-    var ports = fpData.ports || [];
-    var routes = fpData.routes || ferriesData.routes || [];
-    var pel = document.getElementById('statPorts');
-    if (pel) pel.textContent = ports.length.toLocaleString();
-    var rel = document.getElementById('statRoutes');
-    if (rel) rel.textContent = routes.length.toLocaleString();
-  });
-})();
-</script>
+<script src="footer.js?v=4"></script>
 
 </body>
 </html>

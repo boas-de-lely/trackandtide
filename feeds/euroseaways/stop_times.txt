@@ -1,9 +1,0 @@
-trip_id,arrival_time,departure_time,stop_id,stop_sequence
-eu_bar_igo_1,,13:00:00,bari,1
-eu_bar_igo_1,23:00:00,,igoumenitsa,2
-eu_igo_bar_1,,12:00:00,igoumenitsa,1
-eu_igo_bar_1,22:00:00,,bari,2
-eu_bri_cor_1,,09:00:00,bari,1
-eu_bri_cor_1,18:00:00,,corfu,2
-eu_cor_bri_1,,10:00:00,corfu,1
-eu_cor_bri_1,19:00:00,,bari,2

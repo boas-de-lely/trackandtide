@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Status — Track & Tide</title>
+  <meta name="description" content="Check the status of Track & Tide's backend services." />
+  <meta property="og:title" content="System Status — Track & Tide" />
+  <meta property="og:description" content="Check the status of Track & Tide's backend services." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackandtide.com/status" />
+  <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Track & Tide — System Status" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Track & Tide" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="System Status — Track & Tide" />
+  <meta name="twitter:description" content="Check the status of Track & Tide's backend services." />
+  <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <link rel="canonical" href="https://trackandtide.com/status" />
+  <link rel="icon" href="icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1F2937" />
+
+  <style>
+    :root {
+      --bg: #1F2937;
+      --panel: #1F2937;
+      --card: #273549;
+      --text: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --border: rgba(255,255,255,0.08);
+      --hover: #60A5FA;
+      --active: #3B82F6;
+      --green: #10B981;
+      --red: #EF4444;
+      --amber: #F59E0B;
+    }
+
+    :root.light {
+      --bg: #F1F5F9;
+      --panel: #ffffff;
+      --card: #f8fafc;
+      --text: #111827;
+      --text-secondary: #6B7280;
+      --border: rgba(15,23,42,0.12);
+      --hover: #0284C7;
+      --active: #0369A1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; min-height: 100vh; font-family: system-ui;
+      background: var(--bg); color: var(--text);
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--hover) 0%, transparent 50%);
+      opacity: 0.03;
+    }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; row-gap: 0.5rem; padding: 8px 20px;
+      border-bottom: 1px solid var(--border); flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+    header img { width: 200px; }
+    @media (max-width: 1000px) { header img { width: 120px; } }
+
+    .main-nav {
+      display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center;
+    }
+    .main-nav a {
+      color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem;
+      border-radius: 999px; opacity: 0.78; border: 1px solid transparent;
+    }
+    .main-nav a:hover, .main-nav a.active { opacity: 1; background: var(--card); border-color: var(--border); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .main-nav { display: none; flex-direction: column; position: absolute; top: 60px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+      .main-nav.open { display: flex; }
+      .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
+    }
+
+    .container {
+      max-width: 600px; margin: 0 auto; padding: 2.5rem 1rem 3rem;
+      position: relative; z-index: 1;
+    }
+
+    .hero { text-align: center; padding: 1rem 0 1.5rem; }
+    .hero-badge {
+      display: inline-block; padding: 4px 14px; border-radius: 999px;
+      background: var(--hover); color: #fff; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    h1 {
+      margin: 0 0 0.5rem; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.03em;
+    }
+    .page-sub { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+    .mobile-only { display: none; }
+    @media (max-width: 768px) {
+      header, .hamburger, .main-nav { display: none !important; }
+      .mobile-only { display: inline; }
+      .desktop-only { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" aria-label="Main navigation" id="mainNav">
+      <a href="/journey?v=3">Journey</a>
+      <a href="/map">Map</a>
+      <a href="/explore">Explore</a>
+      <a href="/more">More</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <div class="hero-badge">Infrastructure</div>
+      <h1>System Status</h1>
+      <p class="page-sub">Real-time health of the services that power Track &amp; Tide.</p>
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const logo = document.getElementById("logo");
+
+    // Initial logo setup (theme handled by footer.js)
+    (function() {
+      const saved = localStorage.getItem("trackandtide:theme");
+      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+      const isLight = saved ? saved === "light" : prefersLight;
+      if (isLight) root.classList.add("light");
+      else root.classList.remove("light");
+      logo.src = isLight ? "trackandtide logo full.png" : "logo full light.png";
+    })();
+
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const mainNav = document.getElementById("mainNav");
+    hamburgerBtn.addEventListener("click", () => {
+      const open = !mainNav.classList.contains("open");
+      mainNav.classList.toggle("open", open);
+      hamburgerBtn.classList.toggle("open", open);
+      hamburgerBtn.setAttribute("aria-expanded", open);
+    });
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove("open");
+        hamburgerBtn.classList.remove("open");
+        hamburgerBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+  </script>
+
+<script src="report-modal.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+  try {
+    firebase.initializeApp({
+      apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
+      authDomain: "trackandtide-00.firebaseapp.com",
+      projectId: "trackandtide-00",
+      storageBucket: "trackandtide-00.firebasestorage.app",
+      appId: "1:157938380271:web:8b36389f334e3adefdda1a"
+    });
+  } catch(e) {}
+</script>
+<script src="system-status.js?v=18"></script>
+<script src="bottom-nav.js?v=2"></script>
+<script src="footer.js?v=4"></script>
+
+</body>
+</html>

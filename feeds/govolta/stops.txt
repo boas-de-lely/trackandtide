@@ -1,7 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-amsterdam_c,Amsterdam Centraal,52.38,4.9
-amersfoort_c,Amersfoort Centraal,52.15,5.37
-hengelo,Hengelo,52.26,6.79
-osnabrueck,Osnabrück Hbf,52.27,8.06
-hannover,Hannover Hbf,52.38,9.74
-berlin_sp,Berlin-Spandau,52.53,13.2

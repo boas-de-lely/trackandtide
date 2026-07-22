@@ -1,9 +1,0 @@
-trip_id,arrival_time,departure_time,stop_id,stop_sequence
-ak_pir_cha_1,,21:00:00,piraeus,1
-ak_pir_cha_1,06:00:00,,chania,2
-ak_cha_pir_1,,21:00:00,chania,1
-ak_cha_pir_1,06:00:00,,piraeus,2
-ak_pir_her_1,,22:00:00,piraeus,1
-ak_pir_her_1,07:00:00,,heraklion,2
-ak_her_pir_1,,22:00:00,heraklion,1
-ak_her_pir_1,07:00:00,,piraeus,2

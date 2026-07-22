@@ -1,6 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-trelleborg,Trelleborg,55.37,13.17
-travemunde,Travemünde,53.96,10.87
-rostock,Rostock,54.18,12.08
-swinoujscie,Świnoujście,53.91,14.25
-klaipeda,Klaipėda,55.71,21.13

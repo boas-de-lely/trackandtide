@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-corsica_ferries,Corsica Ferries - Sardinia Ferries,https://www.corsica-ferries.co.uk,Europe/Paris,en,+33 825 095 095

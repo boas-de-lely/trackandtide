@@ -1,7 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-tr_civ_olb,tirrenia,CIV-OLB,Civitavecchia - Olbia (Tirrenia),4
-tr_olb_civ,tirrenia,OLB-CIV,Olbia - Civitavecchia (Tirrenia),4
-tr_nap_cag,tirrenia,NAP-CAG,Naples - Cagliari (Tirrenia),4
-tr_cag_nap,tirrenia,CAG-NAP,Cagliari - Naples (Tirrenia),4
-tr_gen_pto,tirrenia,GOA-PTO,Genoa - Porto Torres (Tirrenia),4
-tr_pto_gen,tirrenia,PTO-GOA,Porto Torres - Genoa (Tirrenia),4

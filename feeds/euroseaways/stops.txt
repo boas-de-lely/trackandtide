@@ -1,4 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-bari,Bari,41.13,16.87
-igoumenitsa,Igoumenitsa,39.51,20.21
-corfu,Corfu,39.62,19.92

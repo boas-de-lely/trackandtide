@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-po_ferries,P&O Ferries,https://www.poferries.com,Europe/London,en,+44 1304 448800

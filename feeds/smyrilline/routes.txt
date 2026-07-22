@@ -1,5 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-sm_hir_tor,smyril_line,HIR-TOR,Hirtshals - Tórshavn (Smyril Line),4
-sm_tor_sey,smyril_line,TOR-SEY,Tórshavn - Seyðisfjörður (Smyril Line),4
-sm_sey_tor,smyril_line,SEY-TOR,Seyðisfjörður - Tórshavn (Smyril Line),4
-sm_tor_hir,smyril_line,TOR-HIR,Tórshavn - Hirtshals (Smyril Line),4

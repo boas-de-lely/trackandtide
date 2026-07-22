@@ -1,9 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-vl_hel_sto,viking_line,HKI-STO,Helsinki - Stockholm (Viking Line),4
-vl_sto_hel,viking_line,STO-HKI,Stockholm - Helsinki (Viking Line),4
-vl_tku_sto,viking_line,TKU-STO,Turku - Stockholm (Viking Line),4
-vl_sto_tku,viking_line,STO-TKU,Stockholm - Turku (Viking Line),4
-vl_hel_tal,viking_line,HKI-TLL,Helsinki - Tallinn (Viking Line),4
-vl_tal_hel,viking_line,TLL-HKI,Tallinn - Helsinki (Viking Line),4
-vl_kap_mar,viking_line,KAP-MAR,Kapellskär - Mariehamn (Viking Line),4
-vl_mar_kap,viking_line,MAR-KAP,Mariehamn - Kapellskär (Viking Line),4

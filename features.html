@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Features — Track & Tide</title>
+  <meta name="description" content="Discover what Track & Tide can do — journey planning, interactive maps, operator exploration, system status and more." />
+  <meta property="og:title" content="Features — Track & Tide" />
+  <meta property="og:description" content="Discover what Track & Tide can do — journey planning, interactive maps, operator exploration, and more." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackandtide.com/features" />
+  <meta property="og:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Track & Tide — Features" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Track & Tide" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Features — Track & Tide" />
+  <meta name="twitter:description" content="Discover what Track & Tide can do — journey planning, interactive maps, operator exploration, and more." />
+  <meta name="twitter:image" content="https://trackandtide.com/trackandtide%20logo%20full.png" />
+  <link rel="canonical" href="https://trackandtide.com/features" />
+  <link rel="icon" href="icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1F2937" />
+
+  <style>
+    :root {
+      --bg: #1F2937;
+      --panel: #1F2937;
+      --card: #273549;
+      --text: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --border: rgba(255,255,255,0.08);
+      --hover: #60A5FA;
+      --active: #3B82F6;
+      --accent: #38BDF8;
+      --accent-glow: rgba(56,189,248,0.15);
+    }
+
+    :root.light {
+      --bg: #d5d9e2;
+      --panel: #ffffff;
+      --card: #f8fafc;
+      --text: #111827;
+      --text-secondary: #6B7280;
+      --border: rgba(15,23,42,0.16);
+      --hover: #3B82F6;
+      --active: #2563EB;
+      --accent: #0EA5E9;
+      --accent-glow: rgba(14,165,233,0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; min-height: 100vh; font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 8px 20px;
+      border-bottom: 1px solid var(--border); flex-wrap: wrap;
+    }
+    header img { width: 200px; }
+    @media (max-width: 1000px) { header img { width: 120px; } }
+
+    .main-nav {
+      display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center;
+    }
+    .main-nav a {
+      color: var(--text); text-decoration: none; padding: 0.55rem 0.75rem;
+      border-radius: 999px; opacity: 0.78; border: 1px solid transparent;
+    }
+    .main-nav a:hover, .main-nav a.active { opacity: 1; background: var(--card); border-color: var(--border); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; width: 40px; height: 40px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.25s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .main-nav { display: none; flex-direction: column; position: absolute; top: 60px; left: 14px; right: 14px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+      .main-nav.open { display: flex; }
+      .main-nav a { border-radius: 8px; padding: 0.65rem 1rem; }
+    }
+
+    .desktop-only { display: inline; }
+    @media (max-width: 768px) {
+      header, .hamburger, .main-nav { display: none !important; }
+      .desktop-only { display: none; }
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 700px; margin: 0 auto; padding: 1.5rem 1rem 1rem;
+    }
+
+    .page-title {
+      font-size: 1.4rem; font-weight: 700; margin: 0 0 0.2rem; text-align: center;
+    }
+    .page-subtitle {
+      color: var(--text-secondary); font-size: 0.9rem; margin: 0 0 1rem; text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════ */
+    /*  PHONE MOCKUP                              */
+    /* ═══════════════════════════════════════════ */
+    .phone-mockup-section {
+      text-align: center; margin-bottom: 0;
+    }
+
+    .phone-mockup-wrapper {
+      position: relative; display: inline-block;
+      width: 270px; max-width: 85vw;
+    }
+
+    .phone-mockup {
+      position: relative; width: 100%;
+      aspect-ratio: 300 / 610;
+    }
+
+    /* Screenshot behind the frame, filling the screen cutout.
+       Slightly taller and shifted up so the phone status bar
+       (time/battery) and bottom nav bar hide behind the bezel. */
+    .phone-screenshot {
+      position: absolute;
+      top: 7.5%; left: 6.5%;
+      width: 87%; height: 85%;
+      object-fit: contain;
+      background: #000;
+      border-radius: 4px;
+      transition: opacity 0.3s;
+    }
+    :root.light .phone-screenshot { background: #e5e7eb; }
+
+    /* Transparent phone frame sits on top */
+    .phone-frame {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Dots above phone */
+    .phone-dots {
+      display: flex; justify-content: center; gap: 7px; margin-bottom: 0.35rem;
+    }
+
+    /* Feature title above phone */
+    .phone-feature-label {
+      font-weight: 700; font-size: 1rem;
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+
+    /* ── Selected feature info panel (directly under phone) ── */
+    .feature-info-panel {
+      margin-top: 0; padding: 0.85rem 1rem 0.7rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; text-align: left;
+    }
+    .feature-info-panel .info-desc {
+      margin: 0 0 0.65rem; color: var(--text-secondary);
+      font-size: 0.87rem; line-height: 1.5;
+    }
+    .feature-info-panel .info-howto {
+      background: var(--bg); border-radius: 8px;
+      padding: 0.55rem 0.8rem;
+    }
+    .feature-info-panel .howto-label {
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; color: var(--accent); margin-bottom: 0.25rem; display: block;
+    }
+    .feature-info-panel .howto-list {
+      margin: 0; padding-left: 1.2rem; font-size: 0.82rem;
+      color: var(--text-secondary); line-height: 1.55;
+    }
+    .feature-info-panel .howto-list li { margin-bottom: 0.1rem; }
+    .feature-info-panel .howto-list strong { color: var(--text); }
+    .phone-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      transition: background 0.25s, transform 0.25s; padding: 0;
+    }
+    .phone-dot.active {
+      background: var(--accent); transform: scale(1.35);
+    }
+
+    .phone-arrow {
+      position: absolute; top: 42%;
+      background: var(--card); color: var(--text);
+      border: 1px solid var(--border); border-radius: 50%;
+      width: 38px; height: 38px; font-size: 1.3rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5; transition: background 0.2s; line-height: 1;
+      user-select: none;
+    }
+    .phone-arrow:hover { background: var(--accent-glow); }
+    .phone-arrow.prev { left: -16px; }
+    .phone-arrow.next { right: -16px; }
+    @media (max-width: 500px) {
+      .phone-arrow.prev { left: -4px; }
+      .phone-arrow.next { right: -4px; }
+    }
+
+    /* ═══════════════════════════════════════════ */
+    /*  FEATURE CARDS                             */
+    /* ═══════════════════════════════════════════ */
+    .feature-cards-section {
+      margin-top: 1.5rem;
+    }
+    .section-divider {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
+      color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    .feature-cards {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+
+    .feature-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1rem 1.1rem 0.85rem;
+      transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer;
+    }
+    .feature-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .feature-card-header {
+      display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem;
+    }
+    .feature-card-icon {
+      width: 28px; height: 28px; object-fit: contain; flex-shrink: 0;
+      opacity: 0.85;
+    }
+    :root:not(.light) .feature-card-icon { filter: invert(1); }
+    .feature-card-title {
+      font-size: 1.05rem; font-weight: 700; margin: 0;
+    }
+    .feature-card-desc {
+      margin: 0 0 0.7rem; color: var(--text-secondary);
+      font-size: 0.87rem; line-height: 1.5;
+    }
+
+    /* How-to box */
+    .feature-card-howto {
+      background: var(--bg); border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+    }
+    .howto-label {
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; display: block;
+    }
+    .feature-card-howto ol {
+      margin: 0; padding-left: 1.2rem; font-size: 0.82rem;
+      color: var(--text-secondary); line-height: 1.55;
+    }
+    .feature-card-howto ol li { margin-bottom: 0.1rem; }
+    .feature-card-howto ol strong { color: var(--text); }
+
+    /* Responsive grid on desktop */
+    @media (min-width: 769px) {
+      .feature-cards {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+      }
+    }
+
+    /* Highlight matching card */
+    .feature-card.highlight {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.85rem; margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/"><img id="logo" src="trackandtide logo full.png" alt="Track & Tide" /></a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" aria-label="Main navigation" id="mainNav">
+      <a href="/journey?v=3">Journey</a>
+      <a href="/map">Map</a>
+      <a href="/explore">Explore</a>
+      <a href="/more">More</a>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <a class="back-link" href="/more">&larr; Back to More</a>
+
+    <h1 class="page-title">Discover Track &amp; Tide</h1>
+    <p class="page-subtitle">Swipe through the screenshots to see what the app can do</p>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!--  PHONE MOCKUP CAROUSEL                     -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="phone-mockup-section" aria-label="Feature screenshots">
+
+      <!-- Dots and title above the phone -->
+      <div class="phone-dots" id="phoneDots"></div>
+      <div class="phone-feature-label" id="phoneFeatureLabel">Journey Planner</div>
+
+      <div class="phone-mockup-wrapper" id="phoneWrapper">
+        <div class="phone-mockup">
+          <img class="phone-screenshot" id="phoneScreenshot"
+               src="features page pictures/dark journey planner.png"
+               alt="App screenshot" />
+          <img class="phone-frame" src="features page pictures/phone transparent.png" alt="" aria-hidden="true" />
+        </div>
+
+        <button class="phone-arrow prev" id="phonePrev" aria-label="Previous">&lsaquo;</button>
+        <button class="phone-arrow next" id="phoneNext" aria-label="Next">&rsaquo;</button>
+      </div>
+
+      <!-- Selected feature description directly under phone -->
+      <div class="feature-info-panel" id="featureInfoPanel">
+        <p class="info-desc" id="infoDesc"></p>
+        <div class="info-howto">
+          <span class="howto-label">How to use</span>
+          <ol class="howto-list" id="infoHowto"></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!--  FEATURE CARDS                             -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="feature-cards-section">
+      <div class="section-divider">All Features</div>
+      <div class="feature-cards" id="featureCards"></div>
+    </div>
+  </div>
+
+  <script src="bottom-nav.js?v=3"></script>
+  <script src="footer.js?v=5"></script>
+
+  <script>
+    // ── All 11 features with dark + light screenshots ──
+    var features = [
+      {
+        id: 'journey',
+        label: 'Journey Planner',
+        dark: 'features page pictures/dark journey planner.png',
+        light: 'features page pictures/light journey planner.png',
+        icon: 'webapp icons/navigator.png',
+        desc: 'Plan train journeys across Europe. Search any station, compare routes, and discover rail connections in one place.',
+        howto: [
+          'Go to <strong>Journey</strong> from the bottom navigation bar',
+          'Type a station name in the search box',
+          'Pick your destination and browse available routes',
+          'Tap any result for detailed departure information'
+        ]
+      },
+      {
+        id: 'map',
+        label: 'Stations & Port Map',
+        dark: 'features page pictures/dark stations and port map.png',
+        light: 'features page pictures/light stations and port map.png',
+        icon: 'webapp icons/world-map.png',
+        desc: 'Explore thousands of train stations and ferry ports across Europe on a live interactive map. See rail lines, ferry routes, and tap any point for details.',
+        howto: [
+          'Open <strong>Map</strong> from the bottom navigation bar',
+          'Zoom and pan to explore any region of Europe',
+          'Tap any station or port marker for schedules and info',
+          'Use the search bar to jump to a specific station'
+        ]
+      },
+      {
+        id: 'map-sat',
+        label: 'Satellite Map View',
+        dark: 'features page pictures/dark stations and port map satelite.png',
+        light: 'features page pictures/light station and ferry port map satelite.png',
+        icon: 'webapp icons/radar.png',
+        desc: 'Switch to satellite view on the map for a realistic look at stations, ports, and the surrounding geography across Europe.',
+        howto: [
+          'Open <strong>Map</strong> from the bottom navigation bar',
+          'Tap the layer icon to switch to <strong>Satellite</strong> view',
+          'Explore stations and ports overlaid on real satellite imagery',
+          'Toggle back to standard map view anytime'
+        ]
+      },
+      {
+        id: 'explore',
+        label: 'Explore Operators & Ports',
+        dark: 'features page pictures/dark explore station ports and operators.png',
+        light: 'features page pictures/dark explore station ports and operators.png',
+        icon: 'webapp icons/trainferry.png',
+        desc: 'Browse all European train operators and ferry lines. See logos, official websites, route maps, Wikidata details, and community tips for each operator.',
+        howto: [
+          'Tap <strong>Explore</strong> in the bottom navigation bar',
+          'Browse the complete list of train and ferry operators',
+          'Tap any operator to see routes, logo, and full details',
+          'Use the country filter to narrow your search'
+        ]
+      },
+      {
+        id: 'planned',
+        label: 'Planned Journey',
+        dark: 'features page pictures/dark planned journey.png',
+        light: 'features page pictures/light planned journey.png',
+        icon: 'webapp icons/train-operator.png',
+        desc: 'View your planned journey with step-by-step directions, transfers, departure times, and platform information for each leg of the trip.',
+        howto: [
+          'Plan a route on the <strong>Journey</strong> page',
+          'Your journey appears with each leg broken down clearly',
+          'See departure times, platforms, and transfer points',
+          'Tap any leg for more detailed schedule information'
+        ]
+      },
+      {
+        id: 'travel-map',
+        label: 'Journey Travel Map',
+        dark: 'features page pictures/dark view planned journey and show travel map.png',
+        light: 'features page pictures/light planned journey and show travel map.png',
+        icon: 'webapp icons/locate.png',
+        desc: 'See your planned route visualised on a map. Follow the journey line from origin to destination with all transfer points highlighted.',
+        howto: [
+          'After planning a journey, tap <strong>Show on map</strong>',
+          'The full route is drawn on the interactive map',
+          'Transfer stations and key stops are marked along the way',
+          'Zoom and pan to explore the route in detail'
+        ]
+      },
+      {
+        id: 'save',
+        label: 'Save Planned Journey',
+        dark: 'features page pictures/dark save planned journey.png',
+        light: 'features page pictures/light save journey.png',
+        icon: 'webapp icons/heart.png',
+        desc: 'Save your planned journeys for quick access later. No account needed — your saved trips are stored locally on your device.',
+        howto: [
+          'Plan a journey on the <strong>Journey</strong> page',
+          'Tap the <strong>Save</strong> button on the journey result',
+          'Access saved journeys anytime from the Journey page',
+          'Delete saved journeys you no longer need with one tap'
+        ]
+      },
+      {
+        id: 'departures',
+        label: 'View Station Departures',
+        dark: 'features page pictures/dark view departures station.png',
+        light: 'features page pictures/light show departures station.png',
+        icon: 'webapp icons/train.png',
+        desc: 'Check real-time departure boards for any station. See upcoming trains, platform numbers, delays, and train types at a glance.',
+        howto: [
+          'On the Map, tap any station marker',
+          'Select <strong>View Departures</strong> from the popup',
+          'Browse the live departure board with times and platforms',
+          'Delayed services are clearly highlighted for you'
+        ]
+      },
+      {
+        id: 'station-info',
+        label: 'Station Information',
+        dark: 'features page pictures/dark view station information.png',
+        light: 'features page pictures/light view station information.png',
+        icon: 'webapp icons/info.png',
+        desc: 'View detailed information about any station — location, facilities, operator links, Wikidata facts, and community-contributed tips.',
+        howto: [
+          'On the Map, tap any station or port marker',
+          'A popup shows key info about that station',
+          'Tap through to see full details, photos, and tips',
+          'Browse Wikidata facts and operator links'
+        ]
+      },
+      {
+        id: 'reach',
+        label: 'Show Reach from Station',
+        dark: 'features page pictures/dark show reach from station.png',
+        light: 'features page pictures/light show reach from station.png',
+        icon: 'webapp icons/radar.png',
+        desc: 'Visualise how far you can travel from a station within a given time. See all reachable stations highlighted on the map as a travel radius.',
+        howto: [
+          'On the Map, tap any station marker',
+          'Select <strong>Show reach</strong> from the popup',
+          'A radius highlights all stations reachable within the time limit',
+          'Adjust the time slider to see more or fewer destinations'
+        ]
+      },
+      {
+        id: 'surprise',
+        label: 'Surprise Me',
+        dark: 'features page pictures/dark surprise me.png',
+        light: 'features page pictures/light surprise me.png',
+        icon: 'webapp icons/dice.png',
+        desc: 'Not sure where to go? Let Track & Tide pick a random destination for you. Discover new places and spontaneous adventures across Europe.',
+        howto: [
+          'Go to the <strong>Journey</strong> page',
+          'Tap the <strong>Surprise Me</strong> button',
+          'A random European destination is picked for you',
+          'See the route and decide if you want to go — or roll again!'
+        ]
+      }
+    ];
+
+    // ── State ──
+    var currentSlide = 0;
+    var currentTheme = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+
+    var screenshotImg = document.getElementById('phoneScreenshot');
+    var featureLabel = document.getElementById('phoneFeatureLabel');
+    var dotsContainer = document.getElementById('phoneDots');
+    var infoDesc = document.getElementById('infoDesc');
+    var infoHowto = document.getElementById('infoHowto');
+    var cardsContainer = document.getElementById('featureCards');
+
+    // ── Build dots ──
+    features.forEach(function(_, i) {
+      var dot = document.createElement('button');
+      dot.className = 'phone-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('data-index', i);
+      dot.setAttribute('aria-label', features[i].label);
+      dot.addEventListener('click', function() { goToSlide(parseInt(this.getAttribute('data-index'))); });
+      dotsContainer.appendChild(dot);
+    });
+
+    // ── Build feature cards ──
+    features.forEach(function(f, i) {
+      var card = document.createElement('div');
+      card.className = 'feature-card';
+      card.setAttribute('data-feature', i);
+      card.innerHTML =
+        '<div class="feature-card-header">' +
+          '<img class="feature-card-icon" src="' + f.icon + '" alt="" width="28" height="28" />' +
+          '<h3 class="feature-card-title">' + f.label + '</h3>' +
+        '</div>' +
+        '<p class="feature-card-desc">' + f.desc + '</p>' +
+        '<div class="feature-card-howto">' +
+          '<span class="howto-label">How to use</span>' +
+          '<ol>' + f.howto.map(function(step) { return '<li>' + step + '</li>'; }).join('') + '</ol>' +
+        '</div>';
+      card.addEventListener('click', function() {
+        goToSlide(i);
+        document.getElementById('phoneWrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+      cardsContainer.appendChild(card);
+    });
+
+    // ── Helpers ──
+    function getTheme() {
+      return document.documentElement.classList.contains('light') ? 'light' : 'dark';
+    }
+
+    function updateScreenshot() {
+      var theme = getTheme();
+      var f = features[currentSlide];
+      screenshotImg.src = f[theme];
+      featureLabel.textContent = f.label;
+
+      // Update info panel below phone
+      infoDesc.textContent = f.desc;
+      infoHowto.innerHTML = f.howto.map(function(step) { return '<li>' + step + '</li>'; }).join('');
+
+      var dots = dotsContainer.querySelectorAll('.phone-dot');
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === currentSlide); });
+
+      var cards = cardsContainer.querySelectorAll('.feature-card');
+      cards.forEach(function(c) { c.classList.toggle('highlight', c.getAttribute('data-feature') === String(currentSlide)); });
+    }
+
+    function goToSlide(index) {
+      currentSlide = (index + features.length) % features.length;
+      updateScreenshot();
+    }
+
+    // ── Arrow buttons ──
+    document.getElementById('phonePrev').addEventListener('click', function() { goToSlide(currentSlide - 1); });
+    document.getElementById('phoneNext').addEventListener('click', function() { goToSlide(currentSlide + 1); });
+
+    // ── Swipe support ──
+    (function() {
+      var wrapper = document.getElementById('phoneWrapper');
+      var startX = 0;
+      wrapper.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, { passive: true });
+      wrapper.addEventListener('touchend', function(e) {
+        var diff = e.changedTouches[0].clientX - startX;
+        if (Math.abs(diff) > 40) { goToSlide(currentSlide + (diff < 0 ? 1 : -1)); }
+      });
+    })();
+
+    // ── Theme change detection ──
+    var observer = new MutationObserver(function() {
+      var newTheme = getTheme();
+      if (currentTheme !== newTheme) {
+        currentTheme = newTheme;
+        updateScreenshot();
+      }
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // ── Initial ──
+    updateScreenshot();
+
+    // ── Theme + logo ──
+    var root = document.documentElement;
+    var logo = document.getElementById('logo');
+
+    window.setTheme = function(mode) {
+      if (mode === 'light') root.classList.add('light');
+      else root.classList.remove('light');
+      localStorage.setItem('trackandtide:theme', mode);
+      if (logo) logo.src = mode === 'light' ? 'trackandtide logo full.png' : 'logo full light.png';
+    };
+
+    (function() {
+      var saved = localStorage.getItem('trackandtide:theme');
+      var mode = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      window.setTheme(mode);
+      currentTheme = mode;
+      updateScreenshot();
+    })();
+
+    // ── Hamburger ──
+    var hamburgerBtn = document.getElementById('hamburgerBtn');
+    var mainNav = document.getElementById('mainNav');
+    if (hamburgerBtn && mainNav) {
+      hamburgerBtn.addEventListener('click', function() {
+        var open = !mainNav.classList.contains('open');
+        mainNav.classList.toggle('open', open);
+        hamburgerBtn.classList.toggle('open', open);
+        hamburgerBtn.setAttribute('aria-expanded', open);
+      });
+      mainNav.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          mainNav.classList.remove('open');
+          hamburgerBtn.classList.remove('open');
+          hamburgerBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

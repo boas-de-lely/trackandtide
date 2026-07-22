@@ -1074,22 +1074,7 @@
       "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Port_of_Dover_-_view_from_the_White_Cliffs-4101-03.jpg?width=600",
       "website": "https://www.portofdover.com"
     },
-    {
-      "id": "fp60",
-      "name": "Calais",
-      "lat": 50.965,
-      "lng": 1.858,
-      "country": "France",
-      "countries": [
-        "France"
-      ],
-      "routeIds": [
-        "fr46"
-      ],
-      "wikidataId": "Q100336552",
-      "wikidataLabel": "CALAIS PORT 2015 project",
-      "source": "wikidata"
-    },
+
     {
       "id": "fp61",
       "name": "Dunkirk",
@@ -1391,19 +1376,6 @@
       "wikidataLabel": "Folkestone Harbour railway station",
       "source": "wikidata",
       "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Folkestone_Harbour_station_geograph-3523041-by-Ben-Brooksbank.jpg?width=600"
-    },
-    {
-      "id": "fp80",
-      "name": "Calais (Shuttle)",
-      "lat": 50.95,
-      "lng": 1.86,
-      "country": "France",
-      "countries": [
-        "France"
-      ],
-      "routeIds": [
-        "fr59"
-      ]
     },
     {
       "id": "fp81",
@@ -2849,19 +2821,6 @@
       ]
     },
     {
-      "id": "fp170",
-      "name": "Zeebrugge",
-      "lat": 51.33,
-      "lng": 3.21,
-      "country": "Belgium",
-      "countries": [
-        "Belgium"
-      ],
-      "routeIds": [
-        "fr172"
-      ]
-    },
-    {
       "id": "fp171",
       "name": "Gothenburg",
       "lat": 57.7,
@@ -2897,20 +2856,6 @@
         "Morocco"
       ],
       "routeIds": []
-    },
-    {
-      "id": "fp174",
-      "name": "Tanger Med",
-      "lat": 35.89,
-      "lng": -5.5,
-      "country": "Morocco",
-      "countries": [
-        "Morocco"
-      ],
-      "routeIds": [
-        "fr44",
-        "fr75"
-      ]
     },
     {
       "id": "fp175",

@@ -38,8 +38,8 @@ function post(host, port, path, body) {
   });
 }
 
-// Rail & ferry modes sent to MOTIS for server-side filtering
-const RAIL_MODES = ['HIGHSPEED_RAIL', 'LONG_DISTANCE', 'NIGHT_RAIL', 'REGIONAL_RAIL', 'SUBURBAN', 'FERRY'];
+// Rail, ferry & bus modes sent to MOTIS (BUS included for rail replacement services)
+const RAIL_MODES = ['HIGHSPEED_RAIL', 'LONG_DISTANCE', 'NIGHT_RAIL', 'REGIONAL_RAIL', 'SUBURBAN', 'FERRY', 'BUS'];
 
 function delayMin(scheduled, actual) {
   if (!scheduled || !actual) return null;
@@ -58,12 +58,23 @@ function detectMode(headsign, routeShortName, mode) {
   return mode;
 }
 
-async function fetchMotisDepartures(name) {
-  const locs = await get('192.168.188.170', 8080, '/api/v1/geocode?text=' + encodeURIComponent(name));
-  if (!Array.isArray(locs) || !locs.length) return null;
-  const s = locs[0];
-  if (!s.lat || !s.lon) return null;
-  const data = await get('192.168.188.170', 8080, '/api/v1/stoptimes?center=' + s.lat + ',' + s.lon + '&radius=1500&n=200');
+async function fetchMotisDepartures(name, lat, lng) {
+  var centerLat, centerLng, stationName = name;
+
+  if (lat != null && lng != null) {
+    // Use provided coordinates directly
+    centerLat = lat; centerLng = lng;
+  } else {
+    // Fall back to geocoding by name
+    const locs = await get('192.168.188.170', 8080, '/api/v1/geocode?text=' + encodeURIComponent(name));
+    if (!Array.isArray(locs) || !locs.length) return null;
+    const s = locs[0];
+    if (!s.lat || !s.lon) return null;
+    centerLat = s.lat; centerLng = s.lon;
+    stationName = s.name || name;
+  }
+
+  const data = await get('192.168.188.170', 8080, '/api/v1/stoptimes?center=' + centerLat + ',' + centerLng + '&radius=1500&n=200');
   const times = data.stopTimes || [];
   if (!times.length) return null;
 
@@ -90,7 +101,7 @@ async function fetchMotisDepartures(name) {
     return new Date(d.when) > new Date(now - 120000);
   });
 
-  return { departures: deps, station: { name: s.name || name } };
+  return { departures: deps, station: { name: stationName } };
 }
 
 require('http').createServer(async (req, res) => {
@@ -103,7 +114,60 @@ require('http').createServer(async (req, res) => {
     return res.end('{"status":"ok"}');
   }
 
+  // Proxy geocode requests directly to MOTIS (used by system-status health check)
+  if (u.pathname === '/geocode') {
+    try {
+      var text = u.searchParams.get('text') || '';
+      var geo = await get('192.168.188.170', 8080, '/api/v1/geocode?text=' + encodeURIComponent(text));
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify(geo));
+    } catch(e) {
+      res.writeHead(502, { 'Content-Type': 'application/json' });
+      return res.end('{"error":"' + e.message + '"}');
+    }
+  }
+
   if (u.pathname === '/departures') {
+    // Isochrone mode: /departures?action=isochrones&lat=...&lng=...&maxDuration=...
+    if (u.searchParams.get('action') === 'isochrones') {
+      try {
+        const lat = u.searchParams.get('lat');
+        const lng = u.searchParams.get('lng');
+        const maxDuration = u.searchParams.get('maxDuration') || '60';
+        if (!lat || !lng) { res.writeHead(400); return res.end('{"error":"missing lat/lng"}'); }
+        // First reverse-geocode to find a stop ID at these coordinates
+        var stopId = null;
+        try {
+          var geo = await get('192.168.188.170', 8080, '/api/v1/reverse-geocode?place=' + lat + ',' + lng + '&type=STOP&numResults=1');
+          if (Array.isArray(geo) && geo.length > 0 && geo[0].id) {
+            stopId = geo[0].id;
+            console.log('[isochrones] reverse-geocode OK:', lat + ',' + lng, '→', stopId, '(' + geo[0].name + ')');
+          } else {
+            console.log('[isochrones] reverse-geocode: no STOP found at', lat + ',' + lng, 'response:', JSON.stringify(geo).substring(0, 200));
+          }
+        } catch(ge) {
+          console.log('[isochrones] reverse-geocode error:', ge.message);
+        }
+        const one = stopId || (lat + ',' + lng);
+        const time = u.searchParams.get('time') || '';
+        var motisPath = '/api/v6/one-to-all?one=' + encodeURIComponent(one) + '&maxTravelTime=' + maxDuration + '&transitModes=' + RAIL_MODES.join(',') + '&preTransitModes=WALK&postTransitModes=WALK';
+        if (time) motisPath += '&time=' + encodeURIComponent(time);
+        console.log('[isochrones] one=' + one + ' maxTravelTime=' + maxDuration + ' GET:', motisPath.substring(0, 200));
+        const data = await get('192.168.188.170', 8080, motisPath);
+        console.log('[isochrones] response keys:', data ? Object.keys(data).join(', ') : 'null');
+        console.log('[isochrones] all count:', data && data.all ? data.all.length : 0);
+        if (data && data.all && data.all.length > 0) {
+          console.log('[isochrones] first:', JSON.stringify(data.all[0]).substring(0, 200));
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data));
+      } catch (e) {
+        console.error('[isochrones] error:', e.message);
+        res.writeHead(502, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: e.message }));
+      }
+      return;
+    }
     // Journey planner mode: /departures?action=plan&fromPlace=...&toPlace=...
     if (u.searchParams.get('action') === 'plan') {
       try {
@@ -140,6 +204,7 @@ require('http').createServer(async (req, res) => {
         params.set('walkSpeed', u.searchParams.get('walkSpeed') || '1.4');
         params.set('transitModes', RAIL_MODES.join(','));
         params.set('pedestrianProfile', 'FOOT');
+        params.set('pedestrianProfile', 'FOOT');
         params.set('useRoutedTransfers', 'false');
         const motisPath = '/api/v6/plan?' + params.toString();
         console.log('[plan via departures] GET MOTIS:', motisPath.substring(0, 200) + '...');
@@ -165,14 +230,15 @@ require('http').createServer(async (req, res) => {
     // Normal departures mode
     const name = u.searchParams.get('name');
     if (!name) { res.writeHead(400); return res.end('{"error":"missing name"}'); }
-    const key = name.toLowerCase();
+    const lat = u.searchParams.get('lat'), lng = u.searchParams.get('lng');
+    const key = (name + '|' + (lat||'') + ',' + (lng||'')).toLowerCase();
     const c = cache.get(key);
     if (c && Date.now() - c.ts < TTL) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify(c.data));
     }
     try {
-      const r = await fetchMotisDepartures(name);
+      const r = await fetchMotisDepartures(name, lat, lng);
       if (!r || !r.departures.length) { res.writeHead(404, { 'Content-Type': 'application/json' }); return res.end('{"error":"no departures"}'); }
       cache.set(key, { data: r, ts: Date.now() });
       res.writeHead(200, { 'Content-Type': 'application/json' });

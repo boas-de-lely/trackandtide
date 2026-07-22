@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Track & Tide - European Rail & Ferry Map</title>
-<meta name="description" content="Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan intermodal journeys across Europe." />
+<meta name="description" content="Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan train journeys across Europe." />
 <meta property="og:title" content="Track & Tide — European Rail & Ferry Map" />
 <meta property="og:description" content="Interactive map of European train stations, ferry ports, and routes." />
 <meta property="og:type" content="website" />
@@ -30,7 +30,7 @@
   "@type": "WebApplication",
   "name": "Track & Tide",
   "url": "https://trackandtide.com/",
-  "description": "Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan intermodal journeys across Europe.",
+  "description": "Interactive map of European train stations, ferry ports, and routes. Discover rail operators, ferry lines, and plan train journeys across Europe.",
   "applicationCategory": "TravelApplication",
   "operatingSystem": "Web",
   "author": { "@type": "Person", "name": "Boas" }
@@ -167,7 +167,7 @@ header img {
 @media (max-width: 768px) {
   html, body { overflow: hidden; height: 100%; height: 100dvh; margin: 0; }
 
-  header, .hamburger, .main-nav, .site-footer { display: none !important; }
+  header, .hamburger, .main-nav { display: none !important; }
   .mobile-only { display: inline !important; }
   .desktop-only { display: none !important; }
 
@@ -271,9 +271,8 @@ header img {
   .map-float-btns {
     top: 10px !important; left: 10px !important; bottom: auto !important;
   }
+  .iso-picker { top: 10px; left: 50%; transform: translateX(-50%); bottom: auto !important; }
 }
-
-/* ── Floating icon buttons (both desktop & mobile) ── */
 .map-float-btns {
   position: absolute;
   bottom: 80px; left: 20px;
@@ -292,6 +291,74 @@ header img {
 .map-float-btn img { width: 20px; height: 20px; object-fit: contain; }
 :root.light .map-float-btn img { filter: none; }
 :root:not(.light) .map-float-btn img { filter: invert(1); }
+.map-float-btn.active { background: var(--hover); border-color: var(--hover); }
+.map-float-btn.active img { filter: brightness(0) invert(1) !important; }
+
+/* ── Isochrone time picker ── */
+.iso-picker {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 10;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.6rem; flex-direction: column; gap: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2); min-width: 220px;
+}
+.iso-picker .iso-label {
+  font-size: 0.7rem; font-weight: 600; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 1px;
+}
+.iso-picker .iso-row {
+  display: flex; gap: 4px; align-items: center;
+}
+.iso-picker input[type="date"],
+.iso-picker input[type="time"] {
+  flex: 1; padding: 0.35rem 0.5rem; border: 1px solid var(--border);
+  border-radius: 6px; background: var(--card); color: var(--text);
+  font: inherit; font-size: 0.75rem; min-width: 0;
+}
+.iso-picker .iso-times {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 2px;
+}
+.iso-picker button {
+  background: none; border: none; color: var(--text); font: inherit;
+  font-size: 0.78rem; font-weight: 600; padding: 0.4rem 0.6rem;
+  border-radius: 6px; cursor: pointer; text-align: center; white-space: nowrap;
+}
+.iso-picker button:hover { background: var(--card); color: var(--hover); }
+.iso-picker button.active-iso { background: var(--hover); color: #fff; }
+.iso-search-btn {
+  background: var(--active) !important; color: #fff !important;
+  font-weight: 700 !important; padding: 0.55rem !important; border-radius: 8px !important;
+  margin-top: 4px;
+}
+.iso-search-btn:hover { background: var(--hover) !important; }
+.iso-clear-btn {
+  color: #f87171 !important; font-size: 0.72rem !important; padding: 0.3rem !important;
+}
+
+/* ── Isochrone instruction banner ── */
+.iso-banner {
+  position: absolute; top: 60px; left: 50%; transform: translateX(-50%); z-index: 15;
+  background: var(--panel); border: 1px solid var(--hover); color: var(--text);
+  border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.85rem; font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2); display: none; white-space: nowrap;
+  pointer-events: none;
+}
+.iso-banner.show { display: block; }
+@media (max-width: 768px) {
+  .iso-banner { top: 58px; font-size: 0.75rem; padding: 0.5rem 0.75rem; white-space: normal; max-width: calc(100% - 20px); text-align: center; }
+}
+
+/* ── Isochrone loading overlay ── */
+.iso-loading {
+  position: absolute; inset: 0; z-index: 20;
+  background: rgba(0,0,0,0.35); display: none;
+  align-items: center; justify-content: center; border-radius: 14px;
+}
+.iso-loading.show { display: flex; }
+.iso-loading .iso-spinner {
+  width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #fff; border-radius: 50%; animation: iso-spin 0.8s linear infinite;
+}
+@keyframes iso-spin { to { transform: rotate(360deg); } }
 
 /* ── User location dot (pulsing) ── */
 .user-location-dot {
@@ -856,7 +923,6 @@ a.pill:hover {
   .dep-platform { font-size: 0.7rem; }
   .dep-mode-badge { font-size: 0.58rem; padding: 0.02rem 0.25rem; }
   .departures-header { padding: 0.45rem 0.5rem; font-size: 0.72rem; }
-  .dep-local-label { padding: 0.3rem 0.5rem; font-size: 0.68rem; }
   .dep-delay { font-size: 0.62rem; }
   .dep-more { padding: 0.35rem; font-size: 0.72rem; }
   .dep-detail-link { padding: 0.35rem; font-size: 0.7rem; }
@@ -969,13 +1035,6 @@ a.pill:hover {
 .dep-icon { vertical-align: middle; margin-right: 0.3rem; flex-shrink: 0; }
 .dep-icon-invert { filter: invert(1) brightness(2); }
 .dep-profile { font-size: 0.65rem; opacity: 0.4; }
-.dep-local-label {
-  display: flex; align-items: center; gap: 0.4rem;
-  padding: 0.35rem 0.75rem; font-size: 0.72rem; opacity: 0.65;
-  cursor: pointer; user-select: none; border-bottom: 1px solid var(--border);
-}
-.dep-local-label:hover { opacity: 1; }
-.dep-local-check { cursor: pointer; }
 .dep-mode-badge {
   display: inline-block; padding: 0.05rem 0.35rem; border-radius: 3px;
   font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
@@ -1057,35 +1116,7 @@ a.pill:hover {
   transform: translateY(-1px);
 }
 
-/* Footer — hidden on map page */
-.site-footer {
-  display: none;
-}
-
-.footer-link {
-  color: var(--hover);
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.footer-theme {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
-  margin-bottom: 0.85rem;
-}
-
-.footer-theme-label {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  user-select: none;
-}
-.footer-link:hover { text-decoration: underline; opacity: 1; }
+.mobile-only { display: none; }
 
 /* Toggle refinements */
 .station-toggle input[type="checkbox"] {
@@ -1212,11 +1243,10 @@ a.pill:hover {
     <span></span><span></span><span></span>
   </button>
   <nav class="main-nav" aria-label="Main navigation" id="mainNav">
-    <a href="/journey">Journey</a>
+    <a href="/journey?v=3">Journey</a>
     <a href="/map" class="active">Map</a>
     <a href="/explore">Explore</a>
-    <a href="/about" class="desktop-only">About</a>
-    <a href="/more" class="mobile-only">More</a>
+    <a href="/more">More</a>
   </nav>
 </header>
 
@@ -1254,9 +1284,32 @@ a.pill:hover {
       <button class="map-float-btn" id="geoBtn" title="Locate me" onclick="geoLocate()">
         <img src="webapp icons/locate.png" alt="Locate" width="20" height="20" />
       </button>
+      <button class="map-float-btn" id="isochroneBtn" title="Travel time radius" onclick="toggleIsochrone()">
+        <img src="webapp icons/radar.png" alt="Isochrone" width="20" height="20" />
+      </button>
       <button class="map-float-btn" id="surpriseBtn" title="Surprise me" onclick="openSurpriseModal()">
         <img src="webapp icons/dice.png" alt="Surprise" width="20" height="20" />
       </button>
+    </div>
+
+    <div class="iso-picker" id="isoPicker" style="display:none">
+      <div class="iso-label">Departure time</div>
+      <div class="iso-row">
+        <input type="date" id="isoDate" />
+        <input type="time" id="isoTime" />
+      </div>
+      <div class="iso-label" style="margin-top:6px">Travel time</div>
+      <div class="iso-times">
+        <button onclick="selectIsoDuration(1800, this)">30m</button>
+        <button onclick="selectIsoDuration(3600, this)" class="active-iso">1h</button>
+        <button onclick="selectIsoDuration(7200, this)">2h</button>
+        <button onclick="selectIsoDuration(10800, this)">3h</button>
+        <button onclick="selectIsoDuration(14400, this)">4h</button>
+        <button onclick="selectIsoDuration(18000, this)">5h</button>
+        <button onclick="selectIsoDuration(21600, this)">6h</button>
+      </div>
+      <button class="iso-search-btn" onclick="doIsochroneSearch()">Search</button>
+      <button onclick="clearIsochrone()" class="iso-clear-btn">Clear</button>
     </div>
   </div>
 
@@ -1277,17 +1330,6 @@ a.pill:hover {
     </div><!-- .sidebar-scroll -->
 </div>
 
-<footer class="site-footer">
-  <div class="footer-theme">
-    <span class="footer-theme-label" id="themeLabel">Light mode</span>
-    <label class="theme-switch" title="Toggle dark/light mode">
-      <input type="checkbox" id="themeToggle" />
-      <span class="theme-slider"></span>
-    </label>
-  </div>
-  <a class="footer-link" onclick="openReportModal()">Report ideas or bugs / misinformation</a>
-</footer>
-
 <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
 <script src="search-utils.js"></script>
 
@@ -1297,7 +1339,6 @@ a.pill:hover {
    THEME
 ========================= */
 const root = document.documentElement;
-const toggle = document.getElementById("themeToggle");
 const sidebar = document.getElementById("sidebar");
 const sidebarContent = document.getElementById("sidebarContent");
 const stationToggle = document.getElementById("stationToggle");
@@ -1393,14 +1434,218 @@ function geoLocate() {
     el.className = 'user-location-dot';
     userLocationMarker = new maplibregl.Marker({ element: el, anchor: 'center' })
       .setLngLat([lng, lat])
-      .setPopup(new maplibregl.Popup({ offset: 18 }).setText('You are here'))
       .addTo(trackMap);
-    userLocationMarker.togglePopup();
     img.style.opacity = '';
   }, function() {
     img.style.opacity = '';
     alert('Could not get location');
   });
+}
+
+// ── Isochrones ──
+var isochroneActive = false;
+var isochroneStation = null;
+var isochroneMarker = null;
+var isochroneHighlightLayer = 'station-isochrone-highlight';
+
+function toggleIsochrone() {
+  var btn = document.getElementById('isochroneBtn');
+  if (isochroneActive) {
+    clearIsochrone();
+    return;
+  }
+  // Enter select-station mode
+  isochroneActive = true;
+  btn.classList.add('active');
+  document.getElementById('isoPicker').style.display = 'none';
+  showIsoBanner('Tap a station on the map to see where you can reach');
+  trackMap.getCanvas().style.cursor = 'pointer';
+}
+
+function showIsoBanner(msg) {
+  var banner = document.getElementById('isoBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'isoBanner';
+    banner.className = 'iso-banner';
+    document.getElementById('map').appendChild(banner);
+  }
+  if (msg) { banner.textContent = msg; banner.classList.add('show'); }
+  else { banner.classList.remove('show'); }
+}
+
+// Called from the station click handler when in isochrone mode
+function setIsochroneStation(station) {
+  isochroneStation = station;
+  trackMap.getCanvas().style.cursor = '';
+  if (isochroneMarker) isochroneMarker.remove();
+  var el = document.createElement('div');
+  el.style.cssText = 'width:18px;height:18px;border-radius:50%;background:#38BDF8;border:3px solid #fff;box-shadow:0 0 10px rgba(56,189,248,0.5)';
+  isochroneMarker = new maplibregl.Marker({ element: el, anchor: 'center' })
+    .setLngLat([station.lng, station.lat]).addTo(trackMap);
+  // Init date/time to now
+  var now = new Date();
+  document.getElementById('isoDate').value = now.toISOString().split('T')[0];
+  document.getElementById('isoTime').value = now.toTimeString().slice(0,5);
+  showIsoBanner('');
+  document.getElementById('isoPicker').style.display = 'flex';
+}
+
+var isoSelectedDuration = 3600;
+
+function selectIsoDuration(duration, btnEl) {
+  isoSelectedDuration = duration;
+  var picker = document.getElementById('isoPicker');
+  picker.querySelectorAll('.iso-times button').forEach(function(b) { b.classList.remove('active-iso'); });
+  if (btnEl) btnEl.classList.add('active-iso');
+}
+
+function doIsochroneSearch() {
+  fetchIsochrone(isoSelectedDuration);
+}
+
+function fetchIsochrone(duration) {
+  if (!isochroneStation) return;
+  var picker = document.getElementById('isoPicker');
+  picker.style.display = 'none';
+
+  // Show loading overlay on map
+  var mapEl = document.getElementById('map');
+  var loader = document.getElementById('isoLoader');
+  if (!loader) {
+    loader = document.createElement('div');
+    loader.id = 'isoLoader';
+    loader.className = 'iso-loading';
+    loader.innerHTML = '<div class="iso-spinner"></div>';
+    mapEl.appendChild(loader);
+  }
+  loader.classList.add('show');
+
+  var maxMin = Math.round(duration / 60);
+  var date = document.getElementById('isoDate').value;
+  var time = document.getElementById('isoTime').value || '12:00';
+  var dateTime = date && time ? new Date(date + 'T' + time).toISOString() : '';
+  var url = '/api/departures?action=isochrones&lat=' + isochroneStation.lat + '&lng=' + isochroneStation.lng + '&maxDuration=' + maxMin;
+  if (dateTime) url += '&time=' + encodeURIComponent(dateTime);
+  var isoBtn = document.getElementById('isochroneBtn');
+  var img = isoBtn.querySelector('img');
+  img.style.opacity = '0.4';
+
+  fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+    img.style.opacity = '';
+    if (loader) loader.classList.remove('show');
+    if (data.error) { showSidebarHint('Error: ' + data.error); return; }
+
+    var stops = data.all || [];
+    if (!stops.length) { showSidebarHint('No reachable stops within ' + maxMin + ' min'); return; }
+
+    // Match reachable stops to existing station coordinates (deduplicate)
+    clearIsochroneMarkers();
+
+    // Build station lookup once (cached)
+    if (!window._isoStationLookup) {
+      window._isoStationLookup = {};
+      stationsData.forEach(function(st) {
+        var key = st.lat.toFixed(3) + ',' + st.lng.toFixed(3);
+        if (!window._isoStationLookup[key]) window._isoStationLookup[key] = st;
+      });
+    }
+    var stationLookup = window._isoStationLookup;
+
+    // Match reachable stops
+    var matched = [];
+    var seen = {};
+    for (var si = 0; si < stops.length; si++) {
+      var p = (stops[si].place || {});
+      if (!p.lat || !p.lon) continue;
+      var key = p.lat.toFixed(3) + ',' + p.lon.toFixed(3);
+      var st = stationLookup[key];
+      if (st && !seen[st.id]) { seen[st.id] = true; matched.push(st); }
+    }
+
+    if (!matched.length) { showSidebarHint('No matching stations found on map'); return; }
+
+    // Update or create source (reuse existing to avoid full re-render)
+    var isoSourceId = 'isochrone-reachable';
+    var features = new Array(matched.length);
+    for (var fi = 0; fi < matched.length; fi++) {
+      features[fi] = { type: 'Feature', geometry: { type: 'Point', coordinates: [matched[fi].lng, matched[fi].lat] }, properties: {} };
+    }
+    var geojson = { type: 'FeatureCollection', features: features };
+
+    if (trackMap.getSource(isoSourceId)) {
+      trackMap.getSource(isoSourceId).setData(geojson);
+    } else {
+      trackMap.addSource(isoSourceId, { type: 'geojson', data: geojson });
+    }
+    if (!trackMap.getLayer(isochroneHighlightLayer)) {
+      trackMap.addLayer({
+        id: isochroneHighlightLayer,
+        type: 'circle',
+        source: isoSourceId,
+        paint: {
+          'circle-radius': ['interpolate',['linear'],['zoom'], 3,4.5, 5,5.5, 7,7, 9,9, 11,11, 13,13],
+          'circle-color': '#F59E0B',
+          'circle-opacity': 0.45,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#D97706',
+          'circle-stroke-opacity': 0.6
+        }
+      });
+    }
+
+    // Fit bounds
+    var bounds = new maplibregl.LngLatBounds();
+    bounds.extend([isochroneStation.lng, isochroneStation.lat]);
+    matched.forEach(function(st) { bounds.extend([st.lng, st.lat]); });
+    showSidebarHint(matched.length + ' stations reachable within ' + maxMin + ' min');
+    if (!bounds.isEmpty()) trackMap.fitBounds(bounds, { padding: 60, maxZoom: 10 });
+  }).catch(function(e) {
+    img.style.opacity = '';
+    if (loader) loader.classList.remove('show');
+    console.error('[isochrone] fetch failed:', e);
+    showSidebarHint('Failed to load travel-time data');
+  });
+}
+
+function clearIsochroneMarkers() {
+  if (trackMap.getLayer(isochroneHighlightLayer)) trackMap.removeLayer(isochroneHighlightLayer);
+  var isoSourceId = 'isochrone-reachable';
+  // Clear data but keep source for faster re-add next time
+  if (trackMap.getSource(isoSourceId)) {
+    trackMap.getSource(isoSourceId).setData({ type: 'FeatureCollection', features: [] });
+  }
+}
+
+function clearIsochrone() {
+  isochroneActive = false;
+  isochroneStation = null;
+  var isoBtn = document.getElementById('isochroneBtn');
+  isoBtn.classList.remove('active');
+  var img = isoBtn.querySelector('img');
+  if (img) img.style.opacity = '';
+  trackMap.getCanvas().style.cursor = '';
+  if (isochroneMarker) { isochroneMarker.remove(); isochroneMarker = null; }
+  clearIsochroneMarkers();
+  document.getElementById('isoPicker').style.display = 'none';
+  showIsoBanner('');
+  showSidebarHint('');
+}
+
+function showSidebarHint(msg) {
+  var body = document.getElementById('sidebarBody');
+  if (!body) return;
+  var panel = document.getElementById('stationDetailPanel');
+  if (panel && panel.innerHTML && msg) return; // don't overwrite station detail
+  var hint = document.getElementById('isoHint');
+  if (!msg) { if (hint) hint.remove(); return; }
+  if (!hint) {
+    hint = document.createElement('p');
+    hint.id = 'isoHint';
+    hint.style.cssText = 'color:var(--hover);font-weight:600;font-size:0.9rem;padding:0.5rem 0';
+    body.insertBefore(hint, body.firstChild);
+  }
+  hint.textContent = msg;
 }
 
 // ── Route distance helper ──
@@ -1477,16 +1722,6 @@ function buildCountryPicker() {
 }
 function updateSurpriseLabel() {
   // no-op: modal handles selection, button stays simple
-}
-
-// ── Ferry crossing time ──
-function estimateCrossingTime(km) {
-  const avgKph = 35; // average ferry speed
-  const hours = km / avgKph;
-  if (hours < 1) return Math.round(hours * 60) + ' min';
-  const h = Math.floor(hours);
-  const m = Math.round((hours - h) * 60);
-  return m ? h + 'h ' + m + 'min' : h + 'h';
 }
 
 // ── URL sync ──
@@ -1670,11 +1905,6 @@ function setTheme(mode) {
   else root.classList.remove("light");
   localStorage.setItem("trackandtide:theme", mode);
 
-  toggle.checked = (mode === "light");
-
-  const themeLabel = document.getElementById("themeLabel");
-  if (themeLabel) themeLabel.textContent = mode === "light" ? "Light mode" : "Dark mode";
-
   const logo = document.getElementById("logo");
   logo.src = mode === "light" ? "trackandtide logo full.png" : "logo full light.png";
 
@@ -1737,10 +1967,6 @@ function detectTheme() {
   if (savedTheme) return savedTheme;
   return window.matchMedia('(prefers-color-scheme: light)').matches ? "light" : "dark";
 }
-
-toggle.addEventListener('change', () => {
-  setTheme(toggle.checked ? "light" : "dark");
-});
 
 // Hamburger menu
 const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -1857,19 +2083,21 @@ sidebar.addEventListener("touchend", function() {
 
 function snapSheet() {
   var pct = parseFloat(sidebar.style.transform.replace("translateY(","").replace("%)","")) || (sidebar.classList.contains("full") ? 0 : sidebar.classList.contains("open") ? 50 : 100);
+  sidebar.style.transition = "none";
   if (pct > 60) {
-    // Close
     closeBottomSheet();
   } else if (pct < 30) {
-    // Full
     sidebar.classList.add("open", "full");
-    sidebar.style.transform = "";
+    sidebar.style.transform = "translateY(0%)";
   } else {
-    // Half
     sidebar.classList.add("open");
     sidebar.classList.remove("full");
-    sidebar.style.transform = "";
+    sidebar.style.transform = "translateY(50%)";
   }
+  requestAnimationFrame(function() {
+    sidebar.style.transition = "";
+    sidebar.style.transform = "";
+  });
 }
 
 // Tap map background to close / deselect
@@ -1939,7 +2167,8 @@ function initMap() {
       countryData = data; stationDataset = stations||{countries:{}}; ferryPortsData = fp.ports||[]; allFerryRoutes = f.routes||[];
       stationsData = [];
       for (const [cn, c] of Object.entries(stationDataset.countries||{})) {
-        (c.stations||[]).forEach(s => { stationsData.push({...s, country:cn, name:cleanStationName(s.name), lat:Number(s.lat), lng:Number(s.lng), operators:Array.isArray(s.operators)?s.operators:[]}); });
+        const iso = (c.iso || '').toLowerCase();
+        (c.stations||[]).forEach(s => { stationsData.push({...s, country:cn, iso:iso, name:cleanStationName(s.name), lat:Number(s.lat), lng:Number(s.lng), operators:Array.isArray(s.operators)?s.operators:[]}); });
       }
       stationsData = stationsData.filter(s => s.name && Number.isFinite(s.lat) && Number.isFinite(s.lng));
 
@@ -1958,7 +2187,12 @@ function initMap() {
           window._clickHandled = true;
           const props = e.features[0].properties;
           const station = stationsData.find(s => s.id === props.id);
-          if (station) { selectedPort = null; trackMap.setFilter('ferry-port-circles-selected', ['==',['get','id'], '']); trackMap.setFilter('ferry-port-glow', ['==',['get','id'], '']); selectStation(station); }
+          if (!station) return;
+          if (isochroneActive) {
+            setIsochroneStation(station);
+            return;
+          }
+          selectedPort = null; trackMap.setFilter('ferry-port-circles-selected', ['==',['get','id'], '']); trackMap.setFilter('ferry-port-glow', ['==',['get','id'], '']); selectStation(station);
         });
         trackMap.on('click', 'ferry-port-hitarea', (e) => {
           if (!e.features || !e.features.length) return;
@@ -2301,6 +2535,7 @@ function focusFerryRoute(route) {
 function showPortRoutes(port) {
   if (!port || !port.routeIds || !port.routeIds.length) return;
   selectedPort = port;
+  clearStationSelection();
   trackMap.setFilter('ferry-port-circles-selected', ['==',['get','id'], port.id]);
   trackMap.setFilter('ferry-port-glow', ['==',['get','id'], port.id]);
   const routes = allFerryRoutes.filter(function(r) { return port.routeIds.includes(r.id) && !r.suspended; });
@@ -2311,7 +2546,7 @@ function showPortRoutes(port) {
   const operatorPills = uniqueOperators.map(function(op) { return '<a class="pill" href="/explore?tab=operators&operator='+encodeURIComponent(op)+'" target="_self" rel="noopener">'+escapeHTML(op)+'</a>'; }).join('');
   const routeList = routes.map(function(route) {
     const dist = route.coords&&route.coords.length>=2 ? haversineKm(route.coords[0], route.coords[route.coords.length-1]) : null;
-    return '<button type="button" class="route-item" data-route-name="'+escapeHTML(route.name)+'">'+escapeHTML(route.name)+(dist?'<span class="route-dist">'+dist+' km \u00b7 ~'+estimateCrossingTime(dist)+'</span>':'')+'<span class="route-tag">'+escapeHTML(route.operator||'')+'</span></button>';
+    return '<button type="button" class="route-item" data-route-name="'+escapeHTML(route.name)+'">'+escapeHTML(route.name)+(dist?'<span class="route-dist">'+dist+' km</span>':'')+'<span class="route-tag">'+escapeHTML(route.operator||'')+'</span></button>';
   }).join('');
   const portsUrl = '/explore?tab=ports&portId='+encodeURIComponent(port.id);
   document.getElementById('sidebarBody').innerHTML = '<div id="stationDetailPanel"></div><h2>'+escapeHTML(port.name)+'</h2><p class="country-description">'+(port.countries&&port.countries.length?port.countries.join(', '):'')+' \u00b7 '+routes.length+' ferry route'+(routes.length>1?'s':'')+'</p>'+(operatorPills?'<div class="detail-pills-map">'+operatorPills+'</div>':'')+'<div class="ferry-route-panel"><p class="route-help">Select a route to highlight it:</p><div class="route-list">'+routeList+'</div></div><div class="detail-links" style="margin-top:0.75rem;"><a class="detail-link" href="'+portsUrl+'" target="_self" rel="noopener">Full details</a></div><div id="mapComments_port"></div><button id="mapComments_portTipBtn" class="detail-link" style="margin-top:0.35rem;cursor:pointer;display:none" onclick="openMapTipModal(\'port\',\''+escapeHTML(port.id)+'\',\''+escapeHTML(port.name)+'\')">Leave a comment</button>';
@@ -2370,6 +2605,7 @@ function renderCountrySidebar(geoName) {
 ========================= */
 function selectStation(station) {
   selectedStationId = station.id;
+  clearSelectedPort();
   trackMap.setFilter('station-circles-selected', ['==',['get','id'], station.id]);
   trackMap.setFilter('station-glow', ['==',['get','id'], station.id]);
   renderStationDetail(station);
@@ -2394,10 +2630,11 @@ function renderStationDetailHTML(station) {
   if (!station) return '';
   var name = cleanStationName(station.name);
   var country = station.country || '';
+  var iso = station.iso || '';
   var sid = station.id;
   return '<div class="station-detail">' +
     '<div class="info-header">' +
-      '<div><h3>'+escapeHTML(name)+'</h3>' +
+      '<div>' + (iso ? '<img src="/flags/'+iso+'.png" width="20" height="13" alt="'+iso+'" style="vertical-align:middle;margin-right:6px;border-radius:1px" />' : '') + '<h3 style="display:inline">'+escapeHTML(name)+'</h3>' +
       (country ? '<div class="info-sub">'+escapeHTML(country)+'</div>' : '') + '</div>' +
     '</div>' +
     '<div class="info-actions">' +
@@ -2447,25 +2684,25 @@ async function fetchAndRenderDepartures(station) {
   const panel = document.getElementById(panelId);
   if (!panel) return;
   panel.style.display='block'; panel.innerHTML='<div class="dep-loading">Loading departures...</div>';
-  const stationName=cleanStationName(station.name), country=station.country||'';
+  const stationName=cleanStationName(station.name), country=station.country||'', lat=station.lat, lng=station.lng;
   try {
-    const resp = await fetch('/api/departures?name='+encodeURIComponent(stationName)+'&country='+encodeURIComponent(country));
+    const resp = await fetch('/api/departures?name='+encodeURIComponent(stationName)+'&country='+encodeURIComponent(country)+'&lat='+lat+'&lng='+lng);
     if (!resp.ok) throw new Error('HTTP '+resp.status);
     const data = await resp.json();
     if (data.error) { panel.innerHTML='<div class="dep-error">'+escapeHTML(data.error)+'</div>'; return; }
     const allDeps = data.departures||[];
     if (!allDeps.length) { panel.innerHTML='<div class="dep-empty">No upcoming departures found</div>'; return; }
-    panel._allDeps=allDeps; panel._stationId=station.id; panel._stationCountry=station.country||''; panel._showLocal=false; panel._showCount=10;
+    panel._allDeps=allDeps; panel._stationId=station.id; panel._stationCountry=station.country||''; panel._showCount=10;
     renderDepartureList(panel);
   } catch(err) { panel.innerHTML='<div class="dep-error">Could not load departures<div class="dep-refresh" onclick="refreshDepartures(\''+escapeHTML(station.id)+'\')">Retry</div></div>'; }
 }
 
 function renderDepartureList(panel) {
-  const showLocal=panel._showLocal||false, allDeps=panel._allDeps||[], stationId=panel._stationId||'', stationCountry=panel._stationCountry||'', showCount=panel._showCount||10;
-  const hideModes=showLocal?[]:['BUS','TRAM','METRO','SUBWAY','FUNICULAR','GONDOLA','CABLE_CAR'];
+  const allDeps=panel._allDeps||[], stationId=panel._stationId||'', stationCountry=panel._stationCountry||'', showCount=panel._showCount||10;
+  const hideModes=['BUS','TRAM','METRO','SUBWAY','FUNICULAR','GONDOLA','CABLE_CAR'];
   const filtered=allDeps.filter(function(d) { return !hideModes.includes(d.mode||''); });
   const deps=filtered.slice(0,showCount), hasMore=filtered.length>showCount;
-  if (!deps.length) { panel.innerHTML='<div class="dep-empty">No departures. <label class="dep-local-label"><input type="checkbox" '+(showLocal?'checked':'')+' onchange="var p=document.getElementById(\'departuresPanel_'+escapeHTML(stationId)+'\');p._showLocal=this.checked;p._showCount=10;renderDepartureList(p)"> Show bus, tram, metro</label></div>'; return; }
+  if (!deps.length) { panel.innerHTML='<div class="dep-empty">No upcoming departures found</div>'; return; }
   var modeIcon = function(m) { if(['INTERCITY','HIGHSPEED_RAIL','LONG_DISTANCE','NIGHT_RAIL'].indexOf(m)>=0) return 'high_speed_train.png'; if(['REGIONAL','REGIONAL_RAIL','SUBURBAN'].indexOf(m)>=0) return 'train.png'; if(m==='TRAM') return 'tram.png'; if(m==='BUS'||m==='COACH') return 'bus.png'; if(m==='METRO'||m==='SUBWAY') return 'metro.png'; return null; };
   // Map common API agency names ? operator IDs from our database
   var AGENCY_MAP = {
@@ -2611,7 +2848,7 @@ function renderDepartureList(panel) {
     return null;
   };
   const isLight=root.classList.contains('light');
-  var html='<div class="departures-header"><span>Departures</span><span class="dep-count">'+showCount+' of '+filtered.length+'</span></div><label class="dep-local-label"><input type="checkbox" '+(showLocal?'checked':'')+' onchange="var p=document.getElementById(\'departuresPanel_'+escapeHTML(stationId)+'\');p._showLocal=this.checked;p._showCount=10;renderDepartureList(p)"> Show bus, tram, metro</label><div class="departures-list">';
+  var html='<div class="departures-header"><span>Departures</span><span class="dep-count">'+showCount+' of '+filtered.length+'</span></div><div class="departures-list">';
   for (var i=0; i<deps.length; i++) {
     var dep=deps[i];
     const time=dep.when?new Date(dep.when):null, plannedTime=dep.plannedWhen?new Date(dep.plannedWhen):null;
@@ -2889,7 +3126,9 @@ function showShareToast() {
 <div class="share-toast" id="shareToast">Link copied!</div>
 
 <script src="report-modal.js"></script>
+
 <script src="bottom-nav.js?v=2"></script>
+<script src="footer.js?v=4"></script>
 
 </body>
 </html>

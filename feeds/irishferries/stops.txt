@@ -1,8 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-dublin,Dublin,53.35,-6.26
-holyhead,Holyhead,53.31,-4.63
-cherbourg,Cherbourg,49.64,-1.62
-rosslare,Rosslare,52.25,-6.34
-pembroke,Pembroke,51.69,-4.92
-dover,Dover,51.13,1.31
-calais,Calais,50.97,1.86

@@ -1,4 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-hirtshals,Hirtshals,57.59,9.96
-torshavn,Tórshavn,62.01,-6.77
-seydisfjordur,Seyðisfjörður,65.26,-13.91

@@ -2496,23 +2496,6 @@
       ]
     },
     {
-      "id": "stena",
-      "name": "Stena",
-      "type": "ferries",
-      "website": "https://www.stenaline.co.uk/",
-      "appLinks": {
-        "android": "",
-        "ios": ""
-      },
-      "logo": "stena.png",
-      "description": "",
-      "operatorLabel": "Ferry operator",
-      "countries": [
-        "Netherlands",
-        "United Kingdom"
-      ]
-    },
-    {
       "id": "scandlines",
       "name": "Scandlines",
       "type": "ferries",

@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-moby_lines,Moby Lines,https://www.moby.it,Europe/Rome,en,+39 02 3030 2000

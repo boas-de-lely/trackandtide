@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-dest_gotland,Destination Gotland,https://www.destinationgotland.se,Europe/Stockholm,en,+46 771 22 33 00

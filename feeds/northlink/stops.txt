@@ -1,6 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
-aberdeen,Aberdeen,57.14,-2.08
-lerwick,Lerwick,60.16,-1.15
-kirkwall,Kirkwall,58.98,-2.96
-scrabster,Scrabster,58.61,-3.55
-stromness,Stromness,58.96,-3.3

@@ -1,5 +1,0 @@
-route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name
-sm_hir_tor,daily,sm_hir_tor_1,Tórshavn,0,Norröna
-sm_tor_sey,daily,sm_tor_sey_1,Seyðisfjörður,0,Norröna
-sm_sey_tor,daily,sm_sey_tor_1,Tórshavn,0,Norröna
-sm_tor_hir,daily,sm_tor_hir_1,Hirtshals,0,Norröna

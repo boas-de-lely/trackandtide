@@ -1,7 +1,0 @@
-route_id,agency_id,route_short_name,route_long_name,route_type
-po_dov_cal,po_ferries,DOV-CAL,Dover - Calais (P&O),4
-po_cal_dov,po_ferries,CAL-DOV,Calais - Dover (P&O),4
-po_hul_rot,po_ferries,HUL-RTM,Hull - Rotterdam (P&O),4
-po_rot_hul,po_ferries,RTM-HUL,Rotterdam - Hull (P&O),4
-po_cai_lar,po_ferries,CAI-LAR,Cairnryan - Larne (P&O),4
-po_lar_cai,po_ferries,LAR-CAI,Larne - Cairnryan (P&O),4
