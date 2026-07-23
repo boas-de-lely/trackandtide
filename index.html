@@ -415,7 +415,6 @@ header img {
   will-change: transform;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  contain: layout style paint;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1498,7 +1497,7 @@ function doIsochroneSearch() {
   fetchIsochrone(isoSelectedDuration);
 }
 
-function fetchIsochrone(duration) {
+async function fetchIsochrone(duration) {
   if (!isochroneStation) return;
   var picker = document.getElementById('isoPicker');
   picker.style.display = 'none';
