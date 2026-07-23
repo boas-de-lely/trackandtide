@@ -37,6 +37,7 @@
         '<a class="footer-link" href="/about">About</a>' +
         '<a class="footer-link" href="/privacy">Privacy</a>' +
         '<a class="footer-link" href="/terms">Terms</a>' +
+        '<span class="footer-link" style="cursor:default;opacity:0.6">trackandtide.com</span>' +
       '</div>' +
     '</footer>';
 

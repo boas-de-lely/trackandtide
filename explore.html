@@ -442,14 +442,7 @@ function escapeHTML(text) {
 }
 function unique(values) { return [...new Set(values.filter(Boolean))].sort((a,b) => a.localeCompare(b)); }
 
-// Firebase
-firebase.initializeApp({
-  apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
-  authDomain: "trackandtide-00.firebaseapp.com",
-  projectId: "trackandtide-00",
-  storageBucket: "trackandtide-00.firebasestorage.app",
-  appId: "1:157938380271:web:8b36389f334e3adefdda1a"
-});
+// Firebase (config loaded from firebase-config.js)
 const db = firebase.firestore();
 
 /* ================================================================

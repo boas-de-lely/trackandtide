@@ -376,18 +376,12 @@
   <script src="search-utils.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
 
   <script>
     // ── Firebase ──
     var db = null;
     try {
-      firebase.initializeApp({
-        apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
-        authDomain: "trackandtide-00.firebaseapp.com",
-        projectId: "trackandtide-00",
-        storageBucket: "trackandtide-00.firebasestorage.app",
-        appId: "1:157938380271:web:8b36389f334e3adefdda1a"
-      });
       db = firebase.firestore();
     } catch(e) {
       console.warn("Firebase init failed:", e.message);
@@ -704,23 +698,30 @@
       }
     }
 
-    function buildSearchUrl(pageCursor) {
+    async function buildSearchUrl(pageCursor) {
       var date = document.getElementById('dateInput').value;
       var time = document.getElementById('timeInput').value || '12:00';
       var localDate = new Date(date + 'T' + time);
       var dateTime = localDate.toISOString();
       var arriveBy = document.getElementById('arriveByToggle').checked;
-      var url = '/api/departures?action=plan' +
-        '&fromPlace=' + fromStation.lat + ',' + fromStation.lng +
+      var url = 'https://api.transitous.org/api/v6/plan' +
+        '?fromPlace=' + fromStation.lat + ',' + fromStation.lng +
         '&toPlace=' + toStation.lat + ',' + toStation.lng +
-        (arriveBy ? '&arriveBy=true&departureTime=' : '&departureTime=') + encodeURIComponent(dateTime) +
+        '&time=' + encodeURIComponent(dateTime) +
+        (arriveBy ? '&arriveBy=true' : '') +
         '&numItineraries=12' +
-        '&mode=RAIL' +
-        '&maxWalkDistance=1000' +
-        '&walkSpeed=1.4' +
+        '&transitModes=HIGHSPEED_RAIL,LONG_DISTANCE,NIGHT_RAIL,REGIONAL_RAIL,SUBURBAN,FERRY,BUS' +
+        '&maxPreTransitTime=900&maxPostTransitTime=900&maxDirectTime=1800' +
+        '&pedestrianSpeed=1.4&pedestrianProfile=FOOT' +
         '&minTransferTime=' + document.getElementById('minTransferSelect').value;
+      // Resolve via coordinates to stop IDs via reverse-geocode
       for (var v = 0; v < viaCount; v++) {
-        if (viaStations[v]) url += '&via=' + viaStations[v].lat + ',' + viaStations[v].lng;
+        if (viaStations[v]) {
+          try {
+            var geoResp = await fetch('https://api.transitous.org/api/v1/reverse-geocode?place='+viaStations[v].lat+','+viaStations[v].lng+'&type=STOP&numResults=1', {headers:{'User-Agent':'trackandtide/5.0 (https://trackandtide.com)'}});
+            if (geoResp.ok) { var geo = await geoResp.json(); if (geo.length && geo[0].id) url += '&via=' + encodeURIComponent(geo[0].id); }
+          } catch(e) { console.warn('via reverse-geocode failed:', e); }
+        }
       }
       if (pageCursor) url += '&pageCursor=' + encodeURIComponent(pageCursor);
       return url;
@@ -742,9 +743,10 @@
         destroyMap();
         activeJourney = -1;
       }
-      var url = buildSearchUrl(pageCursor);
-      if (!isPageLoad) lastSearchParams = url;
-      fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+      buildSearchUrl(pageCursor).then(function(url) {
+        if (!isPageLoad) lastSearchParams = url;
+        return fetch(url, {headers:{'User-Agent':'trackandtide/5.0 (https://trackandtide.com)'}}).then(function(r) { return r.json(); });
+      }).then(function(data) {
         btn.disabled = false; btn.textContent = 'Search';
         if (db && !isPageLoad) {
           db.collection('stats').doc('journeys').set(
@@ -794,7 +796,7 @@
       var btn = document.querySelector('.page-nav-btn.earlier-btn');
       if (btn) { btn.disabled = true; btn.textContent = 'Loading earlier trips…'; }
       var oldJourneys = currentJourneys.slice();
-      fetch(lastSearchParams + '&pageCursor=' + encodeURIComponent(prevPageCursor))
+      fetch(lastSearchParams + '&pageCursor=' + encodeURIComponent(prevPageCursor), {headers:{'User-Agent':'trackandtide/5.0 (https://trackandtide.com)'}})
         .then(function(r) { return r.json(); }).then(function(data) {
           var raw = (data.plan && data.plan.itineraries) || data.itineraries || [];
           prevPageCursor = data.previousPageCursor
@@ -822,7 +824,7 @@
       var btn = document.querySelector('.page-nav-btn.later-btn');
       if (btn) { btn.disabled = true; btn.textContent = 'Loading later trips…'; }
       var oldJourneys = currentJourneys.slice();
-      fetch(lastSearchParams + '&pageCursor=' + encodeURIComponent(nextPageCursor))
+      fetch(lastSearchParams + '&pageCursor=' + encodeURIComponent(nextPageCursor), {headers:{'User-Agent':'trackandtide/5.0 (https://trackandtide.com)'}})
         .then(function(r) { return r.json(); }).then(function(data) {
           var raw = (data.plan && data.plan.itineraries) || data.itineraries || [];
           nextPageCursor = data.nextPageCursor

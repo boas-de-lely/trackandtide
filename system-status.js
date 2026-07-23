@@ -1,4 +1,4 @@
-﻿// ── System Status Monitor ── Only active on /status and /about pages ──
+﻿// ── System Status Monitor ── Only active on /status page. Checks the status of various systems and displays a grid of cards with their status.
 // Stores results in Firestore. Only re-checks if cached status is >30 min old.
 
 (function() {
@@ -7,7 +7,7 @@
   var MAX_AGE = 1800000; // 30 minutes
 
   var systems = [
-    { id: "motis",     name: "MOTIS Server",        desc: "Route planning & live departures",   url: "/api/health" },
+    { id: "motis",     name: "Transitous API",        desc: "Route planning & live departures",   url: "https://api.transitous.org/api/v1/health" },
     { id: "carto",     name: "Carto Tiles",             desc: "Base map styles & vector tiles",      url: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" },
     { id: "esri",      name: "Esri Satellite",           desc: "Satellite imagery tiles",             url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer?f=json" },
     { id: "osm",       name: "OpenStreetMap Tiles",     desc: "Raster map tiles, and railway lines",                    url: "https://tile.openstreetmap.org/0/0/0.png" },

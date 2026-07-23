@@ -420,10 +420,15 @@
     <div class="source-card">
       <h3><img class="si" src="transport icons/train.png" alt="" /> Live departures &amp; journey planner</h3>
       <p>
-        Real-time departure data is powered by a self-hosted
-        <strong>MOTIS</strong> server, providing transit schedules
-        across Europe. No proprietary data, no commercial feeds &mdash; just open
-        transit data at work. Always check departure boards for the most accurate info.
+        Real-time departure data is powered by the
+        <strong>Transitous</strong> public transit API, built on MOTIS,
+        providing transit schedules across Europe. No proprietary data, no
+        commercial feeds &mdash; just open transit data at work. Always check
+        departure boards for the most accurate info.
+      </p>
+      <p style="font-size:0.85rem;opacity:0.7">
+        Transit data sourced via
+        <a href="https://transitous.org/sources/" target="_blank" rel="noopener">Transitous</a>.
       </p>
     </div>
 
@@ -460,17 +465,11 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
+  <script src="firebase-config.js"></script>
   <script>
     // Firebase
     var db = null;
     try {
-      firebase.initializeApp({
-        apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
-        authDomain: "trackandtide-00.firebaseapp.com",
-        projectId: "trackandtide-00",
-        storageBucket: "trackandtide-00.firebasestorage.app",
-        appId: "1:157938380271:web:8b36389f334e3adefdda1a"
-      });
       db = firebase.firestore();
     } catch(e) {
       console.warn("Firebase init failed:", e.message);

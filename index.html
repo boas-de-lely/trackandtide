@@ -1355,13 +1355,6 @@ ferryPortsToggle.addEventListener("change", () => setFerryPortsVisible(ferryPort
 
 var db = null;
 try {
-  firebase.initializeApp({
-    apiKey: "AIzaSyADhp9j4huAl0rZQn9RSem8x3O7g2dyI1A",
-    authDomain: "trackandtide-00.firebaseapp.com",
-    projectId: "trackandtide-00",
-    storageBucket: "trackandtide-00.firebasestorage.app",
-    appId: "1:157938380271:web:8b36389f334e3adefdda1a"
-  });
   db = firebase.firestore();
 } catch(e) {
   console.warn("Firebase init failed:", e.message);
@@ -1525,13 +1518,21 @@ function fetchIsochrone(duration) {
   var date = document.getElementById('isoDate').value;
   var time = document.getElementById('isoTime').value || '12:00';
   var dateTime = date && time ? new Date(date + 'T' + time).toISOString() : '';
-  var url = '/api/departures?action=isochrones&lat=' + isochroneStation.lat + '&lng=' + isochroneStation.lng + '&maxDuration=' + maxMin;
-  if (dateTime) url += '&time=' + encodeURIComponent(dateTime);
   var isoBtn = document.getElementById('isochroneBtn');
   var img = isoBtn.querySelector('img');
   img.style.opacity = '0.4';
 
-  fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+  // Reverse-geocode to get a stop ID for better one-to-all results
+  var stopId = null;
+  try {
+    var geoResp = await fetch('https://api.transitous.org/api/v1/reverse-geocode?place='+isochroneStation.lat+','+isochroneStation.lng+'&type=STOP&numResults=1', {headers:{'User-Agent':'trackandtide/5.0 (https://trackandtide.com)'}});
+    if (geoResp.ok) { var geoData = await geoResp.json(); if (geoData.length && geoData[0].id) stopId = geoData[0].id; }
+  } catch(e) {}
+  var one = stopId || (isochroneStation.lat + ',' + isochroneStation.lng);
+  var url = 'https://api.transitous.org/api/v6/one-to-all?one=' + encodeURIComponent(one) + '&maxTravelTime=' + maxMin + '&transitModes=HIGHSPEED_RAIL,LONG_DISTANCE,NIGHT_RAIL,REGIONAL_RAIL,SUBURBAN,FERRY,BUS&preTransitModes=WALK&postTransitModes=WALK';
+  if (dateTime) url += '&time=' + encodeURIComponent(dateTime);
+
+  fetch(url, {headers:{'User-Agent':'trackandtide/5.0 (https://trackandtide.com)'}}).then(function(r) { return r.json(); }).then(function(data) {
     img.style.opacity = '';
     if (loader) loader.classList.remove('show');
     if (data.error) { showSidebarHint('Error: ' + data.error); return; }
@@ -2684,13 +2685,36 @@ async function fetchAndRenderDepartures(station) {
   const panel = document.getElementById(panelId);
   if (!panel) return;
   panel.style.display='block'; panel.innerHTML='<div class="dep-loading">Loading departures...</div>';
-  const stationName=cleanStationName(station.name), country=station.country||'', lat=station.lat, lng=station.lng;
+  const lat=station.lat, lng=station.lng;
   try {
-    const resp = await fetch('/api/departures?name='+encodeURIComponent(stationName)+'&country='+encodeURIComponent(country)+'&lat='+lat+'&lng='+lng);
+    const resp = await fetch('https://api.transitous.org/api/v6/stoptimes?center='+lat+','+lng+'&radius=1500&n=200', {headers:{'User-Agent':'trackandtide/5.0 (https://trackandtide.com)'}});
     if (!resp.ok) throw new Error('HTTP '+resp.status);
     const data = await resp.json();
-    if (data.error) { panel.innerHTML='<div class="dep-error">'+escapeHTML(data.error)+'</div>'; return; }
-    const allDeps = data.departures||[];
+    if (!data.stopTimes || !data.stopTimes.length) { panel.innerHTML='<div class="dep-empty">No upcoming departures found</div>'; return; }
+    var now = new Date();
+    var allDeps = data.stopTimes.map(function(t) {
+      var p = t.place || {};
+      var scheduled = p.scheduledDeparture || null;
+      var actual = p.departure || scheduled;
+      var mode = t.mode || '';
+      var h = (t.headsign||'').toLowerCase();
+      var r = (t.routeShortName||'').toLowerCase();
+      if (/intercity|^ic\s|^ice\s|^ec\s|tgv|eurostar|thalys|railjet|nightjet|^rj\s|supercity|^nj\s/.test(h+' '+r)) mode = 'INTERCITY';
+      else if (/sprinter|regional|^re\s|^rb\s|^r\s|stoptrein|local/.test(h+' '+r)) mode = 'REGIONAL';
+      else if (mode==='LONG_DISTANCE'||mode==='HIGHSPEED_RAIL'||mode==='NIGHT_RAIL') mode = 'INTERCITY';
+      else if (mode==='REGIONAL_RAIL') mode = 'REGIONAL';
+      var delay = null;
+      if (scheduled && actual) delay = Math.round((new Date(actual)-new Date(scheduled))/60000);
+      return {
+        when: actual, plannedWhen: scheduled,
+        platform: p.scheduledTrack || p.track || null,
+        direction: t.headsign || '',
+        line: { name: t.routeShortName || '', product: mode },
+        mode: mode, agencyName: t.agencyName || '',
+        cancelled: p.cancelled || t.tripCancelled || false,
+        realTime: t.realTime || false, delayMinutes: delay
+      };
+    }).filter(function(d) { return d.when && new Date(d.when) > new Date(now - 120000); });
     if (!allDeps.length) { panel.innerHTML='<div class="dep-empty">No upcoming departures found</div>'; return; }
     panel._allDeps=allDeps; panel._stationId=station.id; panel._stationCountry=station.country||''; panel._showCount=10;
     renderDepartureList(panel);

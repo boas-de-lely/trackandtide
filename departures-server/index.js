@@ -1,9 +1,17 @@
+const https = require('https');
 const http = require('http');
+
+// Transitous API (MOTIS) configuration
+const MOTIS_HOST = 'api.transitous.org';
+const MOTIS_PORT = 443;
+const MOTIS_BASE = '/api';
+const UA = 'trackandtide/5.0 (https://trackandtide.com)';
+
 const cache = new Map(), TTL = 60000;
 
-function get(host, port, path) {
+function get(path) {
   return new Promise((ok, fail) => {
-    http.get({ hostname: host, port: port, path, timeout: 12000, headers: { 'User-Agent': 'trackandtide/5.0' } }, r => {
+    https.get({ hostname: MOTIS_HOST, port: MOTIS_PORT, path, timeout: 12000, headers: { 'User-Agent': UA } }, r => {
       let d = ''; r.on('data', c => d += c);
       r.on('end', () => {
         if (r.statusCode !== 200) { fail(new Error('HTTP ' + r.statusCode)); return; }
@@ -13,19 +21,19 @@ function get(host, port, path) {
   });
 }
 
-function post(host, port, path, body) {
+function post(path, body) {
   return new Promise((ok, fail) => {
     const data = JSON.stringify(body);
     const opts = {
-      hostname: host, port: port, path: path, method: 'POST',
+      hostname: MOTIS_HOST, port: MOTIS_PORT, path: path, method: 'POST',
       timeout: 15000,
       headers: {
-        'User-Agent': 'trackandtide/5.0',
+        'User-Agent': UA,
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(data)
       }
     };
-    const req = http.request(opts, r => {
+    const req = https.request(opts, r => {
       let d = ''; r.on('data', c => d += c);
       r.on('end', () => {
         if (r.statusCode !== 200) { fail(new Error('HTTP ' + r.statusCode)); return; }
@@ -66,7 +74,7 @@ async function fetchMotisDepartures(name, lat, lng) {
     centerLat = lat; centerLng = lng;
   } else {
     // Fall back to geocoding by name
-    const locs = await get('192.168.188.170', 8080, '/api/v1/geocode?text=' + encodeURIComponent(name));
+    const locs = await get(MOTIS_BASE + '/v1/geocode?text=' + encodeURIComponent(name));
     if (!Array.isArray(locs) || !locs.length) return null;
     const s = locs[0];
     if (!s.lat || !s.lon) return null;
@@ -74,7 +82,7 @@ async function fetchMotisDepartures(name, lat, lng) {
     stationName = s.name || name;
   }
 
-  const data = await get('192.168.188.170', 8080, '/api/v1/stoptimes?center=' + centerLat + ',' + centerLng + '&radius=1500&n=200');
+  const data = await get(MOTIS_BASE + '/v6/stoptimes?center=' + centerLat + ',' + centerLng + '&radius=1500&n=200');
   const times = data.stopTimes || [];
   if (!times.length) return null;
 
@@ -104,7 +112,7 @@ async function fetchMotisDepartures(name, lat, lng) {
   return { departures: deps, station: { name: stationName } };
 }
 
-require('http').createServer(async (req, res) => {
+http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
   const u = new URL(req.url, 'http://localhost');
@@ -118,7 +126,7 @@ require('http').createServer(async (req, res) => {
   if (u.pathname === '/geocode') {
     try {
       var text = u.searchParams.get('text') || '';
-      var geo = await get('192.168.188.170', 8080, '/api/v1/geocode?text=' + encodeURIComponent(text));
+      var geo = await get(MOTIS_BASE + '/v1/geocode?text=' + encodeURIComponent(text));
       res.writeHead(200, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify(geo));
     } catch(e) {
@@ -138,7 +146,7 @@ require('http').createServer(async (req, res) => {
         // First reverse-geocode to find a stop ID at these coordinates
         var stopId = null;
         try {
-          var geo = await get('192.168.188.170', 8080, '/api/v1/reverse-geocode?place=' + lat + ',' + lng + '&type=STOP&numResults=1');
+          var geo = await get(MOTIS_BASE + '/v1/reverse-geocode?place=' + lat + ',' + lng + '&type=STOP&numResults=1');
           if (Array.isArray(geo) && geo.length > 0 && geo[0].id) {
             stopId = geo[0].id;
             console.log('[isochrones] reverse-geocode OK:', lat + ',' + lng, '→', stopId, '(' + geo[0].name + ')');
@@ -150,10 +158,10 @@ require('http').createServer(async (req, res) => {
         }
         const one = stopId || (lat + ',' + lng);
         const time = u.searchParams.get('time') || '';
-        var motisPath = '/api/v6/one-to-all?one=' + encodeURIComponent(one) + '&maxTravelTime=' + maxDuration + '&transitModes=' + RAIL_MODES.join(',') + '&preTransitModes=WALK&postTransitModes=WALK';
+        var motisPath = MOTIS_BASE + '/v6/one-to-all?one=' + encodeURIComponent(one) + '&maxTravelTime=' + maxDuration + '&transitModes=' + RAIL_MODES.join(',') + '&preTransitModes=WALK&postTransitModes=WALK';
         if (time) motisPath += '&time=' + encodeURIComponent(time);
         console.log('[isochrones] one=' + one + ' maxTravelTime=' + maxDuration + ' GET:', motisPath.substring(0, 200));
-        const data = await get('192.168.188.170', 8080, motisPath);
+        const data = await get(motisPath);
         console.log('[isochrones] response keys:', data ? Object.keys(data).join(', ') : 'null');
         console.log('[isochrones] all count:', data && data.all ? data.all.length : 0);
         if (data && data.all && data.all.length > 0) {
@@ -188,7 +196,7 @@ require('http').createServer(async (req, res) => {
           var coords = viaCoords[i];
           if (!coords) continue;
           try {
-            var geo = await get('192.168.188.170', 8080, '/api/v1/reverse-geocode?place=' + encodeURIComponent(coords) + '&type=STOP&numResults=1');
+            var geo = await get(MOTIS_BASE + '/v1/reverse-geocode?place=' + encodeURIComponent(coords) + '&type=STOP&numResults=1');
             if (Array.isArray(geo) && geo.length > 0 && geo[0].id) {
               params.append('via', geo[0].id);
               console.log('[plan via] reverse-geocode: ' + coords + ' → ' + geo[0].id + ' (' + geo[0].name + ')');
@@ -200,15 +208,16 @@ require('http').createServer(async (req, res) => {
           }
         }
         params.set('numItineraries', u.searchParams.get('numItineraries') || '6');
-        params.set('maxWalkDistance', u.searchParams.get('maxWalkDistance') || '1000');
-        params.set('walkSpeed', u.searchParams.get('walkSpeed') || '1.4');
+        params.set('maxPreTransitTime', u.searchParams.get('maxWalkDistance') || '900');
+        params.set('maxPostTransitTime', u.searchParams.get('maxWalkDistance') || '900');
+        params.set('maxDirectTime', '1800');
+        params.set('pedestrianSpeed', u.searchParams.get('walkSpeed') || '1.4');
         params.set('transitModes', RAIL_MODES.join(','));
         params.set('pedestrianProfile', 'FOOT');
-        params.set('pedestrianProfile', 'FOOT');
         params.set('useRoutedTransfers', 'false');
-        const motisPath = '/api/v6/plan?' + params.toString();
+        const motisPath = MOTIS_BASE + '/v6/plan?' + params.toString();
         console.log('[plan via departures] GET MOTIS:', motisPath.substring(0, 200) + '...');
-        const data = await get('192.168.188.170', 8080, motisPath);
+        const data = await get(motisPath);
         if (data) {
           console.log('[plan via departures] response keys:', Object.keys(data).join(', '));
           if (data.previousPageCursor) console.log('[plan via departures] top prevCursor:', data.previousPageCursor.substring(0, 60) + '...');
@@ -262,9 +271,9 @@ require('http').createServer(async (req, res) => {
       params.set('transitModes', RAIL_MODES.join(','));
       params.set('pedestrianProfile', 'FOOT');
       params.set('useRoutedTransfers', 'false');
-      const motisPath = '/api/v6/plan?' + params.toString();
+      const motisPath = MOTIS_BASE + '/v6/plan?' + params.toString();
       console.log('[plan] GET MOTIS:', motisPath);
-      const data = await get('192.168.188.170', 8080, motisPath);
+      const data = await get(motisPath);
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(data));
     } catch (e) {
